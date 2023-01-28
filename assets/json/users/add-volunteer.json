@@ -1,0 +1,32 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984B",
+  "valueArray": [
+    {
+      "key": "District",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Interest",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "Events"},
+          {"Id": 2,"Text": "Field Work"},
+          {"Id": 3,"Text": "Phone Support"},
+          {"Id": 4,"Text": "Plant Deliveries"},
+          {"Id": 5,"Text": "Newsletter Production"}
+          ]
+      }
+    }
+  ]
+}
+

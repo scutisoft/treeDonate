@@ -1,0 +1,417 @@
+{
+  "Guid": "FSED-hist-Dtls-3444",
+  "alignment": "topCenter",
+  "mainAxisAlignment": "start",
+  "color": "*primaryOpa005",
+  "isOwnWidget": true,
+  "valueArray": [
+    {
+      "key": "PageTitle",
+      "value": "Mr.Muthu / Mathaji"
+    },
+    {
+      "key": "ShopName",
+      "value": "Mathaji Shop"
+    },
+    {
+      "key": "BalanceAmount",
+      "value":{
+      "value1": "Balance",
+      "style1": {
+        "fontSize": 13.0,
+        "fontFamily": "RR",
+        "color": "*text4"
+      },
+      "value2":3250.00,
+      "style2": {
+        "fontSize": 18.0,
+        "fontFamily": "USB",
+        "color": "*themeBlack"
+      }
+    }
+    },
+    {
+      "key": "Status",
+      "value":  [
+        {
+          "text": "Pay",
+          "style": {
+            "color": "*Primary",
+            "fontSize": 15.0,
+            "fontFamily": "RR"
+          }
+        }
+
+      ]
+    },
+    {
+      "key": "RetailGridHistory",
+      "value": [
+        {
+          "ShopName": "02-12-2022",
+          "ShopAmount": "Cash",
+          "AmountStatus": 3000.00
+        },
+        {
+          "ShopName": "12-12-2022",
+          "ShopAmount": "FSE UPI (358716033)",
+          "AmountStatus": 1200.00
+        },
+        {
+          "ShopName": "12-12-2022",
+          "ShopAmount": "Net Bank (358716033)",
+          "AmountStatus": 13200.00
+        }
+
+      ]
+    }
+  ],
+  "Widgets": [
+    {
+      "type": "columnController",
+      "children": [
+        {
+          "type": "hiddenController",
+          "key": "CartId",
+          "orderBy": 1,
+          "hasInput": true,
+          "required": true,
+          "value": ""
+        },
+        {
+          "type": "button",
+          "orderBy": 2,
+          "height": 50,
+          "padding": "5,0,5,0",
+          "width": 1,
+          "alignment": "center",
+          "color": "*themeWhite",
+          "child": {
+            "type":"rowController",
+            "orderBy":1,
+            "mainAxisAlignment": "start",
+            "crossAxisAlignment": "center",
+            "children": [
+              {
+                "type":"button",
+                "height": 50.0,
+                "pixelWidth": 50.0,
+                "orderBy":1,
+                "alignment": "center",
+                "clickEvent": {
+                  "eventName": "Navigation",
+                  "navigateToPage": "",
+                  "typeOfNavigation": 3
+                },
+                "child":  {
+                  "type": "icon",
+                  "icon": "arrowBack",
+                  "size": 30.0,
+                  "color": "*themeBlack"
+                }
+              },
+              {
+                "type": "text",
+                "orderBy": 3,
+                "value": "Mathaji Shop History",
+                "key": "PageTitle",
+                "margin": "10,0,10,10",
+                "alignment": "center",
+                "textAlign": "center",
+                "onlyText": true,
+                "style": {
+                  "color": "*themeBlack",
+                  "fontSize": 18.0,
+                  "fontFamily": "RM"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "orderBy": 3,
+          "padding": "10,0,10,10",
+          "width": 1,
+          "child": {
+            "type": "columnController",
+            "orderBy": 1,
+            "children": [
+              {
+                "type":"sizedBox",
+                "orderBy": "1",
+                "height":20
+              },
+              {
+                "type": "button",
+                "orderBy": 2,
+                "width": 1,
+                "height": 60,
+                "padding": "10,0,10,0",
+                "margin": "0,0,0,10",
+                "borderRadius": "6,6,6,6",
+                "color": "*themeWhite",
+                "alignment": "center",
+                "child":  {
+                  "type": "rowController",
+                  "mainAxisAlignment": "center ",
+                  "crossAxisAlignment": "center",
+                  "children": [
+                    {
+                      "type": "button",
+                      "pixelWidth":60,
+                      "orderBy": 1,
+                      "child": {
+                        "type": "stackController",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type":"button",
+                            "color": "*primary",
+                            "borderRadius": "13,13,13,13",
+                            "pixelWidth":40,
+                            "height":40,
+                            "alignment": "center",
+                            "orderBy": 1,
+                            "child":{
+                              "type": "svgController",
+                              "orderBy": 1,
+                              "image": "assets/icons/Branch.svg",
+                              "color": "*themeWhite",
+                              "key":"Logo",
+                              "height": 30.0
+                            }
+                          },
+                          {
+                            "type":"positionController",
+                            "right": 0,
+                            "bottom": 5,
+                            "orderBy": 2,
+                            "child": {
+                              "type":"button",
+                              "shape": "circle",
+                              "color": "*secondary",
+                              "pixelWidth":20,
+                              "height":20,
+                              "alignment": "center",
+                              "child": {
+                                "type": "icon",
+                                "icon": "phone",
+                                "color": "*themeWhite",
+                                "size": 13.0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type":"sizedBox",
+                      "orderBy": 2,
+                      "width":10
+                    },
+                    {
+                      "type": "expandedController",
+                      "orderBy": 3,
+                      "flex": 2,
+                      "child": {
+                        "type": "columnController",
+                        "mainAxisAlignment": "center",
+                        "crossAxisAlignment": "start",
+                        "orderBy": 3,
+                        "children": [
+                          {
+                            "type": "flexibleController",
+                            "orderBy": 1,
+                            "flex": 1,
+                            "child": {
+                              "type": "text",
+                              "onlyText": true,
+                              "value": "Mathaji Shop",
+                              "key": "ShopName",
+                              "style": {
+                                "color": "*text4",
+                                "fontSize": 14.0,
+                                "fontFamily": "RR"
+                              }
+                            }
+                          },
+                          {
+                            "type":"sizedBox",
+                            "orderBy": "2",
+                            "height":2
+                          },
+                          {
+                            "type": "*rowText2",
+                            "orderBy": 3,
+                            "value1": "Cash / FSE UPI",
+                            "key": "BalanceAmount",
+                            "value2":"2423432",
+                            "style1": {},
+                            "style2": {}
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "orderBy": 5,
+                      "alignment": "center",
+                      "textAlign": "center",
+                      "value": "Paid",
+                      "key": "Status",
+                      "style": {
+                        "color": "*primary",
+                        "fontSize": 15.0,
+                        "fontFamily": "RB"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "orderBy": 3,
+                "width": 1,
+                "height": 40,
+                "padding": "10,0,10,0",
+                "margin": "0,0,0,0",
+                "borderRadius": "6,6,6,6",
+                "color": "*themeWhite",
+                "alignment": "center",
+                "child":  {
+                  "type": "rowController",
+                  "mainAxisAlignment": "spaceBetween",
+                  "crossAxisAlignment": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "orderBy": 1,
+                      "alignment": "centerLeft",
+                      "textAlign": "left",
+                      "value": "Date",
+                      "pixelWidth":100,
+                      "key": "",
+                      "style": {
+                        "color": "*themeBlack",
+                        "fontSize": 15.0,
+                        "fontFamily": "RB"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "orderBy": 2,
+                      "alignment": "centerLeft",
+                      "textAlign": "left",
+                      "pixelWidth":130,
+                      "value": "Pay",
+                      "key": "",
+                      "style": {
+                        "color": "*themeBlack",
+                        "fontSize": 15.0,
+                        "fontFamily": "RB"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "orderBy": 3,
+                      "alignment": "centerLeft",
+                      "textAlign": "left",
+                      "value": "Amount",
+                      "pixelWidth":80,
+                      "key": "",
+                      "style": {
+                        "color": "*themeBlack",
+                        "fontSize": 15.0,
+                        "fontFamily": "RB"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "orderBy": 4,
+                "reducedHeight": "230",
+                "child":  {
+                  "type": "listViewBuilderController",
+                  "physics": "always",
+                  "key": "RetailGridHistory",
+                  "orderBy": 1,
+                  "childd": {
+                    "type": "button",
+                    "orderBy": 1,
+                    "width": 1,
+                    "height": 40,
+                    "padding": "10,0,10,0",
+                    "margin": "0,0,0,1",
+                    "borderRadius": "6,6,6,6",
+                    "color": "*themeWhite",
+                    "alignment": "center",
+                    "clickEvent": {
+                      "eventName": "Navigation",
+                      "typeOfNavigation": 1,
+                      "navigateToPage": "TransactionPage"
+                    },
+                    "child":  {
+                      "type": "rowController",
+                      "mainAxisAlignment": "spaceBetween",
+                      "crossAxisAlignment": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "orderBy": 1,
+                          "alignment": "centerLeft",
+                          "textAlign": "left",
+                          "pixelWidth":100,
+                          "value": "",
+                          "key": "ShopName",
+                          "style": {
+                            "color": "*themeBlack",
+                            "fontSize": 13.0,
+                            "fontFamily": "RB"
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "orderBy": 2,
+                          "alignment": "centerLeft",
+                          "textAlign": "left",
+                          "pixelWidth":130,
+                          "value": "Amount",
+                          "key": "ShopAmount",
+                          "style": {
+                            "color": "*themeBlack",
+                            "fontSize": 13.0,
+                            "fontFamily": "RB"
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "orderBy": 3,
+                          "alignment": "centerLeft",
+                          "textAlign": "left",
+                          "pixelWidth":80,
+                          "value": "Transaction",
+                          "key": "AmountStatus",
+                          "style": {
+                            "color": "*themeBlack",
+                            "fontSize": 13.0,
+                            "fontFamily": "RB"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "value": [
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

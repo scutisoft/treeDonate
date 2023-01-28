@@ -1,0 +1,33 @@
+{ "Guid": "CC0978D8-BC74-47B7-B8A4-04FB5DFB325E",
+  "valueArray": [
+    { "key": "PageTitle", "value": "Radiant Admin" },
+    { "key": "CurrentDay", "value": "Today" },
+    { "key": "CurrentDate", "value": "17-Dec-2022" },
+    { "key": "CollectAmount", "value": 210000.00 },
+    { "key": "TotalAmount", "value": { "value2": 210000.00 } },
+    { "key": "BalanceAmount", "value": 0.00 },
+    { "key": "FSETitle", "value": "FSE" },
+    { "key": "FSECount", "value": "3 Available" },
+    { "key": "FSEList",
+      "value": [
+        {
+          "FSEMS_Id":1270,
+          "FSEName":"Murugan",
+          "AmountStatusId":2,
+          "AmountStatus":"Paid",
+          "FSECollectedAmt":70000.00,
+          "TotalAmt":70000.00,
+          "ShopBalanceAmount":0.00,
+          "RequestStatus": "Approved",
+          "RequestStatusId": 4,
+          "FromDate": "2022-12-22",
+          "ToDate": "2022-12-22"
+        },
+        {"FSEMS_Id":1271,"FSEName":"ragu","AmountStatusId":2,"AmountStatus":"Paid","FSECollectedAmt":110000.00,"TotalAmt":110000.00,"ShopBalanceAmount":0.00,"RequestStatus": "Approved",
+          "RequestStatusId": 4,
+          "FromDate": "2022-12-22",
+          "ToDate": "2022-12-22"}
+      ] },{
+      "key": "PaidPercentage",
+      "value": 89
+    } ] }

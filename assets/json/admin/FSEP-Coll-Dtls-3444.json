@@ -1,0 +1,76 @@
+{
+  "Guid": "BD966A44-5C5A-428B-8421-39C0EB6CBC86",
+  "alignment": "topCenter",
+  "mainAxisAlignment": "start",
+  "color": "*primaryOpa005",
+  "isOwnWidget": true,
+  "valueArray": [
+    {
+      "key": "PageTitle",
+      "value": "Mr.Muthu FSE/Mathaji"
+    },
+    {
+      "key": "CollectedAmt",
+      "value":"49,000"
+    },
+    {
+      "key": "BalanceAmount",
+      "value": {
+        "value2": "6,000"
+      }
+    },
+    {
+      "key": "TotalAmount",
+      "value": {
+        "value2": "55,000"
+      }
+    },
+    {
+      "key": "FSEGridHistory",
+      "value": [
+        {
+          "Date": "02-12-2022",
+          "PayType": "Cash",
+          "Amount": 3000.00,
+          "Status": "Accept",
+          "StatusId": 1,
+          "IsSelect": false,
+          "RetailerName": "VENKATAESWARAMEDICAL9003017301"
+        },
+        {
+          "Date": "02-12-2022",
+          "PayType": "FSI UPI",
+          "Amount": 3000.00,
+          "Status": "Accept",
+          "StatusId": 1,
+          "IsSelect": false
+        },
+        {
+          "Date": "02-12-2022",
+          "PayType": "Radiant UPI",
+          "Amount": 3000.00,
+          "Status": "Accept",
+          "StatusId": 1,
+          "IsSelect": false
+        },
+        {
+          "Date": "02-12-2022",
+          "PayType": "Net Bank",
+          "Amount": 3000.00,
+          "Status": "Accept",
+          "StatusId": 1,
+          "IsSelect": false
+        },
+        {
+          "Date": "02-12-2022",
+          "PayType": "Digital Payment",
+          "Amount": 3000.00,
+          "Status": "Reject",
+          "StatusId": 2,
+          "IsSelect": false
+        }
+      ]
+    }
+  ]
+}
+

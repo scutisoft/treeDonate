@@ -1,0 +1,104 @@
+{
+  "Guid": "1",
+  "Widgets": [
+    {
+      "type":"imageController",
+      "orderBy": 1,
+      "image": "assets/login/Radiant-logo.png",
+      "height": 70.0
+    },
+    {
+      "type": "button",
+      "orderBy": 1,
+      "alignment": "centerLeft",
+      "clickEvent": {
+        "eventName":"HomePageNavigation",
+        "pageIndex":5
+      },
+      "key": 1,
+      "height":50,
+      "width":1,
+      "margin": "10,0,10,0",
+      "child":{
+        "type": "rowController",
+        "children": [
+          {
+            "type":"svgController",
+            "orderBy": 1,
+            "width": 22.0,
+            "height": 22.0,
+            "image": "assets/icons/profile.svg",
+            "color": "*primary"
+          },
+          {
+            "type":"sizedBox",
+            "orderBy": 1,
+            "width": 15.0
+          },
+          {
+            "type": "text",
+            "orderBy": 2,
+            "alignment": "centerLeft",
+            "value": "Radian Admin",
+            "key": 1,
+            "style": {
+              "color": "*primary",
+              "fontSize": 14.0,
+              "fontFamily": "RM"
+            }
+          }
+        ]
+      }
+    },
+
+
+    {
+      "type": "spacerController",
+      "orderBy": 4
+    },
+    {
+      "type": "button",
+      "orderBy": 5,
+      "alignment": "centerLeft",
+      "clickEvent": {
+        "eventName":"Navigation",
+        "typeOfNavigation":2,
+        "navigateToPage": "LoginPage"
+      },
+      "key": 1,
+      "height":50,
+      "width":1,
+      "margin": "10,0,10,0",
+      "child":{
+        "type": "rowController",
+        "children": [
+          {
+            "type":"svgController",
+            "orderBy": 1,
+            "height": 22.0,
+            "width": 22.0,
+            "image": "assets/icons/reports.svg",
+            "color": "*primary"
+          },
+          {
+            "type":"sizedBox",
+            "orderBy": 1,
+            "width": 15.0
+          },
+          {
+            "type": "text",
+            "orderBy": 2,
+            "alignment": "centerLeft",
+            "value": "Logout",
+            "key": 1,
+            "style": {
+              "color": "*primary",
+              "fontSize": 14.0,
+              "fontFamily": "RM"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

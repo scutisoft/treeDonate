@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:treedonate/utils/utils.dart';
+
+import '../../HappyExtension/extensionHelper.dart';
+import '../../utils/sizeLocal.dart';
+import '../searchDropdown/search2.dart';
+import '../validationErrorText.dart';
+
+class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
+  Map map;
+  bool hasInput;
+  bool required;
+  SearchDrp2({super.key, required this.map,this.hasInput=true,this.required=true}){
+    search2 = Search2(
+      dataName: map['dataName'],
+      width: SizeConfig.screenWidth,
+      dialogWidth: SizeConfig.screenWidth!,
+      selectWidgetHeight: 50,
+      hinttext: map['hintText'],
+      data: [{"Id":1,"Text":"Moooo"},],
+      showSearch: false,
+      onitemTap: (i){},
+      selectedValueFunc: (e){},
+      scrollTap: (){},
+      isToJson: true,
+      margin: const EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 0),
+      dialogMargin: const EdgeInsets.only(left: 15,right: 15,top: 0),
+      selectWidgetBoxDecoration: BoxDecoration(
+          border: Border.all(color: const Color(0xffEBEBEB)),
+        color: Colors.white
+      ),
+    );
+  }
+
+  late Search2 search2;
+  var isValid=true.obs;
+  var errorText="* Required".obs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        search2,
+        Obx(() => Visibility(visible:!isValid.value,child: ValidationErrorText()))
+      ],
+    );
+  }
+
+  @override
+  getType() {
+    return 'searchDrp2';
+  }
+
+  @override
+  getValue() {
+    return search2.getValue();
+  }
+
+  @override
+  validate() {
+    isValid.value=search2.validate();
+    return isValid.value;
+  }
+
+  @override
+  void clearValues() {
+    search2.clearValues();
+  }
+
+  @override
+  String getDataName() {
+    return search2.getDataName();
+  }
+
+  @override
+  setValue(value) {
+    if(value.runtimeType.toString()=="_InternalLinkedHashMap<String, dynamic>"){
+      if(value.containsKey("DropDownOptionList")){
+        search2.setDataArray(value['DropDownOptionList']);
+      }
+      if(value.containsKey("SelectedId")){
+        search2.setValues({map['propertyId']??"Id":value['SelectedId']});
+      }
+    }
+  }
+}
