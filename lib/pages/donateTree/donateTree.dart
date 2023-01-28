@@ -33,7 +33,6 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
     {"Text":"01 Trees",},
     {"Text":"10 Trees",},
     {"Text":"100 Trees",},
-    {"Text":"Custom Trees",},
   ];
 
   List<Widget> widgets=[];
@@ -67,7 +66,11 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
                     ),
                     child: Stack(
                       children: [
-                       Image.asset('assets/Slice/tree-animation.gif',fit: BoxFit.cover,height: SizeConfig.screenHeight!-50,),
+                        Positioned(
+                          bottom:-70,
+                          // right: 0,
+                            left: -20,
+                           child: Image.asset('assets/Slice/tree-animation.gif',fit: BoxFit.cover,height: 400,)),
                         Positioned(
                           top: 230,
                             left: 20,
@@ -82,7 +85,7 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
                             ),
                         ),
                         Container(
-                          height: 50,
+                          height: 100,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -127,7 +130,7 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10,),
+                        SizedBox(height: 20,),
                         Container(
                           color: ColorUtil.primary,
                           margin: EdgeInsets.only(left: 20,right: 20),
