@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ColorUtil{
-  static Color theme=const Color(0xffF8F8F8);
+  static Color  theme=const Color(0xffF8F8F8);
   static Color themeWhite=const Color(0xffffffff);
   static Color themeBlack=const Color(0xff2C2C2D);
   static Color secondary=const Color(0xff019342);
@@ -15,6 +15,7 @@ class ColorUtil{
   static Color secondaryOpa07=const Color(0xff019342).withOpacity(0.7);
   static Color greyBorder=const Color(0xff808080);
   static Color greyFill=const Color(0xff656565);
+  static Color greyLite=const Color(0xffF5F6FA);
   static Color text1=const Color(0xff979797);
   static Color text2=const Color(0xff452800);
   static Color text3=const Color(0xff828282);

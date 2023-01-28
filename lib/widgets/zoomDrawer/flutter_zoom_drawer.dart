@@ -546,7 +546,7 @@ class _ZoomDrawerState extends State<ZoomDrawer>
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/Slice/tree-sidenav-bg.jpg'),fit:BoxFit.cover,)
+            image: DecorationImage(image: AssetImage('assets/Slice/sidemenu-bg.jpg'),fit:BoxFit.cover,)
         ),
 
         // Without Align, SizedBox won't work

@@ -7,6 +7,7 @@ import '../widgets/zoomDrawer/config.dart';
 import '../widgets/zoomDrawer/flutter_zoom_drawer.dart';
 import 'Nursery/nurseryGrid.dart';
 import 'donateTree/donate.dart';
+import 'donateTree/donateTree.dart';
 import 'history/historyPage.dart';
 import 'history/historyView.dart';
 import 'landParcel/LandParcelGrid.dart';
@@ -221,7 +222,7 @@ class MenuScreen extends GetView<MyDrawerController> {
   }
 }
 
-RxInt menuSel=RxInt(13);
+RxInt menuSel=RxInt(2);
 void setPageNumber(int page){
   menuSel.value=page;
 }
@@ -256,7 +257,7 @@ class _MasterpageState extends State<Masterpage>{
               controller.toggleDrawer();
               //scaffoldkey.currentState!.openDrawer();
             }
-        ) :menuSel.value==2?DonatePage(
+        ) :menuSel.value==2?DonateTreePage(
             voidCallback:() {
               controller.toggleDrawer();
               //scaffoldkey.currentState!.openDrawer();
