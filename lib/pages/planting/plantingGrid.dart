@@ -159,35 +159,36 @@ class _PlantingGridState extends State<PlantingGrid> with HappyExtensionHelper  
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 3.0),
-                                        child: Text('Costal Forest',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                        child: Text('Artabotrysuncinatus,Neem',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Staff : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Location : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                          // Spacer(),
-                                          Text('Bala',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Flexible(child: Text('SIVAGANGAI / Tirumalai',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Land : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Bag & Size : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                          // Spacer(),
-                                          Flexible(child: Text('25 Acer 5 Cent',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          Flexible(child: Text('PolyBag(13 * 25)',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Year  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                         //  Spacer(),
-                                          Text('2023',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text('Approved',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
                                         ],
                                       ),
+
                                     ],
                                   ),
                                 ),
@@ -204,7 +205,7 @@ class _PlantingGridState extends State<PlantingGrid> with HappyExtensionHelper  
                                           color: Color(0xFFF2F3F7),
                                         ),
                                       ),
-                                      Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
+                                      Container(width: 1,height: SizeConfig.screenHeight!-650,color: Color(0xFFF2F3F7),),
                                       Container(
                                         width: 15,
                                         height:10,
@@ -223,23 +224,61 @@ class _PlantingGridState extends State<PlantingGrid> with HappyExtensionHelper  
                                     child:  Column(
                                       crossAxisAlignment:CrossAxisAlignment.end,
                                       children: [
-                                        Text('Plan Scheme ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('50,560.00',style: ColorUtil.textStyle18),
+                                        Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        Text('300',style: ColorUtil.textStyle18),
                                         SizedBox(height: 10,),
-                                        GestureDetector(
-                                          onTap: (){
-                                            fadeRoute(PlantingView());
-                                          },
-                                          child: Container(
-                                            width: 80,
-                                            height: 30,
-                                            alignment:Alignment.center,
-                                            decoration: BoxDecoration(
-                                                color: ColorUtil.primary.withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(5)
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: (){
+                                                fadeRoute(PlantingView());
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                alignment:Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: ColorUtil.primary.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
+                                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
+                                              ),
                                             ),
-                                            child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                                          ),
+                                            GestureDetector(
+                                              onTap: (){
+
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                alignment:Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: ColorUtil.primary.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
+                                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: (){
+
+                                              },
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                alignment:Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: ColorUtil.primary.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(5)
+                                                ),
+                                                child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
+                                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
