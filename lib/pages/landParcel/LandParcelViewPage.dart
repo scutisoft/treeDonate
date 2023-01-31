@@ -32,6 +32,8 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
+  List<dynamic> landParcelView = [];
+
   @override
   void initState() {
     silverController = ScrollController();
@@ -139,12 +141,12 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Form Land',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),
+                      widgets[0],
                       Image.asset('assets/Slice/status-tick.png',width: 30,)
                     ],
                   ),
                   SizedBox(height: 2,),
-                  Text('Kanchipuram / Pallipedu Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
+                  widgets[1],
                   SizedBox(height: 5,),
                   Container(
                     margin: EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -153,22 +155,24 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                       border: TableBorder.all(
                           color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                       children: [
-                        tableView('Type Of Land','Coastal Forest',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Staff','Balasubramanyani',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Mobile','90923-22264',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Email','Balasubramanyani@gmail.com',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Soil Type','Black Cotton Soil',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Survey Number','585265885',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Hectare','100 Hectare',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Acre','247.1 Acre',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Planting year','2023',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Village','Tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Taluk','Sivagangai  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('District','SIVAGANGAI  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, Sivagangai, TamilNadu 600032',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('User Name','Muthu Gokul',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        for(int i=0;i<landParcelView.length;i++)
+                        tableView(landParcelView[i]['Title'],landParcelView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Type Of Land','Coastal Forest',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Staff','Balasubramanyani',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Mobile','90923-22264',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Email','Balasubramanyani@gmail.com',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Soil Type','Black Cotton Soil',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Survey Number','585265885',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Hectare','100 Hectare',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Acre','247.1 Acre',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Planting year','2023',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Village','Tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Taluk','Sivagangai  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('District','SIVAGANGAI  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, Sivagangai, TamilNadu 600032',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('User Name','Muthu Gokul',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -233,13 +237,6 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
     );
 
   }
-
-  @override
-  void assignWidgets() async {
-    setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
-  }
-
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
     return TableRow(
         children: [
@@ -254,4 +251,20 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
         ]
     );
   }
+  @override
+  void assignWidgets() async {
+    setState(() {});
+    widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    await parseJson(widgets, General.addLandParcelViewIdentifier);
+    try{
+
+      landParcelView=valueArray.where((element) => element['key']=="LandParcelView").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
+  }
+
+
 }

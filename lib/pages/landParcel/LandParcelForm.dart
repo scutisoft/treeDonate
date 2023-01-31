@@ -152,7 +152,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select Land Type"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandType","hintText":"Select Land Type"},));
     widgets.add(AddNewLabelTextField(
       dataname: 'Name',
       hasInput: true,
@@ -187,9 +187,9 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Soil Type"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"SoilType","hintText":"Select Soil Type"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Zipcode',
+      dataname: 'SurveyNo',
       hasInput: true,
       required: true,
       labelText: "Enter Survey Number",
@@ -199,17 +199,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
-      hasInput: true,
-      required: true,
-      labelText: "Acer",
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
+      dataname: 'Hectare',
       hasInput: true,
       required: true,
       labelText: "Hectare",
@@ -219,21 +209,30 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
+      dataname: 'Acre',
       hasInput: true,
       required: true,
-      labelText: "Planting Scheme",
+      labelText: "Acer",
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Planting Year"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Village","hintText":"Select Village"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Taluk","hintText":"Select Taluk"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
+      dataname: 'LandAddress',
+      hasInput: true,
+      required: true,
+      labelText: "Land Address",
+      onChange: (v){},
+      onEditComplete: (){
+        node.unfocus();
+      },
+    ));
+    widgets.add(AddNewLabelTextField(
+      dataname: 'LangLat',
       hasInput: true,
       required: true,
       labelText: "Location",
@@ -243,7 +242,8 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
         node.unfocus();
       },
     ));
+    widgets.add(SearchDrp2(map: const {"dataName":"Years","hintText":"Select Planting Year"},));
     setState(() {});
-    await parseJson(widgets, General.addVolunteerIdentifier);
+    await parseJson(widgets, General.addLandParcelIdentifier);
   }
 }

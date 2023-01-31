@@ -286,7 +286,6 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
   @override
   void assignWidgets() async{
     widgets.clear();
-
     setState(() {});
     await parseJson(widgets, General.donateIdentifier);
   }

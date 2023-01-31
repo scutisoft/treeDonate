@@ -13,6 +13,9 @@ class General{
   //Add user json files in assets/json/users..........
   static String donateIdentifier=!MyConstants.fromUrl?"assets/json/users/donate.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String addVolunteerIdentifier=!MyConstants.fromUrl?"assets/json/users/add-volunteer.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String addLandParcelIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcel.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String addLandParcelGirdIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelGrid.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String addLandParcelViewIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
 
 
   static String eventName="eventName";

@@ -84,6 +84,7 @@ flutter:
     - assets/Slice/
     - assets/trees/
     - assets/json/
+    - assets/json/users/landParcelJSON/
     - assets/json/users/
     - assets/json/admin/
 

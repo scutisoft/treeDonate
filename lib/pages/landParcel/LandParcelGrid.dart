@@ -29,6 +29,9 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   List<Widget> widgets=[];
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
+
+  List<dynamic> landParcelList=[];
+
   @override
   void initState(){
     silverController= ScrollController();
@@ -68,7 +71,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
                     title: Text('My Land Parcel History',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                    //background: FlutterLogo(),
+                    background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
               ];
@@ -130,7 +133,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                    // height: SizeConfig.screenHeight,
                    // width: cardWidth,
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: landParcelList.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx,i){
                         return GestureDetector(
@@ -155,37 +158,50 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                   child: Column(
                                     crossAxisAlignment:CrossAxisAlignment.start ,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 3.0),
-                                        child: Text('Costal Forest',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
-                                      ),
-                                      SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Staff : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                         // Spacer(),
-                                          Text('Bala',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text('User : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          // Spacer(),
+                                          Text(landParcelList[i]['UserName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Land : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Land Owner : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                          // Spacer(),
-                                          Flexible(child: Text('25 Acer 5 Cent',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          Text(landParcelList[i]['LandOwner'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Year  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Land Type : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                         // Spacer(),
+                                          Flexible(child: Text(landParcelList[i]['LandType'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
+                                        ],
+                                      ),
+                                      SizedBox(height: 2,),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Role  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                         //  Spacer(),
-                                          Text('2023',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text(landParcelList[i]['Role'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          //  Spacer(),
+                                          Text(landParcelList[i]['Status'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        ],
+                                      ),
+
                                     ],
                                   ),
                                 ),
@@ -221,8 +237,8 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                     child:  Column(
                                       crossAxisAlignment:CrossAxisAlignment.end,
                                       children: [
-                                        Text('Plan Scheme ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('50,560.00',style: ColorUtil.textStyle18),
+                                        Text('Land In Hectares ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        Text(landParcelList[i]['LandInHectares'],style: ColorUtil.textStyle18),
                                         SizedBox(height: 10,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -299,6 +315,13 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   void assignWidgets() async{
 
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    await parseJson(widgets, General.addLandParcelGirdIdentifier);
+    try{
+
+      landParcelList=valueArray.where((element) => element['key']=="LandParcelList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
 }

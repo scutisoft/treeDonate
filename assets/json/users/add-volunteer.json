@@ -2,6 +2,26 @@
   "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984B",
   "valueArray": [
     {
+      "key": "Name",
+      "value": "Bala"
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "7550286133"
+    },
+    {
+      "key": "Email",
+      "value": "Bala@gmail.com"
+    },
+    {
+      "key": "AddressDetail",
+      "value": ""
+    },
+    {
+      "key": "Zipcode",
+      "value": "600032"
+    },
+    {
       "key": "District",
       "value": {
         "DropDownOptionList": [
@@ -26,6 +46,14 @@
           {"Id": 5,"Text": "Newsletter Production"}
           ]
       }
+    },
+    {
+      "key": "NGO",
+      "value": ""
+    },
+    {
+      "key": "Individual",
+      "value": ""
     }
   ]
 }
