@@ -9,6 +9,7 @@ import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
+import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
 import '../Filter/FilterItems.dart';
@@ -68,12 +69,10 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(onPressed: (){
-                                assignWidgets();
-                                widget.voidCallback();
-                              },
-                                  icon: Icon(Icons.grid_view_rounded,color:ColorUtil.primary)
-                                //   icon: Icon(Icons.menu,color: Colors.white,size: 30,),
+                              NavBarIcon(
+                                onTap:  (){
+                                  widget.voidCallback();
+                                },
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -912,9 +911,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.clear();
-
+    await parseJson(widgets, General.donateIdentifier);
 
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
   }
 }

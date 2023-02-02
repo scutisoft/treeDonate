@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/pages/volunteer/addvolunteer.dart';
 
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
@@ -115,6 +116,28 @@ class _SlideSwipeState extends State<SlideSwipe> {
                     ),
                   )
               ),
+              Positioned(
+                left: 10,
+                bottom: 100,
+                child: GestureDetector(
+                  onTap: (){
+                    fadeRoute(AddVolunteer(
+                      isDirectAdd: true,
+                    ));
+                  },
+                  child: Container(
+                    height: 50,
+                   width: 120,
+                   alignment: Alignment.center,
+                   // padding: EdgeInsets.only(left: 10,right: 10,top: ),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Text("+ Volunteer",style: ts18(ColorUtil.themeBlack),),
+                  ),
+                ),
+              )
             ],
           ),
         ),

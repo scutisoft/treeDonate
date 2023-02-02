@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/api/ApiManager.dart';
+import 'package:treedonate/notifier/configuration.dart';
 import 'package:treedonate/pages/Seeding/seedingGrid.dart';
+import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/accessWidget.dart';
+import 'package:treedonate/widgets/loader.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
 import '../widgets/zoomDrawer/config.dart';
@@ -51,7 +56,24 @@ class MyHomePage extends GetView<MyDrawerController> {
 }
 
 class MenuScreen extends GetView<MyDrawerController> {
-  const MenuScreen({Key? key}) : super(key: key);
+  MenuScreen({Key? key}) : super(key: key);
+
+  List<dynamic> menuList=[
+    {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"My Certificate","PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Our Events","PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"My trees","PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
+    {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Land Parcel","PageNumber":9,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
+    {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
+    {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
+    {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +99,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             child: ListView(
               shrinkWrap: true  ,
               children: [
-                SizedBox(height: 80,),
+                const SizedBox(height: 80,),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.start,
                 //   children: [
@@ -91,116 +113,25 @@ class MenuScreen extends GetView<MyDrawerController> {
                 //     ),
                 //   ],
                 // ),
-                SizedBox(height: 20,),
-                DrawerContent(
-                    title: 'Home Page',
-                    ontap: (){
-                      setPageNumber(13);
+                const SizedBox(height: 20,),
+                for(int i=0;i<menuList.length;i++)
+                  AccessWidget(
+                    hasAccess:menuList[i]['accessId']==null?true: isHasAccess(menuList[i]['accessId']),
+                    needToHide: true,
+                    widget: DrawerContent(
+                        title: menuList[i]['Title'],
+                        iconNav: menuList[i]['iconNav']
+                    ),
+                    onTap: (){
+                      setPageNumber(menuList[i]['PageNumber']);
                       controller.toggleDrawer();
                     },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                  title: 'My Profile',
-                  ontap: (){
-                    setPageNumber(1);
-                      controller.toggleDrawer();
-                  },
-                  iconNav: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,)
-                  ,
-                ),
-                DrawerContent(
-                    title: 'Donate',
-                    ontap: (){
-                      setPageNumber(2);
-                        controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'My History',
-                    ontap: (){
-                      setPageNumber(3);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.history,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'My Certificate',
-                    ontap: (){
-                      setPageNumber(4);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Our Events',
-                    ontap: (){
-                      setPageNumber(5);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.event,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'My trees',
-                    ontap: (){
-                      setPageNumber(6);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: '+ Volunteer ',
-                    ontap: (){
-                      setPageNumber(7);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Notification',
-                    ontap: (){
-                      setPageNumber(8);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Land Parcel',
-                    ontap: (){
-                      setPageNumber(9);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Planting',
-                    ontap: (){
-                      setPageNumber(10);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Seeding',
-                    ontap: (){
-                      setPageNumber(11);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
-                DrawerContent(
-                    title: 'Nursery',
-                    ontap: (){
-                      setPageNumber(12);
-                      controller.toggleDrawer();
-                    },
-                    iconNav: Icon(Icons.notifications_none,color: ColorUtil.themeWhite,)
-                ),
+                  ),
+
                 DrawerContent(
                     title: 'LogOut',
                     ontap: (){
-                      Get.to(loginPage());
+                      clearUserSessionDetail();
                     },
                     iconNav: Icon(Icons.lock,color: ColorUtil.themeWhite,)
                 ), // Divider(color: Color(0xff099FAF),thickness: 0.1,),
@@ -250,64 +181,69 @@ class _MasterpageState extends State<Masterpage>{
     width2=width-16;
     SizeConfig().init(context);
     return SafeArea(
-      child: Obx(() => Scaffold(
-        key: scaffoldkey,
-        body:menuSel.value==1?MyProfile(
-            voidCallback:() {
-              controller.toggleDrawer();
-              //scaffoldkey.currentState!.openDrawer();
-            }
-        ) :menuSel.value==2?DonateTreePage(
-            voidCallback:() {
-              controller.toggleDrawer();
-              //scaffoldkey.currentState!.openDrawer();
-            }
-        ) :menuSel.value==3?HistoryTreeView (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==4?CertificatePage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==5?OurEventsPage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==6?MyTreesPage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==7?VolunteerPage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==8?NotificationPage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==9?LandParcelGrid (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==10?PlantingGrid (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==11?SeedingGrid (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :menuSel.value==12?NurseryGrid (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ):menuSel.value==13?LandingPage (
-          voidCallback:(){
-            controller.toggleDrawer();
-          },
-        ) :Container(),
-      )),
+      child: Stack(
+        children: [
+          Obx(() => Scaffold(
+            key: scaffoldkey,
+            body:menuSel.value==1?MyProfile(
+                voidCallback:() {
+                  controller.toggleDrawer();
+                  //scaffoldkey.currentState!.openDrawer();
+                }
+            ) :menuSel.value==2?DonateTreePage(
+                voidCallback:() {
+                  controller.toggleDrawer();
+                  //scaffoldkey.currentState!.openDrawer();
+                }
+            ) :menuSel.value==3?HistoryTreeView (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==4?CertificatePage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==5?OurEventsPage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==6?MyTreesPage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==7?VolunteerPage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==8?NotificationPage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==9?LandParcelGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==10?PlantingGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==11?SeedingGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==12?NurseryGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ):menuSel.value==13?LandingPage (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :Container(),
+          )),
+          Obx(() => Loader(value: showLoader.value,))
+        ],
+      ),
     );
   }
 }
@@ -315,8 +251,8 @@ class _MasterpageState extends State<Masterpage>{
 class DrawerContent extends StatelessWidget {
   String title;
   Widget iconNav;
-  VoidCallback ontap;
-  DrawerContent({required this.title,required this.iconNav,required this.ontap});
+  VoidCallback? ontap;
+  DrawerContent({required this.title,required this.iconNav, this.ontap});
   late double width;
 
   @override

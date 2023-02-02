@@ -37,11 +37,18 @@ class ColorUtil{
   static Color payClr=const Color(0xff062778);
   static Color approvedClr=const Color(0xff019342);
 
+
   static TextStyle paidTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: ColorUtil.secondary);
   static TextStyle pendingTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xffE4BE49));
 
   static const TextStyle fseAccRejGridTS=TextStyle(fontFamily: 'USB',fontSize: 18,color:ColorUtil.primaryTextColor2);
   static const TextStyle fseAccRejGridBosyTS=TextStyle(fontFamily: 'RR',fontSize: 15,color:Color(0xff6E6E6E));
+
+  static const TextStyle search2ActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xffffffff));
+  static const TextStyle search2InActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xff979797));
+
+  static Color search2ActBg= primary;
+  static Color search2InActBg= Color(0xffffffff);
 
 
 }

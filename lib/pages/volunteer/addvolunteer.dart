@@ -1,8 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
-import '../../utils/utils.dart';
+import 'package:intl/intl.dart';
+import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/searchDropdown/dropdown_search.dart';
+import '../../model/parameterMode.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -10,9 +13,14 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
-import '../../widgets/innerShadowTBContainer.dart';
 
 class AddVolunteer extends StatefulWidget {
+  String? editId;
+  VoidCallback? closeCb;
+  bool isDirectAdd;
+
+  AddVolunteer({this.editId,this.closeCb,this.isDirectAdd=false});
+
   @override
   _AddVolunteerState createState() => _AddVolunteerState();
 }
@@ -20,7 +28,20 @@ class AddVolunteer extends StatefulWidget {
 class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
   
 
-  List<Widget> widgets=[];
+  List<dynamic> widgets=[];
+
+  var volunteerType=2.obs;
+
+  BoxDecoration inActiveDec=BoxDecoration(
+    shape:BoxShape.circle,
+    color: ColorUtil.primary.withOpacity(0.5),
+    border:Border.all(color:Colors.white,width: 3.0),
+  );
+  BoxDecoration activeDec=BoxDecoration(
+    shape:BoxShape.circle,
+    color: ColorUtil.primary,
+    border:Border.all(color:Colors.white,width: 3.0),
+  );
 
   @override
   void initState(){
@@ -59,7 +80,6 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   IconButton(onPressed: (){
-                                    assignWidgets();
                                        Get.back();
                                   },
                                       icon: Icon(Icons.arrow_back_ios_new_sharp,color:ColorUtil.themeBlack)
@@ -71,10 +91,10 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Save Trees \n10,00,000',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 24),),
-                                        Text('31-Dec-2022 \n09:30 Am',style: TextStyle(color:ColorUtil.text5,fontFamily: 'RR',fontSize: 14,height: 1.4),),
+                                        Text('Save Trees',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 24),),
+                                        Text('${DateFormat("dd-MMM-yyyy").format(DateTime.now())} \n${DateFormat().add_jm().format(DateTime.now())}',style: TextStyle(color:ColorUtil.text5,fontFamily: 'RR',fontSize: 14,height: 1.4),),
                                         SizedBox(height: 10,),
-                                        Text('Chennai',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 24),),
+                                       // Text('Chennai',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 24),),
                                       ],
                                     ),
                                   ),
@@ -105,60 +125,70 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                         widgets[4],
                         widgets[5],
                         widgets[6],
+                        widgets[7],
 
                        Padding(
                          padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10,bottom: 10),
                          child: Row(
                            children: [
-                             Row(
-                               children: [
-                                 Container(
-                                   width: 20,
-                                   height: 20,
-                                   decoration: BoxDecoration(
-                                       border:Border.all(color: ColorUtil.primary,width: 1.0),
-                                       borderRadius: BorderRadius.circular(50)
-                                   ),
-                                   child: Container(
-                                     padding: EdgeInsets.all(10),
-                                     width: 10,
-                                     height: 10,
-                                     decoration: BoxDecoration(
-                                       shape:BoxShape.circle,
-                                       color: ColorUtil.primary,
-                                       border:Border.all(color:Colors.white,width: 3.0),
+                             GestureDetector(
+                               onTap:(){
+                                 volunteerType.value=1;
+                                 },
+                               child: Container(
+                                 color: Colors.transparent,
+                                 child: Row(
+                                   children: [
+                                     Container(
+                                       width: 20,
+                                       height: 20,
+                                       decoration: BoxDecoration(
+                                           border:Border.all(color: ColorUtil.primary,width: 1.0),
+                                           borderRadius: BorderRadius.circular(50)
+                                       ),
+                                       child: Obx(() => AnimatedContainer(
+                                         duration: MyConstants.animeDuration,
+                                         padding: const EdgeInsets.all(10),
+                                         width: 10,
+                                         height: 10,
+                                         decoration: volunteerType.value==1?activeDec:inActiveDec,
+                                       )),
                                      ),
-                                   ),
+                                     const SizedBox(width: 10,),
+                                     Text('NGO',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
+                                   ],
                                  ),
-                                 SizedBox(width: 10,),
-
-                                 Text('NGO',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
-                               ],
+                               ),
                              ),
-                             SizedBox(width: 30,),
-                             Row(
-                               children: [
-                                 Container(
-                                   width: 20,
-                                   height: 20,
-                                   decoration: BoxDecoration(
-                                       border:Border.all(color: ColorUtil.primary.withOpacity(0.5),width: 1.0),
-                                       borderRadius: BorderRadius.circular(50)
-                                   ),
-                                   child: Container(
-                                     padding: EdgeInsets.all(10),
-                                     width: 10,
-                                     height: 10,
-                                     decoration: BoxDecoration(
-                                       shape:BoxShape.circle,
-                                       color: ColorUtil.primary.withOpacity(0.5),
-                                       border:Border.all(color:Colors.white,width: 3.0),
+                             const SizedBox(width: 30,),
+                             GestureDetector(
+                               onTap:(){
+                                 volunteerType.value=2;
+                               },
+                               child: Container(
+                                 color: Colors.transparent,
+                                 child: Row(
+                                   children: [
+                                     Container(
+                                       width: 20,
+                                       height: 20,
+                                       decoration: BoxDecoration(
+                                           border:Border.all(color: ColorUtil.primary.withOpacity(0.5),width: 1.0),
+                                           borderRadius: BorderRadius.circular(50)
+                                       ),
+                                       child: Obx(() => AnimatedContainer(
+                                         duration: MyConstants.animeDuration,
+                                         padding: const EdgeInsets.all(10),
+                                         width: 10,
+                                         height: 10,
+                                         decoration: volunteerType.value==2?activeDec:inActiveDec,
+                                       )),
                                      ),
-                                   ),
+                                     SizedBox(width: 10,),
+                                     Text('Individual',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
+                                   ],
                                  ),
-                                 SizedBox(width: 10,),
-                                 Text('Individual',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
-                               ],
+                               ),
                              )
                            ],
                          ),
@@ -169,7 +199,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                   SizedBox(height: 5,),
                   GestureDetector(
                     onTap: (){
-                      Get.back();
+                      onSubmit();
                     },
                     child: Container(
                       width: SizeConfig.screenWidth,
@@ -194,6 +224,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
+    widgets.clear();
     widgets.add(AddNewLabelTextField(
       dataname: 'Name',
       hasInput: true,
@@ -213,7 +244,33 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.digitRegEx,
-      onChange: (v){},
+      onChange: (v){
+        if(v.length==10){
+          widgets[2].isEnabled=true;
+          widgets[2].reload.value=!widgets[2].reload.value;
+        }
+        else{
+          widgets[2].isEnabled=false;
+          widgets[2].reload.value=!widgets[2].reload.value;
+          widgets[2].clearValues();
+        }
+      },
+      onEditComplete: (){
+        node.unfocus();
+      },
+    ));
+    widgets.add(AddNewLabelTextField(
+      dataname: 'OTP',
+      hasInput: true,
+      required: true,
+      isEnabled: false,
+      labelText: "OTP",
+      textInputType: TextInputType.number,
+      textLength: 6,
+      regExp: MyConstants.digitRegEx,
+      onChange: (v){
+
+      },
       onEditComplete: (){
         node.unfocus();
       },
@@ -228,7 +285,8 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
         node.unfocus();
       },
     ));
-    widgets.add(AddNewLabelTextField(
+    widgets.add(HiddenController(dataname: "VolunteerId"));
+/*    widgets.add(AddNewLabelTextField(
       dataname: 'Address',
       hasInput: true,
       required: true,
@@ -237,22 +295,41 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       onEditComplete: (){
         node.unfocus();
       },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
+    ));*/
+    widgets.add(SearchDrp2(map: const {
+      "dataName":"District","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
+      "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
+    },required: false,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Zipcode',
       hasInput: true,
       required: true,
       labelText: "Zipcode",
+      textInputType: TextInputType.number,
+      textLength: 6,
+      regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Interest"},));
-    setState(() {
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Interest","labelText":"Interest"},required: false,));
 
-    });
-    await parseJson(widgets, General.addVolunteerIdentifier);
+    widgets.add(HiddenController(dataname: "VolunteerType"));
+    setState(() {});
+    await parseJson(widgets, General.addVolunteerIdentifier,dataJson: widget.editId);
+  }
+
+  void onSubmit() async{
+    widgets[8].setValue(volunteerType.value);
+    List<ParameterModel> params= await getFrmCollection(widgets);
+    if(params.isNotEmpty){
+      params.sort((a,b)=>a.orderBy.compareTo(b.orderBy));
+      postUIJson(General.addVolunteerIdentifier, jsonEncode(params.map((e) => e.toJsonHE()).toList()), widget.editId==null?"Insert":"Update",
+          successCallback: (){
+            Get.back();
+          }
+      );
+    }
   }
 }

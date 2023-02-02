@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:treedonate/HappyExtension/utilWidgets.dart';
 
 import '../utils/colorUtil.dart';
 
@@ -15,10 +16,10 @@ class ValidationErrorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.only(left: leftPadding,right: rightPadding,top:5),
+    return Padding(padding: EdgeInsets.only(left: leftPadding,right: rightPadding,top:0,bottom: 5),
       child: Align(
         alignment: Alignment.centerLeft,
-          child: Text("$title",style: TextStyle(fontSize: 15,color: ColorUtil.red,fontFamily: 'RR'),textAlign: TextAlign.left,)),
+          child: Text("$title",style: errorTS,textAlign: TextAlign.left,)),
     );
   }
 }

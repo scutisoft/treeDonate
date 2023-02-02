@@ -58,3 +58,25 @@ class ArrowBack extends StatelessWidget {
     );
   }
 }
+
+
+class EyeIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  EyeIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 30,
+        height: 30,
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: ColorUtil.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
+      ),
+    );
+  }
+}

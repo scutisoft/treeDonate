@@ -8,7 +8,7 @@ import '../utils/sizeLocal.dart';
 
 TextStyle errorTS=TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xFFE34343));
 
-class HiddenController extends StatelessWidget {
+class HiddenController extends StatelessWidget implements ExtensionCallback{
   bool hasInput;
   String dataname;
  // var value="".obs;
@@ -16,6 +16,7 @@ class HiddenController extends StatelessWidget {
   HiddenController({this.hasInput=true,required this.dataname});
 
   Rxn value=Rxn();
+  var orderBy=1.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +25,41 @@ class HiddenController extends StatelessWidget {
       child: Obx(() => Text("${value.value}")),
     );
   }
-
+  @override
   getType(){
     return 'hidden';
   }
+  @override
   getValue(){
     return value.value;
   }
+  @override
   setValue(var val){
     value.value=val;
   }
+  @override
   String getDataName(){
     return dataname;
+  }
+
+  @override
+  void clearValues() {
+    value.value="";
+  }
+
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
+  }
+
+  @override
+  bool validate() {
+    return true;
   }
 }
 
@@ -70,8 +94,9 @@ class AddNewLabelTextField extends StatelessWidget {
     textEditingController= new TextEditingController();
   }
   var isValid=true.obs;
+  var orderBy=1.obs;
   var errorText="* Required".obs;
-
+  var reload=false.obs;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -86,8 +111,8 @@ class AddNewLabelTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(3),
               color: Colors.transparent
           ),
-          child:  TextFormField(
-            enabled: isEnabled,
+          child:  Obx(() => TextFormField(
+            enabled: reload.value?isEnabled:isEnabled,
             onTap: ontap,
             obscureText: isObscure,
             obscuringCharacter: '*',
@@ -96,34 +121,34 @@ class AddNewLabelTextField extends StatelessWidget {
             controller: textEditingController,
             cursorColor:ColorUtil.text4,
             decoration: InputDecoration(
-                fillColor:isEnabled?Colors.white:disableColor,
-                filled: true,
-                labelStyle: TextStyle(fontFamily: 'RR',fontSize: 16,color: ColorUtil.text3),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(3)),
-                  borderSide: BorderSide(
-                    width: 0.2,
-                    color: ColorUtil.text4,
-                  ),
+              fillColor:isEnabled?Colors.white:disableColor,
+              filled: true,
+              labelStyle: TextStyle(fontFamily: 'RR',fontSize: 16,color: ColorUtil.text3),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(3)),
+                borderSide: BorderSide(
+                  width: 0.2,
+                  color: ColorUtil.text4,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(3)),
-                  borderSide: BorderSide(
-                    width: 0.2,
-                    color: ColorUtil.text4,
-                  ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(3)),
+                borderSide: BorderSide(
+                  width: 0.2,
+                  color: ColorUtil.text4,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(3)),
-                  borderSide: BorderSide(
-                    width: 0.2,
-                    color:ColorUtil.primary,
-                  ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(3)),
+                borderSide: BorderSide(
+                  width: 0.2,
+                  color:ColorUtil.primary,
                 ),
-                labelText: labelText,
-                contentPadding: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                prefixIcon: prefixIcon,
-                suffixIcon: suffixIcon,
+              ),
+              labelText: labelText,
+              contentPadding: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
             ),
             maxLines: maxlines,
             keyboardType: textInputType,
@@ -143,11 +168,11 @@ class AddNewLabelTextField extends StatelessWidget {
             onEditingComplete: (){
               onEditComplete!();
             },
-          ),
+          )),
         ),
         Obx(
                 ()=>isValid.value?Container():Container(
-                margin:  EdgeInsets.only(left:20,right:20,top:15,),
+                margin:  EdgeInsets.only(left:20,right:20,bottom:5,),
                 child: Text(errorText.value,style: errorTS,)
             )
         ),
@@ -289,6 +314,14 @@ class AddNewLabelTextField extends StatelessWidget {
   }
   // return isValid.value;
 }
+
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
+  }
 }
 
 class HE_Text extends StatelessWidget implements ExtensionCallback{
@@ -304,6 +337,9 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
   }
   Rxn text=Rxn();
   Rxn<TextStyle> textStyle=Rxn<TextStyle>();
+
+  var orderBy=1.obs;
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -340,6 +376,16 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
   bool validate() {
     return text.value.isNotEmpty;
   }
+
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
+  }
 }
 
 class HE_WrapText extends StatelessWidget implements ExtensionCallback{
@@ -362,6 +408,8 @@ class HE_WrapText extends StatelessWidget implements ExtensionCallback{
   Rxn text2=Rxn();
   Rxn<TextStyle> textStyle=Rxn<TextStyle>();
   Rxn<TextStyle> textStyle2=Rxn<TextStyle>();
+
+  var orderBy=1.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -431,6 +479,15 @@ class HE_WrapText extends StatelessWidget implements ExtensionCallback{
   bool validate() {
     // TODO: implement validate
     throw UnimplementedError();
+  }
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
   }
 }
 

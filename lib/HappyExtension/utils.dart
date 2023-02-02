@@ -69,3 +69,11 @@ Future<Map> getMasterDrpMap(String page,String typeName, dynamic refId,  dynamic
     //CustomAlert().commonErrorAlert(Get.context!, "Error G01", "Contact Administration");
   }
 }
+
+bool HE_IsMap(value){
+  return value.runtimeType.toString()=="_InternalLinkedHashMap<String, dynamic>" ||
+      value.runtimeType.toString()=="_Map<String, dynamic>";
+}
+bool HE_IsList(value){
+  return value.runtimeType.toString()=="List<dynamic>";
+}

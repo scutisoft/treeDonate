@@ -11,9 +11,11 @@ String outletName="";
 
 String GetBaseUrl(){
   //return "https://scutisoft.in/zoomnshop";
-  return MyConstants.isLive?"http://45.126.252.78/Rad_ECS": "http://45.126.252.78/Radiant_ECS";
+  return MyConstants.isLive?"http://45.126.252.78/EGF": "http://192.168.1.140:5009";
 }
-
+String GetImageBaseUrl(){
+  return MyConstants.isLive?"http://45.126.252.78/Rad_ECS/AppAttachments/": "http://45.126.252.78/Radiant_ECS/AppAttachments/";
+}
 
 
 getParameterEssential({bool needOutletId=false}) async{
@@ -36,7 +38,7 @@ getLoginId() async{
 getDatabase(){
 //  SharedPreferences sp=await SharedPreferences.getInstance();
 //  return sp.getString("DatabaseName");
-  return  MyConstants.isLive?"RadiantECS":"RadiantDevUIECS";
+  return  MyConstants.isLive?"RestaPOS_EcoGreen":"RestaPOS_EcoGreen";
 }
 
 getOutletId() async{
