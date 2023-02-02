@@ -33,6 +33,8 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
   List<Widget> widgets=[];
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
+  List<dynamic> SeedingList=[];
+
   @override
   void initState(){
     silverController= ScrollController();
@@ -72,7 +74,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
                     title: Text('Seeding',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                    //background: FlutterLogo(),
+                    background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
               ];
@@ -134,7 +136,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                    // height: SizeConfig.screenHeight,
                    // width: cardWidth,
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: SeedingList.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx,i){
                         return GestureDetector(
@@ -151,17 +153,22 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                             ),
                             clipBehavior:Clip.antiAlias,
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   width: cardWidth*0.6,
                                   alignment: Alignment.topLeft  ,
+                                  padding: EdgeInsets.only(top: 10,bottom: 10),
                                   child: Column(
                                     crossAxisAlignment:CrossAxisAlignment.start ,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 3.0),
-                                        child: Text('EarLeaf Acacia,Rusuty Acacia',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Seed : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          // Spacer(),
+                                          Text(SeedingList[i]['Seed'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
@@ -169,7 +176,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                                         children: [
                                           Text('Name : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                          // Spacer(),
-                                          Text('Bala',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text(SeedingList[i]['GName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
@@ -178,7 +185,15 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                                         children: [
                                           Text('Mobile No  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                         //  Spacer(),
-                                          Text('8695650493',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text(SeedingList[i]['GPhoneNumber'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Location  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                        //  Spacer(),
+                                          Flexible(child: Text(SeedingList[i]['Glocation'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
@@ -187,7 +202,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                                         children: [
                                           Text('Status : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                           // Spacer(),
-                                          Flexible(child: Text('Approved',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),)),
+                                          Flexible(child: Text(SeedingList[i]['Status'],style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RR'),)),
                                         ],
                                       ),
                                     ],
@@ -206,7 +221,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                                           color: Color(0xFFF2F3F7),
                                         ),
                                       ),
-                                      Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
+                                      Container(width: 1,height:SizeConfig.screenHeight!-650,color: Color(0xFFF2F3F7),),
                                       Container(
                                         width: 15,
                                         height:10,
@@ -220,13 +235,14 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                                 ),
                                 Container(
                                     width: cardWidth*0.4,
-                                    alignment:Alignment.center,
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
                                     // color:Colors.red,
                                     child:  Column(
                                       crossAxisAlignment:CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text('Seed Qty ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('50.00',style: ColorUtil.textStyle18),
+                                        Text(SeedingList[i]['SeedQty'],style: ColorUtil.textStyle18),
                                         SizedBox(height: 10,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -303,6 +319,13 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
   void assignWidgets() async{
 
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    await parseJson(widgets, General.addSeedGridViewIdentifier);
+    try{
+
+      SeedingList=valueArray.where((element) => element['key']=="SeedingList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
 }

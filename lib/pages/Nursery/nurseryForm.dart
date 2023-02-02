@@ -29,7 +29,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     assignWidgets();
     super.initState();
   }
-
+  List<dynamic> Planting = [];
   var node;
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,8 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               ),
                             ]
                         ),
-                        tableView('veembu','13',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        for(int i=0;i<Planting.length;i++)
+                          tableView(Planting[i]['Plant'],Planting[i]['NoOfPlant'],ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -190,7 +191,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.add(AddNewLabelTextField(
-      dataname: 'Name',
+      dataname: 'NurseryName',
       hasInput: true,
       required: true,
       labelText: "Nursery Name",
@@ -201,7 +202,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'NurseryIncharge',
       hasInput: true,
       required: true,
       labelText: "Nursery Incharge",
@@ -227,7 +228,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'Email',
       hasInput: true,
       required: true,
       labelText: "Email",
@@ -240,7 +241,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'Address',
       hasInput: true,
       required: true,
       labelText: "Address",
@@ -252,11 +253,11 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Taluk","hintText":"Select Taluk"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Village","hintText":"Select Village"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
+      dataname: 'Location',
       hasInput: true,
       required: true,
       labelText: "Location",
@@ -266,12 +267,12 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select Electricity"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select Fencing"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select  Facility"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select Land Ownership"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Electricity","hintText":"Select Electricity"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Fencing","hintText":"Select Fencing"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Facility","hintText":"Select  Facility"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnership","hintText":"Select Land Ownership"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'NoOfTargets',
       hasInput: true,
       required: true,
       labelText: "No of Targets",
@@ -284,7 +285,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'NoOfStocks',
       hasInput: true,
       required: true,
       labelText: "No of Stocks",
@@ -296,9 +297,9 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select Plant"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Plant","hintText":"Select Plant"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'No of trees',
+      dataname: 'NoOfPlant',
       hasInput: true,
       required: true,
       labelText: "No of Plant",
@@ -313,7 +314,14 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
 
 
     setState(() {});
-    await parseJson(widgets, General.addVolunteerIdentifier);
+    await parseJson(widgets, General.addNurseryFormIdentifier);
+    try{
+
+      Planting=valueArray.where((element) => element['key']=="PlantingList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
     return TableRow(

@@ -1,0 +1,142 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+
+    {
+      "key": "NurseryName",
+      "value": "Bala"
+    },
+    {
+      "key": "NurseryIncharge",
+      "value": "Muthu"
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "7550286133"
+    },
+    {
+      "key": "Email",
+      "value": "Bala@gmail.com"
+    },
+    {
+      "key": "Address",
+      "value": "49, TTS Nagar, 4th Street"
+    },
+    {
+      "key": "District",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Taluk",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Village",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Location",
+      "value": ""
+    },
+    {
+      "key": "Electricity",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "Yes"},
+          {"Id": 2,"Text": "NO"}
+        ]
+      }
+    },
+    {
+      "key": "Fencing",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "No Fencing"},
+          {"Id": 2,"Text": "Partial Fencing"},
+          {"Id": 3,"Text": "Completed Fencing"}
+        ]
+      }
+    },
+    {
+      "key": "Facility",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "None"},
+          {"Id": 2,"Text": "Bore Well"},
+          {"Id": 3,"Text": "Open Well"},
+          {"Id": 4,"Text": "Bore Well,Open Well"}
+
+        ]
+      }
+    },
+    {
+      "key": "LandOwnership",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "Forest Land"},
+          {"Id": 2,"Text": "Private Land"},
+          {"Id": 3,"Text": "Government Land"},
+          {"Id": 4,"Text": "Rented Land"}
+        ]
+      }
+    },
+    {
+      "Key": "NoOfTargets",
+      "value": ""
+    },
+    {
+      "Key": "NoOfStocks",
+      "value": ""
+    },
+    {
+      "key": "Plant",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "Neem"},
+          {"Id": 2,"Text": "Bael"}
+        ]
+      }
+    },{
+      "Key": "NoOfPlant",
+      "value": ""
+    },
+    {
+      "key": "PlantingList",
+      "value": [
+        {"Plant":"Neem","NoOfPlant":"180"},
+        {"Plant":"Tamarind","NoOfPlant":"130"}
+      ]
+    }
+  ]
+}
+

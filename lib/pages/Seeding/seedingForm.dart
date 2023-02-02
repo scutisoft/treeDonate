@@ -29,7 +29,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     assignWidgets();
     super.initState();
   }
-
+  List<dynamic> SeedsGridView = [];
   var node;
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,8 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                               ),
                             ]
                         ),
-                        tableView('veembu Seed','13 Gm',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        for(int i=0;i<SeedsGridView.length;i++)
+                        tableView(SeedsGridView[i]['SeedName'],SeedsGridView[i]['SeedQty'],ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -141,7 +142,6 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                   widgets[5],
                   widgets[6],
                   widgets[7],
-                  widgets[8],
                   Container(
                     margin: EdgeInsets.only(right: 15,left: 15,top: 10),
                     width: SizeConfig.screenWidth,
@@ -190,9 +190,9 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Seeds"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Seeding","hintText":"Seeds"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'Qty',
       hasInput: true,
       required: true,
       labelText: "Quantity",
@@ -205,7 +205,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'GiverName',
       hasInput: true,
       required: true,
       labelText: "Name",
@@ -231,7 +231,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'GiverAddress',
       hasInput: true,
       required: true,
       labelText: "Address",
@@ -243,14 +243,21 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select State"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Taluk","hintText":"Select Taluk"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Village","hintText":"Select Village"},));
 
     setState(() {});
-    await parseJson(widgets, General.addVolunteerIdentifier);
+    await parseJson(widgets, General.addSeedCollectionFrmIdentifier);
+    try{
+
+      SeedsGridView=valueArray.where((element) => element['key']=="SeedsView").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
+
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
     return TableRow(

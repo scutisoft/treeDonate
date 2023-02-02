@@ -1,0 +1,42 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+    {
+      "key": "SeedingPageTitle",
+      "value": "Nursery Land"
+    },
+    {
+      "key": "LandDistrictVillage",
+      "value": "VELLORE / Ammundi (R.F.) Village"
+    },
+    {
+      "key": "NurserySys",
+      "value": [
+        {"Date":"31-01-2023","PlantName":"Tamarind","NoOfPlant":"200"}
+      ]
+    },
+    {
+      "key": "NurseryViewList",
+      "value": [
+        {"Title":"Nursery Name","Value":"A.k.t Nursery"},
+        {"Title":"Nursery Incharge","Value":"Dinesh"},
+        {"Title":"Mobile No","Value":"6486676436"},
+        {"Title":"Email Id","Value":"akt@gmail.com"},
+        {"Title":"Address","Value":"62, Sethunagar"},
+        {"Title":"No Of Targets","Value":"1000"},
+        {"Title":"No Of Stocks","Value":"200"},
+        {"Title":"Location","Value":"12.9736937, 80.1763357"},
+        {"Title":"Electricity Available","Value":"No"},
+        {"Title":"Fencing","Value":"Partial Fencing"},
+        {"Title":"Water Facility","Value":"Open Well"},
+        {"Title":"Land Ownership","Value":"Private Land"},
+        {"Title":"District","Value":"CHENNAI"},
+        {"Title":"Taluk","Value":"Mambalam"},
+        {"Title":"Village","Value":"Mambalam"},
+        {"Title":"User Name","Value":"Saran Raj"},
+        {"Title":"Role","Value":"Zone Coordinator"}
+      ]
+    }
+  ]
+}
+

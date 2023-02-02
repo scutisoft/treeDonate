@@ -1,0 +1,27 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+    {
+      "key": "NurserydataList",
+      "value": [
+        {
+          "NurseryName": "Bala Nursery",
+          "InchargeName": "Muthu",
+          "location": "CHENNAI / Mambalam / Mambalam",
+          "TotalStock": "220",
+          "Status": "Approved",
+          "TotalTarget": "1000"
+        },
+        {
+          "NurseryName": "Bala Nursery",
+          "InchargeName": "Muthu",
+          "location": "CHENNAI / Mambalam / Mambalam",
+          "TotalStock": "220",
+          "Status": "Approved",
+          "TotalTarget": "1000"
+        }
+      ]
+    }
+  ]
+}
+

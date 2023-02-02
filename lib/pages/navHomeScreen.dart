@@ -222,7 +222,7 @@ class MenuScreen extends GetView<MyDrawerController> {
   }
 }
 
-RxInt menuSel=RxInt(2);
+RxInt menuSel=RxInt(13);
 void setPageNumber(int page){
   menuSel.value=page;
 }
