@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
-
+import '../../widgets/logoPicker.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
 import '../../../utils/colorUtil.dart';
@@ -11,7 +10,9 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../utils/utils.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class LandParcelForm extends StatefulWidget {
@@ -36,7 +37,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
     return SafeArea(
         bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
-          backgroundColor: Color(0XFFF3F3F3),
+          backgroundColor: const Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -99,22 +100,8 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                   widgets[11],
                   widgets[12],
                   widgets[13],
-                  GestureDetector(
-                    onTap: ()async{
-                      final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 15,left: 15,top: 10),
-                      width: SizeConfig.screenWidth,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        border: Border.all(color: ColorUtil.primary),
-                        color: ColorUtil.primary.withOpacity(0.3),
-                      ),
-                      child:Center(child: Text('Upload Image',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
-                    ),
-                  ),
+                  widgets[14],
+
                   Container(
                     margin: EdgeInsets.only(top: 20,bottom: 20),
                     child: Row(
@@ -130,14 +117,19 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                           ),
                           child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                         ),
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: ColorUtil.primary,
+                        GestureDetector(
+                          onTap: (){
+                            sysSubmit(widgets);
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth!*0.4,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: ColorUtil.primary,
+                            ),
+                            child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
-                          child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                         ),
                       ],
                     ),
@@ -152,7 +144,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"LandType","hintText":"Select Land Type"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandTypeId","hintText":"Select Land Type"},));//0
     widgets.add(AddNewLabelTextField(
       dataname: 'Name',
       hasInput: true,
@@ -163,7 +155,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
+    ));//1
     widgets.add(AddNewLabelTextField(
       dataname: 'PhoneNumber',
       hasInput: true,
@@ -176,7 +168,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
+    ));//2
     widgets.add(AddNewLabelTextField(
       dataname: 'Email',
       hasInput: true,
@@ -186,8 +178,8 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"SoilType","hintText":"Select Soil Type"},));
+    ));//3
+    widgets.add(SearchDrp2(map: const {"dataName":"TypeOfSoilId","hintText":"Select Soil Type"},));//4
     widgets.add(AddNewLabelTextField(
       dataname: 'SurveyNo',
       hasInput: true,
@@ -197,7 +189,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
+    ));//5
     widgets.add(AddNewLabelTextField(
       dataname: 'Hectare',
       hasInput: true,
@@ -207,7 +199,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
+    ));//6
     widgets.add(AddNewLabelTextField(
       dataname: 'Acre',
       hasInput: true,
@@ -217,10 +209,10 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Village","hintText":"Select Village"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Taluk","hintText":"Select Taluk"},));
+    ));//7
+    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District"},));//8
+    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk"},)); //9
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village"},));//10
     widgets.add(AddNewLabelTextField(
       dataname: 'LandAddress',
       hasInput: true,
@@ -230,19 +222,50 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'LangLat',
+    ));//11
+    widgets.add(
+        HE_LocationPicker(
+          dataname: "AddressDetail",
+          contentTextStyle: ts15(addNewTextFieldText),
+          hasInput: true,
+          required: true,
+          //isEnabled: !isView,
+          locationPickCallback: (addressDetail){
+            console("locationPickCallback $addressDetail");
+           /* try{
+              setFrmValues(widgets,
+                  [
+                    {
+                      "key":"City",
+                      "value":addressDetail['Locality']
+                    },
+                    {
+                      "key":"State",
+                      "value":addressDetail['State']
+                    },
+                    {
+                      "key":"Zipcode",
+                      "value":addressDetail['PostalCode']
+                    }
+                  ]
+              );
+
+            }catch(e){}*/
+          },
+        )
+    );;//12
+    widgets.add(SearchDrp2(map: const {"dataName":"PlantingYearId","hintText":"Select Planting Year","mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//13
+
+    widgets.add( MultiImagePicker(
+      dataname: "LandImagesList",
       hasInput: true,
       required: true,
-      labelText: "Location",
-      suffixIcon: Icon(Icons.location_searching,color: ColorUtil.primary,),
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Years","hintText":"Select Planting Year"},));
+      folder: "Land",
+    ));//14
+
+    widgets.add(HiddenController(dataname: "LandParcelId"));
+
+
     setState(() {});
     await parseJson(widgets, General.addLandParcelIdentifier);
   }

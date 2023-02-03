@@ -3,7 +3,7 @@
   "valueArray": [
     {
       "key": "VolunteerId",
-      "value": "",
+      "value": "40",
       "orderBy": 1
     },
     {
@@ -21,7 +21,7 @@
       "key": "VolunteerRoleId",
       "value": {
         "DropDownOptionList": [{"Id":4,"Text":"District Coordinator"},{"Id":5,"Text":"Taluk Coordinator"},{"Id":6,"Text":"Village Coordinator"},{"Id":7,"Text":"Volunteer"}],
-        "SelectedId": 7
+        "SelectedId": 5
       },
       "orderBy": 2
     },
@@ -36,7 +36,8 @@
     {
       "key": "TalukId",
       "value": {
-        "DropDownOptionList": []
+        "DropDownOptionList": [],
+        "SelectedId": ""
       },
       "orderBy": 4
     },
@@ -46,6 +47,11 @@
         "DropDownOptionList": []
       },
       "orderBy": 5
+    },
+    {
+      "key": "IsNewsFeed",
+      "value": false,
+      "orderBy": 6
     }
   ]
 }

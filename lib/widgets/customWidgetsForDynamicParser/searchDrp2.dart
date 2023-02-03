@@ -92,7 +92,7 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
       if(value.containsKey("DropDownOptionList")){
         search2.setDataArray(value['DropDownOptionList']);
       }
-      if(value.containsKey("SelectedId")){
+      if(value.containsKey("SelectedId") && value['SelectedId']!="" && value['SelectedId']!=null){
         search2.setValues({map['propertyId']??"Id":value['SelectedId']});
       }
     }

@@ -164,10 +164,7 @@ class CustomAlert{
 
     );
   }
-  void successAlert(String title,String des){
-    if(des==null){
-      des="";
-    }
+  void successAlert(String title,String? des){
     showDialog(
         context: Get.context!,
         builder: (ctx) => AlertDialog(
@@ -175,24 +172,23 @@ class CustomAlert{
           clipBehavior: Clip.antiAlias,
           content: Container(
          /*     height:des!.length>200?450:280,*/
-              width:400,
+              width:SizeConfig.screenWidth!*0.9,
               decoration:BoxDecoration(
                 color:Colors.white,
               ),
-
               child:Column(
                 mainAxisSize: MainAxisSize.min,
                   children:[
-                    SizedBox(height:10),
-                    Image.asset('assets/images/sucess.gif'),
-                    SizedBox(height:30),
+                    const SizedBox(height:10),
+                    Image.asset('assets/login/success.gif'),
+                    const SizedBox(height:30),
                     Text(title,
                       style:TextStyle(fontFamily:'RM',fontSize:18,color:Color(0xFF0C9A6A)),textAlign: TextAlign.center,
                     ),
-                    SizedBox(height:10),
+                    const SizedBox(height:10),
                     Flexible(
                       child: SingleChildScrollView(
-                        child: Text(des,
+                        child: Text(des??"",
                           style:TextStyle(fontFamily:'RL',fontSize:16,color:Color(0xFF787878)),textAlign: TextAlign.center,
                         ),
                       ),
@@ -728,6 +724,14 @@ class CustomAlert{
     ));
   }
 
+
+/*  void successAlert(String title){
+    Get.dialog(  CupertinoAlertDialog(
+      title: Icon(Icons.error_outline,color: Colors.red,size: 50,),
+      content: Text(title,
+        style: TextStyle(fontSize: 18,fontFamily: 'RR'),),
+    ));
+  }*/
 }
 
 

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/pinWidget.dart';
 import '../../widgets/customCheckBox.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
@@ -17,6 +18,12 @@ import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class VolunteerView extends StatefulWidget {
+  bool isEdit;
+  String dataJson;
+  Function? closeCb;
+
+
+  VolunteerView({this.closeCb,this.dataJson="",this.isEdit=false});
   @override
   _VolunteerViewState createState() => _VolunteerViewState();
 }
@@ -28,13 +35,16 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
     'assets/trees/green-pasture-with-mountain.jpg',
     'assets/trees/green-pasture-with-mountain.jpg',
   ];
-  List<Widget> widgets = [];
+  List<dynamic> widgets = [];
   ScrollController? silverController;
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
   List<dynamic> landParcelView = [];
   String page="VolunteerRoleAssignment";
+
+  var showTaluk=false.obs;
+  var showVillage=false.obs;
 
   @override
   void initState() {
@@ -77,7 +87,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                       width: SizeConfig.screenWidth,
                       color: Colors.white,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(left: 50),
+                      padding: const EdgeInsets.only(left: 50),
                       child: Text("Volunteer Detail",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM',ls: 0.8,fontsize: 20),),
                       /*child: Stack(
                         children: [
@@ -159,8 +169,8 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                     const SizedBox(height: 15,),
                     widgets[0],
                     widgets[1],
-                    widgets[2],
-                    widgets[3],
+                    Obx(() => Visibility(visible: showTaluk.value,child: widgets[2])),
+                    Obx(() => Visibility(visible: showVillage.value,child: widgets[3])),
                     GestureDetector(
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -179,8 +189,9 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                             CustomCheckBox(
                               isSelect: isNewsFeed.value,
                               selectColor: ColorUtil.primary,
+                              onlyCheckbox: true,
                             ),
-                            SizedBox(width: 5,),
+                            const SizedBox(width: 5,),
                             Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
                           ],
                         ),
@@ -198,14 +209,26 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                     color: Colors.white,
                     width: SizeConfig.screenWidth,
                     height: 70,
-                    child: Row(
+                    alignment: Alignment.center,
+                    child: DoneBtn(onDone: (){
+                      sysSubmit(widgets,isEdit: widget.isEdit,
+                        needCustomValidation: true,
+                        onCustomValidation: (){
+                          foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
+                          return true;
+                        },
+                        successCallback: (e){
+                          console("sysSubmit $e");
+                        }
+                      );
+                    }, title: "Update"),
+                    /*child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onTap: (){
-                            var fWid=foundWidgetByKey(widgets, "VolunteerId");
-                            print(fWid);
+                            sysSubmit(widgets,isEdit: widget.isEdit);
                           },
                           child: Container(
                             width: SizeConfig.screenWidth!*0.4,
@@ -225,10 +248,10 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                             borderRadius: BorderRadius.circular(3),
                             color: ColorUtil.primary,
                           ),
-                          child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                          child:const Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                         ),
                       ],
-                    ),
+                    ),*/
                   ),
                 )
               ]
@@ -255,7 +278,8 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
   @override
   void assignWidgets() async {
-    widgets.add(SearchDrp2(map: const {"dataName":"VolunteerRoleId","hintText":"Select Work Field","labelText":"Work Field"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"VolunteerRoleId","hintText":"Select Work Field","labelText":"Work Field"},
+    onchange: (e){onRoleChange(e['Id']);},));
     widgets.add(SearchDrp2(map: const {
       "dataName":"DistrictId","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
       "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
@@ -279,13 +303,44 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
     },));
 
     widgets.add(HiddenController(dataname: "VolunteerId"));
+    widgets.add(HiddenController(dataname: "IsNewsFeed"));
 
-    await parseJson(widgets, General.viewVolunteerIdentifier);
+
+    setState((){});
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
 
     try{
       landParcelView=valueArray.where((element) => element['key']=="VolunteerDetail").toList()[0]['value'];
       setState((){});
     }catch(e){}
+  }
+
+  @override
+  String getPageIdentifier(){
+    return General.viewVolunteerIdentifier;
+  }
+
+
+
+  void onRoleChange(roleId){
+    console("Role $roleId");
+    if(roleId==7||roleId==4){
+      showTaluk.value=false;
+      showVillage.value=false;
+    }
+    else if(roleId==5){
+      showTaluk.value=true;
+      showVillage.value=false;
+    }
+    else if(roleId==6){
+      showTaluk.value=true;
+      showVillage.value=true;
+    }
+    widgets[2].required=showTaluk.value;
+    widgets[3].required=showVillage.value;
+    widgets[2].clearValues();
+    widgets[3].clearValues();
+    widgets[3].setValue([]);
   }
 
 }

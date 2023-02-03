@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
+import 'package:treedonate/utils/utils.dart';
+
 import '../api/ApiManager.dart';
 import '../api/apiUtils.dart';
 import '../api/sp.dart';
@@ -72,8 +75,30 @@ Future<Map> getMasterDrpMap(String page,String typeName, dynamic refId,  dynamic
 
 bool HE_IsMap(value){
   return value.runtimeType.toString()=="_InternalLinkedHashMap<String, dynamic>" ||
-      value.runtimeType.toString()=="_Map<String, dynamic>";
+      value.runtimeType.toString()=="_Map<String, dynamic>" ||
+      value.runtimeType.toString() =="_InternalLinkedHashMap<dynamic, dynamic>" ||
+      value.runtimeType.toString() =="_Map<String, Object?>" ;
 }
 bool HE_IsList(value){
   return value.runtimeType.toString()=="List<dynamic>";
+}
+
+Future<Position> determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  /*if (!serviceEnabled) {
+      return Future.error('Location services are disabled ${serviceEnabled}.');
+    }*/
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+  }
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+  }
+  return await Geolocator.getCurrentPosition();
 }

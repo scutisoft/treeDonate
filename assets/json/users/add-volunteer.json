@@ -55,6 +55,18 @@
       "key": "OTP",
       "value": "",
       "orderBy": 9
+    },
+    {
+      "key": "PolicyContent1",
+      "value": "It is the policy of this organisation to provide equal opportunities without regard to race, color, religion, state origin, gender, age, or disability."
+    },
+    {
+      "key": "PolicyContent2",
+      "value": "Thank you for completing this registration form and for your interest in associating with EcoGreenFoundation (Regd.) NGO."
+    },
+    {
+      "key": "PolicyContent3",
+      "value": "Today, I take pledge of keeping my nation clean & beautiful with EcoGreenFoundation (Regd.) NGO !!"
     }
   ]
 }

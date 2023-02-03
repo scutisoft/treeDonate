@@ -20,7 +20,7 @@ abstract class ExtensionCallback {
   setOrderBy(int oBy);
 }
 
-class HappyExtensionHelper{
+mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   Future<List<ParameterModel>> getFrmCollection(List widgets) async{
 
     List<bool> validateList=[];
@@ -65,6 +65,34 @@ class HappyExtensionHelper{
           parameterList.add(ParameterModel(Key: widget.getDataName(), Type: 'string', Value: widget.getValue(), orderBy: widget.getOrderBy()));
         }
       }
+      if(elementType=='locationPicker'){
+        if(widget.hasInput??false){
+          if(widget.required??false){
+            validate=widget.validate();
+            validateList.add(validate);
+            if(validate){
+              parameterList.add(ParameterModel(Key: widget.getDataName(), Type: 'string', Value: widget.getValue(), orderBy: widget.getOrderBy()));
+            }
+          }
+          else{
+            parameterList.add(ParameterModel(Key: widget.getDataName(), Type: 'string', Value: widget.getValue(), orderBy: widget.getOrderBy()));
+          }
+        }
+      }
+      if(elementType=='multiImage'){
+        if(widget.hasInput??false){
+          if(widget.required??false){
+            validate=widget.validate();
+            validateList.add(validate);
+            if(validate){
+              parameterList.add(ParameterModel(Key: widget.getDataName(), Type: 'string', Value: await widget.getValue(), orderBy: widget.getOrderBy()));
+            }
+          }
+          else{
+            parameterList.add(ParameterModel(Key: widget.getDataName(), Type: 'string', Value: await widget.getValue(), orderBy: widget.getOrderBy()));
+          }
+        }
+      }
     }
     bool isValid=!validateList.any((element) => element==false);
     console("valid ${isValid}");
@@ -102,7 +130,7 @@ class HappyExtensionHelper{
     }
   }
 
-  setFrmValues(List widgets,List valueArray){
+  setFrmValues(List widgets,List valueArray,{bool fromClearAll=false}){
     if (valueArray!=null && valueArray.isNotEmpty) {
       for (var value in valueArray) {
         var widget=null;
@@ -115,6 +143,9 @@ class HappyExtensionHelper{
           try{
             widgetType=widget.getType();
             if(widgetType.isNotEmpty){
+              if(fromClearAll){
+                widget.clearValues();
+              }
               widget.setValue(value['value']);
               widget.setOrderBy(value['orderBy']??1);
             }
@@ -165,12 +196,17 @@ class HappyExtensionHelper{
     });
   }
 
-  Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{VoidCallback? successCallback}) async{
+  Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{Function? successCallback}) async{
     await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
+        var parsed=jsonDecode(value[1]);
+        String errorMsg=parsed["TblOutPut"][0]["@Message"];
         if(successCallback!=null){
-          successCallback();
+          successCallback(parsed);
+        }
+        else{
+          CustomAlert().successAlert(errorMsg, "");
         }
       }
       else{
@@ -179,12 +215,42 @@ class HappyExtensionHelper{
     });
   }
 
-  void sysSubmit(List<dynamic> widgets,{VoidCallback? successCallback,String pageIdentifier="",String dataJson="",String action=""}) async{
+  void sysSubmit(List<dynamic> widgets,{
+    Function? successCallback,
+    String action="",
+    bool isEdit=false,
+    bool needCustomValidation=false,
+    Function? onCustomValidation,
+    bool clearFrm=true
+  }) async{
+
     List<ParameterModel> params= await getFrmCollection(widgets);
-    try{
-      params.sort((a,b)=>a.orderBy.compareTo(b.orderBy));
-    }catch(e){
-      CustomAlert().cupertinoAlert("Error HE002 $e");
+    bool isValid=true;
+    if(needCustomValidation){
+      isValid=onCustomValidation!();
+    }
+    if(params.isNotEmpty && isValid){
+      if(isValid){
+        try{
+          params.sort((a,b)=>a.orderBy.compareTo(b.orderBy));
+        }catch(e){
+          CustomAlert().cupertinoAlert("Error HE002 $e");
+        }
+        postUIJson(getPageIdentifier(),
+            jsonEncode(params.map((e) => e.toJsonHE()).toList()),
+            action.isNotEmpty?action: isEdit?"Update":"Insert",
+            successCallback: (e){
+              String errorMsg=e["TblOutPut"][0]["@Message"];
+              CustomAlert().successAlert(errorMsg, "");
+              if(clearFrm){
+                clearAll(widgets);
+              }
+              if(successCallback!=null){
+                successCallback(e);
+              }
+            }
+        );
+      }
     }
 
   }
@@ -202,16 +268,32 @@ class HappyExtensionHelper{
     }
   }
 
-  foundWidgetByKey(List<dynamic> widgets,String key){
+  foundWidgetByKey(List<dynamic> widgets,String key,{bool needSetValue=false,dynamic value}){
     for (var widget in widgets) {
       if(widget.getDataName()==key){
+        if(needSetValue){
+          widget.setValue(value);
+        }
         return widget;
       }
     }
     return null;
   }
+
+  void clearAll(List<dynamic> widgets){
+    setFrmValues(widgets, valueArray,fromClearAll: true);
+  }
+
+  @override
+  String getPageIdentifier(){
+    return "";
+  }
 }
 
 abstract class HappyExtensionHelperCallback{
   void assignWidgets() async{}
+}
+
+abstract class HappyExtensionHelperCallback2{
+  String getPageIdentifier();
 }

@@ -87,7 +87,7 @@ class ApiManager{
      catch(e){
        print("ee $e");
        showLoader.value=false;
-       //CustomAlert().commonErrorAlert("Server Error", "$e");
+       CustomAlert().commonErrorAlert("Server Error", "$e");
        return [false,"Catch Api"];
      }
    }

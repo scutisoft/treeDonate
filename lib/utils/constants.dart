@@ -8,7 +8,7 @@ class MyConstants{
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.0";
   static bool isLive=false;
-  static bool fromUrl=true;
+  static bool fromUrl=false;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
@@ -70,6 +70,9 @@ clearCache() async{
 
 }
 
-void fadeRoute(Widget widget) {
-  Get.to(widget,transition: Transition.fadeIn,duration: Duration(milliseconds: 500),opaque: true);
+void  fadeRoute(Widget widget) {
+  Get.to(widget,transition: Transition.fadeIn,duration: const Duration(milliseconds: 400));
+}
+void fadeRouteOff(Widget widget) {
+  Get.off(widget,transition: Transition.fadeIn,duration: const Duration(milliseconds: 400));
 }

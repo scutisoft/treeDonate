@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/alertDialog.dart';
+import 'package:treedonate/widgets/customCheckBox.dart';
 import 'package:treedonate/widgets/searchDropdown/dropdown_search.dart';
+import '../../api/ApiManager.dart';
+import '../../api/sp.dart';
 import '../../model/parameterMode.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
@@ -31,6 +36,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
   List<dynamic> widgets=[];
 
   var volunteerType=2.obs;
+  var isAccept=false.obs;
 
   BoxDecoration inActiveDec=BoxDecoration(
     shape:BoxShape.circle,
@@ -193,6 +199,30 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                            ],
                          ),
                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15,right: 15,top: 5),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HE_Text(
+                                  dataname: "",
+                                  content: "Our Policy",
+                                  contentTextStyle: ts18(ColorUtil.text2,fontfamily: "RM")
+                              ),
+                              const SizedBox(height: 10,),
+                              widgets[9],
+                              const SizedBox(height: 10,),
+                              widgets[10],
+                              const SizedBox(height: 10,),
+                              widgets[11],
+                              const SizedBox(height: 10,),
+                              Obx(() => CustomCheckBox(isSelect: isAccept.value,content: "Accept",ontap: (){isAccept.value=!isAccept.value;},)),
+                              const SizedBox(height: 20,)
+                            ],
+                          ),
+                        )
+
                       ],
                     ),
                   ),
@@ -248,6 +278,11 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
         if(v.length==10){
           widgets[2].isEnabled=true;
           widgets[2].reload.value=!widgets[2].reload.value;
+          requestOtp(v);
+          Timer(const Duration(milliseconds: 500), () {
+            node.nextFocus();
+          });
+
         }
         else{
           widgets[2].isEnabled=false;
@@ -299,7 +334,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
     widgets.add(SearchDrp2(map: const {
       "dataName":"District","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
       "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
-    },required: false,));
+    },required: true,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Zipcode',
       hasInput: true,
@@ -316,20 +351,57 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
     widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Interest","labelText":"Interest"},required: false,));
 
     widgets.add(HiddenController(dataname: "VolunteerType"));
+    widgets.add( HE_Text(
+        dataname: "PolicyContent1",
+        content: "",
+        contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
+    ));
+    widgets.add( HE_Text(
+        dataname: "PolicyContent2",
+        content: "",
+        contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
+    ));
+    widgets.add( HE_Text(
+        dataname: "PolicyContent3",
+        content: "",
+        contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
+    ));
     setState(() {});
     await parseJson(widgets, General.addVolunteerIdentifier,dataJson: widget.editId);
   }
 
+
   void onSubmit() async{
     widgets[8].setValue(volunteerType.value);
-    List<ParameterModel> params= await getFrmCollection(widgets);
-    if(params.isNotEmpty){
-      params.sort((a,b)=>a.orderBy.compareTo(b.orderBy));
-      postUIJson(General.addVolunteerIdentifier, jsonEncode(params.map((e) => e.toJsonHE()).toList()), widget.editId==null?"Insert":"Update",
-          successCallback: (){
-            Get.back();
-          }
-      );
-    }
+    sysSubmit(widgets,needCustomValidation: true,onCustomValidation: (){
+      if(!isAccept.value){
+        CustomAlert().cupertinoAlert("Please Accept Our Policy...");
+      }
+      return isAccept.value;
+    },successCallback: (e){
+      isAccept.value=false;
+    },isEdit: !widget.isDirectAdd);
   }
+
+  void requestOtp(contactNumber){
+    List<ParameterModel> params=[];
+    params.add(ParameterModel(Key: "SpName", Type: "String", Value: Sp.insertOTP));
+    params.add(ParameterModel(Key: "ContactNumber", Type: "String", Value: contactNumber));
+    ApiManager().GetInvoke(params).then((value){
+      if(value[0]){
+        console(value);
+        var parsed=json.decode(value[1]);
+        try{
+        }catch(e){}
+        //print(parsed);
+      }
+    });
+  }
+
+
+  @override
+  String getPageIdentifier(){
+    return General.addVolunteerIdentifier;
+  }
+
 }

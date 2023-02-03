@@ -7,7 +7,7 @@ class Sp{
   static String getDeviceStatus="USP_GetDeviceStatusDetail";
   static String insertPin="USP_InsertUserMPINDetail";
   static String insertUserDevice="USP_InsertUserDeviceDetail";
-  static String insertOTP="USP_InsertUserOTPNumberDetail";
+  static String insertOTP="USP_SignUpOTPDetail";
 
   static String getEndUserAppointment="USP_GetEndUserAppointmentStatusDetail";
   static String insertEndUserAppointment="USP_InsertAppointmentDetail";

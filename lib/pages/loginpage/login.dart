@@ -100,7 +100,6 @@ class _loginPageState extends State<loginPage> {
                                 ),
                                 SizedBox(height: 20,),
                                 TextField(
-                                  keyboardType: TextInputType.number,
                                   controller: _text,
                                   textAlignVertical: TextAlignVertical.center,
                                   textAlign: TextAlign.left,
@@ -125,20 +124,15 @@ class _loginPageState extends State<loginPage> {
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
                                     prefixIcon: Icon(Icons.person_outline_outlined,size: 20,color: ColorUtil.text4),
-                                    hintText: 'Enter Email / Phone Number',
+                                    hintText: 'Enter Email',
                                     errorStyle: TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
                                     hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
                                     errorText: _validate ? 'Value Can\'t Be Empty' : null,
                                   ),
-                                  // inputFormatters: [
-                                  //   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                                  //   LengthLimitingTextInputFormatter(10),
-                                  // ],
                                 ),
                                 Padding(
                                   padding:  EdgeInsets.only(top:10),
                                   child: TextField(
-                                    keyboardType: TextInputType.number,
                                     controller: _text1,
                                     textAlignVertical: TextAlignVertical.center,
                                     textAlign: TextAlign.left,
@@ -169,10 +163,9 @@ class _loginPageState extends State<loginPage> {
                                       hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
                                       errorText: _validate ? 'Value Can\'t Be Empty' : null,
                                     ),
-                                    // inputFormatters: [
-                                    //   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                                    //   LengthLimitingTextInputFormatter(10),
-                                    // ],
+                                    onEditingComplete: (){
+                                      login();
+                                    },
                                   ),
                                 ),
                                 SizedBox(height: 40,),
@@ -243,7 +236,7 @@ class _loginPageState extends State<loginPage> {
         try{
           setUserSessionDetail(parsed["Table"][0]);
           accessData=parsed['Table1'];
-          fadeRoute(MyHomePage());
+          Get.off(MyHomePage());
         }catch(e){}
         //print(parsed);
       }

@@ -189,7 +189,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                                         const SizedBox(height: 5,),
                                         EyeIcon(
                                           onTap: (){
-                                            fadeRoute(VolunteerView());
+                                            fadeRoute(VolunteerView(dataJson: jsonEncode(volunteerList[i]['DataJson']),isEdit: true,));
                                           },
                                         )
                                       ],

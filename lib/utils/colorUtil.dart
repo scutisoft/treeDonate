@@ -50,5 +50,7 @@ class ColorUtil{
   static Color search2ActBg= primary;
   static Color search2InActBg= Color(0xffffffff);
 
-
+  static Color chkBoxText=const Color(0xff452800);
+  static Color disableColor=Color(0xFFe8e8e8);
+  static Color avatarBorderColor=Color(0xFFC7D0D8);
 }
