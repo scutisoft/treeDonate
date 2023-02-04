@@ -778,7 +778,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: ColorUtil.red.withOpacity(0.2)
+                  color: ColorUtil.primary.withOpacity(0.2)
               ),
               child:Stack(
                 children: [
@@ -814,7 +814,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: ColorUtil.red.withOpacity(0.2)
+                  color: ColorUtil.primary.withOpacity(0.2)
               ),
               child:Stack(
                 children: [
@@ -848,7 +848,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: ColorUtil.red.withOpacity(0.2)
+                  color: ColorUtil.primary.withOpacity(0.2)
               ),
               child: Stack(
                 children: [
@@ -882,7 +882,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: ColorUtil.red.withOpacity(0.2)
+                  color: ColorUtil.primary.withOpacity(0.2)
               ),
               child: Stack(
                 children: [
