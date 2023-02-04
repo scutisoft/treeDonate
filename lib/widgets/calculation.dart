@@ -1,12 +1,7 @@
-/*
 
 
 
 import 'package:decimal/decimal.dart';
-
-
-
-
 
 class Calculation {
 
@@ -70,4 +65,4 @@ class Calculation {
   }
 
 
-}*/
+}

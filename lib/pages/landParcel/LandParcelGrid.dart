@@ -134,7 +134,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                    // width: cardWidth,
                     child: ListView.builder(
                       itemCount: landParcelList.length,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){

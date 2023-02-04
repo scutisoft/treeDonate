@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:treedonate/widgets/calculation.dart';
 import '../../widgets/logoPicker.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -46,8 +47,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
                   floating: true,
-                  snap: true,
-                  pinned: true,
+                  pinned: false,
                   leading: ArrowBack(
                     iconColor: ColorUtil.themeBlack,
                     onTap: (){
@@ -72,38 +72,52 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                 ),
               ];
             },
-            body:Container(
-              height: SizeConfig.screenHeight,
-              child:  ListView(
-                children: [
-                  widgets[0],
-                  widgets[1],
-                  widgets[2],
-                  widgets[3],
-                  widgets[4],
-                  widgets[5],
-                  Row(
+            body:Stack(
+              children: [
+                Container(
+                  height: SizeConfig.screenHeight,
+                  child:  ListView(
+                    shrinkWrap: true,
+                    //  physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      Container(
-                          height: 60,
-                          width: SizeConfig.screenWidth!*0.5,
-                          child: widgets[6]),
-                      Container(
-                          height: 60,
-                          width: SizeConfig.screenWidth!*0.5,
-                          child: widgets[7]),
+                      const SizedBox(height: 10,),
+                      widgets[0],
+                      widgets[1],
+                      widgets[2],
+                      widgets[3],
+                      widgets[4],
+                      widgets[5],
+                      Row(
+                        children: [
+                          Container(
+                              height: 60,
+                              width: SizeConfig.screenWidth!*0.5,
+                              child: widgets[6]),
+                          Container(
+                              height: 60,
+                              width: SizeConfig.screenWidth!*0.5,
+                              child: widgets[7]),
+                        ],
+                      ),
+                      widgets[8],
+                      widgets[9],
+                      widgets[10],
+                      widgets[11],
+                      widgets[12],
+                      widgets[13],
+                      widgets[14],
+
+                      const SizedBox(height: 80,)
                     ],
                   ),
-                  widgets[8],
-                  widgets[9],
-                  widgets[10],
-                  widgets[11],
-                  widgets[12],
-                  widgets[13],
-                  widgets[14],
-
-                  Container(
-                    margin: EdgeInsets.only(top: 20,bottom: 20),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 0,bottom: 0),
+                    height: 70,
+                    width: SizeConfig.screenWidth,
+                    color: Colors.white,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -128,19 +142,21 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                               borderRadius: BorderRadius.circular(3),
                               color: ColorUtil.primary,
                             ),
-                            child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            child:Center(child: Text('Save',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
           ),
         )
     );
   }
+
+  double scrollPadding=10;
 
   @override
   void assignWidgets() async{
@@ -150,6 +166,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Owner / Staff",
+      scrollPadding: scrollPadding,
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -161,6 +178,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Mobile Number",
+      scrollPadding: scrollPadding,
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.digitRegEx,
@@ -174,6 +192,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Email",
+      scrollPadding: scrollPadding,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -185,6 +204,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Enter Survey Number",
+      scrollPadding: scrollPadding,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -195,7 +215,14 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Hectare",
-      onChange: (v){},
+      textInputType: TextInputType.number,
+      regExp: MyConstants.digitDecimalRegEx,
+      scrollPadding: scrollPadding,
+      onChange: (v){
+        double hectare=parseDouble(v);
+        double acre=Calculation().mul(hectare, 2.471);
+        foundWidgetByKey(widgets, "Acre",needSetValue: true,value: acre);
+      },
       onEditComplete: (){
         node.unfocus();
       },
@@ -204,8 +231,15 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       dataname: 'Acre',
       hasInput: true,
       required: true,
-      labelText: "Acer",
-      onChange: (v){},
+      labelText: "Acre",
+      scrollPadding: scrollPadding,
+      textInputType: TextInputType.number,
+      regExp: MyConstants.digitDecimalRegEx,
+      onChange: (v){
+        double acre=parseDouble(v);
+        double hectare=(acre/2.471);
+        foundWidgetByKey(widgets, "Hectare",needSetValue: true,value: hectare);
+      },
       onEditComplete: (){
         node.unfocus();
       },
@@ -218,6 +252,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       hasInput: true,
       required: true,
       labelText: "Land Address",
+      scrollPadding: 300,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

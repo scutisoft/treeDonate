@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 /*import 'package:image_cropper/image_cropper.dart';*/
 import 'package:image_picker/image_picker.dart';
+import 'package:treedonate/HappyExtension/utils.dart';
+import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../HappyExtension/extensionHelper.dart';
@@ -183,6 +185,7 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
 
   /*MultiImagePicker({});*/
   RxList<XFile> imageFileList=RxList<XFile>();
+  RxList<dynamic> imagesList=RxList<dynamic>();
   double imgWidth=0.0;
 
   var orderBy=1.obs;
@@ -226,37 +229,68 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
             runSpacing: 0,
             spacing: 10,
             children: [
-              for(int i=0;i<imageFileList.length;i++)
-                 Container(
-                height: 120,
-                width: imgWidth*0.33,
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    LogoAvatar(imageUrl: "", imageFile: File(imageFileList[i].path),height: 100,radius: (imgWidth*0.33)-20),
-                    Positioned(
-                        top: 0,
-                        right: 0,
-                        child:  GestureDetector(
-                          onTap: (){
-                            imageFileList.removeAt(i);
-                          },
-                          child: Container(
-                              height: 25,
-                              width: 25 ,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle
-                              ),
-                              child: Center(
-                                child: Icon(Icons.remove,color: Colors.white,size: 20,),
-                              )
-                          ),
-                        )
-                    )
-                  ],
+              for(int i=0;i<imagesList.length;i++)
+                SizedBox(
+                  height: 120,
+                  width: imgWidth*0.33,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList[i]["ImagePath"], imageFile: null,height: 100,radius: (imgWidth*0.33)-20),
+                      Positioned(
+                          top: 0,
+                          right: 0,
+                          child:  GestureDetector(
+                            onTap: (){
+                              imagesList.removeAt(i);
+                            },
+                            child: Container(
+                                height: 25,
+                                width: 25 ,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.remove,color: Colors.white,size: 20,),
+                                )
+                            ),
+                          )
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              for(int i=0;i<imageFileList.length;i++)
+                 SizedBox(
+                    height: 120,
+                    width: imgWidth*0.33,
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        LogoAvatar(imageUrl: "", imageFile: File(imageFileList[i].path),height: 100,radius: (imgWidth*0.33)-20),
+                        Positioned(
+                            top: 0,
+                            right: 0,
+                            child:  GestureDetector(
+                              onTap: (){
+                                imageFileList.removeAt(i);
+                              },
+                              child: Container(
+                                  height: 25,
+                                  width: 25 ,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle
+                                  ),
+                                  child: Center(
+                                    child: Icon(Icons.remove,color: Colors.white,size: 20,),
+                                  )
+                              ),
+                            )
+                        )
+                      ],
+                    ),
+                  ),
             ],
           ),
         ))
@@ -286,19 +320,17 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
 
   @override
   getValue() async{
-    console("mutiImageGet ${jsonEncode([])}");
     List<dynamic> images=[];
     if(imageFileList.isNotEmpty){
       String files=await MyHelper.uploadMultiFile(folder, imageFileList.value);
-      console("files $files");
       files.split(",").forEach((element) {
-        images.add({"FolderName":folder,"ImageFileName":element});
+        images.add({"FolderName":folder,"ImageFileName":element,"ImagePath":"$folder/$element"});
       });
-      return jsonEncode(images);
     }
-    else{
-      return jsonEncode(images);
+    if(imagesList.isNotEmpty){
+      images.addAll(imagesList);
     }
+    return jsonEncode(images);
   }
 
   @override
@@ -308,12 +340,15 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
 
   @override
   setValue(value) {
-    console("mutiImageSset $value");
+    //console("mutiImageSset $value ${HE_IsList(value)}");
+    if(HE_IsList(value)){
+      imagesList.value=value;
+    }
   }
 
   @override
   bool validate() {
-    isValid.value=imageFileList.isNotEmpty;
+    isValid.value=imageFileList.isNotEmpty || imagesList.isNotEmpty;
     return isValid.value;
   }
 }

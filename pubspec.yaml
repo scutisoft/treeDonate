@@ -53,6 +53,7 @@ dependencies:
   anim_search_bar:
   image_picker:
   http:
+  decimal:
 dev_dependencies:
   flutter_test:
     sdk: flutter

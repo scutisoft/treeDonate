@@ -19,6 +19,7 @@ class MyConstants{
   static int phoneNoLength=10;
   static int zipcodeLength=6;
   static String digitRegEx='[0-9]';
+  static String digitDecimalRegEx=r'^\d+\.?\d{0,30}';
   static String alphaSpaceRegEx='[A-Za-z ]';
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
 }
