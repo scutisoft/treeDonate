@@ -54,6 +54,7 @@ dependencies:
   image_picker:
   http:
   decimal:
+  syncfusion_flutter_charts:
 dev_dependencies:
   flutter_test:
     sdk: flutter
