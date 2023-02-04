@@ -4,10 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:treedonate/utils/constants.dart';
-
-import '../pages/loginpage/login.dart';
-
+import '../pages/loginpage/slider-swipeup.dart';
 
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 Map<String, dynamic> deviceData = <String, dynamic>{};
@@ -147,5 +144,5 @@ void clearUserSessionDetail(){
   setSharedPrefString("", SP_USERNAME);
   setSharedPrefString("", SP_USERTYPENAME);
   setSharedPrefString("", SP_USERTYPEID);
-  Get.off(loginPage());
+  Get.off(SlideSwipe());
 }

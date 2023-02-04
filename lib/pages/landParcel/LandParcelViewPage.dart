@@ -184,6 +184,33 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                       padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
                       decoration: BoxDecoration(
                           color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomCheckBox(
+                            isSelect: isNewsFeed.value,
+                            selectColor: ColorUtil.primary,
+                            onlyCheckbox: true,
+                          ),
+                          const SizedBox(width: 5,),
+                          Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                        ],
+                      ),
+
+                    )),
+                  ),
+                  /*GestureDetector(
+                    onTap: (){
+                      isNewsFeed.value=!isNewsFeed.value;
+                    },
+                    child: Obx(() => Container(
+                      margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                      decoration: BoxDecoration(
+                          color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: Row(
@@ -200,7 +227,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                       ),
 
                     )),
-                  ),
+                  ),*/
                   Container(
                     margin: EdgeInsets.only(top: 20,bottom: 20),
                     child: Row(

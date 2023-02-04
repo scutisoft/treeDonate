@@ -330,7 +330,7 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
     if(imagesList.isNotEmpty){
       images.addAll(imagesList);
     }
-    return jsonEncode(images);
+    return images;
   }
 
   @override

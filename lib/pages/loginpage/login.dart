@@ -236,7 +236,8 @@ class _loginPageState extends State<loginPage> {
         try{
           setUserSessionDetail(parsed["Table"][0]);
           accessData=parsed['Table1'];
-          Get.off(MyHomePage());
+          Get.close(2);
+          Get.to(MyHomePage());
         }catch(e){}
         //print(parsed);
       }

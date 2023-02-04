@@ -19,7 +19,7 @@ import '../../widgets/searchDropdown/dropdown_search.dart';
 
 class VolunteerView extends StatefulWidget {
   bool isEdit;
-  String dataJson;
+  String? dataJson;
   Function? closeCb;
 
 
@@ -219,6 +219,9 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                         },
                         successCallback: (e){
                           console("sysSubmit $e");
+                          if(widget.closeCb!=null){
+                            widget.closeCb!(e);
+                          }
                         }
                       );
                     }, title: "Update"),
@@ -279,7 +282,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
   @override
   void assignWidgets() async {
     widgets.add(SearchDrp2(map: const {"dataName":"VolunteerRoleId","hintText":"Select Work Field","labelText":"Work Field"},
-    onchange: (e){onRoleChange(e['Id']);},));
+    onchange: (e){onRoleChange(e['Id'].toString());},));
     widgets.add(SearchDrp2(map: const {
       "dataName":"DistrictId","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
       "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
@@ -312,7 +315,10 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
     try{
       landParcelView=valueArray.where((element) => element['key']=="VolunteerDetail").toList()[0]['value'];
       setState((){});
-    }catch(e){}
+      isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
+    }catch(e){
+      console(e);
+    }
   }
 
   @override
@@ -324,15 +330,16 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
   void onRoleChange(roleId){
     console("Role $roleId");
-    if(roleId==7||roleId==4){
+    if(roleId=="7"||roleId=="4"){
       showTaluk.value=false;
       showVillage.value=false;
     }
-    else if(roleId==5){
+    else if(roleId=="5"){
       showTaluk.value=true;
       showVillage.value=false;
+      console("${showTaluk.value}");
     }
-    else if(roleId==6){
+    else if(roleId=="6"){
       showTaluk.value=true;
       showVillage.value=true;
     }

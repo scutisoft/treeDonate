@@ -74,7 +74,7 @@ class GetUiNotifier {
     var val=[];
     try{
       await ApiManager().ApiCallGetInvoke(body).then((value) {
-         log("$value");
+       //  log("$value");
         val=value;
         /*if(value!="null"){
         //  var parsed=json.decode(value);

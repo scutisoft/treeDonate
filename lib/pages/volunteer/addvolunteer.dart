@@ -404,7 +404,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       return isAccept.value;
     },successCallback: (e){
       isAccept.value=false;
-    },isEdit: !widget.isDirectAdd);
+    },isEdit: !widget.isDirectAdd,closeFrmOnSubmit: !widget.isDirectAdd);
   }
 
   void requestOtp(contactNumber){

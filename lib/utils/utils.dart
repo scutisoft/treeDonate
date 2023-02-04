@@ -105,4 +105,8 @@ Color getPaymentStsClr(int id){
   }
   return ColorUtil.payClr;
 }
-
+//Nested ScrollView
+double flexibleSpaceBarHeight=160.0;
+double toolBarHeight=50.0;
+double triggerOffset=60.0;
+double triggerEndOffset=80.0;

@@ -911,7 +911,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.clear();
-    await parseJson(widgets, General.donateIdentifier);
+    //await parseJson(widgets, General.donateIdentifier);
 
     setState(() {});
   }

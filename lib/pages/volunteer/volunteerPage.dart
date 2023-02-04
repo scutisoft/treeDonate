@@ -1,10 +1,10 @@
 import 'dart:convert';
-
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/volunteer/viewVolunteer.dart';
-import 'package:treedonate/utils/utils.dart';
+import '../../HappyExtension/utils.dart';
+import '../../pages/volunteer/viewVolunteer.dart';
+import '../../utils/utils.dart';
+import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/recase.dart';
@@ -32,11 +32,31 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
   List<Widget> widgets=[];
 
   List<dynamic> volunteerList=[];
+  List<dynamic> filterVolunteerList=[];
+
+  RxDouble silverBodyTopMargin=RxDouble(0.0);
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
+
+
+
   @override
   void initState(){
-    silverController= ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      silverController=ScrollController();
+      silverBodyTopMargin.value=0.0;
+      silverController!.addListener(() {
+        if(silverController!.offset>triggerOffset){
+            silverBodyTopMargin.value=toolBarHeight-(-(silverController!.offset-flexibleSpaceBarHeight));
+            if(silverBodyTopMargin.value<0){
+              silverBodyTopMargin.value=0;
+            }
+        }
+        else if(silverController!.offset<triggerEndOffset){
+            silverBodyTopMargin.value=0;
+        }
+      });
+    });
     assignWidgets();
     super.initState();
   }
@@ -54,21 +74,26 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
-            floatHeaderSlivers: true,
+            controller: silverController,
+            // floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  backgroundColor: Color(0XFFF3F3F3),
+                  backgroundColor: const Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
                   pinned: true,
-                  leading: GestureDetector(
+                  leadingWidth: 50.0,
+                  leading: NavBarIcon(
+                    onTap: (){
+                      widget.voidCallback();
+                    },
+                  ),
+                  /*leading: GestureDetector(
                       onTap: (){
                         widget.voidCallback();
                       },
                       child: Icon(Icons.arrow_back_ios_new_sharp,color: ColorUtil.themeBlack,size: 25,)
-                  ),
+                  ),*/
                   flexibleSpace:  FlexibleSpaceBar(
                     expandedTitleScale: 1.5,
                     centerTitle: false,
@@ -88,54 +113,55 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   //SizedBox(height: 50,),
-                  Container(
+                  Obx(() => Container(
                     height: 50,
-                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                    margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         AnimSearchBar(
                           width: SizeConfig.screenWidth!-80,
-                          color: ColorUtil.primary,
-                          boxShadow: false,
+                          color: ColorUtil.asbColor,
+                          boxShadow: ColorUtil.asbBoxShadow,
                           textController: textController,
-                          onSubmitted: (a){},
+                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                          searchIconColor: ColorUtil.asbSearchIconColor,
+                          suffixIcon: ColorUtil.getASBSuffix(),
+                          onSubmitted: (a){
+                            console(a);
+                          },
+                          onChange: (a){
+                            filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
+                            setState(() {});
+                          },
+
                           onSuffixTap: () {
-                            setState(() {
-                              textController.clear();
-                            });
+                            filterVolunteerList=searchGrid("",volunteerList,filterVolunteerList);
+                            setState(() {});
                           },
                         ),
-                        SizedBox(width: 5,),
-                        GestureDetector(
+                        const SizedBox(width: 5,),
+                        FilterIcon(
                           onTap: (){
-                            fadeRoute(FilterItems());
+                            //fadeRoute(FilterItems());
                           },
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ColorUtil.primary,
-                            ),
-                            child: Icon(Icons.filter_alt_outlined,color:ColorUtil.themeBlack,),
-                          ),
                         ),
                         SizedBox(width: 15,),
                       ],
                     ),
-                  ),
-                  Flexible(child: ListView.builder(
+                  ),),
+                  Flexible(
+                    child: ListView.builder(
                     // scrollDirection: Axis.vertical,
-                    itemCount: volunteerList.length,
+                    itemCount: filterVolunteerList.length,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (ctx,i){
                       return GestureDetector(
                         onTap: null,
                         child: Container(
-                          margin: EdgeInsets.only(bottom: i==volunteerList.length-1? 30:3,left: 15,right: 15),
+                          margin: EdgeInsets.only(bottom: i==filterVolunteerList.length-1? 30:3,left: 15,right: 15),
                           padding: const EdgeInsets.only(left: 15.0,right: 10.0),
                           width: SizeConfig.screenWidth!*1,
                           decoration: BoxDecoration(
@@ -153,27 +179,34 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                                   crossAxisAlignment:CrossAxisAlignment.start ,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Flexible(child: Text('${volunteerList[i]['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                    Flexible(child: Text('${filterVolunteerList[i]['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                                     const SizedBox(height: 3,),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Date :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('${volunteerList[i]['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                        Text('${filterVolunteerList[i]['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
                                       ],
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Phone No :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('${volunteerList[i]['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                                        Text('${filterVolunteerList[i]['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
                                       ],
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Location :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text(volunteerList[i]['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                                        Text(filterVolunteerList[i]['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Role :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                        Text(filterVolunteerList[i]['VolunteerRole'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
                                       ],
                                     ),
                                   ],
@@ -218,7 +251,10 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                                   const SizedBox(height: 5,),
                                   EyeIcon(
                                     onTap: (){
-                                      fadeRoute(VolunteerView(dataJson: jsonEncode(volunteerList[i]['DataJson']),isEdit: true,));
+                                      fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
+                                        updateArrById("VolunteerId", e['Table'][0], filterVolunteerList);
+                                        setState(() {});
+                                      },));
                                     },
                                   )
                                 ],
@@ -228,8 +264,9 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                         ),
                       );
                     },
-                  ),),
-                  NoData(show: volunteerList.isEmpty,)
+                  ),
+                  ),
+                  NoData(show: filterVolunteerList.isEmpty,)
                 /*  Container(
                     child: Stack(
                       children: [
@@ -255,6 +292,8 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
   void getData(dataJson) async{
     await parseJson(widgets, General.volunteerDetailIdentifier,dataJson: jsonEncode(dataJson));
     volunteerList=valueArray.where((element) => element['key']=="VolunteerList").toList()[0]['value'];
+    filterVolunteerList=volunteerList;
     setState(() {});
   }
+
 }

@@ -1,5 +1,5 @@
 {
-  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
   "valueArray": [
     {
       "key": "SeedingList",
@@ -10,7 +10,8 @@
           "GPhoneNumber": "8564823133",
           "Glocation": "CHENNAI / Mambalam / Mambalam",
           "Status": "Approved",
-          "SeedQty": "150"
+          "SeedQty": "150",
+          "DataJson": {"SeedId": 10}
         },
         {
           "Seed": "CustardApple",
@@ -18,7 +19,8 @@
           "GPhoneNumber": "8564823133",
           "Glocation": "KARUR / Karur / Emur",
           "Status": "Approved",
-          "SeedQty": "170"
+          "SeedQty": "170",
+          "DataJson": {"SeedId": 10}
         }
       ]
     }
