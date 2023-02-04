@@ -11,6 +11,7 @@ import '../utils/sizeLocal.dart';
 import '../widgets/zoomDrawer/config.dart';
 import '../widgets/zoomDrawer/flutter_zoom_drawer.dart';
 import 'Nursery/nurseryGrid.dart';
+import 'dashboard/dashboard.dart';
 import 'donateTree/donate.dart';
 import 'donateTree/donateTree.dart';
 import 'history/historyPage.dart';
@@ -59,6 +60,7 @@ class MenuScreen extends GetView<MyDrawerController> {
   MenuScreen({Key? key}) : super(key: key);
 
   List<dynamic> menuList=[
+    {"Title":"DashBoard","PageNumber":14,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":null},
@@ -153,7 +155,7 @@ class MenuScreen extends GetView<MyDrawerController> {
   }
 }
 
-RxInt menuSel=RxInt(13);
+RxInt menuSel=RxInt(14);
 void setPageNumber(int page){
   menuSel.value=page;
 }
@@ -185,7 +187,12 @@ class _MasterpageState extends State<Masterpage>{
         children: [
           Obx(() => Scaffold(
             key: scaffoldkey,
-            body:menuSel.value==1?MyProfile(
+            body:menuSel.value==14?Dashboard(
+                voidCallback:() {
+                  controller.toggleDrawer();
+                  //scaffoldkey.currentState!.openDrawer();
+                }
+            ) :menuSel.value==1?MyProfile(
                 voidCallback:() {
                   controller.toggleDrawer();
                   //scaffoldkey.currentState!.openDrawer();
