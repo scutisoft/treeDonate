@@ -1,12 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
-import '../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../widgets/navigationBarIcon.dart';
 import 'editProfile.dart';
 
@@ -26,9 +26,9 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
     'assets/trees/tree-100.png',
   ];
   List<Widget> widgets=[];
-  int _current = 0;
-  final CarouselController _controller = CarouselController();
 
+
+  var profileImgPath="".obs;
 
   @override
   void initState(){
@@ -80,7 +80,11 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Image.asset('assets/trees/plant.png',width: 90,fit: BoxFit.cover,),
+                                      child: Obx(() => Image.network('${profileImgPath.value}',width: 90,fit: BoxFit.cover,
+                                          errorBuilder: (a,b,c){
+                                        return Image.asset('assets/trees/plant.png',width: 90,fit: BoxFit.cover,);
+                                          },
+                                      )),
                                     ),
                                   )
                                 ],
@@ -272,5 +276,9 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
 
     setState(() {});
     await parseJson(widgets, General.ProfileViewIdentifier);
+
+    try{
+      profileImgPath.value=valueArray.where((element) => element['key']=="UserImage").toList()[0]['value'];
+    }catch(e){}
   }
 }

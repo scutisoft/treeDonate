@@ -200,8 +200,9 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
+       // console(value);
         var parsed=jsonDecode(value[1]);
-        String errorMsg=parsed["TblOutPut"][0]["@Message"];
+        String errorMsg=parsed["TblOutPut"][0]["@Message"]??"";
         if(successCallback!=null){
           successCallback(parsed);
         }
@@ -241,7 +242,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
             jsonEncode(params.map((e) => e.toJsonHE()).toList()),
             action.isNotEmpty?action: isEdit?"Update":"Insert",
             successCallback: (e){
-              String errorMsg=e["TblOutPut"][0]["@Message"];
+              String errorMsg=e["TblOutPut"][0]["@Message"]??"";
               if(closeFrmOnSubmit){
                 Get.back();
               }

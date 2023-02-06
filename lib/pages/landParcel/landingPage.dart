@@ -1,8 +1,9 @@
-import 'dart:convert';
-import 'package:anim_search_bar/anim_search_bar.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/pages/navHomeScreen.dart';
+import '../../HappyExtension/utils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -10,6 +11,7 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../utils/utils.dart';
+import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
@@ -36,14 +38,20 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   List<Widget> widgets=[];
   int _current = 0;
   final CarouselController _controller = CarouselController();
+
+  List<dynamic> filterNewsFeed=[];
+  List<dynamic> newsFeed=[];
+
   @override
   void initState(){
     assignWidgets();
     super.initState();
   }
+
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
   var node;
+
   @override
   Widget build(BuildContext context) {
     node=FocusScope.of(context);
@@ -153,618 +161,155 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                 ),
               ];
             },
-            body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 10,),
-                  Container(
-                    height: 190,
-                    width: SizeConfig.screenWidth!*0.9,
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 160,
-                          clipBehavior: Clip.antiAlias,
-                          decoration:BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0)
-                          ),
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                                height: 160,
-                                enlargeCenterPage: false,
-                                viewportFraction: 1,
-                                scrollDirection: Axis.horizontal,
-                                autoPlay: true,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                }
-                            ),
-                            carouselController: _controller,
-                            items: imgList
-                                .map((item) => Image.asset(
-                              item, fit: BoxFit.cover,
-                              width: SizeConfig.screenWidth,height: 160,))
-                                .toList(),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: imgList
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                            return GestureDetector(
-                              onTap: () =>
-                                  _controller.animateToPage(entry.key),
-                              child: Container(
-                                width: 12.0,
-                                height: 12.0,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 4.0),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: (Theme
-                                        .of(context)
-                                        .brightness == Brightness.dark
-                                        ? Colors.white
-                                        : ColorUtil.primary)
-                                        .withOpacity(
-                                        _current == entry.key ? 0.9 : 0.4)),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    padding: EdgeInsets.only(left: 15,right: 15),
-                    child: buildGrid(),
-                  ),
-                  SizedBox(height: 10,),
-
-
-
-                  // News&Feeds
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: ListView(
+              shrinkWrap: true,
+              children: [
+                SizedBox(height: 10,),
+                Container(
+                  height: 190,
+                  width: SizeConfig.screenWidth!*0.9,
+                  alignment: Alignment.center,
+                  child: Column(
                     children: [
                       Container(
-                        alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text("News & Feeds",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )
+                        height: 160,
+                        clipBehavior: Clip.antiAlias,
+                        decoration:BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                              height: 160,
+                              enlargeCenterPage: false,
+                              viewportFraction: 1,
+                              scrollDirection: Axis.horizontal,
+                              autoPlay: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }
+                          ),
+                          carouselController: _controller,
+                          items: imgList
+                              .map((item) => Image.asset(
+                            item, fit: BoxFit.cover,
+                            width: SizeConfig.screenWidth,height: 160,))
+                              .toList(),
+                        ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-182,
-                            color: ColorUtil.primary,
-                            boxShadow: false,
-                            textController: textController,
-                            onSubmitted: (a){},
-                            onSuffixTap: () {
-                              setState(() {
-                                textController.clear();
-                              });
-                            },
-                          ),
-                          SizedBox(width: 5,),
-                          GestureDetector(
-                            onTap: (){
-                              fadeRoute(FilterItems());
-                            },
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: imgList
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          return GestureDetector(
+                            onTap: () =>
+                                _controller.animateToPage(entry.key),
                             child: Container(
-                              width: 45,
-                              height: 45,
+                              width: 12.0,
+                              height: 12.0,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorUtil.primary,
-                              ),
-                              child: Icon(Icons.filter_alt_outlined,color:ColorUtil.themeBlack,),
+                                  shape: BoxShape.circle,
+                                  color: (Theme
+                                      .of(context)
+                                      .brightness == Brightness.dark
+                                      ? Colors.white
+                                      : ColorUtil.primary)
+                                      .withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4)),
                             ),
-                          ),
-                          SizedBox(width: 15,),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
-                  Container(
-                    width: SizeConfig.screenWidth,
-                    clipBehavior: Clip.antiAlias,
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: ColorUtil.themeWhite
+                ),
+                SizedBox(height: 10,),
+                Container(
+                  padding: EdgeInsets.only(left: 15,right: 15),
+                  child: buildGrid(),
+                ),
+                SizedBox(height: 10,),
+
+
+
+                // News&Feeds
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 15),
+                        child: Text("News & Feeds",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )
                     ),
-                    child: Stack(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: 200,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width:SizeConfig.screenWidth!*0.5,
-                                    height: 200,
-                                    child: Image.asset('assets/Slice/newsfeeds-2.jpg',fit: BoxFit.cover,),
-                                  ),
-                                  SizedBox(width: 1,),
-                                  Container(
-                                    width:(SizeConfig.screenWidth!*0.5)-31,
-                                    height: 200,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          width:SizeConfig.screenWidth,
-                                          height: 99.5,
-                                          child: Image.asset('assets/Slice/newsfeeds-3.jpg',fit: BoxFit.cover,),
-                                        ),
-                                        SizedBox(height: 1,),
-                                        Container(
-                                          width:SizeConfig.screenWidth,
-                                          height: 99.5,
-                                          child: Image.asset('assets/Slice/newsfeeds-5.jpg',fit: BoxFit.cover,),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: ColorUtil.primary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Flexible(child: Text("Mr.Balasubramaniyan",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
-                                      Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text("09:30 PM",style:  TextStyle(fontFamily: 'RB',fontSize: 13,color: ColorUtil.themeBlack),),
-                                      Text("28-01-2023",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10 ,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0,right: 8.0),
-                              child: Text("5 Lakh tree planting ceremony was started recently",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.location_on,color: ColorUtil.text4,),
-                                  SizedBox(width: 5,),
-                                  Text("Madurai, Sozhavantham,Tamil Nadu.",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Divider(
-                              thickness: 1,
-                              color: ColorUtil.text4,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
-                                      SizedBox(width: 8,),
-                                      Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.comment,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.thumb_up,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                        AnimSearchBar(
+                          width: SizeConfig.screenWidth!-182,
+                          color: ColorUtil.asbColor,
+                          boxShadow: ColorUtil.asbBoxShadow,
+                          textController: textController,
+                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                          searchIconColor: ColorUtil.asbSearchIconColor,
+                          suffixIcon: ColorUtil.getASBSuffix(),
+                          onSubmitted: (a){},
+                          onChange: (a){
+                            filterNewsFeed=searchGrid(a,newsFeed,filterNewsFeed);
+                            setState(() {});
+                          },
+
+                          onSuffixTap: () {
+                            filterNewsFeed=searchGrid("",newsFeed,filterNewsFeed);
+                            setState(() {});
+                          },
                         ),
-                        Positioned(
-                          top: 15,
-                          left: 15,
-                            child: Container(
-                             padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
-                              decoration: BoxDecoration(
-                                color:Colors.orange,
-                                borderRadius: BorderRadius.circular(3.0)
-                              ),
-                              child: Text("Admin",style: TextStyle(fontSize: 12,color: ColorUtil.themeWhite,fontFamily:'RM'), ),
+                        /*const SizedBox(width: 5,),
+                        GestureDetector(
+                          onTap: (){
+                            fadeRoute(FilterItems());
+                          },
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorUtil.primary,
                             ),
-                        ),
-                        Positioned(
-                          top: 165,
-                          right: 20,
-                          child: GestureDetector(
-                            onTap: (){
-                                 fadeRoute(NewsFeedsView());
-                            },
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ColorUtil.themeBlack,
-                                    blurRadius: 15.0, // soften the shadow
-                                    spreadRadius: 0.0, //extend the shadow
-                                    offset: Offset(
-                                      0.0, // Move to right 10  horizontally
-                                      0.0, // Move to bottom 10 Vertically
-                                    ),
-                                  )
-                                ],
-                                color: ColorUtil.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
-                            ),
+                            child: Icon(Icons.filter_alt_outlined,color:ColorUtil.themeBlack,),
                           ),
-                        )
+                        ),*/
+                        const SizedBox(width: 15,),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 15,),
-                  Container(
-                    width: SizeConfig.screenWidth,
-                    clipBehavior: Clip.antiAlias,
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: ColorUtil.themeWhite
-                    ),
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width:SizeConfig.screenWidth,
-                              height: 200,
-                              child: Image.asset('assets/Slice/newsfeeds-4.jpg',fit: BoxFit.cover,),
-                            ),
-                            SizedBox(height: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: ColorUtil.primary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Flexible(child: Text("Mr.Muthu Gokul",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
-                                      Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text("09:30 PM",style:  TextStyle(fontFamily: 'RB',fontSize: 13,color: ColorUtil.themeBlack),),
-                                      Text("28-01-2023",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10 ,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0,right: 8.0),
-                              child: Text("5 Lakh tree planting ceremony was started recently",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.location_on,color: ColorUtil.text4,),
-                                  SizedBox(width: 5,),
-                                  Text("Madurai, Sozhavantham,Tamil Nadu.",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Divider(
-                              thickness: 1,
-                              color: ColorUtil.text4,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
-                                      SizedBox(width: 8,),
-                                      Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.comment,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.thumb_up,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        Positioned(
-                          top: 165,
-                          right: 20,
-                          child: GestureDetector(
-                            onTap: (){
-                              fadeRoute(NewsFeedsView());
-                            },
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ColorUtil.themeBlack,
-                                    blurRadius: 15.0, // soften the shadow
-                                    spreadRadius: 0.0, //extend the shadow
-                                    offset: Offset(
-                                      0.0, // Move to right 10  horizontally
-                                      0.0, // Move to bottom 10 Vertically
-                                    ),
-                                  )
-                                ],
-                                color: ColorUtil.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Container(
-                    width: SizeConfig.screenWidth,
-                    clipBehavior: Clip.antiAlias,
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: ColorUtil.themeWhite
-                    ),
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: 200,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width:SizeConfig.screenWidth!*0.50,
-                                    height: 200,
-                                    child: Image.asset('assets/Slice/newsfeeds-2.jpg',fit: BoxFit.cover,),
-                                  ),
-                                  SizedBox(width: 1,),
-                                  Container(
-                                    width:(SizeConfig.screenWidth!*0.5)-31,
-                                    height: 200,
-                                    child: Image.asset('assets/Slice/newsfeeds-3.jpg',fit: BoxFit.cover,),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: ColorUtil.primary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Flexible(child: Text("Mr.Ramesh",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
-                                      Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text("09:30 PM",style:  TextStyle(fontFamily: 'RB',fontSize: 13,color: ColorUtil.themeBlack),),
-                                      Text("28-01-2023",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10 ,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0,right: 8.0),
-                              child: Text("5 Lakh tree planting ceremony was started recently",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.location_on,color: ColorUtil.text4,),
-                                  SizedBox(width: 5,),
-                                  Text("Madurai, Sozhavantham,Tamil Nadu.",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Divider(
-                              thickness: 1,
-                              color: ColorUtil.text4,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
-                                      SizedBox(width: 8,),
-                                      Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.comment,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.thumb_up,color: ColorUtil.primary,),
-                                      SizedBox(width: 8,),
-                                      Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        Positioned(
-                          top: 165,
-                          right: 20,
-                          child: GestureDetector(
-                            onTap: (){
-                              fadeRoute(NewsFeedsView());
-                            },
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ColorUtil.themeBlack,
-                                    blurRadius: 15.0, // soften the shadow
-                                    spreadRadius: 0.0, //extend the shadow
-                                    offset: Offset(
-                                      0.0, // Move to right 10  horizontally
-                                      0.0, // Move to bottom 10 Vertically
-                                    ),
-                                  )
-                                ],
-                                color: ColorUtil.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                ],
-              ),
+                  ],
+                ),
+
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: filterNewsFeed.length,
+                  itemBuilder: (ctx,i){
+                    return getNewsFeed(
+                      name: filterNewsFeed[i]['NFNAME']??"",
+                      nfDescription: filterNewsFeed[i]['NFDescription']??"",
+                      nfLoc: filterNewsFeed[i]['NFLocation']??"",
+                      nfType: filterNewsFeed[i]['NFType']??"",
+                      profileImg: filterNewsFeed[i]['NFProfileImage']??"",
+                      date: filterNewsFeed[i]['NFDATE']??"",
+                      time: filterNewsFeed[i]['NFTime']??"",
+                      img:  filterNewsFeed[i]['NFImageFile']??"",
+                    );
+                  },
+                ),
+
+
+                const SizedBox(height: 15,),
+              ],
             ),
           ),
         ),
@@ -920,6 +465,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       ],
     );
   }
+
   @override
   void assignWidgets() async{
     widgets.clear();
@@ -927,6 +473,248 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     widgets.add(HE_Text(dataname: "Role", contentTextStyle: TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),));
     await parseJson(widgets, General.HomePageViewIdentifier);
 
+
+    newsFeed=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
+    filterNewsFeed= newsFeed;
     setState(() {});
+    console(newsFeed);
   }
+
+
+  Widget getNewsFeed({String name="",String nfType="",String nfDescription="",String profileImg="",String nfLoc="",String date="",String time="",
+    String img=""
+  }){
+    List<dynamic> imgList=[];
+    imgList=img.split(",");
+
+    Widget getImgContainer(path){
+      return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
+    }
+
+    Widget getImgByCount(cunt){
+      if(cunt==1){
+        return  SizedBox(
+          width:SizeConfig.screenWidth,
+          height: 200,
+            child:getImgContainer(imgList[0])
+        );
+      }
+      else if(cunt==2){
+        return Container(
+          height: 200,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width:SizeConfig.screenWidth!*0.50,
+                height: 200,
+                  child:getImgContainer(imgList[0])
+              ),
+              const SizedBox(width: 1,),
+              SizedBox(
+                width:(SizeConfig.screenWidth!*0.5)-31,
+                height: 200,
+                child:getImgContainer(imgList[1])
+              )
+            ],
+          ),
+        );
+      }
+      else if(cunt==3){
+        return SizedBox(
+          height: 200,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width:SizeConfig.screenWidth!*0.5,
+                height: 200,
+                child:getImgContainer(imgList[0])
+              ),
+              const SizedBox(width: 1,),
+              SizedBox(
+                width:(SizeConfig.screenWidth!*0.5)-31,
+                height: 200,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width:SizeConfig.screenWidth,
+                      height: 99.5,
+                        child:getImgContainer(imgList[1])
+                    ),
+                    const SizedBox(height: 1,),
+                    SizedBox(
+                      width:SizeConfig.screenWidth,
+                      height: 99.5,
+                        child:getImgContainer(imgList[2])
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      }
+      return Container(height: 200,);
+    }
+
+
+
+    return Container(
+      width: SizeConfig.screenWidth,
+      clipBehavior: Clip.antiAlias,
+      margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: ColorUtil.themeWhite
+      ),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              getImgByCount(imgList.length),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: ColorUtil.primary,
+                        shape: BoxShape.circle,
+                      ),
+                     child: Image.network(GetImageBaseUrl()+profileImg,fit: BoxFit.contain,errorBuilder: (a,b,c){
+                       return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
+                     },),
+                     // child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
+                    ),
+                    SizedBox(width: 5,),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(child: Text("$name",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
+                        Text("$nfType",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("$time",style:  TextStyle(fontFamily: 'RB',fontSize: 13,color: ColorUtil.themeBlack),),
+                        Text("$date",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10 ,),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0,right: 8.0),
+                child: Text("$nfDescription",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_on,color: ColorUtil.text4,),
+                    SizedBox(width: 5,),
+                    Text("$nfLoc",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
+                  ],
+                ),
+              ),
+              SizedBox(height: 5,),
+              Divider(
+                thickness: 1,
+                color: ColorUtil.text4,
+              ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
+                        SizedBox(width: 8,),
+                        Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.comment,color: ColorUtil.primary,),
+                        SizedBox(width: 8,),
+                        Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.thumb_up,color: ColorUtil.primary,),
+                        SizedBox(width: 8,),
+                        Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          /*Positioned(
+            top: 15,
+            left: 15,
+            child: Container(
+              padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
+              decoration: BoxDecoration(
+                  color:Colors.orange,
+                  borderRadius: BorderRadius.circular(3.0)
+              ),
+              child: Text("Admin",style: TextStyle(fontSize: 12,color: ColorUtil.themeWhite,fontFamily:'RM'), ),
+            ),
+          ),*/
+         /* Positioned(
+            top: 165,
+            right: 20,
+            child: GestureDetector(
+              onTap: (){
+                //fadeRoute(NewsFeedsView());
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorUtil.themeBlack,
+                      blurRadius: 15.0, // soften the shadow
+                      spreadRadius: 0.0, //extend the shadow
+                      offset: Offset(
+                        0.0, // Move to right 10  horizontally
+                        0.0, // Move to bottom 10 Vertically
+                      ),
+                    )
+                  ],
+                  color: ColorUtil.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
+              ),
+            ),
+          )*/
+        ],
+      ),
+    );
+  }
+
 }

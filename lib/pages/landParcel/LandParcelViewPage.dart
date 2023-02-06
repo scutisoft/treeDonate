@@ -211,41 +211,45 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
 
                     )),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap:(){
-                            approveRejHandler(false);
-                          },
-                          child: Container(
-                            width: SizeConfig.screenWidth!*0.4,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              border: Border.all(color: ColorUtil.red),
-                              color: ColorUtil.red.withOpacity(0.3),
+                  AccessWidget(
+                    hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                    needToHide: true,
+                    widget: Container(
+                      margin: EdgeInsets.only(top: 20,bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(false);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.red),
+                                color: ColorUtil.red.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
                             ),
-                            child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
                           ),
-                        ),
-                        GestureDetector(
-                          onTap:(){
-                            approveRejHandler(true);
-                          },
-                          child: Container(
-                            width: SizeConfig.screenWidth!*0.4,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: ColorUtil.primary,
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(true);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: ColorUtil.primary,
+                              ),
+                              child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                             ),
-                            child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

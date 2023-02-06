@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:treedonate/utils/colorUtil.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -112,7 +111,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
   @override
   void assignWidgets() async{
     widgets.add(AddNewLabelTextField(
-      dataname: 'Name',
+      dataname: 'UserName',
       hasInput: true,
       required: true,
       labelText: "Name",
