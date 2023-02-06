@@ -26,7 +26,7 @@ class loginPage extends StatefulWidget {
 class _loginPageState extends State<loginPage> {
   final _text = TextEditingController();
   final _text1 = TextEditingController();
-  bool _validate = false;
+  bool obsureText = true;
 
   @override
   void initState(){
@@ -127,7 +127,6 @@ class _loginPageState extends State<loginPage> {
                                     hintText: 'Enter Email',
                                     errorStyle: TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
                                     hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
-                                    errorText: _validate ? 'Value Can\'t Be Empty' : null,
                                   ),
                                 ),
                                 Padding(
@@ -137,7 +136,7 @@ class _loginPageState extends State<loginPage> {
                                     textAlignVertical: TextAlignVertical.center,
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
-                                    obscureText: false,
+                                    obscureText: obsureText,
                                     style:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFF000000),letterSpacing: 1.0,),
                                     decoration: InputDecoration(
                                       fillColor: Colors.white,
@@ -161,8 +160,22 @@ class _loginPageState extends State<loginPage> {
                                       hintText: 'Enter Password',
                                       errorStyle: TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
                                       hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
-                                      errorText: _validate ? 'Value Can\'t Be Empty' : null,
+                                      suffixIcon: GestureDetector(
+                                        onTap: (){
+                                          setState(() {
+                                            obsureText=!obsureText;
+                                          });
+                                        },
+                                        child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            alignment: Alignment.center,
+                                            margin: const EdgeInsets.only(right: 10),
+                                            child: Icon(!obsureText?Icons.visibility_off_outlined:Icons.visibility_outlined,color: ColorUtil.primary,)
+                                        ),
+                                      ),
                                     ),
+
                                     onEditingComplete: (){
                                       login();
                                     },

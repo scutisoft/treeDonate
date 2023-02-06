@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/api/apiUtils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -80,9 +81,9 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Obx(() => Image.network('${profileImgPath.value}',width: 90,fit: BoxFit.cover,
+                                      child: Obx(() => Image.network(GetImageBaseUrl()+'${profileImgPath.value}',width: 90,fit: BoxFit.cover,
                                           errorBuilder: (a,b,c){
-                                        return Image.asset('assets/trees/plant.png',width: 90,fit: BoxFit.cover,);
+                                            return Image.asset('assets/trees/plant.png',width: 90,fit: BoxFit.cover,);
                                           },
                                       )),
                                     ),

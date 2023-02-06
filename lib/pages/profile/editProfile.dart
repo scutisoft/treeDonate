@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
+import 'package:treedonate/utils/utils.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/constants.dart';
@@ -14,14 +15,15 @@ import '../navHomeScreen.dart';
 
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  Function? closeCb;
+  EditProfile({super.key, this.closeCb});
 
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  implements HappyExtensionHelperCallback {
-  List<Widget> widgets=[];
+  List<dynamic> widgets=[];
   @override
   void initState(){
     assignWidgets();
@@ -92,15 +94,26 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child:  Container(
-                  width: SizeConfig.screenWidth,
-                  margin: EdgeInsets.all(15.0),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    color: ColorUtil.primary,
+                child:  GestureDetector(
+                  onTap: (){
+                    sysSubmit(widgets,isEdit: true,
+                      successCallback: (e){
+                        if(widget.closeCb!=null){
+                          widget.closeCb!(e);
+                        }
+                      }
+                    );
+                  },
+                  child: Container(
+                    width: SizeConfig.screenWidth,
+                    margin: EdgeInsets.all(15.0),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: ColorUtil.primary,
+                    ),
+                    child:Center(child: Text('Update',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                   ),
-                  child:Center(child: Text('Update',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                 ),
               ),
             ],
@@ -121,7 +134,6 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
         node.unfocus();
       },
     ));
-
     widgets.add(AddNewLabelTextField(
       dataname: 'Email',
       hasInput: true,
@@ -148,7 +160,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       dataname: 'Password',
       hasInput: true,
       required: true,
-      suffixIcon: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,),
+      isObscure: true,
       labelText: "Password",
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
@@ -156,21 +168,28 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
         node.unfocus();
       },
     ));
+
+    widgets.add(HiddenController(dataname: "UserId"));
     setState(() {});
+    widgets[3].suffixIcon= GestureDetector(
+      onTap: (){
+        widgets[3].isObscure=!widgets[3].isObscure;
+        widgets[3].reload.value=!widgets[3].reload.value;
+      },
+      child: Container(
+        height: 30,
+        width: 30,
+        alignment: Alignment.center,
+        color: Colors.transparent,
+        child: Icon(! widgets[3].isObscure?Icons.visibility_off_outlined:Icons.visibility_outlined,color: ColorUtil.primary,)
+      ),
+    );
     await parseJson(widgets, General. EditProfileViewIdentifier);
   }
-}
-Widget StatustBtn (String Status){
-  return Container(
-    width:90,
-    height: 40,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-        color: ColorUtil.primary,
-        borderRadius: BorderRadius.circular(5.0),
-        border: Border.all(color: ColorUtil.primary)
-    ),
-    child: Text(Status,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xffffffff)),),
-  );
+
+  @override
+  String getPageIdentifier(){
+    return General. EditProfileViewIdentifier;
+  }
 
 }

@@ -165,10 +165,11 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
             body: ListView(
               shrinkWrap: true,
               children: [
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   height: 190,
-                  width: SizeConfig.screenWidth!*0.9,
+                  width: SizeConfig.screenWidth!,
+                  margin: const EdgeInsets.only(left: 15,right: 15),
                   alignment: Alignment.center,
                   child: Column(
                     children: [
@@ -230,14 +231,12 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                   ),
 
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   padding: EdgeInsets.only(left: 15,right: 15),
                   child: buildGrid(),
                 ),
-                SizedBox(height: 10,),
-
-
+                const SizedBox(height: 10,),
 
                 // News&Feeds
                 Row(
