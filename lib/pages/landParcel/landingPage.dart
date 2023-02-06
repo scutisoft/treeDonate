@@ -13,6 +13,7 @@ import '../../utils/sizeLocal.dart';
 import '../../utils/utils.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/popupBanner/popup.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
 import '../Filter/FilterItems.dart';
@@ -227,6 +228,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       ),
                     ],
                   ),
+
                 ),
                 SizedBox(height: 10,),
                 Container(
@@ -245,6 +247,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(left: 15),
                         child: Text("News & Feeds",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )
+
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -485,7 +488,12 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     String img=""
   }){
     List<dynamic> imgList=[];
+    List<String> imgListUrl=[];
     imgList=img.split(",");
+
+    imgList.forEach((element) {
+      imgListUrl.add(GetImageBaseUrl()+element);
+    });
 
     Widget getImgContainer(path){
       return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
@@ -682,11 +690,12 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               child: Text("Admin",style: TextStyle(fontSize: 12,color: ColorUtil.themeWhite,fontFamily:'RM'), ),
             ),
           ),*/
-         /* Positioned(
+          Positioned(
             top: 165,
             right: 20,
             child: GestureDetector(
               onTap: (){
+                showHideDotsPopup(imgListUrl);
                 //fadeRoute(NewsFeedsView());
               },
               child: Container(
@@ -711,10 +720,24 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                 child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
               ),
             ),
-          )*/
+          )
         ],
       ),
     );
+  }
+
+
+  void showHideDotsPopup(images) {
+    PopupBanner(
+      context: context,
+      images: images,
+      useDots: true,
+      autoSlide: false,
+      onClick: (index) {
+        debugPrint("CLICKED $index");
+      },
+      fit: BoxFit.contain
+    ).show();
   }
 
 }
