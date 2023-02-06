@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
+import 'accessWidget.dart';
 
 class CustomAppBar extends StatelessWidget {
   String title;
@@ -116,6 +117,32 @@ class GridAddIcon extends StatelessWidget {
           color: ColorUtil.primary,
         ),
         child: Icon(Icons.add,color:ColorUtil.theme,),
+      ),
+    );
+  }
+}
+
+class GridDeleteIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  double height;
+  bool hasAccess;
+  GridDeleteIcon({Key? key,this.onTap,this.height=30,required this.hasAccess}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AccessWidget(
+      onTap:onTap,
+      hasAccess: hasAccess,
+      needToHide: true,
+      widget: Container(
+        width: height,
+        height: height,
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: ColorUtil.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
+        //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
       ),
     );
   }

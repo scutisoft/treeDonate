@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/pinWidget.dart';
 import '../../widgets/customCheckBox.dart';
 
@@ -171,11 +172,13 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                     widgets[1],
                     Obx(() => Visibility(visible: showTaluk.value,child: widgets[2])),
                     Obx(() => Visibility(visible: showVillage.value,child: widgets[3])),
-                    GestureDetector(
+                    AccessWidget(
+                      hasAccess: isHasAccess(accessId['VolunteerApproval']),
+                      needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
                       },
-                      child: Obx(() => Container(
+                      widget: Obx(() => Container(
                         margin: EdgeInsets.only(left: 10, right: 10,top: 10),
                         padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
                         decoration: BoxDecoration(
@@ -204,57 +207,61 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                 ),
                 Positioned(
                   bottom: 0,
-                  child:  Container(
-                    padding: EdgeInsets.only(top: 0,bottom: 0),
-                    color: Colors.white,
-                    width: SizeConfig.screenWidth,
-                    height: 70,
-                    alignment: Alignment.center,
-                    child: DoneBtn(onDone: (){
-                      sysSubmit(widgets,isEdit: widget.isEdit,
-                        needCustomValidation: true,
-                        onCustomValidation: (){
-                          foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
-                          return true;
-                        },
-                        successCallback: (e){
-                          console("sysSubmit $e");
-                          if(widget.closeCb!=null){
-                            widget.closeCb!(e);
-                          }
-                        }
-                      );
-                    }, title: "Update"),
-                    /*child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            sysSubmit(widgets,isEdit: widget.isEdit);
+                  child:  AccessWidget(
+                    hasAccess: isHasAccess(accessId['VolunteerApproval']),
+                    needToHide: true,
+                    widget: Container(
+                      padding: EdgeInsets.only(top: 0,bottom: 0),
+                      color: Colors.white,
+                      width: SizeConfig.screenWidth,
+                      height: 70,
+                      alignment: Alignment.center,
+                      child: DoneBtn(onDone: (){
+                        sysSubmit(widgets,isEdit: widget.isEdit,
+                          needCustomValidation: true,
+                          onCustomValidation: (){
+                            foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
+                            return true;
                           },
-                          child: Container(
+                          successCallback: (e){
+                            console("sysSubmit $e");
+                            if(widget.closeCb!=null){
+                              widget.closeCb!(e);
+                            }
+                          }
+                        );
+                      }, title: "Update"),
+                      /*child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              sysSubmit(widgets,isEdit: widget.isEdit);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.red),
+                                color: ColorUtil.red.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                            ),
+                          ),
+                          Container(
                             width: SizeConfig.screenWidth!*0.4,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
-                              border: Border.all(color: ColorUtil.red),
-                              color: ColorUtil.red.withOpacity(0.3),
+                              color: ColorUtil.primary,
                             ),
-                            child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                            child:const Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
-                        ),
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: ColorUtil.primary,
-                          ),
-                          child:const Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
-                        ),
-                      ],
-                    ),*/
+                        ],
+                      ),*/
+                    ),
                   ),
                 )
               ]

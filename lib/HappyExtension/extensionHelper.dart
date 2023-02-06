@@ -225,7 +225,6 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     bool closeFrmOnSubmit=true
   }) async{
 
-
     bool isValid=true;
     if(needCustomValidation){
       isValid=onCustomValidation!();
@@ -257,6 +256,29 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
         );
       }
     }
+
+  }
+
+  void sysDelete(arr,primaryKey,primaryArr,{Function? successCallback,String dataJson="",String content="Are you sure want to delete ?",}){
+    CustomAlert(
+        callback: (){
+          postUIJson(getPageIdentifier(),
+              dataJson,
+              "Delete",
+              successCallback: (e){
+                String errorMsg=e["TblOutPut"][0]["@Message"];
+                CustomAlert().successAlert(errorMsg, "");
+                if(successCallback!=null){
+                  successCallback(e);
+                }
+                updateArrById(primaryKey, e["Table"][0], arr,action: ActionType.deleteById,primaryArr:primaryArr );
+              }
+          );
+        },
+        cancelCallback: (){
+
+        }
+    ).yesOrNoDialog2('assets/Slice/like.png', content, false);
 
   }
 

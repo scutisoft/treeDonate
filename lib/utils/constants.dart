@@ -8,7 +8,7 @@ class MyConstants{
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.0";
   static bool isLive=false;
-  static bool fromUrl=false;
+  static bool fromUrl=true;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);

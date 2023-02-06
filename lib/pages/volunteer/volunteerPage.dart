@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../HappyExtension/utils.dart';
 import '../../pages/volunteer/viewVolunteer.dart';
 import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
@@ -130,7 +131,6 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                           searchIconColor: ColorUtil.asbSearchIconColor,
                           suffixIcon: ColorUtil.getASBSuffix(),
                           onSubmitted: (a){
-                            console(a);
                           },
                           onChange: (a){
                             filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
@@ -250,14 +250,29 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                                       child: Image.asset('assets/Slice/DefaultVolunteer.png',)
                                   ),
                                   const SizedBox(height: 5,),
-                                  EyeIcon(
-                                    onTap: (){
-                                      fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
-                                        updateArrById("VolunteerId", e['Table'][0], filterVolunteerList);
-                                        setState(() {});
-                                      },));
-                                    },
-                                  )
+                                  Row(
+                                    children: [
+                                      EyeIcon(
+                                        onTap: (){
+                                          fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
+                                            updateArrById("VolunteerId", e['Table'][0], filterVolunteerList,action: ActionType.update);
+                                            setState(() {});
+                                          },));
+                                        },
+                                      ),
+                                      const SizedBox(width: 10,),
+                                      GridDeleteIcon(
+                                        hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                                        onTap: (){
+                                          sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
+                                            successCallback: (e){
+                                              setState(() {});
+                                            },
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
@@ -295,6 +310,11 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
     volunteerList=valueArray.where((element) => element['key']=="VolunteerList").toList()[0]['value'];
     filterVolunteerList=volunteerList;
     setState(() {});
+  }
+
+  @override
+  String getPageIdentifier(){
+    return General.volunteerDetailIdentifier;
   }
 
 }

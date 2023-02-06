@@ -9,6 +9,7 @@ import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
+import '../../utils/utils.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
@@ -780,7 +781,10 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.1,
           child: GestureDetector(
             onTap: (){
-              setPageNumber(9);
+              if(isHasAccess(accessId["LandParcelView"])){
+                setPageNumber(9);
+              }
+
             },
             child: Container(
               clipBehavior: Clip.antiAlias,
@@ -800,7 +804,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text("Land Parcel",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
-                            Text("500 Hectare",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                           // Text("500 Hectare",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -836,7 +840,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text("Seed collection",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
-                            Text("500 Kg",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                          //  Text("500 Kg",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -870,7 +874,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text("Nursery",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
-                            Text("250 Numbers",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                           // Text("250 Numbers",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -904,7 +908,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text("Plantings",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
-                            Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                           // Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))

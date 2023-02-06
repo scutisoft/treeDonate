@@ -17,7 +17,7 @@ class General{
   static String viewVolunteerIdentifier=!MyConstants.fromUrl?"assets/json/users/volunteerView.json":"AF0D9D82-F943-48A3-BD89-46118B1D3174";
   static String addLandParcelIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcel.json":"DACF7963-7A17-42A8-82B3-8DC83C072BCE";
   static String addLandParcelGirdIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelGrid.json":"C54B3AE0-24A6-4BC0-849B-C5F9C6FF9E07";
-  static String addLandParcelViewIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String addLandParcelViewIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelView.json":"4F219F7A-3203-420A-A816-D41627A002D3";
   static String addSeedCollectionFrmIdentifier=!MyConstants.fromUrl?"assets/json/users/seedCollectionForm.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String addSeedGridViewIdentifier=!MyConstants.fromUrl?"assets/json/users/SeedingGrid.json":"24FEEB47-777D-4277-B2A4-D3066360FFC6";
   static String addSeedviewListIdentifier=!MyConstants.fromUrl?"assets/json/users/seedingView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
@@ -26,7 +26,7 @@ class General{
   static String NurseryViewIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String ProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/MyProfile.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String EditProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/Edit-Profile.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
-  static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"6F4207A7-8DF9-458B-9B99-D1386FCB2B93";
 
 
   static String eventName="eventName";

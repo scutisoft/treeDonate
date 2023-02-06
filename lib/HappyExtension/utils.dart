@@ -122,8 +122,16 @@ String getValuesFromMap(map){
   return jsonEncode(valArr).toLowerCase();
 }
 
-void updateArrById(primaryKey,updatedValueMap,arr,{bool isUpdate=true}){
-  if(isUpdate){
+enum ActionType{
+  add,
+  update,
+  deleteById,
+  deleteAll
+}
+
+
+void updateArrById(primaryKey,updatedValueMap,arr,{ActionType action=ActionType.update,List<dynamic> primaryArr=const []}){
+  if(action==ActionType.update){
     var foundEle=arr.where((ele)=>ele[primaryKey]==updatedValueMap[primaryKey]).toList();
     if(foundEle.length>0){
       updatedValueMap.forEach((key, value) {
@@ -133,10 +141,22 @@ void updateArrById(primaryKey,updatedValueMap,arr,{bool isUpdate=true}){
       });
     }
   }
-  else{
+  else if(action==ActionType.deleteById){
+    int index=arr.indexWhere((ele)=>ele[primaryKey]==updatedValueMap[primaryKey]);
+    if(index!=-1){
+      arr.removeAt(index);
+    }
+    int index1=primaryArr.indexWhere((ele)=>ele[primaryKey]==updatedValueMap[primaryKey]);
+    if(index1!=-1){
+      primaryArr.removeAt(index1);
+    }
+  }
+  else if(action==ActionType.add){
     arr.insert(0, updatedValueMap);
   }
 }
+
+
 
 String getDataJsonForGrid(x){
   if(HE_IsMap(x)){

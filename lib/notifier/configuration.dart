@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../pages/loginpage/slider-swipeup.dart';
+import '../pages/navHomeScreen.dart';
 
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 Map<String, dynamic> deviceData = <String, dynamic>{};
@@ -144,5 +145,6 @@ void clearUserSessionDetail(){
   setSharedPrefString("", SP_USERNAME);
   setSharedPrefString("", SP_USERTYPENAME);
   setSharedPrefString("", SP_USERTYPEID);
+  menuSel.value=13;
   Get.off(SlideSwipe());
 }

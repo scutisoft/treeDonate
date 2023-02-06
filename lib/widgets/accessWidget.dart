@@ -9,6 +9,7 @@ class AccessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: needToHide?hasAccess:true,
+      replacement: Container(width: 0,),
       child: GestureDetector(
         onTap: hasAccess?onTap:null,
         //onTap: onTap,
