@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:treedonate/widgets/alertDialog.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
+import '../../widgets/navigationBarIcon.dart';
 
 
 class Dashboard extends StatefulWidget {
@@ -72,11 +74,10 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                   floating: true,
                   snap: true,
                   pinned: true,
-                  leading: GestureDetector(
-                      onTap: (){
-                        widget.voidCallback();
-                      },
-                      child: Icon(Icons.arrow_back_ios_new_sharp,color: ColorUtil.themeBlack,size: 25,)
+                  leading: NavBarIcon(
+                    onTap: (){
+                      widget.voidCallback();
+                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
@@ -762,6 +763,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                             ),
                           ),
                           SizedBox(height: 15,),
+
                         ],
                       ),
                     ),
@@ -778,7 +780,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
   void assignWidgets() async{
 
     setState(() {});
-    await parseJson(widgets, General.NurseryGridIdentifier);
+   // await parseJson(widgets, General.NurseryGridIdentifier);
     try{
 
       NurseryList=valueArray.where((element) => element['key']=="NurserydataList").toList()[0]['value'];

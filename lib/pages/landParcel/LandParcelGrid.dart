@@ -12,6 +12,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
 import '../Filter/FilterItems.dart';
 
@@ -288,7 +289,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                             ),
                                             GestureDetector(
                                               onTap: (){
-
+                                                CustomAlert().yesOrNoDialog2('assets/Slice/like.png', 'Delete', false);
                                               },
                                               child: Container(
                                                 width: 30,

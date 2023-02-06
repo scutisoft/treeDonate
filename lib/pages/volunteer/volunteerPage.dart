@@ -17,6 +17,7 @@ import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
 import '../landParcel/LandParcelViewPage.dart';
 import 'addvolunteer.dart';
+import 'volunteerFilter.dart';
 
 class VolunteerPage extends StatefulWidget {
   VoidCallback voidCallback;
@@ -144,7 +145,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                         const SizedBox(width: 5,),
                         FilterIcon(
                           onTap: (){
-                            //fadeRoute(FilterItems());
+                            fadeRoute(VolunteerFilter());
                           },
                         ),
                         SizedBox(width: 15,),
