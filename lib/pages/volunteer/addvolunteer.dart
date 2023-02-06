@@ -100,7 +100,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                           children: [
                             Container(
                               padding: EdgeInsets.only(bottom: 10),
-                              child: Text('நம் மரம் \n நம் கடமை',style: TextStyle(fontSize: 12,color: ColorUtil.primary,fontFamily: 'RM'),textAlign: TextAlign.start,),
+                              child: Text('நம் மரம்\nநம் கடமை',style: TextStyle(fontSize: 12,color: ColorUtil.primary,fontFamily: 'RM'),textAlign: TextAlign.start,),
                             ),
                           ],
                         ),
