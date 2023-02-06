@@ -145,6 +145,5 @@ void clearUserSessionDetail(){
   setSharedPrefString("", SP_USERNAME);
   setSharedPrefString("", SP_USERTYPENAME);
   setSharedPrefString("", SP_USERTYPEID);
-  menuSel.value=13;
   Get.off(SlideSwipe());
 }

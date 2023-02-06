@@ -471,15 +471,20 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.clear();
+    newsFeed.clear();
+    filterNewsFeed.clear();
     widgets.add(HE_Text(dataname: "UserName", contentTextStyle: TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),));
     widgets.add(HE_Text(dataname: "Role", contentTextStyle: TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),));
     await parseJson(widgets, General.HomePageViewIdentifier);
 
 
-    newsFeed=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
-    filterNewsFeed= newsFeed;
+    try{
+      newsFeed=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
+      filterNewsFeed= newsFeed;
+    }
+    catch(e){}
     setState(() {});
-    console(newsFeed);
+
   }
 
 

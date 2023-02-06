@@ -123,7 +123,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
   }
   @override
   void assignWidgets() async{
-    widgets.add(AddNewLabelTextField(
+    /*widgets.add(AddNewLabelTextField(
       dataname: 'UserName',
       hasInput: true,
       required: true,
@@ -133,7 +133,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       onEditComplete: (){
         node.unfocus();
       },
-    ));
+    ));*/
     widgets.add(AddNewLabelTextField(
       dataname: 'Email',
       hasInput: true,

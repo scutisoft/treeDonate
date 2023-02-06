@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:treedonate/widgets/loader.dart';
-
+import '../../widgets/loader.dart';
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
 import '../../model/parameterMode.dart';
@@ -13,7 +11,6 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
-import '../coordinatorPage/coordinatorHomeScreen.dart';
 import '../navHomeScreen.dart';
 
 
@@ -30,6 +27,7 @@ class _loginPageState extends State<loginPage> {
 
   @override
   void initState(){
+    menuSel.value=13;
     loadCredentials();
     super.initState();
   }

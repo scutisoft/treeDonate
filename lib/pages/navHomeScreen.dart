@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:treedonate/api/ApiManager.dart';
 import 'package:treedonate/notifier/configuration.dart';
 import 'package:treedonate/pages/Seeding/seedingGrid.dart';
+import 'package:treedonate/utils/constants.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/loader.dart';
@@ -79,7 +81,8 @@ class MenuScreen extends GetView<MyDrawerController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
+      bottom: MyConstants.bottomSafeArea,
       child: Column(
         children: [
 
@@ -145,7 +148,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             padding: const EdgeInsets.all(8.0),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Text('(c) 2021. All Rights Reserved. Design By Scutisoft   ',
+                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. All Rights Reserved. Design By Scutisoft   ',
                   style: TextStyle(fontSize: 12,color:Color(0xffffffff), fontFamily:'RR'),textAlign: TextAlign.center, )
             ),
           ),
@@ -183,6 +186,7 @@ class _MasterpageState extends State<Masterpage>{
     width2=width-16;
     SizeConfig().init(context);
     return SafeArea(
+      bottom: MyConstants.bottomSafeArea,
       child: Stack(
         children: [
           Obx(() => Scaffold(
