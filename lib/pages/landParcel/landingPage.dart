@@ -14,6 +14,7 @@ import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
 import '../Filter/FilterItems.dart';
 import '../newsFeedsView/newsFeedsViewPage.dart';
+import '../profile/myprofile.dart';
 
 class LandingPage extends StatefulWidget {
   VoidCallback voidCallback;
@@ -81,56 +82,63 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text("Mr.Balasubramaniyan",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
-                                      Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
+                                      widgets[0],
+                                      widgets[1],
+                                      // Text("Mr.Balasubramaniyan",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
+                                      // Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
                                     ],
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: ColorUtil.primary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                                   ),
                                   SizedBox(width: 5,),
                                   GestureDetector(
                                     onTap: (){
-
+                                      setPageNumber(1);
                                     },
                                     child: Container(
-                                      height: 40,
                                       width: 40,
+                                      height: 40,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                        color: ColorUtil.themeWhite,
+                                        color: ColorUtil.primary,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Stack(
-                                        children: [
-                                          Icon(Icons.notifications,color:Colors.orangeAccent,size: 25,),
-                                          Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: Container(
-                                              height: 15,
-                                              width: 15,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: ColorUtil.red,
-                                              ),
-                                              child: Text("1",style:  TextStyle(fontFamily: 'RR',fontSize: 10,color: Colors.white),),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                                     ),
                                   ),
-                                  SizedBox(width: 5,),
+                                  // SizedBox(width: 5,),
+                                  // GestureDetector(
+                                  //   onTap: (){
+                                  //
+                                  //   },
+                                  //   child: Container(
+                                  //     height: 40,
+                                  //     width: 40,
+                                  //     alignment: Alignment.center,
+                                  //     decoration: BoxDecoration(
+                                  //       color: ColorUtil.themeWhite,
+                                  //       shape: BoxShape.circle,
+                                  //     ),
+                                  //     child: Stack(
+                                  //       children: [
+                                  //         Icon(Icons.notifications,color:Colors.orangeAccent,size: 25,),
+                                  //         Positioned(
+                                  //           right: 0,
+                                  //           top: 0,
+                                  //           child: Container(
+                                  //             height: 15,
+                                  //             width: 15,
+                                  //             alignment: Alignment.center,
+                                  //             decoration: BoxDecoration(
+                                  //               shape: BoxShape.circle,
+                                  //               color: ColorUtil.red,
+                                  //             ),
+                                  //             child: Text("1",style:  TextStyle(fontFamily: 'RR',fontSize: 10,color: Colors.white),),
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  SizedBox(width: 15,),
                                 ],
                               ),
                             ],
@@ -806,7 +814,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             onTap: (){
-              setPageNumber(11);
+             // setPageNumber(11);
             },
             child: Container(
               // width: SizeConfig.screenWidth!*0.4,
@@ -842,7 +850,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             onTap: (){
-              setPageNumber(12);
+              // setPageNumber(12);
             },
             child: Container(
               clipBehavior: Clip.antiAlias,
@@ -876,7 +884,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.1,
           child:GestureDetector(
             onTap: (){
-              setPageNumber(10);
+              // setPageNumber(10);
             },
             child: Container(
               clipBehavior: Clip.antiAlias,
@@ -911,7 +919,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.clear();
-    //await parseJson(widgets, General.donateIdentifier);
+    widgets.add(HE_Text(dataname: "UserName", contentTextStyle: TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),));
+    widgets.add(HE_Text(dataname: "Role", contentTextStyle: TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),));
+    await parseJson(widgets, General.HomePageViewIdentifier);
 
     setState(() {});
   }

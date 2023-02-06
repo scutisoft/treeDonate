@@ -24,6 +24,9 @@ class General{
   static String addNurseryFormIdentifier=!MyConstants.fromUrl?"assets/json/users/NurseryForm.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String NurseryGridIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryGrid.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String NurseryViewIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String ProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/MyProfile.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String EditProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/Edit-Profile.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
 
 
   static String eventName="eventName";

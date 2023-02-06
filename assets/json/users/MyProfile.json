@@ -1,0 +1,30 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+    {
+      "key": "UserName",
+      "value": "BalaSubramaniyan"
+    },
+    {
+      "key": "Designation",
+      "value": "Eco Pvt Ltd"
+    },
+    {
+      "key": "Email",
+      "value": "balaeco@gmail.com"
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "7550286132"
+    },
+    {
+      "key": "Role",
+      "value": "Volunteer"
+    },
+    {
+      "key": "Password",
+      "value": "**************"
+    }
+  ]
+}
+
