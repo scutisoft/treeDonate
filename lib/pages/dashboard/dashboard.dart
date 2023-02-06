@@ -101,7 +101,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         clipBehavior: Clip.antiAlias,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 10, right: 10,bottom: 10),
+                            margin: EdgeInsets.only(left: 5, right: 5,bottom: 10),
                             child: Text('Eco Green Foundation Dashboard',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
                           ),
                           SizedBox(height: 5,),
@@ -114,7 +114,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                             children: [
                               Container(
                                 width: SizeConfig.screenWidth!*0.45,
-                                height: 150,
+                                height: 140,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -133,7 +133,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -177,7 +177,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               ),
                               Container(
                                 width: SizeConfig.screenWidth!*0.45,
-                                height: 150,
+                                height: 140,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -196,7 +196,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -243,7 +243,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               Container(
                                 width: SizeConfig.screenWidth!*0.45,
                                 padding: EdgeInsets.all(10),
-                                height: 150,
+                                height: 140,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
@@ -261,7 +261,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -306,7 +306,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               ),
                               Container(
                                 width: SizeConfig.screenWidth!*0.45,
-                                height: 150,
+                                height: 140,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -325,7 +325,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Row(
@@ -345,7 +345,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                           text: TextSpan(
                                             children: <TextSpan>[
                                               TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                              TextSpan(text: '10 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                             ],
                                           ),
                                           // textScaleFactor: 0.5,
@@ -353,21 +353,173 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                       ],
                                     ),
                                     SizedBox(height: 5,),
-                                    Text('Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                    Text('Zone',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                     SizedBox(height: 5,),
                                     Text.rich(
                                       TextSpan(
-                                        text: '12', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                        text: '5', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                         children: [
-                                          TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                          TextSpan(text: ' Zone ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
                                         ],
                                       ),
                                     ),
-                                    Text('6730 Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
                                   ],
                                 ),
                               ),
                             ],
+                          ),
+                          SizedBox(height: 15,),
+                          Container(
+                            margin: EdgeInsets.only(left: 5, right: 5,),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: SizeConfig.screenWidth!*0.45,
+                                  height: 150,
+                                  clipBehavior: Clip.antiAlias,
+                                  //padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF9CBA5),
+                                  ),
+                                  child: Stack(
+                                   children: [
+                                     Padding(
+                                       padding: const EdgeInsets.all(10.0),
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                         mainAxisAlignment: MainAxisAlignment.center,
+                                         mainAxisSize: MainAxisSize.min,
+                                         children: [
+                                           Row(
+                                             children: [
+                                               Container(
+                                                 width:50,
+                                                 height: 50,
+                                                 alignment: Alignment.center,
+                                                 decoration: BoxDecoration(
+                                                     color: Color(0XFFF2F2F2),
+                                                     shape:BoxShape.circle
+                                                 ),
+                                                 child: Image.asset('assets/trees/Nursery.png',height: 30,),
+                                               ),
+                                               SizedBox(width:5 ,),
+                                               RichText(
+                                                 text: TextSpan(
+                                                   children: <TextSpan>[
+                                                     TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                     TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                   ],
+                                                 ),
+                                                 // textScaleFactor: 0.5,
+                                               )
+                                             ],
+                                           ),
+                                           SizedBox(height: 5,),
+                                           Text('Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                           SizedBox(height: 5,),
+                                           Text.rich(
+                                             TextSpan(
+                                               text: '12', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                               children: [
+                                                 TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                               ],
+                                             ),
+                                           ),
+                                           Text('6730 Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                         ],
+                                       ),
+                                     ),
+                                     Align(
+                                       alignment: Alignment.bottomRight,
+                                       child: Transform(
+                                         transform: Matrix4.skewY(2.3),
+                                         origin:Offset(50 ,-50),
+                                         child: Container(
+                                           width: 50,
+                                           height: 50,
+                                           decoration: BoxDecoration(
+                                             color: Color(0xffCFEDD8),
+                                           ),
+                                         ),
+                                       ),
+                                     )
+                                   ],
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.screenWidth!*0.46,
+                                  height: 150,
+                                  //padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffCFEDD8),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width:50,
+                                                  height: 50,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0XFFF2F2F2),
+                                                      shape:BoxShape.circle
+                                                  ),
+                                                  child: Image.asset('assets/trees/plant.png',height: 30,),
+                                                ),
+                                                SizedBox(width:5 ,),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    children: <TextSpan>[
+                                                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                      TextSpan(text: '2 CR ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                    ],
+                                                  ),
+                                                  // textScaleFactor: 0.5,
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text('Plantation',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                            SizedBox(height: 5,),
+                                            Text.rich(
+                                              TextSpan(
+                                                text: '2', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                                children: [
+                                                  TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                                ],
+                                              ),
+                                            ),
+                                            Text('60 Plantation ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                          ],
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Transform(
+                                          transform: Matrix4.skewY(2.3),
+                                          origin:Offset(50 ,-50),
+                                          child: Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffF3F3F3),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 15,),
                           Container(
@@ -520,24 +672,47 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                     ),
                                   ],
                                 ),
-                                // Row(
-                                //   crossAxisAlignment: CrossAxisAlignment.start,
-                                //   children: [
-                                //     Container(
-                                //      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                //       alignment: Alignment.center,
-                                //       decoration: BoxDecoration(
-                                //         color: Color(0xffAC6839),
-                                //         borderRadius: BorderRadius.circular(10),
-                                //       ),
-                                //       child: Row(
-                                //         children: [
-                                //           Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,)
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
+                                SizedBox(height: 5,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: 70,
+                                      height: 30,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffAC6839),
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,),
+                                          Text('42 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Container(
+                                      width: 70,
+                                      height: 30,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff00565B),
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,size: 20,),
+                                          Text('53 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text('Increased for Last Year ',style: TextStyle(fontFamily: 'RR',fontSize: 12,color: Color(0xff000000)),),
+                                  ],
+                                ),
                                 SizedBox(height: 10,),
                                 Flexible(
                                   // height: SizeConfig.screenHeight,
@@ -571,7 +746,12 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                                 Text(' 1 Month Later',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000).withOpacity(0.4)),)
                                               ],
                                             ),
-                                            Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                            Row(
+                                              children: [
+                                                Image.asset('assets/trees/leaf-nur.png',height: 25,),
+                                                Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       );
