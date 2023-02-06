@@ -9,8 +9,8 @@
     {
       "key": "LandTypeId",
       "value": {
-        "DropDownOptionList": [{"Id":1006,"Text":"Farm Land"},{"Id":1007,"Text":"Govt Land"},{"Id":1008,"Text":"Institutional Land"}],
-        "SelectedId": 1006
+        "DropDownOptionList": [],
+        "SelectedId": 1
       },
       "orderBy": 2
     },
@@ -32,54 +32,38 @@
     {
       "key": "TypeOfSoilId",
       "value": {
-        "DropDownOptionList": [{"Id":1034,"Text":"Clay soil"},{"Id":1035,"Text":"Alluvial Soil"},{"Id":1036,"Text":"Black Soil"},{"Id":1037,"Text":"Red Soil"},{"Id":1038,"Text":"Saline Soil"},{"Id":1039,"Text":"Laterite Soil"}],
-        "SelectedId": 1034
+        "DropDownOptionList": [],
+        "SelectedId": 1
       },
       "orderBy": 6
     },
     {
       "key": "SurveyNo",
-      "value": "SUR0012",
+      "value": "",
       "orderBy": 7
     },
     {
       "key": "Hectare",
-      "value": "1",
+      "value": "",
       "orderBy": 8
     },
     {
       "key": "Acre",
-      "value": "23",
+      "value": "",
       "orderBy": 9
     },
     {
       "key": "DistrictId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ],
-        "SelectedId": 2
+        "DropDownOptionList": [],
+        "SelectedId": 1
       },
       "orderBy": 10
     },
     {
       "key": "TalukId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ],
+        "DropDownOptionList": [],
         "SelectedId": 1
       },
       "orderBy": 11
@@ -87,15 +71,7 @@
     {
       "key": "VillageId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ],
+        "DropDownOptionList": [],
         "SelectedId": 1
       },
       "orderBy": 12
@@ -113,8 +89,13 @@
     {
       "key": "PlantingYearId",
       "value": {
-        "DropDownOptionList": [{"Id":"2023","Text":"2023"},{"Id":"2024","Text":"2024"},{"Id":"2025","Text":"2025"},{"Id":"2026","Text":"2026"},{"Id":"2027","Text":"2027"},{"Id":"2028","Text":"2028"},{"Id":"2029","Text":"2029"},{"Id":"2030","Text":"2030"},{"Id":"2031","Text":"2031"},{"Id":"2032","Text":"2032"},{"Id":"2033","Text":"2033"},{"Id":"2034","Text":"2034"},{"Id":"2035","Text":"2035"},{"Id":"2036","Text":"2036"},{"Id":"2037","Text":"2037"},{"Id":"2038","Text":"2038"},{"Id":"2039","Text":"2039"},{"Id":"2040","Text":"2040"},{"Id":"2041","Text":"2041"},{"Id":"2042","Text":"2042"},{"Id":"2043","Text":"2043"},{"Id":"2044","Text":"2044"},{"Id":"2045","Text":"2045"},{"Id":"2046","Text":"2046"},{"Id":"2047","Text":"2047"},{"Id":"2048","Text":"2048"},{"Id":"2049","Text":"2049"},{"Id":"2050","Text":"2050"},{"Id":"2051","Text":"2051"},{"Id":"2052","Text":"2052"},{"Id":"2053","Text":"2053"},{"Id":"2054","Text":"2054"},{"Id":"2055","Text":"2055"},{"Id":"2056","Text":"2056"},{"Id":"2057","Text":"2057"},{"Id":"2058","Text":"2058"},{"Id":"2059","Text":"2059"},{"Id":"2060","Text":"2060"},{"Id":"2061","Text":"2061"},{"Id":"2062","Text":"2062"},{"Id":"2063","Text":"2063"},{"Id":"2064","Text":"2064"},{"Id":"2065","Text":"2065"},{"Id":"2066","Text":"2066"},{"Id":"2067","Text":"2067"},{"Id":"2068","Text":"2068"},{"Id":"2069","Text":"2069"},{"Id":"2070","Text":"2070"},{"Id":"2071","Text":"2071"},{"Id":"2072","Text":"2072"},{"Id":"2073","Text":"2073"}],
-        "SelectedId": 2023
+        "DropDownOptionList": [
+          {
+            "Id": "2023",
+            "Text": "2023"
+          }
+        ],
+        "SelectedId": 1
       },
       "orderBy": 15
     },
@@ -141,4 +122,3 @@
     }
   ]
 }
-

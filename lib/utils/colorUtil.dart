@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 
 class ColorUtil{
   static Color  theme=const Color(0xffF8F8F8);
@@ -53,4 +54,15 @@ class ColorUtil{
   static Color chkBoxText=const Color(0xff452800);
   static Color disableColor=Color(0xFFe8e8e8);
   static Color avatarBorderColor=Color(0xFFC7D0D8);
+
+
+  //Animated Search Bar
+  static Color asbColor=primary;
+  static bool asbBoxShadow=false;
+  static bool asbCloseSearchOnSuffixTap=true;
+  static Color asbSearchIconColor=themeWhite;
+  static Icon getASBSuffix(){
+    return const Icon(Icons.clear,color: Colors.white,);
+  }
+
 }

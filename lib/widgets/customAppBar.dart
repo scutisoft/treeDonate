@@ -80,3 +80,43 @@ class EyeIcon extends StatelessWidget {
     );
   }
 }
+
+class FilterIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  FilterIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorUtil.primary,
+        ),
+        child: Icon(Icons.filter_alt_outlined,color:ColorUtil.theme,),
+      ),
+    );
+  }
+}
+
+class GridAddIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  GridAddIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorUtil.primary,
+        ),
+        child: Icon(Icons.add,color:ColorUtil.theme,),
+      ),
+    );
+  }
+}

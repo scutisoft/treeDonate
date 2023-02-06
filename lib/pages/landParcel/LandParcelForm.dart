@@ -17,6 +17,12 @@ import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class LandParcelForm extends StatefulWidget {
+  bool isEdit;
+  String dataJson;
+  Function? closeCb;
+
+
+  LandParcelForm({this.closeCb,this.dataJson="",this.isEdit=false});
   @override
   _LandParcelFormState createState() => _LandParcelFormState();
 }
@@ -30,7 +36,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
     assignWidgets();
     super.initState();
   }
-
+  String page="LandDetails";
   var node;
   @override
   Widget build(BuildContext context) {
@@ -90,11 +96,11 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                       Row(
                         children: [
                           Container(
-                              height: 60,
+                              //height: 60,
                               width: SizeConfig.screenWidth!*0.5,
                               child: widgets[6]),
                           Container(
-                              height: 60,
+                              //height: 60,
                               width: SizeConfig.screenWidth!*0.5,
                               child: widgets[7]),
                         ],
@@ -133,7 +139,15 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                         ),
                         GestureDetector(
                           onTap: (){
-                            sysSubmit(widgets);
+                            sysSubmit(widgets,
+                              isEdit: widget.isEdit,
+                              successCallback: (e){
+                                console("sysSubmit $e");
+                                if(widget.closeCb!=null){
+                                  widget.closeCb!(e);
+                                }
+                              }
+                            );
                           },
                           child: Container(
                             width: SizeConfig.screenWidth!*0.4,
@@ -198,7 +212,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
         node.unfocus();
       },
     ));//3
-    widgets.add(SearchDrp2(map: const {"dataName":"TypeOfSoilId","hintText":"Select Soil Type"},));//4
+    widgets.add(SearchDrp2(map: const {"dataName":"TypeOfSoilId","hintText":"Select Soil Type","labelText":"Soil Type"},));//4
     widgets.add(AddNewLabelTextField(
       dataname: 'SurveyNo',
       hasInput: true,
@@ -244,9 +258,16 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
         node.unfocus();
       },
     ));//7
-    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District"},));//8
-    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk"},)); //9
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village"},));//10
+    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
+        }
+    ));//8
+    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+      fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+    })); //9
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
     widgets.add(AddNewLabelTextField(
       dataname: 'LandAddress',
       hasInput: true,
@@ -302,6 +323,11 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
 
 
     setState(() {});
-    await parseJson(widgets, General.addLandParcelIdentifier);
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
+  }
+
+  @override
+  String getPageIdentifier(){
+    return General.addLandParcelIdentifier;
   }
 }

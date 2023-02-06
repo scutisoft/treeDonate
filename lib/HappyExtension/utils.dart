@@ -24,7 +24,7 @@ Future<List> getMasterDrp(String page,String typeName, dynamic refId,  dynamic h
       // print(value);
       if(value[0]){
         var parsed=jsonDecode(value[1]);
-        print(parsed);
+        //print(parsed);
         var table=parsed['Table'] as List;
         if(table.isNotEmpty){
           result=table;
@@ -101,4 +101,49 @@ Future<Position> determinePosition() async {
     return Future.error('Location permissions are permanently denied, we cannot request permissions.');
   }
   return await Geolocator.getCurrentPosition();
+}
+
+List searchGrid(v,primaryArr,secondaryArr){
+  if(v.toString().isEmpty){
+    secondaryArr=primaryArr;
+  }
+  else{
+    String sv=v.toString().toLowerCase();
+    secondaryArr=primaryArr.where((element) => getValuesFromMap(element).contains(sv)).toList();
+  }
+  return secondaryArr;
+}
+
+String getValuesFromMap(map){
+  var valArr= [];
+  map.forEach((key, value) {
+    valArr.add(value);
+  });
+  return jsonEncode(valArr).toLowerCase();
+}
+
+void updateArrById(primaryKey,updatedValueMap,arr,{bool isUpdate=true}){
+  if(isUpdate){
+    var foundEle=arr.where((ele)=>ele[primaryKey]==updatedValueMap[primaryKey]).toList();
+    if(foundEle.length>0){
+      updatedValueMap.forEach((key, value) {
+        if(foundEle[0].containsKey(key)){
+          foundEle[0][key]=value;
+        }
+      });
+    }
+  }
+  else{
+    arr.insert(0, updatedValueMap);
+  }
+}
+
+String getDataJsonForGrid(x){
+  if(HE_IsMap(x)){
+    return jsonEncode(x);
+  }
+  else if(x.runtimeType.toString()=="String"){
+    return x;
+  }
+  return "[]";
 }

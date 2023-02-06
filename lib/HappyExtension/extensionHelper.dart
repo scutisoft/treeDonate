@@ -181,7 +181,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   Future<void> getUIFromDb(List<dynamic> widgets,String pageIdentifier,String? dataJson) async{
     await GetUiNotifier().getUiJson(pageIdentifier,await getLoginId(),true,dataJson: dataJson).then((value){
       print("----getUIFromDb-----");
-      print(value);
+      console(value);
       if(value!="null" && value.toString().isNotEmpty){
         var parsed=jsonDecode(value);
         parsedJson=jsonDecode(parsed['Table'][0]['PageJson']);
@@ -221,14 +221,16 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     bool isEdit=false,
     bool needCustomValidation=false,
     Function? onCustomValidation,
-    bool clearFrm=true
+    bool clearFrm=true,
+    bool closeFrmOnSubmit=true
   }) async{
 
-    List<ParameterModel> params= await getFrmCollection(widgets);
+
     bool isValid=true;
     if(needCustomValidation){
       isValid=onCustomValidation!();
     }
+    List<ParameterModel> params= await getFrmCollection(widgets);
     if(params.isNotEmpty && isValid){
       if(isValid){
         try{
@@ -241,6 +243,9 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
             action.isNotEmpty?action: isEdit?"Update":"Insert",
             successCallback: (e){
               String errorMsg=e["TblOutPut"][0]["@Message"];
+              if(closeFrmOnSubmit){
+                Get.back();
+              }
               CustomAlert().successAlert(errorMsg, "");
               if(clearFrm){
                 clearAll(widgets);
