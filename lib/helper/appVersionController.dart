@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 class AppVersionController{
   void getAppVersionDetail() async{
     List<ParameterModel> params= await getParameterEssential();
-    params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USB_GetAppVersionDetail"));
+    params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USP_GetAppVersionDetail"));
     params.add(ParameterModel(Key: "AppName", Type: "String", Value: MyConstants.appName));
     ApiManager().GetInvoke(params,/*hideLoaders: true*/).then((value){
       if(value[0]){

@@ -77,6 +77,7 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                                     alignment: Alignment.center,
                                     child: Container(
                                       width: 90,
+                                      clipBehavior: Clip.antiAlias,
                                       height: 90,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
@@ -146,7 +147,9 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                     alignment: Alignment.bottomCenter,
                     child:  GestureDetector(
                       onTap: (){
-                        fadeRoute(EditProfile());
+                        fadeRoute(EditProfile(closeCb: (e){
+                          assignWidgets();
+                        },));
                       },
                       child: Container(
                         width: SizeConfig.screenWidth,

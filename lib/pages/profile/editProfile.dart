@@ -88,7 +88,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                     widgets[0],
                     widgets[1],
                     widgets[2],
-                    widgets[3],
+
                   ],
                 ),
               ),
@@ -139,7 +139,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       hasInput: true,
       required: true,
       labelText: "E-mail",
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -150,7 +150,8 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       hasInput: true,
       required: true,
       labelText: "Mobile Number",
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: MyConstants.digitRegEx,
+      textLength: MyConstants.phoneNoLength,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -162,7 +163,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       required: true,
       isObscure: true,
       labelText: "Password",
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -171,17 +172,17 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
 
     widgets.add(HiddenController(dataname: "UserId"));
     setState(() {});
-    widgets[3].suffixIcon= GestureDetector(
+    widgets[2].suffixIcon= GestureDetector(
       onTap: (){
-        widgets[3].isObscure=!widgets[3].isObscure;
-        widgets[3].reload.value=!widgets[3].reload.value;
+        widgets[2].isObscure=!widgets[2].isObscure;
+        widgets[2].reload.value=!widgets[2].reload.value;
       },
       child: Container(
         height: 30,
         width: 30,
         alignment: Alignment.center,
         color: Colors.transparent,
-        child: Icon(! widgets[3].isObscure?Icons.visibility_off_outlined:Icons.visibility_outlined,color: ColorUtil.primary,)
+        child: Icon(! widgets[2].isObscure?Icons.visibility_off_outlined:Icons.visibility_outlined,color: ColorUtil.primary,)
       ),
     );
     await parseJson(widgets, General. EditProfileViewIdentifier);

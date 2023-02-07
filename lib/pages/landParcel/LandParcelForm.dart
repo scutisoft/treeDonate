@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:treedonate/widgets/calculation.dart';
+import '../../widgets/loader.dart';
 import '../../widgets/logoPicker.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -38,9 +39,11 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
   }
   String page="LandDetails";
   var node;
+  var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
     node=FocusScope.of(context);
+    isKeyboardVisible.value = MediaQuery.of(context).viewInsets.bottom != 0;
     return SafeArea(
         bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
@@ -119,34 +122,39 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                 ),
                 Positioned(
                   bottom: 0,
-                  child: Container(
+                  child: Obx(() => Container(
                     margin: const EdgeInsets.only(top: 0,bottom: 0),
-                    height: 70,
+                    height: isKeyboardVisible.value?0:70,
                     width: SizeConfig.screenWidth,
                     color: Colors.white,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: ColorUtil.primary),
-                            color: ColorUtil.primary.withOpacity(0.3),
+                        GestureDetector(
+                          onTap: (){
+                            Get.back();
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth!*0.4,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(color: ColorUtil.primary),
+                              color: ColorUtil.primary.withOpacity(0.3),
+                            ),
+                            child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                           ),
-                          child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                         ),
                         GestureDetector(
                           onTap: (){
                             sysSubmit(widgets,
-                              isEdit: widget.isEdit,
-                              successCallback: (e){
-                                console("sysSubmit $e");
-                                if(widget.closeCb!=null){
-                                  widget.closeCb!(e);
+                                isEdit: widget.isEdit,
+                                successCallback: (e){
+                                  console("sysSubmit $e");
+                                  if(widget.closeCb!=null){
+                                    widget.closeCb!(e);
+                                  }
                                 }
-                              }
                             );
                           },
                           child: Container(
@@ -161,8 +169,9 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
                         ),
                       ],
                     ),
-                  ),
-                )
+                  )),
+                ),
+                ShimmerLoader()
               ],
             ),
           ),
@@ -219,6 +228,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       required: true,
       labelText: "Enter Survey Number",
       scrollPadding: scrollPadding,
+      regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -263,17 +273,18 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
           fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
         }
     ));//8
-    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
       fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
     })); //9
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
     widgets.add(AddNewLabelTextField(
       dataname: 'LandAddress',
       hasInput: true,
       required: true,
       labelText: "Land Address",
       scrollPadding: 300,
+      regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

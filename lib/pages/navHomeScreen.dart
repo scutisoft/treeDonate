@@ -8,6 +8,7 @@ import 'package:treedonate/utils/constants.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/loader.dart';
+import '../helper/appVersionController.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
 import '../widgets/zoomDrawer/config.dart';
@@ -77,6 +78,23 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
   ];
+
+/*  List<dynamic> menuList=[
+    {"Title":"DashBoard","PageNumber":14,"iconNav":Icon(Icons.dashboard,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.home_work_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My Certificate","PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Our Events","PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"My trees","PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Land Parcel","PageNumber":9,"iconNav":Icon(Icons.landscape_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
+    {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
+  ];*/
 
 
   @override
@@ -180,6 +198,12 @@ class _MasterpageState extends State<Masterpage>{
 
 
   @override
+  void initState(){
+    AppVersionController().getAppVersionDetail();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     width=MediaQuery.of(context).size.width;
     height=MediaQuery.of(context).size.height;
@@ -252,7 +276,7 @@ class _MasterpageState extends State<Masterpage>{
               },
             ) :Container(),
           )),
-          Obx(() => Loader(value: showLoader.value,))
+          /*Obx(() => Loader(value: showLoader.value,))*/
         ],
       ),
     );

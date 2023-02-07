@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/pinWidget.dart';
+import '../../api/ApiManager.dart';
 import '../../widgets/customCheckBox.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
@@ -15,6 +16,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/loader.dart';
 import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
@@ -153,6 +155,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
               children:[
                 ListView(
                   physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   children: [
                     const SizedBox(height: 5,),
                     Container(
@@ -263,7 +266,8 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                       ),*/
                     ),
                   ),
-                )
+                ),
+                ShimmerLoader(),
               ]
             ),
           ),

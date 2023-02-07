@@ -90,7 +90,7 @@ class FilterIcon extends StatelessWidget {
     return GestureDetector(
       onTap:onTap,
       child: Container(
-        width: 48,
+        width: 0,
         height: 48,
         decoration: BoxDecoration(
           shape: BoxShape.circle,

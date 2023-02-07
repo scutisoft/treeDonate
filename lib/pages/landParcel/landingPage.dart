@@ -1,8 +1,11 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:treedonate/api/ApiManager.dart';
 import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/pages/navHomeScreen.dart';
+import 'package:treedonate/widgets/loader.dart';
 import '../../HappyExtension/utils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
@@ -59,7 +62,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
-          backgroundColor: ColorUtil.theme,
+          backgroundColor: Color(0xFFe8e8e8),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
             controller: silverController,
@@ -308,9 +311,12 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                     );
                   },
                 ),
-
+                ShimmerLoader(),
+                NoData(show: filterNewsFeed.isEmpty),
+                //Obx(() => NoData(show: filterNewsFeed.isEmpty && !showLoader.value,)),
 
                 const SizedBox(height: 15,),
+
               ],
             ),
           ),
@@ -575,7 +581,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     return Container(
       width: SizeConfig.screenWidth,
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.only(left: 15,right: 15,bottom: 15),
+      margin: const EdgeInsets.only(left: 15,right: 15,bottom: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: ColorUtil.themeWhite
@@ -597,6 +603,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       width: 40,
                       height: 40,
                       alignment: Alignment.center,
+                      clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         color: ColorUtil.primary,
                         shape: BoxShape.circle,

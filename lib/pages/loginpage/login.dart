@@ -220,6 +220,10 @@ class _loginPageState extends State<loginPage> {
                   ),
                 ),
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text("v - ${MyConstants.appVersion}",style: const TextStyle(height: 3),),
+              ),
               Obx(() => Loader(value: showLoader.value,))
             ],
           ),
@@ -227,6 +231,8 @@ class _loginPageState extends State<loginPage> {
     );
   }
   login() async{
+   /* Get.to(MyHomePage());
+    return;*/
     if(_text.text.isEmpty){
       CustomAlert().cupertinoAlert("Enter Email....");
       return;

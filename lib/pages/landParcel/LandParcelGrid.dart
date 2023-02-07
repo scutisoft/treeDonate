@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/widgets/loader.dart';
 import '../../HappyExtension/utils.dart';
+import '../../api/ApiManager.dart';
 import '../../widgets/accessWidget.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/navigationBarIcon.dart';
@@ -151,6 +153,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                     child: ListView.builder(
                       itemCount: filterLandParcelList.length,
                       physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
@@ -215,7 +218,8 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                         children: [
                                           Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                           //  Spacer(),
-                                          Flexible(child: Text("${filterLandParcelList[i]['Status']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
+                                          Flexible(child: Text("${filterLandParcelList[i]['Status']}",
+                                            style: TextStyle(color: filterLandParcelList[i]['Status']=="Approved"?ColorUtil.approvedClr:ColorUtil.rejectClr,fontSize: 14,fontFamily: 'RM'),)),
                                         ],
                                       ),
 
@@ -327,7 +331,11 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                         );
                       },
                     ),
-                  )
+                  ),
+                  ShimmerLoader(),
+                  NoData(show: filterLandParcelList.isEmpty && !showLoader.value,),
+                  //Obx(() => NoData(show: filterLandParcelList.isEmpty && !showLoader.value,)),
+
                 ],
               ),
             ),

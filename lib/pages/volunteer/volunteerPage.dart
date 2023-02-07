@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../HappyExtension/utils.dart';
+import '../../api/ApiManager.dart';
 import '../../pages/volunteer/viewVolunteer.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
@@ -282,7 +283,10 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                     },
                   ),
                   ),
-                  NoData(show: filterVolunteerList.isEmpty,)
+                  ShimmerLoader(),
+                  NoData(show: filterVolunteerList.isEmpty),
+                  //Obx(() => NoData(show: filterVolunteerList.isEmpty && !showLoader.value,)),
+
                 /*  Container(
                     child: Stack(
                       children: [

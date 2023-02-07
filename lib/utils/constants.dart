@@ -6,8 +6,8 @@ class MyConstants{
   MyConstants._();
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.0";
-  static bool isLive=false;
+  static String appVersion="1.0.1";
+  static bool isLive=true;
   static bool fromUrl=true;
   static bool bottomSafeArea=false;
 
