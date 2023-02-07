@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:treedonate/api/ApiManager.dart';
+import 'package:treedonate/api/apiUtils.dart';
+import 'package:treedonate/model/parameterMode.dart';
+import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/alertDialog.dart';
+import 'package:treedonate/widgets/loader.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
@@ -19,41 +27,53 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
-  List<dynamic> District=[
-    {"Districtname":"Chennai","Hectares":10.00,},
-    {"Districtname":"Erode","Hectares":20.00,},
-    {"Districtname":"Salem","Hectares":30.00,},
-    {"Districtname":"Theni","Hectares":40.00,},
-    {"Districtname":"Trichy","Hectares":50.00,},
-    {"Districtname":"Thenkasi","Hectares":60.00,},
-    {"Districtname":"thiruvallur","Hectares":70.00,},
-    {"Districtname":"Maduarai","Hectares":80.00,},
-    {"Districtname":"Vellore","Hectares":90.00,},
-    {"Districtname":"Villupuram","Hectares":10.00,},
-    {"Districtname":"Coimbatore","Hectares":100.00,},
-    {"Districtname":"Permabalur","Hectares":550.00,},
-  ];
-  List<dynamic> Zone=[
-    {"Zonename":"Zone 1","Hectare":10.00,},
-    {"Zonename":"Zone 2","Hectare":20.00,},
-    {"Zonename":"Zone 3","Hectare":30.00,},
-    {"Zonename":"Zone 4","Hectare":40.00,},
-    {"Zonename":"Zone 5","Hectare":50.00,},
-  ];
+  List<dynamic> District=[];
+  List<dynamic> Zone=[];
   List<Widget> widgets=[];
   bool isWaveView=true;
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
+
   @override
   void initState(){
     silverController= ScrollController();
     assignWidgets();
     super.initState();
   }
-  List<dynamic> NurseryList=[];
+
   var node;
 
   double cardWidth=0.0;
+
+  Map dashBoardDetail={
+    "TotalVolunteer": 0,
+    "VolunteerPrimaryUnit": "",
+    "VolunteerSecoundaryUnit": "Unit",
+    "VolunteerPercentage": 0,
+    "IsVolunteerIncrease": true,
+    "TotalLandParcel": 0.00,
+    "LandParcelPrimaryUnit": "",
+    "LandParcelSecoundaryUnit": "Unit",
+    "LandParcelPercentage": 0.00,
+    "IsLandParcelIncrease": true,
+    "TotalSeeding": 0,
+    "SeedingPrimaryUnit": "",
+    "SeedingSecoundaryUnit": "Unit",
+    "SeedingPercentage": 0.00,
+    "IsSeedingIncrease": true,
+    "TotalNursery": 0,
+    "NurseryPrimaryUnit": "",
+    "NurcerySecoundaryUnit": "Unit",
+    "NurseryPercentage": 0.00,
+    "IsNurseryIncrease": true,
+    "TotalPlanting": 0,
+    "PlantingPrimaryUnit": "",
+    "PlantingSecoundaryUnit": "Unit",
+    "PlantingPercentage": 0.00,
+    "IsPlantingIncrease": true,
+    "TotalNurseryPlants": 0,
+    "TotalPlantations": 0
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +92,6 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
                   floating: true,
-                  snap: true,
-                  pinned: true,
                   leading: NavBarIcon(
                     onTap: (){
                       widget.voidCallback();
@@ -87,689 +105,521 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                 ),
               ];
             },
-            body:Container(
-              width: SizeConfig.screenWidth,
-              height: SizeConfig.screenHeight,
-              padding: EdgeInsets.only(left: 10,right: 10, top: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Container(
-                      height: SizeConfig.screenHeight,
-                      child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        clipBehavior: Clip.antiAlias,
+            body:Stack(
+              children: [
+                Container(
+                  width: SizeConfig.screenWidth,
+                  height: SizeConfig.screenHeight,
+                  padding: const EdgeInsets.only(left: 10,right: 10, top: 10),
+                  child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    clipBehavior: Clip.antiAlias,
+                    shrinkWrap: true,
+                    children: [
+                      /*Container(
+                    margin: EdgeInsets.only(left: 5, right: 5,bottom: 10),
+                    child: Text('Eco Green Foundation Dashboard',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                  ),*/
+                      SizedBox(height: 5,),
+                      Wrap(
+                        spacing: 0,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.spaceAround,
+                        ///runAlignment: WrapAlignment.center,
+                        //crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 5, right: 5,bottom: 10),
-                            child: Text('Eco Green Foundation Dashboard',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                          getCardPrimary(
+                              img: "assets/Slice/DefaultVolunteer.png",
+                              imgBg:  const Color(0XFFF2F2F2),
+                              target: "3 ",
+                              targetUnit: "Lac",
+                              title: "Volunteer",
+                              primaryTotal: '${dashBoardDetail["TotalVolunteer"]}',
+                              primaryUnit: "",
+                              secondaryUnit: '${dashBoardDetail["VolunteerSecoundaryUnit"]} '
                           ),
-                          SizedBox(height: 5,),
-                          Wrap(
-                            spacing: 0,
-                            runSpacing: 8,
-                            alignment: WrapAlignment.spaceAround,
-                            ///runAlignment: WrapAlignment.center,
-                            //crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Container(
-                                width: SizeConfig.screenWidth!*0.45,
-                                height: 140,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 5.0, // soften the shadow
-                                      spreadRadius: .0, //extend the shadow
-                                      offset: Offset(
-                                        0.0, // Move to right 10  horizontally
-                                        0.0, // Move to bottom 10 Vertically
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width:50,
-                                          height: 50,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: Color(0XFFF2F2F2),
-                                              shape:BoxShape.circle
-                                          ),
-                                          child: Image.asset('assets/Slice/DefaultVolunteer.png',height: 30,),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: TextStyle(color: Colors.black, fontSize: 36),
-                                            children: <TextSpan>[
-                                              TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: '3 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: 'Lac', style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
-                                            ],
-                                          ),
-                                          // textScaleFactor: 0.5,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Text('Volunteer',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                    SizedBox(height: 5,),
-                                    Text.rich(
-                                      TextSpan(
-                                        text: '21', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                        children: [
-                                          TextSpan(text: '/ Persons ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth!*0.45,
-                                height: 140,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 5.0, // soften the shadow
-                                      spreadRadius: .0, //extend the shadow
-                                      offset: Offset(
-                                        0.0, // Move to right 10  horizontally
-                                        0.0, // Move to bottom 10 Vertically
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width:50,
-                                          height: 50,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: Color(0XFFf8cba2),
-                                              shape:BoxShape.circle
-                                          ),
-                                          child: Image.asset('assets/trees/planting.png',height: 30,),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        Flexible(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              style: TextStyle(color: Colors.black, fontSize: 36),
-                                              children: <TextSpan>[
-                                                TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                                TextSpan(text: '6 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                                TextSpan(text: 'Lac Hectare', style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
-                                              ],
-                                            ),
-                                            // textScaleFactor: 0.5,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Text('Land Parcel',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                    SizedBox(height: 5,),
-                                    Text.rich(
-                                      TextSpan(
-                                        text: '122.53', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                        children: [
-                                          TextSpan(text: '/ Hectares ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth!*0.45,
-                                padding: EdgeInsets.all(10),
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 5.0, // soften the shadow
-                                      spreadRadius: .0, //extend the shadow
-                                      offset: Offset(
-                                        0.0, // Move to right 10  horizontally
-                                        0.0, // Move to bottom 10 Vertically
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width:50,
-                                          height: 50,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: Color(0XFFf8cba2),
-                                              shape:BoxShape.circle
-                                          ),
-                                          child: Image.asset('assets/trees/Seeds.png',height: 30,),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: TextStyle(color: Colors.black, fontSize: 36),
-                                            children: <TextSpan>[
-                                              TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: '500 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: 'Cr', style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
-                                            ],
-                                          ),
-                                          // textScaleFactor: 0.5,
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Text('Seeds Stock',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                    SizedBox(height: 5,),
-                                    Text.rich(
-                                      TextSpan(
-                                        text: '186', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                        children: [
-                                          TextSpan(text: '/ Numbers ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                        ],
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth!*0.45,
-                                height: 140,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 5.0, // soften the shadow
-                                      spreadRadius: .0, //extend the shadow
-                                      offset: Offset(
-                                        0.0, // Move to right 10  horizontally
-                                        0.0, // Move to bottom 10 Vertically
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width:50,
-                                          height: 50,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: Color(0XFFf8cba2),
-                                              shape:BoxShape.circle
-                                          ),
-                                          child: Image.asset('assets/trees/Seeds.png',height: 30,),
-                                        ),
-                                        SizedBox(width:5 ,),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                              TextSpan(text: '10 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                            ],
-                                          ),
-                                          // textScaleFactor: 0.5,
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 5,),
-                                    Text('Zone',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                    SizedBox(height: 5,),
-                                    Text.rich(
-                                      TextSpan(
-                                        text: '5', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                        children: [
-                                          TextSpan(text: ' Zone ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          getCardPrimary(
+                              img: "assets/trees/planting.png",
+                              target: "6 ",
+                              targetUnit: "Lac Hectare",
+                              title: "Land Parcel",
+                              primaryTotal: '${dashBoardDetail["TotalLandParcel"]}',
+                              primaryUnit: "",
+                              secondaryUnit: '${dashBoardDetail["LandParcelSecoundaryUnit"]} '
                           ),
-                          SizedBox(height: 15,),
-                          Container(
-                            margin: EdgeInsets.only(left: 5, right: 5,),
-                            child: Row(
+                          getCardPrimary(
+                              img: "assets/trees/Seeds.png",
+                              target: "500 ",
+                              targetUnit: "Cr",
+                              title: "Seeds Stock",
+                              primaryTotal: '${dashBoardDetail["TotalSeeding"]}',
+                              primaryUnit: "",
+                              secondaryUnit: '${dashBoardDetail["SeedingSecoundaryUnit"]} '
+                          ),
+                          /*Container(
+                        width: SizeConfig.screenWidth!*0.45,
+                        height: 140,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 5.0, // soften the shadow
+                              spreadRadius: .0, //extend the shadow
+                              offset: Offset(
+                                0.0, // Move to right 10  horizontally
+                                0.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
                               children: [
                                 Container(
-                                  width: SizeConfig.screenWidth!*0.45,
-                                  height: 150,
-                                  clipBehavior: Clip.antiAlias,
-                                  //padding: EdgeInsets.all(10),
+                                  width:50,
+                                  height: 50,
+                                  alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffF9CBA5),
+                                      color: Color(0XFFf8cba2),
+                                      shape:BoxShape.circle
                                   ),
-                                  child: Stack(
-                                   children: [
-                                     Padding(
-                                       padding: const EdgeInsets.all(10.0),
-                                       child: Column(
-                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         mainAxisSize: MainAxisSize.min,
-                                         children: [
-                                           Row(
-                                             children: [
-                                               Container(
-                                                 width:50,
-                                                 height: 50,
-                                                 alignment: Alignment.center,
-                                                 decoration: BoxDecoration(
-                                                     color: Color(0XFFF2F2F2),
-                                                     shape:BoxShape.circle
-                                                 ),
-                                                 child: Image.asset('assets/trees/Nursery.png',height: 30,),
-                                               ),
-                                               SizedBox(width:5 ,),
-                                               RichText(
-                                                 text: TextSpan(
-                                                   children: <TextSpan>[
-                                                     TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                                     TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                                   ],
-                                                 ),
-                                                 // textScaleFactor: 0.5,
-                                               )
-                                             ],
-                                           ),
-                                           SizedBox(height: 5,),
-                                           Text('Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                           SizedBox(height: 5,),
-                                           Text.rich(
-                                             TextSpan(
-                                               text: '12', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                               children: [
-                                                 TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                               ],
-                                             ),
-                                           ),
-                                           Text('6730 Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
-                                         ],
-                                       ),
-                                     ),
-                                     Align(
-                                       alignment: Alignment.bottomRight,
-                                       child: Transform(
-                                         transform: Matrix4.skewY(2.3),
-                                         origin:Offset(50 ,-50),
-                                         child: Container(
-                                           width: 50,
-                                           height: 50,
-                                           decoration: BoxDecoration(
-                                             color: Color(0xffCFEDD8),
-                                           ),
-                                         ),
-                                       ),
-                                     )
-                                   ],
-                                  ),
+                                  child: Image.asset('assets/trees/Seeds.png',height: 30,),
                                 ),
-                                Container(
-                                  width: SizeConfig.screenWidth!*0.46,
-                                  height: 150,
-                                  //padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffCFEDD8),
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width:50,
-                                                  height: 50,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0XFFF2F2F2),
-                                                      shape:BoxShape.circle
-                                                  ),
-                                                  child: Image.asset('assets/trees/plant.png',height: 30,),
-                                                ),
-                                                SizedBox(width:5 ,),
-                                                RichText(
-                                                  text: TextSpan(
-                                                    children: <TextSpan>[
-                                                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                                      TextSpan(text: '2 CR ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                                    ],
-                                                  ),
-                                                  // textScaleFactor: 0.5,
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text('Plantation',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                            SizedBox(height: 5,),
-                                            Text.rich(
-                                              TextSpan(
-                                                text: '2', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                                children: [
-                                                  TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                                ],
-                                              ),
-                                            ),
-                                            Text('60 Plantation ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
-                                          ],
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Transform(
-                                          transform: Matrix4.skewY(2.3),
-                                          origin:Offset(50 ,-50),
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffF3F3F3),
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                SizedBox(width:5 ,),
+                                RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                      TextSpan(text: '10 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 15,),
-                          Container(
-                            height: 370,
-                            margin: EdgeInsets.only(left: 5, right: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5.0, // soften the shadow
-                                  spreadRadius: .0, //extend the shadow
-                                  offset: Offset(
-                                    0.0, // Move to right 10  horizontally
-                                    0.0, // Move to bottom 10 Vertically
-                                  ),
+                                  // textScaleFactor: 0.5,
                                 )
                               ],
                             ),
-                            padding: EdgeInsets.only(left: 10,right: 10, top: 10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset('assets/trees/plant.png',height: 50,),
-                                    Column(
+                            SizedBox(height: 5,),
+                            Text('Zone',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                            SizedBox(height: 5,),
+                            Text.rich(
+                              TextSpan(
+                                text: '5', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                children: [
+                                  TextSpan(text: ' Zone ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),*/
+                        ],
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        margin: EdgeInsets.only(left: 5, right: 5,),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: SizeConfig.screenWidth!*0.45,
+                              height: 150,
+                              clipBehavior: Clip.antiAlias,
+                              //padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Color(0xffF9CBA5),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Total Land Parcel ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
-                                        Text('122.53 Hectares',  style: TextStyle(fontFamily: 'RM',fontSize: 13,color: Color(0xff000000)),),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: (){
-                                              setState((){
-                                                isWaveView=true;
-                                              });
-                                            },
-                                            //child: Icon(Icons.bar_chart, color:! isWaveView? Colors.black45:Color(0xffFF0022),size: 30)
-                                          child: Container(
-                                            padding: EdgeInsets.all(5.0),
-                                            decoration: !isWaveView?BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(color: ColorUtil.primary),
-                                              color: ColorUtil.primary.withOpacity(0.2)
-                                            ):BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                                border: Border.all(color: ColorUtil.primary),
-                                                color: ColorUtil.primary
-                                            ),
-                                            child:Text('Zone',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:! isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
-                                          ),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        GestureDetector(
-                                            onTap: (){
-                                              setState((){
-                                                isWaveView=false;
-                                              });
-                                            },
-                                          child: Container(
-                                            padding: EdgeInsets.all(5.0),
-                                            decoration: isWaveView?BoxDecoration(
-                                                borderRadius: BorderRadius.circular(5.0),
-                                                border: Border.all(color: ColorUtil.primary),
-                                                color: ColorUtil.primary.withOpacity(0.2)
-                                            ):BoxDecoration(
-                                                borderRadius: BorderRadius.circular(5.0),
-                                                border: Border.all(color: ColorUtil.primary),
-                                                color: ColorUtil.primary
-                                            ),
-                                            child:Text('District',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
-                                          ),
-                                           // child: Icon(Icons.auto_graph, color: isWaveView? Colors.black45:Color(0xffFF0022),size: 30,)
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5,),
-                                AnimatedCrossFade(
-                                    firstChild: BarZone(),
-                                    secondChild: BarDistrict(),
-                                    crossFadeState: isWaveView?CrossFadeState.showSecond:CrossFadeState.showFirst,
-                                    duration: Duration(milliseconds: 400)
-                                ),
-
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 15,),
-                          Container(
-                            width: SizeConfig.screenWidth,
-                            height: 300,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.only(left: 15,right: 15,top:15,bottom: 15),
-                            margin: EdgeInsets.only(left: 5, right: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 5.0, // soften the shadow
-                                  spreadRadius: .0, //extend the shadow
-                                  offset: Offset(
-                                    0.0, // Move to right 10  horizontally
-                                    0.0, // Move to bottom 10 Vertically
-                                  ),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('Upcoming Nursery & Plants',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
-                                        SizedBox(height: 1,),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text('300 Nursery /',style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                            Container(
-                                                margin:EdgeInsets.only(top:5),
-                                                child: Text(' 2 Cr Plants',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),)),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        //color: ColorUtil.primary,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Image.asset('assets/trees/filter.png',height: 25,),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: 70,
-                                      height: 30,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffAC6839),
-                                        borderRadius: BorderRadius.circular(3),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,),
-                                          Text('42 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Container(
-                                      width: 70,
-                                      height: 30,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xff00565B),
-                                        borderRadius: BorderRadius.circular(3),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,size: 20,),
-                                          Text('53 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text('Increased for Last Year ',style: TextStyle(fontFamily: 'RR',fontSize: 12,color: Color(0xff000000)),),
-                                  ],
-                                ),
-                                SizedBox(height: 10,),
-                                Flexible(
-                                  // height: SizeConfig.screenHeight,
-                                  // width: cardWidth,
-                                  child: ListView.builder(
-                                    itemCount: 10,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (ctx,i){
-                                      return Container(
-                                        margin: EdgeInsets.only(bottom: 10),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
-                                              width: 50,
+                                              width:50,
                                               height: 50,
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
-                                                color: ColorUtil.red.withOpacity(0.2),
-                                                borderRadius: BorderRadius.circular(5),
+                                                  color: Color(0XFFF2F2F2),
+                                                  shape:BoxShape.circle
+                                              ),
+                                              child: Image.asset('assets/trees/Nursery.png',height: 30,),
+                                            ),
+                                            SizedBox(width:5 ,),
+                                            RichText(
+                                              text: TextSpan(
+                                                children: <TextSpan>[
+                                                  TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                ],
+                                              ),
+                                              // textScaleFactor: 0.5,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text('Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                        SizedBox(height: 5,),
+                                        Text.rich(
+                                          TextSpan(
+                                            text: '${dashBoardDetail["TotalNursery"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                            children: [
+                                              TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                            ],
+                                          ),
+                                        ),
+                                        Text('${dashBoardDetail["TotalNurseryPlants"]} Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Transform(
+                                      transform: Matrix4.skewY(2.3),
+                                      origin:Offset(50 ,-50),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffCFEDD8),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: SizeConfig.screenWidth!*0.46,
+                              height: 150,
+                              //padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Color(0xffCFEDD8),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width:50,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  color: Color(0XFFF2F2F2),
+                                                  shape:BoxShape.circle
                                               ),
                                               child: Image.asset('assets/trees/plant.png',height: 30,),
                                             ),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('100 Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
-                                                SizedBox(height: 1,),
-                                                Text(' 1 Month Later',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000).withOpacity(0.4)),)
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Image.asset('assets/trees/leaf-nur.png',height: 25,),
-                                                Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
-                                              ],
-                                            ),
+                                            SizedBox(width:5 ,),
+                                            RichText(
+                                              text: TextSpan(
+                                                children: <TextSpan>[
+                                                  TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '2 CR ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                ],
+                                              ),
+                                              // textScaleFactor: 0.5,
+                                            )
                                           ],
                                         ),
-                                      );
-                                    },
+                                        SizedBox(height: 5,),
+                                        Text('Plantation',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                        SizedBox(height: 5,),
+                                        Text.rich(
+                                          TextSpan(
+                                            text: '${dashBoardDetail["TotalPlantations"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                            children: [
+                                              TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                            ],
+                                          ),
+                                        ),
+                                        Text('${dashBoardDetail["TotalPlanting"]} Plantation ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                      ],
+                                    ),
                                   ),
-                                )
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Transform(
+                                      transform: Matrix4.skewY(2.3),
+                                      origin:Offset(50 ,-50),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffF3F3F3),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        height: 370,
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 5.0, // soften the shadow
+                              spreadRadius: .0, //extend the shadow
+                              offset: Offset(
+                                0.0, // Move to right 10  horizontally
+                                0.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                        ),
+                        padding: EdgeInsets.only(left: 10,right: 10, top: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.asset('assets/trees/plant.png',height: 50,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Total Land Parcel ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                    Text('${dashBoardDetail["TotalLandParcel"]} ${dashBoardDetail["LandParcelSecoundaryUnit"]}',  style: TextStyle(fontFamily: 'RM',fontSize: 13,color: Color(0xff000000)),),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState((){
+                                          isWaveView=true;
+                                        });
+                                      },
+                                      //child: Icon(Icons.bar_chart, color:! isWaveView? Colors.black45:Color(0xffFF0022),size: 30)
+                                      child: Container(
+                                        padding: EdgeInsets.all(5.0),
+                                        decoration: !isWaveView?BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            border: Border.all(color: ColorUtil.primary),
+                                            color: ColorUtil.primary.withOpacity(0.2)
+                                        ):BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            border: Border.all(color: ColorUtil.primary),
+                                            color: ColorUtil.primary
+                                        ),
+                                        child:Text('Zone',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:! isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState((){
+                                          isWaveView=false;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(5.0),
+                                        decoration: isWaveView?BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            border: Border.all(color: ColorUtil.primary),
+                                            color: ColorUtil.primary.withOpacity(0.2)
+                                        ):BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            border: Border.all(color: ColorUtil.primary),
+                                            color: ColorUtil.primary
+                                        ),
+                                        child:Text('District',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
+                                      ),
+                                      // child: Icon(Icons.auto_graph, color: isWaveView? Colors.black45:Color(0xffFF0022),size: 30,)
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ),
-                          SizedBox(height: 15,),
+                            SizedBox(height: 5,),
+                            AnimatedCrossFade(
+                                firstChild: BarZone(),
+                                secondChild: BarDistrict(),
+                                crossFadeState: isWaveView?CrossFadeState.showSecond:CrossFadeState.showFirst,
+                                duration: Duration(milliseconds: 400)
+                            ),
 
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: SizeConfig.screenWidth,
+                        height: 300,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 15,right: 15,top:15,bottom: 15),
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 5.0, // soften the shadow
+                              spreadRadius: .0, //extend the shadow
+                              offset: Offset(
+                                0.0, // Move to right 10  horizontally
+                                0.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Upcoming Nursery & Plants',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                    SizedBox(height: 1,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('300 Nursery /',style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                        Container(
+                                            margin:EdgeInsets.only(top:5),
+                                            child: Text(' 2 Cr Plants',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    //color: ColorUtil.primary,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Image.asset('assets/trees/filter.png',height: 25,),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
+                                  width: 70,
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffAC6839),
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,),
+                                      Text('42 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 5,),
+                                Container(
+                                  width: 70,
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff00565B),
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.arrow_drop_up_outlined,color: ColorUtil.themeWhite,size: 20,),
+                                      Text('53 %',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeWhite),)
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 5,),
+                                Text('Increased for Last Year ',style: TextStyle(fontFamily: 'RR',fontSize: 12,color: Color(0xff000000)),),
+                              ],
+                            ),
+                            SizedBox(height: 10,),
+                            Flexible(
+                              // height: SizeConfig.screenHeight,
+                              // width: cardWidth,
+                              child: ListView.builder(
+                                itemCount: 10,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (ctx,i){
+                                  return Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 50,
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: ColorUtil.red.withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Image.asset('assets/trees/plant.png',height: 30,),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('100 Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                            SizedBox(height: 1,),
+                                            Text(' 1 Month Later',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000).withOpacity(0.4)),)
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset('assets/trees/leaf-nur.png',height: 25,),
+                                            Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+
+                    ],
+                  ),
+                ),
+                ShimmerLoader()
+              ],
             ),
           ),
         )
@@ -779,16 +629,34 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
   @override
   void assignWidgets() async{
 
-    setState(() {});
+    getData();
    // await parseJson(widgets, General.NurseryGridIdentifier);
     try{
 
-      NurseryList=valueArray.where((element) => element['key']=="NurserydataList").toList()[0]['value'];
-      setState((){});
-
-    }catch(e){
-    }
+    }catch(e){}
   }
+
+  void getData() async{
+    District=[];
+    Zone=[];
+    List<ParameterModel> params=await getParameterEssential();
+    params.add(ParameterModel(Key: "DistrictId", Type: "string", Value: null));
+    params.add(ParameterModel(Key: "TalukId", Type: "string", Value: null));
+    params.add(ParameterModel(Key: "VillageId", Type: "string", Value: null));
+    ApiManager().GetInvoke(params,url: "/api/DashboardApi/GetDashboardDetail").then((value){
+      if(value[0]){
+        var parsed=jsonDecode(value[1]);
+        if(parsed['Table']!=null && parsed['Table'].length>0){
+           dashBoardDetail=parsed['Table'][0];
+        }
+        Zone=parsed['Table1'];
+        District=parsed['Table2'];
+        console(value[1]);
+        setState(() {});
+      }
+    });
+  }
+
   Widget BarZone(){
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -866,7 +734,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         width: 0.5,
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
                         name: 'District',
-                        xValueMapper: (dynamic sales, _) =>sales['Districtname'],
+                        xValueMapper: (dynamic sales, _) =>sales['DistrictName'],
                         yValueMapper: (dynamic sales, _) => sales['Hectares'],
                         selectionBehavior: SelectionBehavior(
                           enable: true,
@@ -891,8 +759,17 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                             int pointIndex, int seriesIndex) {
                           return Container(
                               padding: EdgeInsets.all(10),
-                              child: Text('${formatCurrency.format(data['Hectares'])}',
-                                style: TextStyle(color: Colors.white,fontSize: 14),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('${data['DistrictName']}',
+                                    style: TextStyle(color: Colors.white,fontSize: 12),
+                                  ),
+                                  const SizedBox(height: 3,),
+                                  Text('${formatCurrency.format(data['Hectares'])} ${data["UnitName"]}',
+                                    style: TextStyle(color: Colors.white,fontSize: 15,fontFamily: 'RM'),
+                                  ),
+                                ],
                               )
                           );
                         }
@@ -907,7 +784,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
       ],
     );
   }
- Widget  BarDistrict(){
+  Widget  BarDistrict(){
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -984,8 +861,8 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         width: 0.5,
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
                         name: 'Zone',
-                        xValueMapper: (dynamic sales, _) =>sales['Zonename'],
-                        yValueMapper: (dynamic sales, _) => sales['Hectare'],
+                        xValueMapper: (dynamic sales, _) =>sales['ZoneName'],
+                        yValueMapper: (dynamic sales, _) => sales['Hectares'],
                         selectionBehavior: SelectionBehavior(
                           enable: true,
                           selectedColor: ColorUtil.primary,
@@ -1009,7 +886,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                             int pointIndex, int seriesIndex) {
                           return Container(
                               padding: EdgeInsets.all(10),
-                              child: Text('${formatCurrency.format(data['Hectare'])}',
+                              child: Text('${formatCurrency.format(data['Hectares'])} ${data["UnitName"]}',
                                 style: TextStyle(color: Colors.white,fontSize: 14),
                               )
                           );
@@ -1023,6 +900,75 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
           ),
         ),
       ],
+    );
+  }
+
+  Widget getCardPrimary({String img="",Color imgBg=const Color(0XFFf8cba2),String target="",String targetUnit="",String title="",
+  String primaryTotal="0",String primaryUnit="",String secondaryUnit=""}){
+    return Container(
+      width: SizeConfig.screenWidth!*0.45,
+      height: 140,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5.0, // soften the shadow
+            spreadRadius: .0, //extend the shadow
+            offset: Offset(
+              0.0, // Move to right 10  horizontally
+              0.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width:50,
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: imgBg,
+                    shape:BoxShape.circle
+                ),
+                child: Image.asset(img,height: 30,),
+              ),
+              const SizedBox(width: 5,),
+              Flexible(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.black, fontSize: 36),
+                    children: <TextSpan>[
+                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                      TextSpan(text: '$target ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                      TextSpan(text: '$targetUnit', style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
+                    ],
+                  ),
+                  // textScaleFactor: 0.5,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5,),
+          Text(title,style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+          const SizedBox(height: 5,),
+          Text.rich(
+            TextSpan(
+              text: primaryTotal, style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+              children: [
+                TextSpan(text: ' / $secondaryUnit ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

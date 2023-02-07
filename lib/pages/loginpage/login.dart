@@ -12,6 +12,7 @@ import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
 import '../navHomeScreen.dart';
+import 'pinScreenSettings.dart';
 
 
 class loginPage extends StatefulWidget {
@@ -254,7 +255,8 @@ class _loginPageState extends State<loginPage> {
           setUserSessionDetail(parsed["Table"][0]);
           accessData=parsed['Table1'];
           Get.close(2);
-          Get.to(MyHomePage());
+          Get.to(PinScreenSettings(fromLogin: true,));
+          //Get.to(MyHomePage());
         }catch(e){}
         //print(parsed);
       }

@@ -6,7 +6,7 @@ class MyConstants{
   MyConstants._();
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.1";
+  static String appVersion="1.0.2";
   static bool isLive=true;
   static bool fromUrl=true;
   static bool bottomSafeArea=false;
@@ -21,14 +21,9 @@ class MyConstants{
   static String digitRegEx='[0-9]';
   static String digitDecimalRegEx=r'^\d+\.?\d{0,30}';
   static String alphaSpaceRegEx='[A-Za-z ]';
+  static String alphaSpaceRegEx2="/[அ-ஔ]+|[க-னௌ]+|[ァ-ヴー]+|[a-zA-Z ]+|[々〆〤ヶ]+/u";
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
 }
-
-
-
-
-
-
 
 
 

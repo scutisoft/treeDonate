@@ -1,14 +1,22 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:treedonate/utils/utils.dart';
 
+import '../api/ApiManager.dart';
+import '../api/apiUtils.dart';
+import '../api/sp.dart';
+import '../model/parameterMode.dart';
 import '../notifier/configuration.dart';
 import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
+import 'loginpage/pinScreenLogin.dart';
 import 'loginpage/slider-swipeup.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +28,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  //final LocalAuthentication auth = LocalAuthentication();
+  final LocalAuthentication auth = LocalAuthentication();
 
   navigate(){
     Get.off(SlideSwipe());
@@ -33,17 +41,17 @@ class _SplashScreenState extends State<SplashScreen> {
       /*navigate();
       return;*/
       initPlatformState().then((value){
-        //checkUserData();
-        navigate();
+        checkUserData();
+        //navigate();
       });
       if(Platform.isAndroid){
-       // _checkBiometrics();
+        _checkBiometrics();
       }
     });
     super.initState();
   }
 
-/*  Future<void> _checkBiometrics() async {
+  Future<void> _checkBiometrics() async {
     late bool canCheckBiometrics;
     try {
       canCheckBiometrics = await auth.canCheckBiometrics;
@@ -55,10 +63,10 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
     setSharedPrefBool(canCheckBiometrics, SP_HASFINGERPRINT);
-  }*/
+  }
 
 
-/*  void checkUserData() async{
+  void checkUserData() async{
     //await getFirebaseToken();
     String userId=await getSharedPrefString(SP_USER_ID);
     if(userId.isEmpty){
@@ -67,9 +75,9 @@ class _SplashScreenState extends State<SplashScreen> {
     else{
       getDeviceStatus(userId);
     }
-  }*/
+  }
 
-/*  void getDeviceStatus(userId) async{
+  void getDeviceStatus(userId) async{
 
     String pin=await getSharedPrefString(SP_PIN);
     //log("pin $pin");
@@ -83,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if(response[0]){
         try{
           var parsed=json.decode(response[1]);
-          log("$parsed");
+          console("$parsed");
           var t=parsed['Table'];
           if(t[0]['IsRegistered']){
             if(pin.isNotEmpty){
@@ -102,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {

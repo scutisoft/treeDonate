@@ -190,7 +190,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       required: true,
       labelText: "Owner / Staff",
       scrollPadding: scrollPadding,
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

@@ -63,8 +63,8 @@ class MenuScreen extends GetView<MyDrawerController> {
   MenuScreen({Key? key}) : super(key: key);
 
   List<dynamic> menuList=[
-    {"Title":"DashBoard","PageNumber":14,"iconNav":Icon(Icons.dashboard,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.home_work_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"DashBoard","PageNumber":14,"iconNav":Icon(Icons.dashboard,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
+    {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.home_work_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
@@ -118,9 +118,9 @@ class MenuScreen extends GetView<MyDrawerController> {
             color: ColorUtil.primary.withOpacity(0.5),
           ),*/
           Container(
-            height: SizeConfig.screenHeight!-44,
+            height: SizeConfig.screenHeight!-120,
             child: ListView(
-              shrinkWrap: true  ,
+              shrinkWrap: true,
               children: [
                 const SizedBox(height: 80,),
                 // Row(
@@ -151,22 +151,22 @@ class MenuScreen extends GetView<MyDrawerController> {
                     },
                   ),
 
-                DrawerContent(
-                    title: 'LogOut',
-                    ontap: (){
-                      clearUserSessionDetail();
-                    },
-                    iconNav: Icon(Icons.lock,color: ColorUtil.themeWhite,)
-                ), // Divider(color: Color(0xff099FAF),thickness: 0.1,),
+                // Divider(color: Color(0xff099FAF),thickness: 0.1,),
               ],
             ),
           ),
-          Spacer(),
+          DrawerContent(
+              title: 'LogOut',
+              ontap: (){
+                clearUserSessionDetail();
+              },
+              iconNav: Icon(Icons.lock,color: ColorUtil.themeWhite,)
+          ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. All Rights Reserved. Design By Scutisoft   ',
+                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. All Rights Reserved.',
                   style: TextStyle(fontSize: 12,color:Color(0xffffffff), fontFamily:'RR'),textAlign: TextAlign.center, )
             ),
           ),

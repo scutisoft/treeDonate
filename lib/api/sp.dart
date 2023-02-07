@@ -3,7 +3,7 @@ class Sp{
   static String MasterdropDown="USP_GetMasterDetail";
 
   static String loginSp="USP_UserSignInDetail";
-  static String shopKeeperLoginSp="USP_UserLoginMobile";
+  static String multiLoginSp="USP_UserLoginMobile";
   static String getDeviceStatus="USP_GetDeviceStatusDetail";
   static String insertPin="USP_InsertUserMPINDetail";
   static String insertUserDevice="USP_InsertUserDeviceDetail";

@@ -88,7 +88,7 @@ class AddNewLabelTextField extends StatelessWidget {
   bool isObscure;
   int? maxlines;
   int? textLength;
-  String regExp;
+  String? regExp;
 
   bool hasInput;
   bool required;
@@ -165,9 +165,11 @@ class AddNewLabelTextField extends StatelessWidget {
             //   //textInputFormatter
             // ],
 
-            inputFormatters: [
+            inputFormatters:regExp!=null? [
               LengthLimitingTextInputFormatter(textLength),
-              FilteringTextInputFormatter.allow(RegExp(regExp)),
+              FilteringTextInputFormatter.allow(RegExp(regExp!)),
+            ]:[
+              LengthLimitingTextInputFormatter(textLength),
             ],
             onChanged: (v){
               onChange!(v);
