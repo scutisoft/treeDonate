@@ -7,8 +7,8 @@ class MyConstants{
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.2";
-  static bool isLive=true;
-  static bool fromUrl=true;
+  static bool isLive=false;
+  static bool fromUrl=false;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);

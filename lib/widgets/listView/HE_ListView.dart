@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/utils/utils.dart';
+
+import '../../HappyExtension/utils.dart';
 
 class HE_ListViewBody extends StatelessWidget {
   List<dynamic> data;
-  Widget widget;
-  HE_ListViewBody({Key? key,required this.data,required this.widget}) : super(key: key){
-    assignWidget();
+  Function(Map) getWidget;
+  HE_ListViewBody({Key? key,required this.data,required this.getWidget}) : super(key: key){
+    assignWidget(data);
   }
 
   RxList<dynamic> widgetList=RxList<dynamic>();
 
-  void assignWidget(){
+  void assignWidget(dataAram){
+    data=dataAram;
     int i=0;
     for (var element in data) {
-      widgetList.add(widget);
-      widgetList[i].updateData(element);
+      widgetList.add(getWidget(element));
+      //widgetList[i].updateData(element);
       i++;
+    }
+  }
+
+  void updateArrById(primaryKey,updatedMap,{ActionType action=ActionType.update}){
+    if(action==ActionType.update){
+      int index=data.indexWhere((element) => element[primaryKey].toString()==updatedMap[primaryKey].toString());
+      if(index!=-1){
+        data[index]=updatedMap;
+        console("Data Found");
+      }
+      /*int widgetIndex=widgetList.indexWhere((element) => element.dataListener[primaryKey].toString()==updatedMap[primaryKey].toString());
+      if(widgetIndex!=-1){
+        console("Widget Found");
+      }*/
     }
   }
 
@@ -24,8 +42,10 @@ class HE_ListViewBody extends StatelessWidget {
     return Obx(() => ListView.builder(
       itemCount: widgetList.length,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (ctx,i){
-        return widget;
+        console("hi2 $i");
+        return widgetList[i];
       },
     ));
   }

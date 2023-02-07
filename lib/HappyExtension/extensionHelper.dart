@@ -181,7 +181,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   Future<void> getUIFromDb(List<dynamic> widgets,String pageIdentifier,String? dataJson) async{
     await GetUiNotifier().getUiJson(pageIdentifier,await getLoginId(),true,dataJson: dataJson).then((value){
       print("----getUIFromDb-----");
-      console(value);
+     // console(value);
       if(value!="null" && value.toString().isNotEmpty){
         var parsed=jsonDecode(value);
         parsedJson=jsonDecode(parsed['Table'][0]['PageJson']);
@@ -250,7 +250,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               if(clearFrm){
                 clearAll(widgets);
               }
-              if(successCallback!=null){
+              if(successCallback!=null && e['Table']!=null && e['Table'].length>0){
                 successCallback(e);
               }
             }
