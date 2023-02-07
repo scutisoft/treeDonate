@@ -2,6 +2,61 @@ import 'dart:developer';
 import '../utils/colorUtil.dart';
 import 'package:flutter/material.dart';
 
+Map<String,dynamic> accessId={
+  "ManageUsersView":3,
+  "ManageUsersAdd":4,
+  "ManageUsersEdit":5,
+  "ManageUsersDelete":6,
+  "UserAccessView":7,
+  "UserAccessEdit":8,
+  "SettingsMainView":9,
+  "SettingsZoneView":9,
+  "SettingsCompanyView":9,
+  "SettingsCoordinatorView":9,
+  "SettingsZoneAdd":10,
+  "SettingsCoordinatorAdd":10,
+  "SettingsZoneEdit":11,
+  "SettingsCoordinatorEdit":11,
+  "SettingsZoneDelete":12,
+  "SettingsCoordinatorDelete":12,
+  "VolunteerView":13,
+  "VolunteerDelete":14,
+  "VolunteerApproval":15,
+  "LandParcelView":16,
+  "LandParcelAdd":17,
+  "LandParcelEdit":18,
+  "LandParcelDelete":19,
+  "LandParcelApproval":20,
+  "DashBoardView":21,
+  "HomeView":22,
+  "SeedCollectionView":23,
+  "SeedCollectionAdd":24,
+  "SeedCollectionEdit":25,
+  "SeedCollectionDelete":26,
+  "SeedCollectionApproval":27,
+  "NurseryView":28,
+  "NurseryAdd":29,
+  "NurseryEdit":30,
+  "NurseryDelete":31,
+  "NurseryApproval":36,
+  "PlantationView":32,
+  "PlantationAdd":33,
+  "PlantationEdit":34,
+  "PlantationDelete":35,
+  "PlantationApproved":37,
+  "CSRDashboardView":38,
+};
+List<dynamic> accessData=[];
+bool isHasAccess(int uniqueId){
+  try{
+    int IsHasAccess=accessData.where((element) => element['UniqueId']==uniqueId).toList()[0]['IsHasAccess'];
+    return IsHasAccess==1;
+  }catch(e){
+    return false;
+  }
+}
+
+
 parseDouble(var value){
   try{
     return double.parse(value.toString());
@@ -10,7 +65,7 @@ parseDouble(var value){
 }
 
 void console(var content){
-  log(content.toString());
+  //log(content.toString());
 }
 enum PayStatus{
   payStatus,
@@ -50,4 +105,8 @@ Color getPaymentStsClr(int id){
   }
   return ColorUtil.payClr;
 }
-
+//Nested ScrollView
+double flexibleSpaceBarHeight=160.0;
+double toolBarHeight=50.0;
+double triggerOffset=60.0;
+double triggerEndOffset=80.0;

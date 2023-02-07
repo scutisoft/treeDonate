@@ -1,0 +1,124 @@
+{
+  "Guid": "DACF7963-7A17-42A8-82B3-8DC83C072BCE",
+  "valueArray": [
+    {
+      "key": "LandParcelId",
+      "value": 1,
+      "orderBy": 1
+    },
+    {
+      "key": "LandTypeId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 2
+    },
+    {
+      "key": "Name",
+      "value": "Bala",
+      "orderBy": 3
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "7550286133",
+      "orderBy": 4
+    },
+    {
+      "key": "Email",
+      "value": "Bala@gmail.com",
+      "orderBy": 5
+    },
+    {
+      "key": "TypeOfSoilId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 6
+    },
+    {
+      "key": "SurveyNo",
+      "value": "",
+      "orderBy": 7
+    },
+    {
+      "key": "Hectare",
+      "value": "",
+      "orderBy": 8
+    },
+    {
+      "key": "Acre",
+      "value": "",
+      "orderBy": 9
+    },
+    {
+      "key": "DistrictId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 10
+    },
+    {
+      "key": "TalukId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 11
+    },
+    {
+      "key": "VillageId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 12
+    },
+    {
+      "key": "LandAddress",
+      "value": "",
+      "orderBy": 13
+    },
+    {
+      "key": "AddressDetail",
+      "value": "",
+      "orderBy": 14
+    },
+    {
+      "key": "PlantingYearId",
+      "value": {
+        "DropDownOptionList": [
+          {
+            "Id": "2023",
+            "Text": "2023"
+          }
+        ],
+        "SelectedId": 1
+      },
+      "orderBy": 15
+    },
+    {
+      "key": "LandImagesList",
+      "value": [
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 16
+    }
+  ]
+}

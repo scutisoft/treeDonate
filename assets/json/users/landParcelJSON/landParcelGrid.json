@@ -1,0 +1,34 @@
+{
+  "Guid": "C54B3AE0-24A6-4BC0-849B-C5F9C6FF9E07",
+  "valueArray": [
+    {
+      "key": "LandParcelList",
+      "value": [
+        {
+          "LandId": 1,
+          "UserName": "Bala",
+          "LandOwner": "Muthu",
+          "LandType": "Farm Land",
+          "Role": "village Coordinator",
+          "Status": "Approved",
+          "LandInHectares": "1 Hect",
+          "DataJson": {
+            "LandId": 40
+          }
+        },
+        {
+          "LandId": 2,
+          "UserName": "Vivek Murugan",
+          "LandOwner": "Ramesh",
+          "LandType": "Govt Land",
+          "Role": "village Coordinator",
+          "Status": "Approved",
+          "LandInHectares": "1.56 Hect",
+          "DataJson": {
+            "LandId": 40
+          }
+        }
+      ]
+    }
+  ]
+}

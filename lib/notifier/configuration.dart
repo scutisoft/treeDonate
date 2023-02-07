@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../pages/loginpage/slider-swipeup.dart';
+import '../pages/navHomeScreen.dart';
 
 final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 Map<String, dynamic> deviceData = <String, dynamic>{};
@@ -109,6 +111,7 @@ getSharedPrefList(key) async{
 const String SP_USER_ID="userid";
 const String SP_PIN="pin";
 const String SP_USERTYPEID="UserTypeId";
+const String SP_USERTYPENAME="UserGroup";
 const String SP_TOKEN="tokennumber";
 const String SP_USEREMAIL="c1";
 const String SP_USERPASSWORD="c2";
@@ -126,4 +129,21 @@ enum UserType{
   defaultt,
   shopKeeper,
   customer
+}
+
+void setUserSessionDetail(userDetail){
+  setSharedPrefString(userDetail["UserId"], SP_USER_ID);
+  setSharedPrefString(userDetail["Name"], SP_USERNAME);
+  setSharedPrefString(userDetail["UserEmail"], SP_USEREMAIL);
+  setSharedPrefString(userDetail["UserPassword"], SP_USERPASSWORD);
+  setSharedPrefString(userDetail["UserGroupName"], SP_USERTYPENAME);
+  setSharedPrefString(userDetail["UserGroupId"], SP_USERTYPEID);
+}
+
+void clearUserSessionDetail(){
+  setSharedPrefString("", SP_USER_ID);
+  setSharedPrefString("", SP_USERNAME);
+  setSharedPrefString("", SP_USERTYPENAME);
+  setSharedPrefString("", SP_USERTYPEID);
+  Get.off(SlideSwipe());
 }

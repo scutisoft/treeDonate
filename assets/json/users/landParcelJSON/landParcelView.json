@@ -1,0 +1,69 @@
+{
+  "Guid": "4F219F7A-3203-420A-A816-D41627A002D3",
+  "valueArray": [
+    {
+      "key": "PageTitle",
+      "value": "Farm Land",
+      "orderBy": 1
+    },
+    {
+      "key": "LandDistrictVillage",
+      "value": "Kanchipuran / Pallipedu Village",
+      "orderBy": 2
+    },
+    {
+      "key": "LandParcelView",
+      "value": [
+        {"Title":"Type Of Land","Value":"Farm Land"},
+        {"Title":"Staff","Value":"Balasubramaniyan"},
+        {"Title":"Mobile","Value":"7550286133"},
+        {"Title":"Email Id","Value":"Bala@gmail.com"},
+        {"Title":"Type Of Soil","Value":"Clay soil"},
+        {"Title":"Survey No","Value":"1111111"},
+        {"Title":"Hectare","Value":"5.23 Hectare"},
+        {"Title":"Acre","Value":"12.92333 Acre"},
+        {"Title":"Planting Year","Value":" "},
+        {"Title":"Village","Value":"Tirumalai"},
+        {"Title":"Taluk","Value":"Sivaganga"},
+        {"Title":"District","Value":"SIVAGANGAI"},
+        {"Title":"Address","Value":"62, Sethunagar"},
+        {"Title":"Location","Value":"13.022478, 80.198654"},
+        {"Title":"User Name","Value":"Muthu"},
+        {"Title":"Role","Value":"Village Coordinator"}
+      ],
+      "orderBy": 3
+    },
+    {
+      "key": "IsNewsFeed",
+      "value": false,
+      "orderBy": 4
+    },
+    {
+      "key": "LandParcelId",
+      "value": 1,
+      "orderBy": 5
+    },
+    {
+      "key": "LandImagesList",
+      "value": [
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 6
+    }
+  ]
+}
+

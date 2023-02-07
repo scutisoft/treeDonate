@@ -1,0 +1,45 @@
+{
+  "Guid": "DEF0DF35-8B09-49DF-9560-06453BEFB043",
+  "valueArray": [
+    {
+      "key": "UserId",
+      "value": "1",
+      "orderBy": 1
+    },
+    {
+      "key": "UserName",
+      "value": "Mr Eco Green",
+      "orderBy": 2
+    },
+    {
+      "key": "Designation",
+      "value": "IAS",
+      "orderBy": 3
+    },
+    {
+      "key": "Email",
+      "value": "ecogreen@gmail.com",
+      "orderBy": 4
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "9597355877",
+      "orderBy": 5
+    },
+    {
+      "key": "Role",
+      "value": "Super Admin",
+      "orderBy": 6
+    },
+    {
+      "key": "Password",
+      "value": "123",
+      "orderBy": 7
+    },
+    {
+      "key": "UserImage",
+      "value": "Image/profile.jpg",
+      "orderBy": 8
+    }
+  ]
+}

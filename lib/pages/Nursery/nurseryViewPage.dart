@@ -31,6 +31,8 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
   ScrollController? silverController;
   int _current = 0;
   final CarouselController _controller = CarouselController();
+  List<dynamic> NurserySysView = [];
+  List<dynamic> NurseryView = [];
 
   @override
   void initState() {
@@ -138,12 +140,14 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Form Nursery',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),
+                      widgets[0],
+                     // Text('Form Nursery',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),
                       Image.asset('assets/Slice/status-tick.png',width: 30,)
                     ],
                   ),
                   SizedBox(height: 2,),
-                  Text('dharmapuri / Sudanur Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
+                  widgets[1],
+                 // Text('dharmapuri / Sudanur Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
                   SizedBox(height: 5,),
                   Container(
                     margin: EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -172,8 +176,8 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                             ),
                           ]
                         ),
-                        tableView3('27-01-2023','Earleaf Acacia','100',ColorUtil.themeBlack),
-                        tableView3('27-01-2023','Palm Seed','400',ColorUtil.themeBlack),
+                        for(int i=0;i<NurserySysView.length;i++)
+                        tableView3(NurserySysView[i]['Date'],NurserySysView[i]['PlantName'],NurserySysView[i]['NoOfPlant'],ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -184,14 +188,8 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                       border: TableBorder.all(
                           color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                       children: [
-                        tableView('Event Name','GMT Planting',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('No of Plants','2000',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('District','Dharmapuri',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Taluk','Gummanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('village','Sudanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Land to Plant Trees','Bala / Owner',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Bag Material & Size','Poly Bag (32*13)',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        for(int i=0;i<NurseryView.length;i++)
+                        tableView(NurseryView[i]['Title'],NurseryView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -260,7 +258,18 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
   @override
   void assignWidgets() async {
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    widgets.add(HE_Text(dataname: "SeedingPageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    await parseJson(widgets, General.NurseryViewIdentifier);
+    try{
+
+      NurserySysView=valueArray.where((element) => element['key']=="NurserySys").toList()[0]['value'];
+      NurseryView=valueArray.where((element) => element['key']=="NurseryViewList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
+
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){

@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../../HappyExtension/extensionHelper.dart';
+import '../../HappyExtension/utils.dart';
 import '../../utils/sizeLocal.dart';
+import '../searchDropdown/dropdown_search.dart';
 import '../searchDropdown/search2.dart';
 import '../validationErrorText.dart';
 
@@ -11,30 +13,40 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
   Map map;
   bool hasInput;
   bool required;
-  SearchDrp2({super.key, required this.map,this.hasInput=true,this.required=true}){
+  Function(dynamic)? onchange;
+  SearchDrp2({super.key, required this.map,this.hasInput=true,this.required=true,this.onchange}){
     search2 = Search2(
       dataName: map['dataName'],
       width: SizeConfig.screenWidth,
       dialogWidth: SizeConfig.screenWidth!,
       selectWidgetHeight: 50,
       hinttext: map['hintText'],
-      data: [{"Id":1,"Text":"Moooo"},],
-      showSearch: false,
-      onitemTap: (i){},
-      selectedValueFunc: (e){},
+      data: [],
+      showSearch: map['showSearch']??false,
+      onitemTap: (i){
+      },
+      selectedValueFunc: (e){
+        if(onchange!=null){
+          onchange!(e);
+        }
+      },
       scrollTap: (){},
       isToJson: true,
       margin: const EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 0),
-      dialogMargin: const EdgeInsets.only(left: 15,right: 15,top: 0),
+      dialogMargin: map['dialogMargin']?? const EdgeInsets.only(left: 15,right: 15,top: 0),
       selectWidgetBoxDecoration: BoxDecoration(
           border: Border.all(color: const Color(0xffEBEBEB)),
         color: Colors.white
       ),
+      mode: map['mode']??Mode.MENU,
+      maxHeight: 500,
+      labelText: map['labelText']??"Select",
     );
   }
 
   late Search2 search2;
   var isValid=true.obs;
+  var orderBy=1.obs;
   var errorText="* Required".obs;
 
   @override
@@ -76,13 +88,26 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
 
   @override
   setValue(value) {
-    if(value.runtimeType.toString()=="_InternalLinkedHashMap<String, dynamic>"){
+    if(HE_IsMap(value)){
       if(value.containsKey("DropDownOptionList")){
         search2.setDataArray(value['DropDownOptionList']);
       }
-      if(value.containsKey("SelectedId")){
+      if(value.containsKey("SelectedId") && value['SelectedId']!="" && value['SelectedId']!=null){
         search2.setValues({map['propertyId']??"Id":value['SelectedId']});
       }
     }
+    else if(HE_IsList(value)){
+      search2.setDataArray(value);
+    }
+  }
+
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
   }
 }

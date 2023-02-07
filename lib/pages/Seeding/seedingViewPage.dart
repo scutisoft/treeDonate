@@ -32,6 +32,9 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
+  List<dynamic> SeedsView = [];
+  List<dynamic> SeedsGiverView = [];
+
   @override
   void initState() {
     silverController = ScrollController();
@@ -138,12 +141,12 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Form Seeds',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),
+                      widgets[0],
                       Image.asset('assets/Slice/status-tick.png',width: 30,)
                     ],
                   ),
                   SizedBox(height: 2,),
-                  Text('dharmapuri / Sudanur Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
+                  widgets[1],
                   SizedBox(height: 5,),
                   Container(
                     margin: EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -168,8 +171,9 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                               ),
                             ]
                         ),
-                        tableView2('Earleaf Acacia','10',ColorUtil.themeBlack),
-                        tableView2('Palm Seed','40',ColorUtil.themeBlack),
+                        for(int i=0;i<SeedsView.length;i++)
+                        tableView2(SeedsView[i]['SeedName'],SeedsView[i]['Qty'],ColorUtil.themeBlack),
+                        // tableView2('Palm Seed','40',ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -180,16 +184,18 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                       border: TableBorder.all(
                           color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                       children: [
-                        tableView('Seeds','Veembu seeds',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Quantity','2,000',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Mobile No','9092322265',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('State','Tamil Nadu',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('District','Chennai',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Taluk','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Village','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        for(int i=0;i<SeedsGiverView.length;i++)
+                          tableView(SeedsGiverView[i]['Title'],SeedsGiverView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Seeds','Veembu seeds',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Quantity','2,000',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Mobile No','9092322265',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, ',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('State','Tamil Nadu',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('District','Chennai',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Taluk','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Village','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
                     ),
                   ),
@@ -258,7 +264,23 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
   @override
   void assignWidgets() async {
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    widgets.add(HE_Text(dataname: "SeedingPageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    await parseJson(widgets, General.addSeedviewListIdentifier);
+    try{
+
+      SeedsView=valueArray.where((element) => element['key']=="Seeds").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
+    try{
+
+      SeedsGiverView=valueArray.where((element) => element['key']=="SeedGiverList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){

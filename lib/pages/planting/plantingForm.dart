@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:treedonate/pages/donateTree/plantingplace.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
@@ -78,32 +79,24 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                 children: [
                   widgets[0],
                   widgets[1],
-                  widgets[2],
-                  widgets[3],
-                  widgets[4],
-                  widgets[5],
-                  widgets[6],
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                           height: 60,
-                          width: SizeConfig.screenWidth!*0.48,
-                          child: widgets[7]),
+                          width: SizeConfig.screenWidth!-98,
+                          child: widgets[2]
+                      ),
                       Container(
-                          height: 60,
-                          width: SizeConfig.screenWidth!*0.4,
-                          child: widgets[8]),
-                      Container(
-                        width: 25,
-                        height: 25,
-
+                        width:80,
+                        height: 45,
+                        margin: EdgeInsets.only(top: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(3),
                           border: Border.all(color: ColorUtil.primary),
                           color: ColorUtil.primary.withOpacity(0.3),
                         ),
-                        child:Center(child: Text('+',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
+                        child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                       ),
                     ],
                   ),
@@ -117,25 +110,48 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                         TableRow(
                             children: [
                               Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('S.No',style: TextStyle(fontSize: 15,fontFamily: 'RR',color:ColorUtil.themeBlack ),),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Tree Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                            ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('S.No',style: TextStyle(fontSize: 15,fontFamily: 'RR',color:ColorUtil.themeBlack ),),
+                              ),
                               Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('No of Trees',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                            ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Tree Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('No of Trees',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
                               ),
-                          ]
+                            ]
                         ),
                         tableView('1','Neem','13',ColorUtil.greyBorder,ColorUtil.themeBlack),
                       ],
+                    ),
+                  ),
+                  widgets[3],
+                  widgets[4],
+                  widgets[5],
+                  widgets[6],
+                  widgets[7],
+                  widgets[8],
+                  widgets[9],
+                  GestureDetector(
+                    onTap: ()async{
+                      final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 15,left: 15,top: 10),
+                      width: SizeConfig.screenWidth,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(color: ColorUtil.primary),
+                        color: ColorUtil.primary.withOpacity(0.3),
+                      ),
+                      child:Center(child: Text('Upload Image',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                     ),
                   ),
                   Container(
@@ -175,51 +191,41 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Source"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Plant"},));
+    widgets.add(AddNewLabelTextField(
+      dataname: 'No of trees',
+      hasInput: true,
+      required: true,
+      labelText: "No of Plants",
+      onChange: (v){},
+      onEditComplete: (){
+        node.unfocus();
+      },
+    ));
+
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Land Ownership"},));
     widgets.add(AddNewLabelTextField(
       dataname: 'Name',
       hasInput: true,
       required: true,
-      labelText: "Event Name",
+      labelText: "Place",
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
-      hasInput: true,
-      required: true,
-      labelText: "No of plant",
-      textInputType: TextInputType.number,
-      textLength: 10,
-      regExp: MyConstants.digitRegEx,
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Land To Plant Tree"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Bag Material & Size"},));
     widgets.add(AddNewLabelTextField(
       dataname: 'Enter OTP',
       hasInput: true,
       required: true,
       labelText: "Location",
       suffixIcon: Icon(Icons.location_searching,color: ColorUtil.primary,),
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Tree"},));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'No of trees',
-      hasInput: true,
-      required: true,
-      labelText: "No of trees",
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

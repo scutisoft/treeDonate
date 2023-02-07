@@ -39,7 +39,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
     assignWidgets();
     super.initState();
   }
-
+  List<dynamic> NurseryList=[];
   var node;
 
   double cardWidth=0.0;
@@ -134,8 +134,9 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                    // height: SizeConfig.screenHeight,
                    // width: cardWidth,
                     child: ListView.builder(
-                      itemCount: 10,
-                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: NurseryList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
@@ -150,83 +151,109 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                               color: Color(0XFFffffff),
                             ),
                             clipBehavior:Clip.antiAlias,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: cardWidth*0.6,
-                                  alignment: Alignment.topLeft  ,
-                                  child: Column(
-                                    crossAxisAlignment:CrossAxisAlignment.start ,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 3.0),
-                                        child: Text('Bala Nursery',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
-                                      ),
-                                      SizedBox(height: 2,),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Incharge: ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                         // Spacer(),
-                                          Flexible(child: Text('Muthu Gokul',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 2,),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Total Stock : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                         // Spacer(),
-                                          Flexible(child: Text('1000',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 2,),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        //  Spacer(),
-                                          Text('Approved',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 15,
-                                  alignment:Alignment.topRight,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: 15,
-                                        height:10,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
-                                          color: Color(0xFFF2F3F7),
+                            child: LayoutBuilder(
+                                builder: (BuildContext ctx,BoxConstraints cts){
+
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: cardWidth*0.6,
+                                    padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
+                                    alignment: Alignment.topLeft  ,
+                                    child: Column(
+                                      crossAxisAlignment:CrossAxisAlignment.start ,
+                                     // mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Nursery   : ${cts.minHeight}',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                            // Spacer(),
+                                            Flexible(child: Text(NurseryList[i]['NurseryName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          ],
                                         ),
-                                      ),
-                                      Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
-                                      Container(
-                                        width: 15,
-                                        height:10,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
-                                          color: Color(0xFFF2F3F7),
+                                        SizedBox(height: 2,),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Incharge   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                            // Spacer(),
+                                            Flexible(child: Text(NurseryList[i]['InchargeName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          ],
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(height: 2,),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Location   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                            // Spacer(),
+                                            Flexible(child: Text(NurseryList[i]['location'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          ],
+                                        ),
+                                        SizedBox(height: 2,),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Total Stock : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                            // Spacer(),
+                                            Flexible(child: Text(NurseryList[i]['TotalStock'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          ],
+                                        ),
+                                        SizedBox(height: 2,),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                            //  Spacer(),
+                                            Text(NurseryList[i]['Status'],style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
+                                  Container(
+                                    width: 15,
+                                  //  height: double.minPositive,
+                                   // color: Colors.green,
+                                    // constraints: BoxConstraints.tightForFinite(height:double.infinity),
+                                    alignment:Alignment.topCenter,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Container(
+                                          width: 15,
+                                          height:10,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
+                                            color: Color(0xFFF2F3F7),
+                                          ),
+                                        ),
+                                        Container(width: 1,color: Color(0xFFF2F3F7),height: 120,),
+                                        Container(
+                                          width: 15,
+                                          height:10,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
+                                            color: Color(0xFFF2F3F7),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
                                     width: cardWidth*0.4,
+                                    padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
                                     alignment:Alignment.center,
                                     // color:Colors.red,
                                     child:  Column(
                                       crossAxisAlignment:CrossAxisAlignment.end,
+                                  //    mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('Total target ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('10,000.00',style: ColorUtil.textStyle18),
+                                        Text('Total Target ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        Text(NurseryList[i]['TotalTarget'],style: ColorUtil.textStyle18),
                                         SizedBox(height: 10,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -283,9 +310,10 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                                         ),
                                       ],
                                     ),
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              );
+                            })
                           ),
                         );
                       },
@@ -303,6 +331,13 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
   void assignWidgets() async{
 
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    await parseJson(widgets, General.NurseryGridIdentifier);
+    try{
+
+      NurseryList=valueArray.where((element) => element['key']=="NurserydataList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
   }
 }

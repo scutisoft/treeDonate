@@ -152,13 +152,13 @@ class DoneBtn extends StatelessWidget {
       onTap: onDone,
       child: Container(
         height: 50,
-        width: SizeConfig.screenWidth!*0.65,
+        width: SizeConfig.screenWidth!*0.6,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(5),
           color: ColorUtil.secondary,
         ),
         alignment: Alignment.center,
-        child: Text(title,style: ts18(Colors.white),),
+        child: Text(title,style: ts18(Colors.white,fontsize: 20,fontfamily: 'USB'),),
       ),
     );
   }

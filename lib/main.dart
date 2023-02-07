@@ -15,8 +15,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Tree Donate',
       theme: ThemeData(
+        primaryColor: Colors.white,
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData(
+        primaryColor: Colors.black
+      ),
+
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );

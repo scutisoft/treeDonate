@@ -1,18 +1,23 @@
 import 'dart:convert';
-import 'package:anim_search_bar/anim_search_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
-import 'package:treedonate/pages/landParcel/LandParcelForm.dart';
-import 'package:treedonate/pages/landParcel/LandParcelViewPage.dart';
-
+import 'package:treedonate/widgets/loader.dart';
+import '../../HappyExtension/utils.dart';
+import '../../api/ApiManager.dart';
+import '../../widgets/accessWidget.dart';
+import '../../widgets/animatedSearchBar.dart';
+import '../../widgets/navigationBarIcon.dart';
+import '../../pages/landParcel/LandParcelForm.dart';
+import '../../pages/landParcel/LandParcelViewPage.dart';
 import '../../../HappyExtension/extensionHelper.dart';
-import '../../../HappyExtension/utilWidgets.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
-import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
+import '../../widgets/customAppBar.dart';
 import '../Filter/FilterItems.dart';
 
 
@@ -29,9 +34,29 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   List<Widget> widgets=[];
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
+
+  List<dynamic> landParcelList=[];
+  List<dynamic> filterLandParcelList=[];
+
+  RxDouble silverBodyTopMargin=RxDouble(0.0);
+
   @override
   void initState(){
-    silverController= ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      silverController=ScrollController();
+      silverBodyTopMargin.value=0.0;
+      silverController!.addListener(() {
+        if(silverController!.offset>triggerOffset){
+          silverBodyTopMargin.value=toolBarHeight-(-(silverController!.offset-flexibleSpaceBarHeight));
+          if(silverBodyTopMargin.value<0){
+            silverBodyTopMargin.value=0;
+          }
+        }
+        else if(silverController!.offset<triggerEndOffset){
+          silverBodyTopMargin.value=0;
+        }
+      });
+    });
     assignWidgets();
     super.initState();
   }
@@ -50,25 +75,23 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
-            floatHeaderSlivers: true,
+            controller: silverController,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
-                  pinned: false,
-                  leading: GestureDetector(
-                      onTap: (){
-                       widget.voidCallback();
-                      },
-                      child: Icon(Icons.arrow_back_ios_new_sharp,color: ColorUtil.themeBlack,size: 25,)
+                  pinned: true,
+                  leadingWidth: 50.0,
+                  leading: NavBarIcon(
+                    onTap: (){
+                      widget.voidCallback();
+                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
                     title: Text('My Land Parcel History',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                    //background: FlutterLogo(),
+                    background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
               ];
@@ -79,50 +102,48 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Obx(() => SizedBox(height: (silverBodyTopMargin.value),)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       AnimSearchBar(
                         width: SizeConfig.screenWidth!-130,
-                        color: ColorUtil.primary,
-                        boxShadow: false,
+                        color: ColorUtil.asbColor,
+                        boxShadow: ColorUtil.asbBoxShadow,
                         textController: textController,
+                        closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                        searchIconColor: ColorUtil.asbSearchIconColor,
+                        suffixIcon: ColorUtil.getASBSuffix(),
                         onSubmitted: (a){},
-                        onSuffixTap: () {
+                        /*onSuffixTap: () {
                           setState(() {
                             textController.clear();
                           });
+                        },*/
+                        onChange: (a){
+                          filterLandParcelList=searchGrid(a,landParcelList,filterLandParcelList);
+                          setState(() {});
+                        },
+
+                        onSuffixTap: () {
+                          filterLandParcelList=searchGrid("",landParcelList,filterLandParcelList);
+                          setState(() {});
                         },
                       ),
-                      SizedBox(width: 5,),
-                      GestureDetector(
+                      const SizedBox(width: 5,),
+                      FilterIcon(
                         onTap: (){
-                          fadeRoute(FilterItems());
+                          //fadeRoute(FilterItems());
                         },
-                        child: Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorUtil.primary,
-                          ),
-                          child: Icon(Icons.filter_alt_outlined,color:ColorUtil.themeBlack,),
-                        ),
                       ),
-                      SizedBox(width: 5,),
-                      GestureDetector(
-                                  onTap: (){
-                                    fadeRoute(LandParcelForm());
-                                  },
-                        child: Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorUtil.primary,
-                          ),
-                          child: Icon(Icons.add,color:ColorUtil.themeBlack),
-                        ),
+                      const SizedBox(width: 5,),
+                      GridAddIcon(
+                        onTap: (){
+                          fadeRoute(LandParcelForm(closeCb: (e){
+                            updateArrById("LandId", e["Table"][0], filterLandParcelList,action: ActionType.add);
+                            setState(() {});
+                          },));
+                        },
                       ),
                     ],
                   ),
@@ -130,16 +151,17 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                    // height: SizeConfig.screenHeight,
                    // width: cardWidth,
                     child: ListView.builder(
-                      itemCount: 10,
-                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: filterLandParcelList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
                             // Get.to(CertificateView());
                           },
                           child: Container(
-                            margin: EdgeInsets.only(bottom: i==9?50:2,left: 0,right: 0,top:i==0? 0:1),
-                            padding: EdgeInsets.only(left: 10.0,right: 10.0),
+                            margin: EdgeInsets.only(bottom: i==filterLandParcelList.length-1?50:5,left: 0,right: 0),
+                            padding: const EdgeInsets.only(left: 10.0,right: 10.0),
                             width: cardWidth+25,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -155,37 +177,52 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                   child: Column(
                                     crossAxisAlignment:CrossAxisAlignment.start ,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 3.0),
-                                        child: Text('Costal Forest',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
-                                      ),
-                                      SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Staff : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                         // Spacer(),
-                                          Text('Bala',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text('User : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          // Spacer(),
+                                          Text("${filterLandParcelList[i]['UserName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Land : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Land Owner : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                          // Spacer(),
-                                          Flexible(child: Text('25 Acer 5 Cent',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                                          Text("${filterLandParcelList[i]['LandOwner']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
                                       SizedBox(height: 2,),
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Year  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          Text('Land Type : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                         // Spacer(),
+                                          Flexible(child: Text("${filterLandParcelList[i]['LandType']??""}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
+                                        ],
+                                      ),
+                                      SizedBox(height: 2,),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Role  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                                         //  Spacer(),
-                                          Text('2023',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                                          Text("${filterLandParcelList[i]['Role']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                                         ],
                                       ),
+                                      SizedBox(height: 2,),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                                          //  Spacer(),
+                                          Flexible(child: Text("${filterLandParcelList[i]['Status']}",
+                                            style: TextStyle(color: filterLandParcelList[i]['Status']=="Approved"?ColorUtil.approvedClr:ColorUtil.rejectClr,fontSize: 14,fontFamily: 'RM'),)),
+                                        ],
+                                      ),
+
                                     ],
                                   ),
                                 ),
@@ -221,15 +258,20 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                     child:  Column(
                                       crossAxisAlignment:CrossAxisAlignment.end,
                                       children: [
-                                        Text('Plan Scheme ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('50,560.00',style: ColorUtil.textStyle18),
-                                        SizedBox(height: 10,),
+                                        Text('Land In Hectares ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                                        Text(filterLandParcelList[i]['LandInHectares'],style: ColorUtil.textStyle18),
+                                        const SizedBox(height: 10,),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             GestureDetector(
                                               onTap: (){
-                                                fadeRoute(LandParcelView());
+                                                fadeRoute(LandParcelView(dataJson:getDataJsonForGrid(filterLandParcelList[i]['DataJson']),
+                                                  closeCb: (e){
+                                                    updateArrById("LandId", e["Table"][0], filterLandParcelList,action: ActionType.update);
+                                                    setState(() {});
+                                                  },
+                                                ));
                                               },
                                               child: Container(
                                                 width: 30,
@@ -243,38 +285,41 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                                                 //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: (){
-
-                                              },
-                                              child: Container(
-                                                width: 30,
-                                                height: 30,
-                                                alignment:Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    color: ColorUtil.primary.withOpacity(0.2),
-                                                    borderRadius: BorderRadius.circular(5)
-                                                ),
-                                                child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
-                                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                                              ),
+                                            const SizedBox(width: 10,),
+                                            AccessWidget(
+                                                hasAccess: isHasAccess(accessId["LandParcelEdit"]),
+                                                needToHide:  true,
+                                                onTap: (){
+                                                  fadeRoute(LandParcelForm(dataJson:getDataJsonForGrid(filterLandParcelList[i]['DataJson']),isEdit: true,
+                                                    closeCb: (e){
+                                                      updateArrById("LandId", e["Table"][0], filterLandParcelList,action: ActionType.update);
+                                                      setState(() {});
+                                                    },
+                                                  ));
+                                                },
+                                                widget: Container(
+                                                  width: 30,
+                                                  height: 30,
+                                                  alignment:Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: ColorUtil.primary.withOpacity(0.2),
+                                                      borderRadius: BorderRadius.circular(5)
+                                                  ),
+                                                  child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
+                                                  //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
+                                                )
                                             ),
-                                            GestureDetector(
+                                            const SizedBox(width: 10,),
+                                            GridDeleteIcon(
+                                              hasAccess: isHasAccess(accessId["LandParcelDelete"]),
                                               onTap: (){
-
+                                                sysDelete(filterLandParcelList, "LandId",landParcelList,dataJson: getDataJsonForGrid(filterLandParcelList[i]['DataJson']),
+                                                    successCallback: (e){
+                                                      setState(() {});
+                                                    }
+                                                );
                                               },
-                                              child: Container(
-                                                width: 30,
-                                                height: 30,
-                                                alignment:Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    color: ColorUtil.primary.withOpacity(0.2),
-                                                    borderRadius: BorderRadius.circular(5)
-                                                ),
-                                                child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
-                                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                                              ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ],
@@ -286,7 +331,11 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                         );
                       },
                     ),
-                  )
+                  ),
+                  ShimmerLoader(),
+                  NoData(show: filterLandParcelList.isEmpty && !showLoader.value,),
+                  //Obx(() => NoData(show: filterLandParcelList.isEmpty && !showLoader.value,)),
+
                 ],
               ),
             ),
@@ -297,8 +346,20 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
 
   @override
   void assignWidgets() async{
-
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    await parseJson(widgets, General.addLandParcelGirdIdentifier);
+    try{
+
+      landParcelList=valueArray.where((element) => element['key']=="LandParcelList").toList()[0]['value'];
+      filterLandParcelList=landParcelList;
+      setState((){});
+
+    }catch(e){
+    }
+  }
+
+  @override
+  String getPageIdentifier(){
+    return General.addLandParcelGirdIdentifier;
   }
 }

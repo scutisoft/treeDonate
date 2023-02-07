@@ -3,8 +3,8 @@ class ParameterModel{
   String Key;
   String Type;
   dynamic Value;
-
-  ParameterModel({required this.Key, required this.Type,required this.Value});
+  int orderBy;
+  ParameterModel({required this.Key, required this.Type,required this.Value,this.orderBy=1});
 
 /*  factory ParameterModel.fromJson(Map<String,dynamic> json){
     return ParameterModel(
@@ -17,6 +17,11 @@ class ParameterModel{
     "Key": Key,
     "Type": Type,
     "Value": Value,
+    "OrderBy": orderBy,
+  };
+  Map<String, dynamic> toJsonHE() => {
+    "key": Key,
+    "value": Value,
   };
   dynamic get(String propertyName) {
     var _mapRep = toJson();

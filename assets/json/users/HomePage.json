@@ -1,0 +1,64 @@
+{
+  "Guid": "6F4207A7-8DF9-458B-9B99-D1386FCB2B93",
+  "valueArray": [
+    {
+      "key": "NewsFeedList",
+      "value": [
+        {
+          "SNO": 1,
+          "NFID": 5076,
+          "NFNAME": "Balasubramaniyan",
+          "NFDATE": "06-02-2023",
+          "NFTime": "04:27 PM",
+          "NFDescription": "Our community is excited To welcome Balasubramaniyan as our Village Coordinator",
+          "NFLocation": "CHENNAI, Korattur",
+          "NFImageFile": "Volunteer\/Volunteer.jpg",
+          "NFApproved": "2023-02-06T16:27:38.730",
+          "NFType": "Volunteer",
+          "NFApprovedDate": "February 06, 2023",
+          "NFProfileImage": "Image\/avata.png"
+        },
+        {
+          "SNO": 2,
+          "NFID": 5074,
+          "NFNAME": "Sasikala",
+          "NFDATE": "06-02-2023",
+          "NFTime": "03:54 PM",
+          "NFDescription": "Our community is excited To welcome Sasikala as our Volunteer",
+          "NFLocation": "VELLORE",
+          "NFImageFile": "Volunteer\/Volunteer.jpg",
+          "NFApproved": "2023-02-06T15:54:10.117",
+          "NFType": "Volunteer",
+          "NFApprovedDate": "February 06, 2023",
+          "NFProfileImage": "Image\/avata.png"
+        },
+        {
+          "SNO": 3,
+          "NFID": 4092,
+          "NFNAME": "Manivasakan S",
+          "NFDATE": "04-02-2023",
+          "NFTime": "04:05 PM",
+          "NFDescription": "Our community is excited To welcome Manivasakan S as our Village Coordinator",
+          "NFLocation": "COIMBATORE, Jadayampalayam",
+          "NFImageFile": "Volunteer\/Volunteer.jpg",
+          "NFApproved": "2023-02-04T16:05:35.703",
+          "NFType": "Volunteer",
+          "NFApprovedDate": "February 04, 2023",
+          "NFProfileImage": "Image\/avata.png"
+        }
+      ]
+    },
+    {
+      "key": "UserName",
+      "value": "Eco Green"
+    },
+    {
+      "key": "Role",
+      "value": "Super Admin"
+    },
+    {
+      "key": "UserImage",
+      "value": "Folder/filename.jpg"
+    }
+  ]
+}

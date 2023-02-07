@@ -12,6 +12,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/customCheckBox.dart';
 
 
 class PlantingView extends StatefulWidget {
@@ -39,7 +40,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
   }
 
   var node;
-
+  var isNewsFeed=false.obs;
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
@@ -142,23 +143,114 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                     ],
                   ),
                   SizedBox(height: 2,),
-                  Text('dharmapuri / Sudanur Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
+                  Text('SIVAGANGAI  / Tirumalai Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
                   SizedBox(height: 5,),
                   Container(
                     margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
+                    ),
                     child: Table(
-                      defaultColumnWidth: FixedColumnWidth(160.0),
+                      // defaultColumnWidth: FixedColumnWidth(160.0),
                       border: TableBorder.all(
                           color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                       children: [
-                        tableView('Event Name','GMT Planting',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('No of Plants','2000',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        TableRow(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Date',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Nursery',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Plant',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('No Of Plants',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                              ),
+                            ]
+                        ),
+                        tableView2('23-01-2023','Own Plant(Self)','artabotrysuncinatus','100',ColorUtil.themeBlack),
+                        tableView2('23-01-2023','Own Plant(Self)','Neem','200',ColorUtil.themeBlack),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+                    child: Table(
+                      // defaultColumnWidth: FixedColumnWidth(160.0),
+                      border: TableBorder.all(
+                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+                      children: [
+                        tableView('Bag Material & Size','Poly Bag (32*13)',ColorUtil.greyBorder,ColorUtil.themeBlack),
                         tableView('District','Dharmapuri',ColorUtil.greyBorder,ColorUtil.themeBlack),
                         tableView('Taluk','Gummanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
                         tableView('village','Sudanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Land to Plant Trees','Bala / Owner',ColorUtil.greyBorder,ColorUtil.themeBlack),
                         tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Bag Material & Size','Poly Bag (32*13)',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        tableView('Place','tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        tableView('Land Ownership','Private Land',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        tableView('User Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
+
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      isNewsFeed.value=!isNewsFeed.value;
+                    },
+                    child: Obx(() => Container(
+                      margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                      decoration: BoxDecoration(
+                          color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomCheckBox(
+                            isSelect: isNewsFeed.value,
+                            selectColor: ColorUtil.primary,
+                          ),
+                          SizedBox(width: 5,),
+                          Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                        ],
+                      ),
+
+                    )),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20,bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: SizeConfig.screenWidth!*0.4,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border: Border.all(color: ColorUtil.red),
+                            color: ColorUtil.red.withOpacity(0.3),
+                          ),
+                          child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                        ),
+                        Container(
+                          width: SizeConfig.screenWidth!*0.4,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: ColorUtil.primary,
+                          ),
+                          child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                        ),
                       ],
                     ),
                   ),
@@ -187,6 +279,28 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(tablevalue,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor2),),
+          ),
+        ]
+    );
+  }
+  TableRow tableView2(String td1,String td2,String td3,String td4,Color textcolor ){
+    return TableRow(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(td1,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(td2,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(td3,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(td4,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor),),
           ),
         ]
     );

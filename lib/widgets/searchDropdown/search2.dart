@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
+import 'package:treedonate/utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import 'dropdown_search.dart';
 
@@ -20,6 +21,7 @@ class Search2 extends StatelessWidget {
   String propertyName;
   String propertyId;
   String? hinttext;
+  String labelText;
   bool isEnable;
   BoxDecoration? selectWidgetBoxDecoration;
   EdgeInsets? margin;
@@ -31,11 +33,16 @@ class Search2 extends StatelessWidget {
   bool hasInput;
   bool required;
 
+  Mode mode;
+  double maxHeight;
+
   Search2({ this.width,this.selectedValueFunc,
     this.data, this.onitemTap, this.isToJson,this.propertyName="Text",this.propertyId="Id", this.hinttext,
     this.isEnable=true, this.scrollTap,this.margin,this.dialogMargin,this.selectWidgetHeight=70.0,
     this.selectWidgetBoxDecoration,this.showSearch=true,this.selectedValue=const {},this.dialogWidth,
-    required this.dataName,this.hasInput=true,this.required=false,}){
+    required this.dataName,this.hasInput=true,this.required=false,this.mode=Mode.MENU,this.maxHeight=400.0,
+    this.labelText="Select"
+  }){
     if(this.selectedValue.isNotEmpty){
       selectedData.value=selectedValue;
     }
@@ -59,7 +66,7 @@ class Search2 extends StatelessWidget {
 
         popupBackgroundColor: Colors.white,
         dropdownSearchDecoration: InputDecoration(),
-        mode: Mode.MENU,
+        mode: mode,
         showSelectedItems: false,
         popupElevation: 2,
         showClearButton: false,
@@ -71,35 +78,47 @@ class Search2 extends StatelessWidget {
           scrollTap!();
           dataNotifier.value=data!;
         },
-        selectWidget: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeIn,
-          height: selectWidgetHeight,
-          width: width,
-          margin:margin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:20):margin,
-          decoration:selectWidgetBoxDecoration?? BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color:ColorUtil.text4),
-            color: Colors.white,
-          ),
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 15),
-          child: Row(
-            children: [
-              Obx(
-                    ()=>Text("${selectedData.isEmpty? hinttext!: isToJson!?selectedData[propertyName]??hinttext:selectedData['value']}",
-                  style: TextStyle(color:selectedData.isEmpty? addNewTextFieldText.withOpacity(0.8):addNewTextFieldText,fontSize: 16,fontFamily: 'RR'),
-                ),
+        selectWidget: Stack(
+          children: [
+            AnimatedContainer(
+              duration: Duration(milliseconds: 200),
+              curve: Curves.easeIn,
+              height: selectWidgetHeight,
+              width: width,
+              margin:margin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:20):margin,
+              decoration:selectWidgetBoxDecoration?? BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color:ColorUtil.text4),
+                color: Colors.white,
               ),
-              Spacer(),
-              Icon(Icons.keyboard_arrow_down,size: 30,color: Colors.grey,),
-              SizedBox(width: 15,)
-            ],
-          ),
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 15),
+              child: Row(
+                children: [
+                  Obx(
+                        ()=>Text("${selectedData.isEmpty? hinttext!: isToJson!?selectedData[propertyName]??hinttext:selectedData['value']}",
+                      style: TextStyle(color:selectedData.isEmpty? addNewTextFieldText.withOpacity(0.8):addNewTextFieldText,fontSize: 16,fontFamily: 'RR'),
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(Icons.keyboard_arrow_down,size: 30,color: Colors.grey,),
+                  SizedBox(width: 15,)
+                ],
+              ),
+            ),
+            Obx(() =>  Visibility(
+              visible: selectedData.isNotEmpty,
+              child: Positioned(
+                top: 0,
+                left: 30,
+                child: Text(labelText,style: ts18(addNewTextFieldText.withOpacity(0.8),fontsize: 13),),
+              ),
+            ))
+          ],
         ),
         dialogWidget: Obx(
                 ()=>Container(
-              height:dataNotifier.isEmpty?150:  (data!.length*50.0)+100,
+              height:dataNotifier.isEmpty?150:  (data!.length*45.0)+(showSearch?50:0),
               width: dialogWidth??SizeConfig.screenWidth,
               margin:dialogMargin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:5):dialogMargin,
               //padding: EdgeInsets.only(top: 10),
@@ -118,12 +137,12 @@ class Search2 extends StatelessWidget {
                   ]
               ),
               constraints: BoxConstraints(
-                  maxHeight: 400
+                  maxHeight: maxHeight
               ),
               child: Column(
                 children: [
                   !showSearch?Container():Container(
-                    height: 70,
+                    height: 50,
                     width: width,
                     margin: EdgeInsets.all(15),
                     alignment: Alignment.centerLeft,
@@ -135,7 +154,7 @@ class Search2 extends StatelessWidget {
                           hintText: "Search",
                           // hintStyle: textFormHintTs1,
                           border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15,vertical: 25.0)
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15,vertical: 0.0)
                       ),
                       onEditingComplete: (){
                         f4.unfocus();
@@ -165,17 +184,16 @@ class Search2 extends StatelessWidget {
                           selectedValueFunc!(dataNotifier[index]);
                         },
                         child: Container(
-                          height: 50,
+                          height: 40,
                           width:width,
                           padding: EdgeInsets.only(left: 20,),
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
-                            color:(isToJson!?"${dataNotifier[index][propertyId].toString()}":"${dataNotifier[index].toString()}" )== (isToJson!?selectedData[propertyId].toString():selectedData['value'])?ColorUtil.primary:Colors.white,
+                            color:(isToJson!?"${dataNotifier[index][propertyId].toString()}":"${dataNotifier[index].toString()}" )== (isToJson!?selectedData[propertyId].toString():selectedData['value'])?ColorUtil.search2ActBg:ColorUtil.search2InActBg,
                           ),
                           child:  Text(isToJson!?"${dataNotifier[index][propertyName]}":"${dataNotifier[index]}",
-                            style: TextStyle(fontFamily: 'RR',fontSize: 20,color:(isToJson!?"${dataNotifier[index][propertyId].toString()}":"${dataNotifier[index].toString()}" )== (isToJson!?selectedData[propertyId].toString():selectedData['value'].toString())?Colors.white: Colors.grey
-                              // color:selectedValue==data![index]?Colors.white: Color(0xFF555555),letterSpacing: 0.1
-                            ),
+                            style: (isToJson!?"${dataNotifier[index][propertyId].toString()}":"${dataNotifier[index].toString()}" )== (isToJson!?selectedData[propertyId].toString():selectedData['value'].toString())?
+                            ColorUtil.search2ActiveTS:ColorUtil.search2InActiveTS,
                           ),
                         ),
                       );
@@ -202,6 +220,7 @@ class Search2 extends StatelessWidget {
   }
   setValues(Map value){
     selectedData.value=value;
+    selectedValueFunc!(value);
     reload();
   }
   setDataArray(List dataList){

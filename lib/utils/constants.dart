@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 
 class MyConstants{
   MyConstants._();
-  static String appName="RadiantECS_Dev";
+  static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.0";
-  static bool isLive=false;
-  static bool fromUrl=false;
+  static String appVersion="1.0.1";
+  static bool isLive=true;
+  static bool fromUrl=true;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
@@ -19,6 +19,7 @@ class MyConstants{
   static int phoneNoLength=10;
   static int zipcodeLength=6;
   static String digitRegEx='[0-9]';
+  static String digitDecimalRegEx=r'^\d+\.?\d{0,30}';
   static String alphaSpaceRegEx='[A-Za-z ]';
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
 }
@@ -70,6 +71,9 @@ clearCache() async{
 
 }
 
-void fadeRoute(Widget widget) {
-  Get.to(widget,transition: Transition.fadeIn,duration: Duration(milliseconds: 500),opaque: true);
+void  fadeRoute(Widget widget) {
+  Get.to(widget,transition: Transition.fadeIn,duration: const Duration(milliseconds: 400));
+}
+void fadeRouteOff(Widget widget) {
+  Get.off(widget,transition: Transition.fadeIn,duration: const Duration(milliseconds: 400));
 }

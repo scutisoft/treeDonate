@@ -27,17 +27,14 @@ class ApiManager{
           headers: {"Content-Type": "application/json"},
           body: json.encode(body)
       ).timeout(Duration(seconds: 30),onTimeout: ()=>onTme());
-      log("${response.statusCode} ${response.body}");
+      //log("${response.statusCode} ${response.body}");
 
       showLoader.value=false;
       if(response.statusCode==200){
         return [true,response.body];
       }
       else{
-
         var msg;
-        // print(msg);
-         print("${response.statusCode} ${response.body}");
         msg=json.decode(response.body);
         return [false,msg['Message']];
         // return response.statusCode.toString();
@@ -77,7 +74,7 @@ class ApiManager{
        }
        else{
          var msg;
-         print("${response.statusCode} ${response.body}");
+        // print("${response.statusCode} ${response.body}");
          msg=json.decode(response.body);
          if(isNeedErrorAlert)
            CustomAlert().commonErrorAlert(msg['Message'], "");
@@ -87,7 +84,7 @@ class ApiManager{
      catch(e){
        print("ee $e");
        showLoader.value=false;
-       //CustomAlert().commonErrorAlert("Server Error", "$e");
+       CustomAlert().commonErrorAlert("Server Error", "$e");
        return [false,"Catch Api"];
      }
    }

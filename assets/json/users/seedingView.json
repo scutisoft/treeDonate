@@ -1,0 +1,34 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+    {
+      "key": "SeedingPageTitle",
+      "value": "Seed Collection"
+    },
+    {
+      "key": "LandDistrictVillage",
+      "value": "Chennai / Mambalam Village"
+    },{
+      "key": "Seeds",
+      "value": [
+        {"SeedName":"Simaroubaglauca","Qty":"50"},
+        {"SeedName":"Neem","Qty":"10"}
+      ]
+    },
+
+    {
+      "key": "SeedGiverList",
+      "value": [
+        {"Title":"Name","Value":"Balasubramaniyan"},
+        {"Title":"Mobile","Value":"7550286133"},
+        {"Title":"Address","Value":"62, Sethunagar"},
+        {"Title":"District","Value":"CHENNAI"},
+        {"Title":"Taluk","Value":"Mambalam"},
+        {"Title":"Village","Value":"Mambalam"},
+        {"Title":"User Name","Value":"Saran Raj"},
+        {"Title":"Role","Value":"Zone Coordinator"}
+      ]
+    }
+  ]
+}
+

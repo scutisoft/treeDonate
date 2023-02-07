@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
+import 'accessWidget.dart';
 
 class CustomAppBar extends StatelessWidget {
   String title;
@@ -54,6 +55,94 @@ class ArrowBack extends StatelessWidget {
           child: Center(
             child: Icon(Icons.arrow_back_ios_outlined,color: iconColor,size: 20,),
           )
+      ),
+    );
+  }
+}
+
+
+class EyeIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  EyeIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 30,
+        height: 30,
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: ColorUtil.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
+      ),
+    );
+  }
+}
+
+class FilterIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  FilterIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 0,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorUtil.primary,
+        ),
+        child: Icon(Icons.filter_alt_outlined,color:ColorUtil.theme,),
+      ),
+    );
+  }
+}
+
+class GridAddIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  GridAddIcon({Key? key,this.onTap}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap:onTap,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorUtil.primary,
+        ),
+        child: Icon(Icons.add,color:ColorUtil.theme,),
+      ),
+    );
+  }
+}
+
+class GridDeleteIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  double height;
+  bool hasAccess;
+  GridDeleteIcon({Key? key,this.onTap,this.height=30,required this.hasAccess}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AccessWidget(
+      onTap:onTap,
+      hasAccess: hasAccess,
+      needToHide: true,
+      widget: Container(
+        width: height,
+        height: height,
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: ColorUtil.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
+        //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
       ),
     );
   }

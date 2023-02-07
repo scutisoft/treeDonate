@@ -1,0 +1,29 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "SeedingList",
+      "value": [
+        {
+          "Seed": "Neem",
+          "GName": "Muthu",
+          "GPhoneNumber": "8564823133",
+          "Glocation": "CHENNAI / Mambalam / Mambalam",
+          "Status": "Approved",
+          "SeedQty": "150",
+          "DataJson": {"SeedId": 10}
+        },
+        {
+          "Seed": "CustardApple",
+          "GName": "Ramesh",
+          "GPhoneNumber": "8564823133",
+          "Glocation": "KARUR / Karur / Emur",
+          "Status": "Approved",
+          "SeedQty": "170",
+          "DataJson": {"SeedId": 10}
+        }
+      ]
+    }
+  ]
+}
+

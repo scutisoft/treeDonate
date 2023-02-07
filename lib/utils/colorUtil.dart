@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 
 class ColorUtil{
-  static Color theme=const Color(0xffF8F8F8);
+  static Color  theme=const Color(0xffF8F8F8);
   static Color themeWhite=const Color(0xffffffff);
   static Color themeBlack=const Color(0xff2C2C2D);
   static Color secondary=const Color(0xff019342);
@@ -15,6 +16,7 @@ class ColorUtil{
   static Color secondaryOpa07=const Color(0xff019342).withOpacity(0.7);
   static Color greyBorder=const Color(0xff808080);
   static Color greyFill=const Color(0xff656565);
+  static Color greyLite=const Color(0xffF5F6FA);
   static Color text1=const Color(0xff979797);
   static Color text2=const Color(0xff452800);
   static Color text3=const Color(0xff828282);
@@ -36,11 +38,31 @@ class ColorUtil{
   static Color payClr=const Color(0xff062778);
   static Color approvedClr=const Color(0xff019342);
 
+
   static TextStyle paidTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: ColorUtil.secondary);
   static TextStyle pendingTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xffE4BE49));
 
   static const TextStyle fseAccRejGridTS=TextStyle(fontFamily: 'USB',fontSize: 18,color:ColorUtil.primaryTextColor2);
   static const TextStyle fseAccRejGridBosyTS=TextStyle(fontFamily: 'RR',fontSize: 15,color:Color(0xff6E6E6E));
 
+  static const TextStyle search2ActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xffffffff));
+  static const TextStyle search2InActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xff979797));
+
+  static Color search2ActBg= primary;
+  static Color search2InActBg= Color(0xffffffff);
+
+  static Color chkBoxText=const Color(0xff452800);
+  static Color disableColor=Color(0xFFe8e8e8);
+  static Color avatarBorderColor=Color(0xFFC7D0D8);
+
+
+  //Animated Search Bar
+  static Color asbColor=primary;
+  static bool asbBoxShadow=false;
+  static bool asbCloseSearchOnSuffixTap=true;
+  static Color asbSearchIconColor=themeWhite;
+  static Icon getASBSuffix(){
+    return const Icon(Icons.clear,color: Colors.white,);
+  }
 
 }

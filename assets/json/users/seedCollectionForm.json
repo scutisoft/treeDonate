@@ -1,0 +1,87 @@
+{
+  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "valueArray": [
+    {
+      "key": "Seeding",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "Neem"},
+          {"Id": 2,"Text": "Simaroubaglauca"},
+          {"Id": 3,"Text": "Eugeniajambolana"},
+          {"Id": 4,"Text": "Tamarind"},
+          {"Id": 5,"Text": "spathodeacampanulata"},
+          {"Id": 6,"Text": "Terminaliaarjuna"},
+          {"Id": 6,"Text": "soursop"},
+          {"Id": 6,"Text": "Teakwood"}
+        ]
+      }
+    },
+    {
+      "key": "Qty",
+      "value": ""
+    },
+    {
+      "key": "SeedsView",
+      "value": [
+        {"SeedName":"Neem","SeedQty":"10 Gm"},
+        {"SeedName":"Tamarind","SeedQty":"13 Gm"}
+      ]
+    },
+    {
+      "key": "GiverName",
+      "value": "Bala"
+    },
+    {
+      "key": "PhoneNumber",
+      "value": "7550286133"
+    },
+    {
+      "key": "GiverAddress",
+      "value": "49, TTS Nagar,Thiruverkadu"
+    },
+    {
+      "key": "District",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Taluk",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    },
+    {
+      "key": "Village",
+      "value": {
+        "DropDownOptionList": [
+          {"Id": 1,"Text": "CHENNAI"},
+          {"Id": 2,"Text": "THIRUVALLUR"},
+          {"Id": 3,"Text": "RANIPET"},
+          {"Id": 4,"Text": "VELLORE"},
+          {"Id": 5,"Text": "THIRUPATTUR"},
+          {"Id": 6,"Text": "TIRUVANNAMALAI"},
+          {"Id": 7,"Text": "KANCHIPURAM"}
+        ]
+      }
+    }
+
+  ]
+}
+
