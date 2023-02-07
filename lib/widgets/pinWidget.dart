@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/utils/utils.dart';
 
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
@@ -9,7 +10,9 @@ import '../utils/sizeLocal.dart';
 import 'validationErrorText.dart';
 
 final otpInputDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 15),
+/*  fillColor: Colors.white,
+  filled: true,*/
+  contentPadding: const EdgeInsets.symmetric(vertical: 15),
   border: outlineInputBorder(),
   focusedBorder: outlineInputBorder(),
   enabledBorder: outlineInputBorder(),
@@ -17,9 +20,13 @@ final otpInputDecoration = InputDecoration(
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(15),
-    borderSide: BorderSide(color:  Color(0xFF757575)),
+    borderSide: const BorderSide(color:  Color(0xFF757575)),
   );
 }
+InputBorder inputBorder(){
+  return InputBorder.none;
+}
+
 class PinWidget extends StatelessWidget {
 
   int pinLength;
@@ -96,38 +103,53 @@ class PinWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               for(int i=0;i<textControllers.length;i++)
-                SizedBox(
-                  width: 45,
-                  height: 45,
-                  child: TextFormField(
-                    controller: textControllers[i],
-                    focusNode: focusNodes[i],
-                    autofocus: true,
-                    obscureText: true,
-                    obscuringCharacter: '*',
-                    style: const TextStyle(fontSize: 24),
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    decoration: otpInputDecoration,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(1),
-                      FilteringTextInputFormatter.allow(RegExp(MyConstants.digitRegEx)),
-                    ],
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RawKeyboardListener(
+                        focusNode: focusNodes[i],
+                        child: const SizedBox.shrink(),
+                        onKey: (e){
+                          if(textControllers[i].text.isNotEmpty && !e.repeat){
+                            nextField(e.data.keyLabel, i);
+                          }
 
-                    onChanged: (value) {
-                      if(i==pinLength-1 && value.isNotEmpty){
-                        focusNodes[i].unfocus();
-                        onComplete();
-                      }
-                      else if(value.length==pinLength){
-                        focusNodes[i].unfocus();
-                        onComplete();
-                      }
-                      else{
-                        nextField(value,i);
-                      }
-                    },
-                  ),
+                        },
+                    ),
+                    SizedBox(
+                      width: 45,
+                      height: 45,
+                      child: TextFormField(
+                        controller: textControllers[i],
+                        focusNode: focusNodes[i],
+                        autofocus: true,
+                        obscureText: true,
+                        obscuringCharacter: '*',
+                        style: const TextStyle(fontSize: 24),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: otpInputDecoration,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.allow(RegExp(MyConstants.digitRegEx)),
+                        ],
+
+                        onChanged: (value) {
+                          if(i==pinLength-1 && value.isNotEmpty){
+                            focusNodes[i].unfocus();
+                            onComplete();
+                          }
+                          else if(value.length==pinLength){
+                            focusNodes[i].unfocus();
+                            onComplete();
+                          }
+                          else{
+                            nextField(value,i);
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 )
             ],
           ),

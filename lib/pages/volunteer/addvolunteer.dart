@@ -284,7 +284,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       hasInput: true,
       required: true,
       labelText: "Name",
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

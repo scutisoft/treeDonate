@@ -21,7 +21,7 @@ class ApiManager{
 
       showLoader.value=true;
     // var itemsUrl="http://192.168.1.102//nextStop_dev///api/Mobile/GetInvoke";
-      var itemsUrl=GetBaseUrl()+"/api/Mobile/GetInvoke";
+      var itemsUrl="${GetBaseUrl()}/api/Mobile/GetInvoke";
 
       final response = await http.post(Uri.parse(itemsUrl),
           headers: {"Content-Type": "application/json"},
@@ -55,11 +55,11 @@ class ApiManager{
 
    int timeOut=30;
    String invokeUrl="";
-   Future<List> GetInvoke(List<ParameterModel> parameterList,{isNeedErrorAlert=true}) async {
+   Future<List> GetInvoke(List<ParameterModel> parameterList,{isNeedErrorAlert=true,String url="/api/Mobile/GetInvoke"}) async {
      showLoader.value=true;
      try{
        //log(json.encode(parameterList));
-       invokeUrl=GetBaseUrl()+"/api/Mobile/GetInvoke";
+       invokeUrl=GetBaseUrl()+url;
        //log("invokeUrl"+invokeUrl);
        var body={
          "Fields": parameterList.map((e) => e.toJson()).toList()

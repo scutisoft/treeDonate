@@ -60,6 +60,7 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                         padding: EdgeInsets.only(left: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             NavBarIcon(
                               onTap:  (){
@@ -101,12 +102,14 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                               padding: const EdgeInsets.only(left:15.0),
                               child:widgets[1],
                             ),
-                            SizedBox(height: 5,),
-                            Row(
-                              children: [
-                                Image.asset("assets/Slice/At.png",width: 50,),
-                                widgets[2],
-                              ],
+                            const SizedBox(height: 5,),
+                            FittedBox(
+                              child: Row(
+                                children: [
+                                  Image.asset("assets/Slice/At.png",width: 50,),
+                                  widgets[2],
+                                ],
+                              ),
                             ),
                             Row(
                               children: [
@@ -124,15 +127,17 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                                 widgets[4],
                               ],
                             ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Image.asset("assets/trees/password.png",width: 35,),
-                                ),
-                                SizedBox(width: 5,),
-                                widgets[5],
-                              ],
+                            FittedBox(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Image.asset("assets/trees/password.png",width: 35,),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  widgets[5],
+                                ],
+                              ),
                             ),
                           ],
                         ),

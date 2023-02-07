@@ -4,6 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:treedonate/utils/utils.dart';
 import '../pages/loginpage/slider-swipeup.dart';
 import '../pages/navHomeScreen.dart';
 
@@ -145,5 +146,24 @@ void clearUserSessionDetail(){
   setSharedPrefString("", SP_USERNAME);
   setSharedPrefString("", SP_USERTYPENAME);
   setSharedPrefString("", SP_USERTYPEID);
-  Get.off(SlideSwipe());
+  setSharedPrefString("", SP_PIN);
+  setSharedPrefString("", SP_TOKEN);
+  Get.off(()=>const SlideSwipe());
+}
+
+navigateByUserType() async{
+  String ut=await getSharedPrefString(SP_USERTYPEID);
+  if(ut=="1" || ut=="3"){
+    menuSel.value=14;
+    if(!isHasAccess(accessId["DashBoardView"])){
+      menuSel.value=1;
+    }
+  }
+  else {
+    menuSel.value=13;
+    if(!isHasAccess(accessId["HomeView"])){
+      menuSel.value=1;
+    }
+  }
+  Get.off(()=>MyHomePage());
 }
