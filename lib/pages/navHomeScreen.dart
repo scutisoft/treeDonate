@@ -54,6 +54,7 @@ class MyHomePage extends GetView<MyDrawerController> {
         drawerShadowsBackgroundColor: Colors.grey,
         slideWidth: MediaQuery.of(context).size.width * 0.8,
         menuBackgroundColor: Colors.white,
+        overlayBlend: BlendMode.clear,
       ),
     );
   }
@@ -205,10 +206,6 @@ class _MasterpageState extends State<Masterpage>{
 
   @override
   Widget build(BuildContext context) {
-    width=MediaQuery.of(context).size.width;
-    height=MediaQuery.of(context).size.height;
-    width2=width-16;
-    SizeConfig().init(context);
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
       child: Stack(

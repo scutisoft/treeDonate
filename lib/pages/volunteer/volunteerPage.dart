@@ -32,20 +32,16 @@ class VolunteerPage extends StatefulWidget {
 }
 
 class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
-  
 
   List<Widget> widgets=[];
-
-  List<dynamic> volunteerList=[];
-  List<dynamic> filterVolunteerList=[];
-
+/*  List<dynamic> volunteerList=[];
+  List<dynamic> filterVolunteerList=[];*/
   RxDouble silverBodyTopMargin=RxDouble(0.0);
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
 
   late HE_ListViewBody he_listViewBody;
-  late TestBuilder testBuilder;
-
+  //late TestBuilder testBuilder;
   @override
   void initState(){
     WidgetsBinding.instance.addPostFrameCallback((_){
@@ -63,15 +59,17 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
         }
       });
     });
-    he_listViewBody=HE_ListViewBody(data: [],  getWidget: (e){
-      return HE_VListViewContent(data: e,onEdit: (e){ console("onEdit $e");he_listViewBody.updateArrById("VolunteerId", e);},);
+    he_listViewBody=HE_ListViewBody(data: [],getWidget: (e){
+      return HE_VListViewContent(data: e,
+          cardWith: SizeConfig.screenWidth!-(55+30)
+      );
     },);
-    testBuilder= TestBuilder(cardWith: SizeConfig.screenWidth!-(55+30));
+   // testBuilder= TestBuilder(cardWith: SizeConfig.screenWidth!-(55+30));
     assignWidgets();
     super.initState();
   }
-  var node;
 
+  var node;
   double cardWith=0.0;
 
   @override
@@ -81,7 +79,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
-          backgroundColor: Color(0XFFF3F3F3),
+          backgroundColor: const Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
             controller: silverController,
@@ -117,216 +115,59 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 ),
               ];
             },
-            body:Container(
-              // height: SizeConfig.screenHeight,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  //SizedBox(height: 50,),
-                  Obx(() => Container(
-                    height: 50,
-                    margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        AnimSearchBar(
-                          width: SizeConfig.screenWidth!-80,
-                          color: ColorUtil.asbColor,
-                          boxShadow: ColorUtil.asbBoxShadow,
-                          textController: textController,
-                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                          searchIconColor: ColorUtil.asbSearchIconColor,
-                          suffixIcon: ColorUtil.getASBSuffix(),
-                          onSubmitted: (a){
-                          },
-                          onChange: (a){
-                            filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
-                            setState(() {});
-                          },
+            body:Stack(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    //SizedBox(height: 50,),
+                    Obx(() => Container(
+                      height: 50,
+                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          AnimSearchBar(
+                            width: SizeConfig.screenWidth!-80,
+                            color: ColorUtil.asbColor,
+                            boxShadow: ColorUtil.asbBoxShadow,
+                            textController: textController,
+                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                            searchIconColor: ColorUtil.asbSearchIconColor,
+                            suffixIcon: ColorUtil.getASBSuffix(),
+                            onSubmitted: (a){
+                            },
+                            onChange: (a){
+                              /*filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
+                          setState(() {});*/
+                            },
 
-                          onSuffixTap: () {
-                            filterVolunteerList=searchGrid("",volunteerList,filterVolunteerList);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(width: 5,),
-                        FilterIcon(
-                          onTap: (){
-                            fadeRoute(VolunteerFilter());
-                          },
-                        ),
-                        SizedBox(width: 15,),
-                      ],
-                    ),
-                  ),),
-                  /*Flexible(
-                    child: HE_ListViewBody(
-                      data: volunteerList,
-                      getWidget: (e){
-                        return HE_VListViewContent(data: e,);
-                      },
-                     // widget: HE_VListViewContent(data: {},),
-                    ),
-                  ),*/
-                  he_listViewBody,
-                 // Flexible(child:testBuilder),
-                 /* Flexible(
-                    child: ListView.builder(
-                    // scrollDirection: Axis.vertical,
-                    itemCount: filterVolunteerList.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (ctx,i){
-                      console("hi");
-                      return GestureDetector(
-                        onTap: null,
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: i==filterVolunteerList.length-1? 30:3,left: 15,right: 15),
-                          padding: const EdgeInsets.only(left: 15.0,right: 10.0),
-                          width: SizeConfig.screenWidth!*1,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color(0XFFffffff),
+                            onSuffixTap: () {
+                              /*filterVolunteerList=searchGrid("",volunteerList,filterVolunteerList);
+                          setState(() {});*/
+                            },
                           ),
-                          clipBehavior:Clip.antiAlias,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: cardWith*0.65,
-                                alignment: Alignment.topLeft,
-                                child: Column(
-                                  crossAxisAlignment:CrossAxisAlignment.start ,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Flexible(child: Text('${filterVolunteerList[i]['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                                    const SizedBox(height: 3,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Date :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('${filterVolunteerList[i]['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Phone No :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text('${filterVolunteerList[i]['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Location :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text(filterVolunteerList[i]['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Role :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                                        Text(filterVolunteerList[i]['VolunteerRole'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              //Spacer(),
-                              Container(
-                                width: 30,
-                                alignment:Alignment.topRight,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 15,
-                                      height:10,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
-                                        color: Color(0xFFF2F3F7),
-                                      ),
-                                    ),
-                                    Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
-                                    Container(
-                                      width: 15,
-                                      height:10,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
-                                        color: Color(0xFFF2F3F7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                      width: cardWith*0.35,
-                                      height: 50,
-                                      alignment:Alignment.center,
-                                      // color:Colors.red,
-                                      child: Image.asset('assets/Slice/DefaultVolunteer.png',)
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  Row(
-                                    children: [
-                                      EyeIcon(
-                                        onTap: (){
-                                          fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
-                                            updateArrById("VolunteerId", e['Table'][0], filterVolunteerList,action: ActionType.update);
-                                            setState(() {});
-                                          },));
-                                        },
-                                      ),
-                                      const SizedBox(width: 10,),
-                                      GridDeleteIcon(
-                                        hasAccess: isHasAccess(accessId["VolunteerDelete"]),
-                                        onTap: (){
-                                          sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
-                                            successCallback: (e){
-                                              setState(() {});
-                                            },
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                          const SizedBox(width: 5,),
+                          FilterIcon(
+                            onTap: (){
+                              fadeRoute(VolunteerFilter());
+                            },
                           ),
-                        ),
-                      );
-                    },
-                   ),
-                  ),*/
-                  ShimmerLoader(),
-               //   NoData(show: filterVolunteerList.isEmpty),
-                  //Obx(() => NoData(show: filterVolunteerList.isEmpty && !showLoader.value,)),
+                          SizedBox(width: 15,),
+                        ],
+                      ),
+                    ),),
 
-                /*  Container(
-                    child: Stack(
-                      children: [
-
-                        NoData(show: volunteerList.isEmpty,)
-                      ],
-                    ),
-                  )*/
-                ],
-              ),
+                    Flexible(child:he_listViewBody),
+                  ],
+                ),
+                ShimmerLoader(),
+              ],
             ),
           ),
-
         ),
     );
-  }
-
-
-
-  void onEdit(){
-
   }
 
   @override
@@ -336,11 +177,9 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
 
   void getData(dataJson) async{
     await parseJson(widgets, General.volunteerDetailIdentifier,dataJson: jsonEncode(dataJson));
-    volunteerList=valueArray.where((element) => element['key']=="VolunteerList").toList()[0]['value'];
-    filterVolunteerList=volunteerList;
+    List<dynamic> volunteerList=valueArray.where((element) => element['key']=="VolunteerList").toList()[0]['value'];
     he_listViewBody.assignWidget(volunteerList);
-    testBuilder.filterVolunteerList.value=volunteerList;
-  //  setState(() {});
+    //  setState(() {});
   }
 
   @override
@@ -348,6 +187,175 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
     return General.volunteerDetailIdentifier;
   }
 }
+
+class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentExtension{
+  Map data;
+  double cardWith;
+  Function(Map)? onEdit;
+  HE_VListViewContent({Key? key,required this.data, this.onEdit,required this.cardWith}) : super(key: key){
+    dataListener.value=data;
+  }
+
+  var dataListener={}.obs;
+
+  @override
+  Widget build(BuildContext context) {
+    console("child render");
+    return Obx(
+            ()=> Container(
+              margin: EdgeInsets.only(bottom: /*i==filterVolunteerList.length-1? 30:*/3,left: 15,right: 15),
+              padding: const EdgeInsets.only(left: 15.0,right: 10.0),
+              width: SizeConfig.screenWidth!*1,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color(0XFFffffff),
+              ),
+              clipBehavior:Clip.antiAlias,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: cardWith*0.65,
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment:CrossAxisAlignment.start ,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        const SizedBox(height: 3,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Date :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text('${dataListener['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Phone No :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text('${dataListener['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Location :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text(dataListener['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Role :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text(dataListener['VolunteerRole'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Spacer(),
+                  Container(
+                    width: 30,
+                    alignment:Alignment.topRight,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 15,
+                          height:10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
+                            color: Color(0xFFF2F3F7),
+                          ),
+                        ),
+                        Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
+                        Container(
+                          width: 15,
+                          height:10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
+                            color: Color(0xFFF2F3F7),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                          width: cardWith*0.35,
+                          height: 50,
+                          alignment:Alignment.center,
+                          // color:Colors.red,
+                          child: Image.asset('assets/Slice/DefaultVolunteer.png',)
+                      ),
+                      const SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          EyeIcon(
+                            onTap: (){
+                              fadeRoute(VolunteerView(dataJson: jsonEncode(dataListener['DataJson']??[]),isEdit: true,closeCb: (e){
+                                updateDataListener(e['Table'][0]);
+                                if(onEdit!=null){
+                                  onEdit!(e['Table'][0]);
+                                }
+                              },));
+                            },
+                          ),
+                          const SizedBox(width: 10,),
+                          GridDeleteIcon(
+                            hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                            onTap: (){
+                              /* sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
+                              successCallback: (e){
+                                setState(() {});
+                              },
+                            );*/
+                            },
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+    );
+  }
+
+  @override
+  updateDataListener(Map data) {
+    dataListener.value=data;
+  }
+}
+
+
+class AgeTwo extends StatefulWidget {
+  const AgeTwo({Key? key}) : super(key: key);
+
+  @override
+  State<AgeTwo> createState() => _AgeTwoState();
+}
+
+class _AgeTwoState extends State<AgeTwo> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder(
+      child: Text("Hiii"),
+    );
+  }
+}
+
+
+/*
+fadeRoute(VolunteerView(dataJson: jsonEncode(dataListener['DataJson']??[]),isEdit: true,closeCb: (e){
+                  dataListener.value=e['Table'][0];
+                  onEdit(e['Table'][0]);
+                },));
+*/
+
+
 
 class TestBuilder extends StatelessWidget {
   double cardWith;
@@ -463,7 +471,7 @@ class TestBuilder extends StatelessWidget {
                             return;
                             fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
                               //updateArrById("VolunteerId", e['Table'][0], filterVolunteerList,action: ActionType.update);
-                             filterVolunteerList[i]=e['Table'][0];
+                              filterVolunteerList[i]=e['Table'][0];
                             },));
                           },
                         ),
@@ -471,7 +479,7 @@ class TestBuilder extends StatelessWidget {
                         GridDeleteIcon(
                           hasAccess: isHasAccess(accessId["VolunteerDelete"]),
                           onTap: (){
-                           /* sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
+                            /* sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
                               successCallback: (e){
                                 setState(() {});
                               },
@@ -488,43 +496,5 @@ class TestBuilder extends StatelessWidget {
         );
       },
     ));
-  }
-}
-
-
-
-class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentExtension{
-  Map data;
-  Function(Map) onEdit;
-  HE_VListViewContent({Key? key,required this.data,required this.onEdit}) : super(key: key){
-    dataListener.value=data;
-  }
-
-  var dataListener={}.obs;
-
-  @override
-  Widget build(BuildContext context) {
-    console("child render");
-    return Obx(
-            ()=> GestureDetector(
-              onTap: (){
-                dataListener.value={"VolunteerRole":Random().nextDouble().toString()};
-                return;
-                fadeRoute(VolunteerView(dataJson: jsonEncode(dataListener['DataJson']??[]),isEdit: true,closeCb: (e){
-                                             //updateArrById("VolunteerId", e['Table'][0], dataListener,action: ActionType.update);
-                  dataListener.value=e['Table'][0];
-                  onEdit(e['Table'][0]);
-                                           },));
-              },
-              child: Container(
-                child: Text("${dataListener["VolunteerName"]??"Vlunter"} ${dataListener["VolunteerRole"]}"),
-              ),
-            )
-    );
-  }
-
-  @override
-  updateData(Map data) {
-    dataListener.value=data;
   }
 }

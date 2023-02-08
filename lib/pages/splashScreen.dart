@@ -116,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     topPadding=MediaQuery.of(context).padding.top;
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+ //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
       child: Stack(
