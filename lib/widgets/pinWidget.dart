@@ -10,8 +10,8 @@ import '../utils/sizeLocal.dart';
 import 'validationErrorText.dart';
 
 final otpInputDecoration = InputDecoration(
-/*  fillColor: Colors.white,
-  filled: true,*/
+  fillColor: Colors.white,
+  filled: true,
   contentPadding: const EdgeInsets.symmetric(vertical: 15),
   border: outlineInputBorder(),
   focusedBorder: outlineInputBorder(),
@@ -20,7 +20,7 @@ final otpInputDecoration = InputDecoration(
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(15),
-    borderSide: const BorderSide(color:  Color(0xFF757575)),
+    borderSide: const BorderSide(color:  Color(0xFFf3f3f3)),
   );
 }
 InputBorder inputBorder(){
