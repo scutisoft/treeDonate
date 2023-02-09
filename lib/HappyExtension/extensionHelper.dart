@@ -9,6 +9,7 @@ import 'dart:convert';
 import '../api/apiUtils.dart';
 import '../model/parameterMode.dart';
 import '../notifier/getUiNotifier.dart';
+import '../widgets/listView/HE_ListView.dart';
 abstract class ExtensionCallback {
   String getType();
   getValue();
@@ -181,7 +182,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   Future<void> getUIFromDb(List<dynamic> widgets,String pageIdentifier,String? dataJson) async{
     await GetUiNotifier().getUiJson(pageIdentifier,await getLoginId(),true,dataJson: dataJson).then((value){
       print("----getUIFromDb-----");
-     // console(value);
+      console(value);
       if(value!="null" && value.toString().isNotEmpty){
         var parsed=jsonDecode(value);
         parsedJson=jsonDecode(parsed['Table'][0]['PageJson']);
@@ -197,7 +198,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   }
 
   Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{Function? successCallback}) async{
-    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
+    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, "N'$dataJson'", {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
        // console(value);
@@ -280,7 +281,29 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
         }
     ).yesOrNoDialog2('assets/Slice/like.png', content, false);
+  }
 
+  void sysDeleteHE_ListView(HE_ListViewBody he_listViewBody,String primaryKey,{Function? successCallback,String dataJson="",String content="Are you sure want to delete ?",}){
+    CustomAlert(
+        callback: (){
+          postUIJson(getPageIdentifier(),
+              dataJson,
+              "Delete",
+              successCallback: (e){
+                String errorMsg=e["TblOutPut"][0]["@Message"];
+                CustomAlert().successAlert(errorMsg, "");
+                if(successCallback!=null){
+                  successCallback(e);
+                }
+                he_listViewBody.updateArrById(primaryKey, e["Table"][0],action: ActionType.deleteById);
+                //updateArrById(primaryKey, e["Table"][0], arr,action: ActionType.deleteById,primaryArr:primaryArr );
+              }
+          );
+        },
+        cancelCallback: (){
+
+        }
+    ).yesOrNoDialog2('assets/Slice/like.png', content, false);
   }
 
   fillTreeDrp(List<dynamic> widgets,String key,{var refId,var page,bool clearValues=true}) async{

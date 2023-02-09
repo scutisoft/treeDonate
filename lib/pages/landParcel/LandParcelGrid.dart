@@ -125,7 +125,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                           setState(() {});
                         },
 
-                        onSuffixTap: () {
+                        onSuffixTap: (clear) {
                           filterLandParcelList=searchGrid("",landParcelList,filterLandParcelList);
                           setState(() {});
                         },

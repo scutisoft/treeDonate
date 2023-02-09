@@ -34,14 +34,13 @@ class VolunteerPage extends StatefulWidget {
 class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
   List<Widget> widgets=[];
-/*  List<dynamic> volunteerList=[];
-  List<dynamic> filterVolunteerList=[];*/
+
   RxDouble silverBodyTopMargin=RxDouble(0.0);
   ScrollController? silverController;
   TextEditingController textController = TextEditingController();
 
   late HE_ListViewBody he_listViewBody;
-  //late TestBuilder testBuilder;
+
   @override
   void initState(){
     WidgetsBinding.instance.addPostFrameCallback((_){
@@ -59,12 +58,23 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
         }
       });
     });
-    he_listViewBody=HE_ListViewBody(data: [],getWidget: (e){
-      return HE_VListViewContent(data: e,
-          cardWith: SizeConfig.screenWidth!-(55+30)
-      );
-    },);
-   // testBuilder= TestBuilder(cardWith: SizeConfig.screenWidth!-(55+30));
+
+    he_listViewBody=HE_ListViewBody(
+      data: [],
+      getWidget: (e){
+        return HE_VListViewContent(
+            data: e,
+            cardWith: SizeConfig.screenWidth!-(55+30),
+            onDelete: (dataJson){
+                sysDeleteHE_ListView(he_listViewBody, "VolunteerId",dataJson: dataJson);
+            },
+          onEdit: (updatedMap){
+              he_listViewBody.updateArrById("VolunteerId", updatedMap);
+          },
+        );
+      },
+    );
+
     assignWidgets();
     super.initState();
   }
@@ -139,11 +149,14 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                             onSubmitted: (a){
                             },
                             onChange: (a){
+                              he_listViewBody.searchHandler(a);
                               /*filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
                           setState(() {});*/
                             },
-
-                            onSuffixTap: () {
+                            onSuffixTap: (clear) {
+                              if(clear){
+                                he_listViewBody.searchHandler("");
+                              }
                               /*filterVolunteerList=searchGrid("",volunteerList,filterVolunteerList);
                           setState(() {});*/
                             },
@@ -189,10 +202,11 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
 }
 
 class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentExtension{
-  Map data;
   double cardWith;
+  Map data;
   Function(Map)? onEdit;
-  HE_VListViewContent({Key? key,required this.data, this.onEdit,required this.cardWith}) : super(key: key){
+  Function(String)? onDelete;
+  HE_VListViewContent({Key? key,required this.data,this.onEdit,required this.cardWith,this.onDelete}) : super(key: key){
     dataListener.value=data;
   }
 
@@ -200,7 +214,6 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
 
   @override
   Widget build(BuildContext context) {
-    console("child render");
     return Obx(
             ()=> Container(
               margin: EdgeInsets.only(bottom: /*i==filterVolunteerList.length-1? 30:*/3,left: 15,right: 15),
@@ -295,7 +308,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                         children: [
                           EyeIcon(
                             onTap: (){
-                              fadeRoute(VolunteerView(dataJson: jsonEncode(dataListener['DataJson']??[]),isEdit: true,closeCb: (e){
+                              fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                 updateDataListener(e['Table'][0]);
                                 if(onEdit!=null){
                                   onEdit!(e['Table'][0]);
@@ -307,11 +320,9 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           GridDeleteIcon(
                             hasAccess: isHasAccess(accessId["VolunteerDelete"]),
                             onTap: (){
-                              /* sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
-                              successCallback: (e){
-                                setState(() {});
-                              },
-                            );*/
+                              if(onDelete!=null){
+                                onDelete!(getDataJsonForGrid(dataListener['DataJson']));
+                              }
                             },
                           )
                         ],
@@ -326,175 +337,10 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
 
   @override
   updateDataListener(Map data) {
-    dataListener.value=data;
-  }
-}
-
-
-class AgeTwo extends StatefulWidget {
-  const AgeTwo({Key? key}) : super(key: key);
-
-  @override
-  State<AgeTwo> createState() => _AgeTwoState();
-}
-
-class _AgeTwoState extends State<AgeTwo> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder(
-      child: Text("Hiii"),
-    );
-  }
-}
-
-
-/*
-fadeRoute(VolunteerView(dataJson: jsonEncode(dataListener['DataJson']??[]),isEdit: true,closeCb: (e){
-                  dataListener.value=e['Table'][0];
-                  onEdit(e['Table'][0]);
-                },));
-*/
-
-
-
-class TestBuilder extends StatelessWidget {
-  double cardWith;
-  TestBuilder({Key? key,required this.cardWith}) : super(key: key);
-
-  var filterVolunteerList=[].obs;
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => ListView.builder(
-      // scrollDirection: Axis.vertical,
-      itemCount: filterVolunteerList.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (ctx,i){
-        console("hi $i");
-        return GestureDetector(
-          onTap: null,
-          child: Container(
-            margin: EdgeInsets.only(bottom: i==filterVolunteerList.length-1? 30:3,left: 15,right: 15),
-            padding: const EdgeInsets.only(left: 15.0,right: 10.0),
-            width: SizeConfig.screenWidth!*1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0XFFffffff),
-            ),
-            clipBehavior:Clip.antiAlias,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: cardWith*0.65,
-                  alignment: Alignment.topLeft,
-                  child: Column(
-                    crossAxisAlignment:CrossAxisAlignment.start ,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(child: Text('${filterVolunteerList[i]['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      const SizedBox(height: 3,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Date :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                          Text('${filterVolunteerList[i]['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Phone No :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                          Text('${filterVolunteerList[i]['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Location :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                          Text(filterVolunteerList[i]['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Role :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                          Text(filterVolunteerList[i]['VolunteerRole'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                //Spacer(),
-                Container(
-                  width: 30,
-                  alignment:Alignment.topRight,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 15,
-                        height:10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
-                          color: Color(0xFFF2F3F7),
-                        ),
-                      ),
-                      Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
-                      Container(
-                        width: 15,
-                        height:10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
-                          color: Color(0xFFF2F3F7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                        width: cardWith*0.35,
-                        height: 50,
-                        alignment:Alignment.center,
-                        // color:Colors.red,
-                        child: Image.asset('assets/Slice/DefaultVolunteer.png',)
-                    ),
-                    const SizedBox(height: 5,),
-                    Row(
-                      children: [
-                        EyeIcon(
-                          onTap: (){
-                            filterVolunteerList[i]=filterVolunteerList[i];
-                            return;
-                            fadeRoute(VolunteerView(dataJson: jsonEncode(filterVolunteerList[i]['DataJson']??[]),isEdit: true,closeCb: (e){
-                              //updateArrById("VolunteerId", e['Table'][0], filterVolunteerList,action: ActionType.update);
-                              filterVolunteerList[i]=e['Table'][0];
-                            },));
-                          },
-                        ),
-                        const SizedBox(width: 10,),
-                        GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["VolunteerDelete"]),
-                          onTap: (){
-                            /* sysDelete(filterVolunteerList, "VolunteerId",volunteerList,dataJson: getDataJsonForGrid(filterVolunteerList[i]['DataJson']),
-                              successCallback: (e){
-                                setState(() {});
-                              },
-                            );*/
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    ));
+    data.forEach((key, value) {
+      if(dataListener.containsKey(key)){
+        dataListener[key]=value;
+      }
+    });
   }
 }
