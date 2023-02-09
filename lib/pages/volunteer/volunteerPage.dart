@@ -169,6 +169,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                     ),),
 
                     Flexible(child:he_listViewBody),
+                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
                   ],
                 ),
                 ShimmerLoader(),

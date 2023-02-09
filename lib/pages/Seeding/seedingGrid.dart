@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../HappyExtension/utils.dart';
 import '../../utils/utils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
@@ -11,6 +12,7 @@ import '../../../utils/sizeLocal.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
+import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
 import 'seedingForm.dart';
@@ -136,8 +138,8 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                       ),
                     ],
                   ),
-
-                  Flexible(child: he_listViewBody)
+                  Flexible(child: he_listViewBody),
+                  Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
                 ],
               ),
             ),
@@ -287,6 +289,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             GestureDetector(
                               onTap: (){
+
                                 fadeRoute(SeedingView());
                               },
                               child: Container(
@@ -303,7 +306,12 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                             ),
                             GestureDetector(
                               onTap: (){
-
+                                fadeRoute(SeedingForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                  updateDataListener(e['Table'][0]);
+                                  if(onEdit!=null){
+                                    onEdit!(e['Table'][0]);
+                                  }
+                                },));
                               },
                               child: Container(
                                 width: 30,
@@ -316,6 +324,14 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                 child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
                                 //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
                               ),
+                            ),
+                            GridDeleteIcon(
+                              hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                              onTap: (){
+                                if(onDelete!=null){
+                                  onDelete!(getDataJsonForGrid(dataListener['DataJson']));
+                                }
+                              },
                             ),
                             GestureDetector(
                               onTap: (){

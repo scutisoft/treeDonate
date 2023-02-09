@@ -1,4 +1,6 @@
 import 'dart:developer';
+import '../widgets/recase.dart';
+
 import '../utils/colorUtil.dart';
 import 'package:flutter/material.dart';
 
@@ -113,6 +115,10 @@ Color getStatusClr(String status){
   else{
     return ColorUtil.rejectClr;
   }
+}
+
+String getTitleCase(value){
+  return value.toString().titleCase;
 }
 
 //Nested ScrollView

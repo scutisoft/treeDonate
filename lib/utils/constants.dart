@@ -7,16 +7,16 @@ class MyConstants{
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.2";
-  static bool isLive=false;
-  static bool fromUrl=false;
-  static bool hasAppVersionController=false;
+  static bool isLive=true;
+  static bool fromUrl=true;
+  static bool hasAppVersionController=true;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;
 
   static String dbDateFormat="yyyy-MM-dd";
-  static String decimalReg=r'^\d+\.?\d{0,2}';
+  static String decimalReg=r'^\d+\.?\d{0,3}';
   static int phoneNoLength=10;
   static int zipcodeLength=6;
   static String digitRegEx='[0-9]';

@@ -1,87 +1,88 @@
 {
-  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "Guid": "9D888643-85F0-4EF7-80F0-E66150C99E82",
   "valueArray": [
     {
-      "key": "Seeding",
+      "key": "SeedDonorId",
+      "value": "",
+      "orderBy": 0
+    },
+    {
+      "key": "SeedDonorName",
+      "value": "Yukesh",
+      "orderBy": 1
+    },
+    {
+      "key": "SeedDonorContactNumber",
+      "value": "8978979895",
+      "orderBy": 2
+    },
+    {
+      "key": "SeedDonorAddress",
+      "value": "NO 10 Main Road vdp",
+      "orderBy": 3
+    },
+    {
+      "key": "DistrictId",
       "value": {
         "DropDownOptionList": [
-          {"Id": 1,"Text": "Neem"},
-          {"Id": 2,"Text": "Simaroubaglauca"},
-          {"Id": 3,"Text": "Eugeniajambolana"},
-          {"Id": 4,"Text": "Tamarind"},
-          {"Id": 5,"Text": "spathodeacampanulata"},
-          {"Id": 6,"Text": "Terminaliaarjuna"},
-          {"Id": 6,"Text": "soursop"},
-          {"Id": 6,"Text": "Teakwood"}
-        ]
-      }
+          {
+            "Id": 2,
+            "Text": "THIRUVALLUR"
+          }
+        ],
+        "SelectedId": ""
+      },
+      "orderBy": 4
     },
     {
-      "key": "Qty",
-      "value": ""
-    },
-    {
-      "key": "SeedsView",
-      "value": [
-        {"SeedName":"Neem","SeedQty":"10 Gm"},
-        {"SeedName":"Tamarind","SeedQty":"13 Gm"}
-      ]
-    },
-    {
-      "key": "GiverName",
-      "value": "Bala"
-    },
-    {
-      "key": "PhoneNumber",
-      "value": "7550286133"
-    },
-    {
-      "key": "GiverAddress",
-      "value": "49, TTS Nagar,Thiruverkadu"
-    },
-    {
-      "key": "District",
+      "key": "TalukId",
       "value": {
         "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
-    },
-    {
-      "key": "Taluk",
-      "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
-    },
-    {
-      "key": "Village",
-      "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
-    }
 
+        ],
+        "SelectedId": ""
+      },
+      "orderBy": 5
+    },
+    {
+      "key": "VillageId",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": ""
+      },
+      "orderBy": 6
+    },
+    {
+      "key": "SeedMasterList",
+      "value": {
+        "DropDownOptionList": [{"Id":"1","Text":"Neem ( வேப்பமரம் ) "},{"Id":"10","Text":"Simaroubaglauca ( சொர்கம் ) "},{"Id":"11","Text":"Eugeniajambolana ( நாட்டுநாவல் ) "},{"Id":"12","Text":"Tamarind ( புளியமரம் ) "},{"Id":"13","Text":"spathodeacampanulata ( பெத்தோடியம் ) "},{"Id":"14","Text":"Terminaliaarjuna ( நீர்மருது ) "},{"Id":"15","Text":"Sesbaniagrandiflora ( அகத்தி ) "},{"Id":"16","Text":"Bael ( நாட்டுவில்வம் ) "},{"Id":"17","Text":"Pongamiapinnata ( புங்கமரம் ) "},{"Id":"18","Text":"bassialatifolia ( இலுப்பை ) "},{"Id":"19","Text":"Fisusbengalensis ( ஆலமரம் ) "},{"Id":"2","Text":"Indiantulip ( பூவரசு ) "},{"Id":"20","Text":"CustardApple ( நாட்டுசீதாபழம் ) "},{"Id":"21","Text":"Pomegranate ( மாதுளை ) "},{"Id":"22","Text":"Guava ( கொய்யா ) "},{"Id":"23","Text":"artabotrysuncinatus ( மனோரஞ்சிதம் ) "},{"Id":"24","Text":"Papaya (  பப்பாளி ) "},{"Id":"25","Text":"Ocimumtenuiflorum ( துளசி ) "},{"Id":"26","Text":"countrygooseberry ( அருநெல்லி ) "},{"Id":"27","Text":"Bauhiniapurpurea ( மந்தாரை ) "},{"Id":"28","Text":"Hennaplant ( 28மருதாணி ) "},{"Id":"29","Text":"jambonavaal ( ஜம்முநாவல் ) "},{"Id":"3","Text":"IndianAlmond ( பாதாம்  ) "},{"Id":"30","Text":"ArecaPalm ( அரிகாபார்ம்ஸ் ) "},{"Id":"31","Text":"Terminalia belerica ( தான்றிகாய் ) "},{"Id":"32","Text":"mahogany (Swieteniamacrophylla) ( மகோகனி ) "},{"Id":"33","Text":"Noni (morindacitrifolia) ( நோனி ) "},{"Id":"34","Text":"Ulmusintegrifolia ( ஆயமரம் ) "},{"Id":"35","Text":"Meliadubia ( மலைவேம்பு  ) "},{"Id":"36","Text":"Betelnut ( பாக்கு  ) "},{"Id":"37","Text":"micheliachampaca ( செண்பகம் ) "},{"Id":"38","Text":"calophylluminophyllum ( புன்னை ) "},{"Id":"39","Text":"Soymidafebrifuga ( செம்மரம் ) "},{"Id":"4","Text":"RainTree ( தூங்கூமூஞ்சி ) "},{"Id":"40","Text":"Betel ( வெற்றிலை  ) "},{"Id":"41","Text":"calabash ( திருவோடு ) "},{"Id":"42","Text":"Couroupitaguianensis ( நாகலிங்கம் ) "},{"Id":"43","Text":"coconut ( தென்னை ) "},{"Id":"44","Text":"soursop ( முல்சீதா  ) "},{"Id":"45","Text":"Anona reticulata ( இராமசீத்தா ) "},{"Id":"46","Text":"gambhari ( 46குமி்ழ்தேக்க ) "},{"Id":"47","Text":"Teakwood ( தேக்கு ) "},{"Id":"48","Text":"Artocarpusintegrifolia ( பலா ) "},{"Id":"49","Text":"ManilaTamarind ( கொடுக்காய்ப்புளி ) "},{"Id":"5","Text":"Cordiasebestena ( கார்டியா ) "},{"Id":"50","Text":"RedLuckySeed ( யானைகுண்டுமணி ) "},{"Id":"51","Text":"Polyalthia longifolia ( நெட்டிலிங்கம் ) "},{"Id":"52","Text":"Goldenshower ( சரக்கொன்றை ) "},{"Id":"53","Text":"IndianLaurel ( 53கருமருது ) "},{"Id":"54","Text":"Pterocarpusmarsupium ( வேங்கை ) "},{"Id":"55","Text":"Amla ( பெருநெல்லி ) "},{"Id":"56","Text":"Sterculiafoetia ( 56பீநாறி ) "},{"Id":"57","Text":"Mangifera indica ( மா ) "},{"Id":"58","Text":"foxtailpalm ( நரிவால்பனை ) "},{"Id":"59","Text":"SilkcottonTree ( இலவம்பஞ்சு ) "},{"Id":"6","Text":"MimusopsElengi ( மகிழம் ) "},{"Id":"60","Text":"sapota ( சப்போட்டா ) "},{"Id":"61","Text":"Lemon ( எலுமிச்சை ) "},{"Id":"62","Text":"Millingtonia ( மரமல்லி ) "},{"Id":"63","Text":"Caryoaurens ( கூந்தல்பனை ) "},{"Id":"64","Text":"dieffenbachia ( டைபண்பாகிய ) "},{"Id":"65","Text":"Neem seeds (  ) "},{"Id":"7","Text":"Ficusreligiosa ( அரசன் ) "},{"Id":"8","Text":"FicusGlomerata ( நாட்டுஅத்தி ) "},{"Id":"9","Text":"FisusTsiela ( இச்சி ) "},{"Id":"Others","Text":"Others"}],
+        "SelectedId": ""
+      },
+      "orderBy": 7
+    },
+    {
+      "key": "SeedTreeList",
+      "value": [
+        {
+          "SeedTreeMasterId": 10,
+          "TreeName": "Simaroubaglauca(???????)",
+          "Quantity": "11"
+        }
+      ],
+      "orderBy": 8
+    },
+    {
+      "key": "ImagesList",
+      "value": [
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Seeding/image_picker8495652553617100604.jpg"
+        }
+      ],
+      "orderBy": 9
+    }
   ]
 }
-

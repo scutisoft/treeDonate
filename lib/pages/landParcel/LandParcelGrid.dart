@@ -57,7 +57,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_VListViewContent(
+        return HE_LandViewContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
@@ -160,6 +160,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                     ),),
 
                     Flexible(child:he_listViewBody),
+                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
                   ],
                 ),
                 ShimmerLoader(),
@@ -189,13 +190,13 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
 }
 
 
-class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentExtension{
+class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentExtension{
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_VListViewContent({Key? key,required this.data,this.onEdit,required this.cardWidth,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_LandViewContent({Key? key,required this.data,this.onEdit,required this.cardWidth,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
   }
 
@@ -323,8 +324,10 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           onTap: (){
                             fadeRoute(LandParcelView(dataJson:getDataJsonForGrid(dataListener['DataJson']),
                               closeCb: (e){
-                                updateArrById("LandId", e["Table"][0], dataListener,action: ActionType.update);
-
+                                updateDataListener(e['Table'][0]);
+                                if(onEdit!=null){
+                                  onEdit!(e['Table'][0]);
+                                }
                               },
                             ));
                           },

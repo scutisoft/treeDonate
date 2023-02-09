@@ -151,7 +151,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               widget.setOrderBy(value['orderBy']??1);
             }
           }catch(e){
-            CustomAlert().cupertinoAlert("Error HE001 $e");
+            CustomAlert().cupertinoAlert("${widget.getDataName()} Error HE001 \n $e");
           }
           //print("widgetType $widgetType $value");
         }
@@ -198,7 +198,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   }
 
   Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{Function? successCallback}) async{
-    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, "N'$dataJson'", {"actionType":action}).then((value){
+    //"N'$dataJson'"
+    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
        // console(value);
@@ -333,6 +334,17 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
   void clearAll(List<dynamic> widgets){
     setFrmValues(widgets, valueArray,fromClearAll: true);
+  }
+
+  void updateEnable(List<dynamic> widgets,key,{bool isEnabled=false}){
+    var fWid=foundWidgetByKey(widgets, key);
+    if(fWid!=null){
+      fWid.isEnabled=isEnabled;
+      fWid.reload.value=!fWid.reload.value;
+      if(!isEnabled){
+        fWid.clearValues();
+      }
+    }
   }
 
   @override
