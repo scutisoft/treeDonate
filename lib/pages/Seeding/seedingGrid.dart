@@ -49,6 +49,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
           onEdit: (updatedMap){
             he_listViewBody.updateArrById("SeedId", updatedMap);
           },
+          globalKey: GlobalKey(),
         );
       },
     );
@@ -152,8 +153,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
       List<dynamic> seedingList=valueArray.where((element) => element['key']=="SeedingList").toList()[0]['value'];
       he_listViewBody.assignWidget(seedingList);
 
-    }catch(e){
-    }
+    }catch(e){}
   }
 
   @override
@@ -167,16 +167,16 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
-  HE_SeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete}) : super(key: key){
+  GlobalKey globalKey;
+  HE_SeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
   }
   var dataListener={}.obs;
   var separatorHeight = 50.0.obs;
   @override
   Widget build(BuildContext context) {
-    GlobalKey globalKey = GlobalKey();
-    Timer(const Duration(milliseconds: 100), () {
-      separatorHeight.value = parseDouble(globalKey.currentContext!.size!.height.toString());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
     });
     return Obx(
             ()=> Container(
@@ -195,7 +195,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                   Container(
                     width: cardWidth*0.6,
                     alignment: Alignment.topLeft  ,
-                    //padding: EdgeInsets.only(top: 10,bottom: 10),
+                    padding: const EdgeInsets.only(top: 10,bottom: 10),
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
@@ -204,7 +204,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             Text('Seed : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
-                            Text(dataListener['Seed'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),overflow: TextOverflow.ellipsis,),
+                            Flexible(child: Text(dataListener['Seed'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),overflow: TextOverflow.ellipsis,)),
                           ],
                         ),
                         SizedBox(height: 2,),
@@ -272,7 +272,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                   ),
                   Container(
                     width: cardWidth*0.4,
-                    //padding: const EdgeInsets.only(top: 10,bottom: 10),
+                    padding: const EdgeInsets.only(top: 10,bottom: 10),
                     // color:Colors.red,
                     child:  Column(
                       crossAxisAlignment:CrossAxisAlignment.end,
