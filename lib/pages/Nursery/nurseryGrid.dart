@@ -62,7 +62,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_VListViewContent(
+        return HE_NurseryViewContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
@@ -182,8 +182,8 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
     await parseJson(widgets, getPageIdentifier());
     try{
 
-      List<dynamic >NurseryList=valueArray.where((element) => element['key']=="NurserydataList").toList()[0]['value'];
-      he_listViewBody.assignWidget(NurseryList);
+      List<dynamic >NurseryGird=valueArray.where((element) => element['key']=="NurseryList").toList()[0]['value'];
+      he_listViewBody.assignWidget(NurseryGird);
     }catch(e){}
   }
 
@@ -194,14 +194,14 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
 }
 
 
-class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentExtension {
+class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewContentExtension {
 
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_VListViewContent({Key? key,required this.data,this.onEdit,required this.cardWidth,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_NurseryViewContent({Key? key,required this.data,this.onEdit,required this.cardWidth,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
   }
 
@@ -251,7 +251,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       children: [
                         Text('Incharge   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['InchargeName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['NurseryIncharge']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                     SizedBox(height: 2,),
@@ -260,7 +260,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       children: [
                         Text('Location   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['location']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['NurseryLocation']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                     SizedBox(height: 2,),
@@ -269,7 +269,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       children: [
                         Text('Total Stock : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['TotalStock']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['NoOfStocks']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                     SizedBox(height: 2,),
@@ -278,7 +278,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       children: [
                         Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
-                        Text("${dataListener['Status']}",style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                        Text("${dataListener['ApproveStatus']}",style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
                       ],
                     ),
                   ],
@@ -325,7 +325,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('Total Target ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                    Text("${dataListener['TotalTarget']}",style: ColorUtil.textStyle18),
+                    Text("${dataListener['NoOfTargets']}",style: ColorUtil.textStyle18),
                     SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

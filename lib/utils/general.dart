@@ -23,7 +23,7 @@ class General{
   static String addSeedviewListIdentifier=!MyConstants.fromUrl?"assets/json/users/seedingView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
   static String addNurseryFormIdentifier=!MyConstants.fromUrl?"assets/json/users/NurseryForm.json":"204F5289-BD4A-4777-9C21-BB2CB5EEAEA8";
   static String NurseryGridIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryGrid.json":"7FA6DA79-4B5A-4D49-9F00-B793E327B0F9";
-  static String NurseryViewIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String NurseryViewIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryView.json":"012B1F87-406B-47C3-B40E-AB0BF1B6DB71";
   static String ProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/MyProfile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String EditProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/Edit-Profile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"6F4207A7-8DF9-458B-9B99-D1386FCB2B93";
