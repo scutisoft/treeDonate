@@ -9,6 +9,7 @@ class MyConstants{
   static String appVersion="1.0.2";
   static bool isLive=false;
   static bool fromUrl=true;
+  static bool hasAppVersionController=false;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);

@@ -5,25 +5,45 @@
       "key": "SeedingList",
       "value": [
         {
+          "SNO": 1,
+          "SeedId": 1059,
           "Seed": "Neem",
-          "GName": "Muthu",
-          "GPhoneNumber": "8564823133",
-          "Glocation": "CHENNAI / Mambalam / Mambalam",
+          "GName": "siva",
+          "GPhoneNumber": "9879879714",
+          "SeedQty": 10,
+          "Glocation": "RANIPET / Nemili / Anverthikanpettai",
           "Status": "Approved",
-          "SeedQty": "150",
-          "DataJson": {"SeedId": 10}
+          "DataJson": {
+            "SeedId": 1059
+          }
         },
         {
-          "Seed": "CustardApple",
-          "GName": "Ramesh",
-          "GPhoneNumber": "8564823133",
-          "Glocation": "KARUR / Karur / Emur",
+          "SNO": 2,
+          "SeedId": 1064,
+          "Seed": "Indiantulip,bassialatifolia",
+          "GName": "Madhan Raj",
+          "GPhoneNumber": "9879879744",
+          "SeedQty": 30,
+          "Glocation": "RANIPET / Nemili / Anverthikanpettai",
+          "Status": "Rejected",
+          "DataJson": {
+            "SeedId": 1064
+          }
+        },
+        {
+          "SNO": 3,
+          "SeedId": 2064,
+          "Seed": "Simaroubaglauca",
+          "GName": "Yukesh",
+          "GPhoneNumber": "8978979895",
+          "SeedQty": 11,
+          "Glocation": "THIRUVALLUR / Gummidipoondi / Annappa Naickankuppam",
           "Status": "Approved",
-          "SeedQty": "170",
-          "DataJson": {"SeedId": 10}
+          "DataJson": {
+            "SeedId": 2064
+          }
         }
       ]
     }
   ]
 }
-

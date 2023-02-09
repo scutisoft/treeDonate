@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'pages/navHomeScreen.dart';
 import 'pages/splashScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Get.put<MyDrawerController>(MyDrawerController());
-  runApp(const MyApp());
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky).then(
+        (_) => runApp(const MyApp()),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

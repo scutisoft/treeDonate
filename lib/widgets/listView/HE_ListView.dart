@@ -91,7 +91,9 @@ abstract class HE_ListViewContentExtension{
 
 class HE_ListViewContent extends StatelessWidget implements HE_ListViewContentExtension{
   Map data;
-  HE_ListViewContent({Key? key,required this.data}) : super(key: key){
+  Function(Map)? onEdit;
+  Function(String)? onDelete;
+  HE_ListViewContent({Key? key,required this.data,this.onEdit,this.onDelete}) : super(key: key){
     dataListener.value=data;
   }
   var dataListener={}.obs;
@@ -104,6 +106,10 @@ class HE_ListViewContent extends StatelessWidget implements HE_ListViewContentEx
 
   @override
   updateDataListener(Map data) {
-    dataListener.value=data;
+    data.forEach((key, value) {
+      if(dataListener.containsKey(key)){
+        dataListener[key]=value;
+      }
+    });
   }
 }

@@ -150,15 +150,11 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                             },
                             onChange: (a){
                               he_listViewBody.searchHandler(a);
-                              /*filterVolunteerList=searchGrid(a,volunteerList,filterVolunteerList);
-                          setState(() {});*/
                             },
                             onSuffixTap: (clear) {
                               if(clear){
                                 he_listViewBody.searchHandler("");
                               }
-                              /*filterVolunteerList=searchGrid("",volunteerList,filterVolunteerList);
-                          setState(() {});*/
                             },
                           ),
                           const SizedBox(width: 5,),

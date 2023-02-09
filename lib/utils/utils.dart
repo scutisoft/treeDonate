@@ -105,6 +105,16 @@ Color getPaymentStsClr(int id){
   }
   return ColorUtil.payClr;
 }
+
+Color getStatusClr(String status){
+  if(status=="Approved"){
+    return ColorUtil.approvedClr;
+  }
+  else{
+    return ColorUtil.rejectClr;
+  }
+}
+
 //Nested ScrollView
 double flexibleSpaceBarHeight=160.0;
 double toolBarHeight=50.0;

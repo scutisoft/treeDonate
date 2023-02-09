@@ -12,6 +12,9 @@ import 'package:get/get.dart';
 
 class AppVersionController{
   void getAppVersionDetail() async{
+    if(!MyConstants.hasAppVersionController){
+      return;
+    }
     List<ParameterModel> params= await getParameterEssential();
     params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USP_GetAppVersionDetail"));
     params.add(ParameterModel(Key: "AppName", Type: "String", Value: MyConstants.appName));
