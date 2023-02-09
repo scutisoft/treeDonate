@@ -173,6 +173,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
   }
   var dataListener={}.obs;
   var separatorHeight = 50.0.obs;
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -211,7 +212,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Name : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text('Name : ${ separatorHeight.value}',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
                             Text(dataListener['GName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                           ],

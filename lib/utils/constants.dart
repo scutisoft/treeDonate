@@ -8,7 +8,7 @@ class MyConstants{
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.2";
   static bool isLive=false;
-  static bool fromUrl=true;
+  static bool fromUrl=false;
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=false;
 
@@ -25,8 +25,6 @@ class MyConstants{
   static String alphaSpaceRegEx2="/[அ-ஔ]+|[க-னௌ]+|[ァ-ヴー]+|[a-zA-Z ]+|[々〆〤ヶ]+/u";
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
 }
-
-
 
 var formatCurrency = NumberFormat.currency(locale: 'HI',name: "");
 double textFormWidth=400;

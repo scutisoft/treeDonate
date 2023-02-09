@@ -60,6 +60,11 @@ class HE_ListViewBody extends StatelessWidget {
     }
   }
 
+  void addData(dataMap){
+    data.insert(0, dataMap);
+    widgetList.insert(0, getWidget(dataMap));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() =>

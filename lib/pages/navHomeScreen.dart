@@ -80,7 +80,7 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":"Land Parcel","PageNumber":9,"iconNav":Icon(Icons.landscape_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
     {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":null},
   ];
 
 /*  List<dynamic> menuList=[
