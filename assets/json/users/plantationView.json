@@ -1,0 +1,116 @@
+{
+  "Guid": "105E7E2B-D49C-4540-B05E-5D8F67FDEF4F",
+  "valueArray": [
+    {
+      "key": "PageTitle",
+      "value": "Plantation Land",
+      "orderBy": 1
+    },
+    {
+      "key": "DistrictVillage",
+      "value": "Kanchipuran / Pallipedu Village",
+      "orderBy": 2
+    },
+    {
+      "key": "SeedingView",
+      "value": [
+        {
+          "Title": "ProjectName",
+          "Value": "Balasubramaniyan"
+        },
+        {
+          "Title": "DistrictName",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "TalukName",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "VillageName",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "BagMaterialSize",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "Latitude",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "Longitude",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "FirstName",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "UserGroupName",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "Place",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "IsApproved",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "LandOwnershipId",
+          "Value": "Village Coordinator"
+        }
+      ],
+      "orderBy": 3
+    },
+    {
+      "key": "IsNewsFeed",
+      "value": false,
+      "orderBy": 4
+    },
+    {
+      "key": "PlantationId",
+      "value": 1,
+      "orderBy": 5
+    },
+    {
+      "key": "SeedTreeList",
+      "value": [
+        {
+          "SeedTreeMasterId": 4,
+          "TreeName": "RainTree",
+          "Quantity": 10
+        },
+        {
+          "SeedTreeMasterId": 5,
+          "TreeName": "Cordiasebestena",
+          "Quantity": 10
+        }
+      ]
+    },
+    {
+      "key": "ImagesList",
+      "value": [
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 6
+    }
+  ]
+}
+

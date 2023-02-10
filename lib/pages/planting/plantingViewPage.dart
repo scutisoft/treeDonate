@@ -11,27 +11,29 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../api/apiUtils.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/customCheckBox.dart';
 
 
 class PlantingView extends StatefulWidget {
+  String? dataJson;
+  Function? closeCb;
+
+  PlantingView({this.closeCb,this.dataJson=""});
   @override
   _PlantingViewState createState() => _PlantingViewState();
 }
 
 class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  implements HappyExtensionHelperCallback {
 
-  final List<String> imgList = [
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-  ];
-  List<Widget> widgets = [];
+  List<dynamic> imgList = [];
+  List<dynamic> widgets = [];
   ScrollController? silverController;
   int _current = 0;
   final CarouselController _controller = CarouselController();
-
+  List<dynamic>PlantationSysView = [];
+  List<dynamic> PlantationView = [];
   @override
   void initState() {
     silverController = ScrollController();
@@ -88,8 +90,8 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                             ),
                             carouselController: _controller,
                             items: imgList
-                                .map((item) => Image.asset(
-                              item, fit: BoxFit.fill,
+                                .map((item) => Image.network(
+                              GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
                               width: SizeConfig.screenWidth,))
                                 .toList(),
                           ),
@@ -266,7 +268,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
   @override
   void assignWidgets() async {
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
+    await parseJson(widgets, General.PlantationViewPageViewIdentifier);
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){

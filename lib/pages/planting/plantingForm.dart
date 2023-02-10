@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -11,10 +9,18 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../utils/utils.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/loader.dart';
+import '../../widgets/logoPicker.dart';
+import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class PlantingForm extends StatefulWidget {
+  bool isEdit;
+  String dataJson;
+  Function? closeCb;
+  PlantingForm({this.closeCb,this.dataJson="",this.isEdit=false});
   @override
   _PlantingFormState createState() => _PlantingFormState();
 }
@@ -22,19 +28,24 @@ class PlantingForm extends StatefulWidget {
 class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
-  List<Widget> widgets=[];
+  List<dynamic> widgets=[];
   ScrollController? silverController;
+
   @override
   void initState(){
     silverController= ScrollController();
     assignWidgets();
     super.initState();
   }
-
+  RxList<dynamic> SeedTreeMasterList = RxList<dynamic>();
   var node;
+
+  String page="PlantationDetails";
+  var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
     node=FocusScope.of(context);
+    isKeyboardVisible.value = MediaQuery.of(context).viewInsets.bottom != 0;
     return SafeArea(
         bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
@@ -46,8 +57,6 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
                   pinned: true,
                   leading: ArrowBack(
                     iconColor: ColorUtil.themeBlack,
@@ -73,116 +82,188 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                 ),
               ];
             },
-            body:Container(
-              height: SizeConfig.screenHeight,
-              child:  ListView(
-                children: [
-                  widgets[0],
-                  widgets[1],
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+            body:Stack(
+              children: [
+                Container(
+                  height: SizeConfig.screenHeight,
+                  child: ListView(
                     children: [
-                      Container(
-                          height: 60,
-                          width: SizeConfig.screenWidth!-98,
-                          child: widgets[2]
+                      widgets[0],
+                      widgets[1],
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 60,
+                              width: SizeConfig.screenWidth!-98,
+                              child: widgets[2]
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              onPlantCollectionAdd();
+                            },
+                            child: Container(
+                              width:80,
+                              height: 45,
+                              margin: EdgeInsets.only(top: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.primary),
+                                color: ColorUtil.primary.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
-                        width:80,
-                        height: 45,
-                        margin: EdgeInsets.only(top: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: ColorUtil.primary),
-                          color: ColorUtil.primary.withOpacity(0.3),
+                        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                        child: Obx(() => Table(
+                          defaultColumnWidth: FixedColumnWidth(80.0),
+                          border: TableBorder.all(
+                              color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+                          children: [
+                            TableRow(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('S.No',style: TextStyle(fontSize: 15,fontFamily: 'RR',color:ColorUtil.themeBlack ),),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Tree Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('No of Trees',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                                  ),
+                                ]
+                            ),
+                            for(int i=0;i<SeedTreeMasterList.length;i++)
+                              TableRow(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all( 8.0),
+                                      child: Text("${i+1}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder ),),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("${SeedTreeMasterList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.greyBorder),),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("${SeedTreeMasterList[i]['Quantity']}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder),),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          GridDeleteIcon(hasAccess: true,onTap: (){SeedTreeMasterList.removeAt(i);},),
+                                        ],
+                                      ),
+                                    ),
+                                  ]
+                              ),
+                          ],
+                        )),
+                      ),Obx(() => NoData(topPadding: 15,show: SeedTreeMasterList.isEmpty,)),
+
+                      widgets[3],
+                      widgets[4],
+                      widgets[5],
+                      widgets[6],
+                      widgets[7],
+                      widgets[8],
+                      widgets[9],
+                      widgets[10],
+
+                      Container(
+                        margin: EdgeInsets.only(top: 20,bottom: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.primary),
+                                color: ColorUtil.primary.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                            ),
+                            Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: ColorUtil.primary,
+                              ),
+                              child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            ),
+                          ],
                         ),
-                        child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                       ),
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                    child: Table(
-                      defaultColumnWidth: FixedColumnWidth(80.0),
-                      border: TableBorder.all(
-                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                      children: [
-                        TableRow(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('S.No',style: TextStyle(fontSize: 15,fontFamily: 'RR',color:ColorUtil.themeBlack ),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Tree Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('No of Trees',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                              ),
-                            ]
-                        ),
-                        tableView('1','Neem','13',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                      ],
-                    ),
-                  ),
-                  widgets[3],
-                  widgets[4],
-                  widgets[5],
-                  widgets[6],
-                  widgets[7],
-                  widgets[8],
-                  widgets[9],
-                  GestureDetector(
-                    onTap: ()async{
-                      final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 15,left: 15,top: 10),
-                      width: SizeConfig.screenWidth,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        border: Border.all(color: ColorUtil.primary),
-                        color: ColorUtil.primary.withOpacity(0.3),
-                      ),
-                      child:Center(child: Text('Upload Image',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20,bottom: 20),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: Obx(() => Container(
+                    margin: const EdgeInsets.only(top: 0,bottom: 0),
+                    height: isKeyboardVisible.value?0:70,
+                    width: SizeConfig.screenWidth,
+                    color: Colors.white,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: ColorUtil.primary),
-                            color: ColorUtil.primary.withOpacity(0.3),
+                        GestureDetector(
+                          onTap: (){
+                            Get.back();
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth!*0.4,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(color: ColorUtil.primary),
+                              color: ColorUtil.primary.withOpacity(0.3),
+                            ),
+                            child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                           ),
-                          child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                         ),
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: ColorUtil.primary,
+                        GestureDetector(
+                          onTap: (){
+                            sysSubmit(widgets,
+                                isEdit: widget.isEdit,
+                                successCallback: (e){
+                                  console("sysSubmit $e");
+                                  if(widget.closeCb!=null){
+                                    widget.closeCb!(e);
+                                  }
+                                }
+                            );
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth!*0.4,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: ColorUtil.primary,
+                            ),
+                            child:Center(child: Text('Save',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
-                          child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
+                  )),
+                ),
+                ShimmerLoader()
+              ],
             ),
           ),
         )
@@ -191,12 +272,19 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Source"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Plant"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"SourceId","hintText":"Select Source","labelText":"Source","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "SeedTreeMasterId",page: page,refId: e['Id']);
+        },
+      hasInput: false,required: false,
+    ));
+    widgets.add(SearchDrp2(map: const {"dataName":"SeedTreeMasterId","hintText":"Select Plant","labelText":"Plant","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,));
+
+   // widgets.add(SearchDrp2(map: const {"dataName":"ProjectId","hintText":"Select Plant"},));
     widgets.add(AddNewLabelTextField(
       dataname: 'No of trees',
-      hasInput: true,
-      required: true,
+      hasInput: false,
+      required: false,
       labelText: "No of Plants",
       onChange: (v){},
       onEditComplete: (){
@@ -204,12 +292,19 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       },
     ));
 
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Village"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Taluk"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Land Ownership"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
+        }
+    ));//8
+    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+        })); //9
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Name',
+      dataname: 'Place',
       hasInput: true,
       required: true,
       labelText: "Place",
@@ -219,9 +314,9 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Bag Material & Size"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Enter OTP',
+      dataname: 'AddressDetail',
       hasInput: true,
       required: true,
       labelText: "Location",
@@ -232,36 +327,38 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       },
     ));
 
+    widgets.add( MultiImagePicker(
+      dataname: "ImagesList",
+      hasInput: true,
+      required: true,
+      folder: "Land",
+    ));
+    widgets.add(HiddenController(dataname: "PlantationId"));
+    widgets.add(HiddenController(dataname: "ProjectId"));
+    widgets.add(HiddenController(dataname: "SeedDonorId"));
 
-    setState(() {});
-    await parseJson(widgets, General.addVolunteerIdentifier);
+
+    await parseJson(widgets, General.PlantationAddFormPageViewIdentifier);
+    try{
+      SeedTreeMasterList.value=valueArray.where((element) => element['key']=="SeedTreeMasterList").toList()[0]['value'];
+    }
+    catch(e){
+    }
   }
+  void onPlantCollectionAdd(){
+    var sourceDrpDetail=widgets[0].getValueMap();
+    var plant=widgets[1].getValueMap();
+    var plantQty=widgets[2].getValue();
 
-  TableRow tableView(String Sno,String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
-    return TableRow(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all( 8.0),
-            child: Text(Sno,style: TextStyle(fontSize: 15,fontFamily: 'RM',color:textcolor1 ),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(tabelHead,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor1),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(tablevalue,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor1),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.edit,color: ColorUtil.greyBorder,),
-                Icon(Icons.delete_outline,color: ColorUtil.red,),
-              ],
-            ),
-          ),
-        ]
-    );
+    SeedTreeMasterList.add({
+      "NurseryName": sourceDrpDetail["Text"] ,
+      "TreeName": plant["Text"],
+      "Quantity": plantQty
+    });
+    SeedTreeMasterList.refresh();
+    widgets[0].clearValues();
+    widgets[1].clearValues();
+    widgets[2].clearValues();
+    node.unfocus();
   }
 }

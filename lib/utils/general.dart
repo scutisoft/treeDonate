@@ -27,6 +27,9 @@ class General{
   static String ProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/MyProfile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String EditProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/Edit-Profile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"6F4207A7-8DF9-458B-9B99-D1386FCB2B93";
+  static String PlantationGirdPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationGrid.json":"26A643B8-C971-4E74-8892-FB729944678D";
+  static String PlantationAddFormPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationAddForm.json":"F7DD2926-CC63-4F3D-AC52-CA8AF87B3F84";
+  static String PlantationViewPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 
   static String eventName="eventName";

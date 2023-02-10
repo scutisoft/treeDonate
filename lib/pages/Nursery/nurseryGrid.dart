@@ -300,7 +300,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         color: Color(0xFFF2F3F7),
                       ),
                     ),
-                    Container(width: 1,color: Color(0xFFF2F3F7),height: 120,),
+                    Container(width: 1,color: Color(0xFFF2F3F7),height:separatorHeight.value,),
                     Container(
                       width: 15,
                       height:10,
