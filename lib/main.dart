@@ -7,9 +7,10 @@ import 'pages/splashScreen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put<MyDrawerController>(MyDrawerController());
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky).then(
-  //       (_) => runApp(const MyApp()),
-  // );
+
+  /*SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky).then(
+        (_) => runApp(const MyApp()),
+  );*/
   runApp(const MyApp());
 }
 

@@ -340,7 +340,10 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
   String content;
   TextStyle contentTextStyle;
   TextOverflow? textOverFlow;
-  HE_Text({this.hasInput=false,this.required=false,required this.dataname,this.content="Hello",required this.contentTextStyle,this.textOverFlow}){
+  TextAlign textAlign;
+  HE_Text({this.hasInput=false,this.required=false,required this.dataname,this.content="Hello",required this.contentTextStyle,this.textOverFlow,
+    this.textAlign=TextAlign.start
+  }){
     text.value=content;
     textStyle.value=contentTextStyle;
   }
@@ -352,7 +355,7 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
   @override
   Widget build(BuildContext context) {
     return Obx(
-        ()=>Text("${text.value}",style: textStyle.value,overflow: textOverFlow,)
+        ()=>Text("${text.value}",style: textStyle.value,overflow: textOverFlow,textAlign: textAlign,)
     );
   }
 

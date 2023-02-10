@@ -1,34 +1,97 @@
 {
-  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "Guid": "31741AB5-1321-413D-9457-7C73E5C10B15",
   "valueArray": [
     {
-      "key": "SeedingPageTitle",
-      "value": "Seed Collection"
+      "key": "PageTitle",
+      "value": "Seed Collection",
+      "orderBy": 1
     },
     {
-      "key": "LandDistrictVillage",
-      "value": "Chennai / Mambalam Village"
-    },{
+      "key": "DistrictVillage",
+      "value": "Kanchipuran / Pallipedu Village",
+      "orderBy": 2
+    },
+    {
+      "key": "SeedingView",
+      "value": [
+        {
+          "Title": "Seed Donor Name",
+          "Value": "Balasubramaniyan"
+        },
+        {
+          "Title": "Mobile",
+          "Value": "7550286133"
+        },
+        {
+          "Title": "Seed Donor Address",
+          "Value": "Pallipedu"
+        },
+        {
+          "Title": "District",
+          "Value": "SIVAGANGAI"
+        },
+        {
+          "Title": "Taluk",
+          "Value": "Sivaganga"
+        },
+        {
+          "Title": "Village",
+          "Value": "Tirumalai"
+        },
+        {
+          "Title": "User Name",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "Role",
+          "Value": "Village Coordinator"
+        }
+      ],
+      "orderBy": 3
+    },
+    {
+      "key": "IsNewsFeed",
+      "value": false,
+      "orderBy": 4
+    },
+    {
+      "key": "SeedDonorId",
+      "value": 1,
+      "orderBy": 5
+    },
+    {
+      "key": "ImagesList",
+      "value": [
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Seeding",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 6
+    },
+    {
       "key": "Seeds",
       "value": [
         {"SeedName":"Simaroubaglauca","Qty":"50"},
         {"SeedName":"Neem","Qty":"10"}
-      ]
+      ],
+      "orderBy": 7
     },
-
     {
-      "key": "SeedGiverList",
-      "value": [
-        {"Title":"Name","Value":"Balasubramaniyan"},
-        {"Title":"Mobile","Value":"7550286133"},
-        {"Title":"Address","Value":"62, Sethunagar"},
-        {"Title":"District","Value":"CHENNAI"},
-        {"Title":"Taluk","Value":"Mambalam"},
-        {"Title":"Village","Value":"Mambalam"},
-        {"Title":"User Name","Value":"Saran Raj"},
-        {"Title":"Role","Value":"Zone Coordinator"}
-      ]
+      "key": "IsAccept",
+      "value": false,
+      "orderBy": 8
     }
   ]
 }
-

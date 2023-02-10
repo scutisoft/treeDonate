@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/pages/donateTree/plantingplace.dart';
+import 'package:treedonate/widgets/loader.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -11,11 +12,16 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../utils/utils.dart';
+import '../../widgets/accessWidget.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/customCheckBox.dart';
 
 
 class SeedingView extends StatefulWidget {
+  String? dataJson;
+  Function? closeCb;
+  SeedingView({this.closeCb,this.dataJson=""});
   @override
   _SeedingViewState createState() => _SeedingViewState();
 }
@@ -37,6 +43,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
 
   @override
   void initState() {
+
     silverController = ScrollController();
     assignWidgets();
     super.initState();
@@ -93,7 +100,8 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                             items: imgList
                                 .map((item) => Image.asset(
                               item, fit: BoxFit.fill,
-                              width: SizeConfig.screenWidth,))
+                              width: SizeConfig.screenWidth,)
+                            )
                                 .toList(),
                           ),
                           Align(
@@ -133,127 +141,154 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                 ),
               ];
             },
-            body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      widgets[0],
-                      Image.asset('assets/Slice/status-tick.png',width: 30,)
-                    ],
-                  ),
-                  SizedBox(height: 2,),
-                  widgets[1],
-                  SizedBox(height: 5,),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
-                    ),
-                    child: Table(
-                      // defaultColumnWidth: FixedColumnWidth(160.0),
-                      border: TableBorder.all(
-                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+            body: Stack(
+              children: [
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    const SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TableRow(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Seeds',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Quantity',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
-                              ),
-                            ]
-                        ),
-                        for(int i=0;i<SeedsView.length;i++)
-                        tableView2(SeedsView[i]['SeedName'],SeedsView[i]['Qty'],ColorUtil.themeBlack),
-                        // tableView2('Palm Seed','40',ColorUtil.themeBlack),
+                        widgets[0],
+                        Image.asset('assets/Slice/status-tick.png',width: 30,)
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 0),
-                    child: Table(
-                      // defaultColumnWidth: FixedColumnWidth(160.0),
-                      border: TableBorder.all(
-                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                      children: [
-                        for(int i=0;i<SeedsGiverView.length;i++)
-                          tableView(SeedsGiverView[i]['Title'],SeedsGiverView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Seeds','Veembu seeds',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Quantity','2,000',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Mobile No','9092322265',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('State','Tamil Nadu',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('District','Chennai',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Taluk','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Village','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      isNewsFeed.value=!isNewsFeed.value;
-                    },
-                    child: Obx(() => Container(
-                      margin: EdgeInsets.only(left: 10, right: 10,top: 10),
-                      padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                    const SizedBox(height: 2,),
+                    widgets[1],
+                    const SizedBox(height: 5,),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
-                          borderRadius: BorderRadius.circular(10)
+                          border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Table(
+                        // defaultColumnWidth: FixedColumnWidth(160.0),
+                        border: TableBorder.all(
+                            color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                         children: [
-                          CustomCheckBox(
-                            isSelect: isNewsFeed.value,
-                            selectColor: ColorUtil.primary,
+                          TableRow(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Seeds',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Quantity',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                                ),
+                              ]
                           ),
-                          SizedBox(width: 5,),
-                          Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                          for(int i=0;i<SeedsView.length;i++)
+                            tableView2(SeedsView[i]['SeedName'],SeedsView[i]['Qty'],ColorUtil.themeBlack),
+                          // tableView2('Palm Seed','40',ColorUtil.themeBlack),
                         ],
                       ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+                      child: Table(
+                        // defaultColumnWidth: FixedColumnWidth(160.0),
+                        border: TableBorder.all(
+                            color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+                        children: [
+                          for(int i=0;i<SeedsGiverView.length;i++)
+                            tableView(SeedsGiverView[i]['Title'],SeedsGiverView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Seeds','Veembu seeds',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Quantity','2,000',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Mobile No','9092322265',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, ',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('State','Tamil Nadu',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('District','Chennai',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Taluk','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Village','Puzhal',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                        ],
+                      ),
+                    ),
+                    AccessWidget(
+                      hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                      needToHide: true,
+                      onTap: (){
+                        isNewsFeed.value=!isNewsFeed.value;
+                      },
+                      widget: Obx(() => Container(
+                        margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                        padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                        decoration: BoxDecoration(
+                            color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomCheckBox(
+                              isSelect: isNewsFeed.value,
+                              selectColor: ColorUtil.primary,
+                              onlyCheckbox: true,
+                            ),
+                            const SizedBox(width: 5,),
+                            Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                          ],
+                        ),
 
-                    )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: ColorUtil.red),
-                            color: ColorUtil.red.withOpacity(0.3),
+                      )),
+                    ),
+
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  child:  AccessWidget(
+                    hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                    needToHide: true,
+                    widget: Container(
+                      height: 70,
+                      width: SizeConfig.screenWidth,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(false);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.red),
+                                color: ColorUtil.red.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                            ),
                           ),
-                          child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
-                        ),
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: ColorUtil.primary,
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(true);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: ColorUtil.primary,
+                              ),
+                              child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            ),
                           ),
-                          child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+
+                ShimmerLoader()
+              ],
             ),
           ),
         )
@@ -263,24 +298,44 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
 
   @override
   void assignWidgets() async {
-    setState(() {});
-    widgets.add(HE_Text(dataname: "SeedingPageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
-    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
-    await parseJson(widgets, General.addSeedviewListIdentifier);
+
+    widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
+
+    widgets.add(HiddenController(dataname: "SeedDonorId"));
+    widgets.add(HiddenController(dataname: "IsNewsFeed"));
+    widgets.add(HiddenController(dataname: "IsAccept"));
+
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
 
-      SeedsView=valueArray.where((element) => element['key']=="Seeds").toList()[0]['value'];
+      SeedsGiverView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
+      SeedsView=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
       setState((){});
 
-    }catch(e){
-    }
-    try{
+    }catch(e){}
 
-      SeedsGiverView=valueArray.where((element) => element['key']=="SeedGiverList").toList()[0]['value'];
-      setState((){});
+  }
 
-    }catch(e){
-    }
+  @override
+  String getPageIdentifier(){
+    return General.addSeedviewListIdentifier;
+  }
+
+  void approveRejHandler(isAccept){
+    sysSubmit(widgets,isEdit: true,
+        needCustomValidation: true,
+        onCustomValidation: (){
+          foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
+          foundWidgetByKey(widgets,"IsAccept",needSetValue: true,value: isAccept);
+          return true;
+        },
+        successCallback: (e){
+          if(widget.closeCb!=null){
+            widget.closeCb!(e);
+          }
+        }
+    );
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
