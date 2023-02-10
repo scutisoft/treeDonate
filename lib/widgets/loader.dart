@@ -59,7 +59,8 @@ class Loader extends StatelessWidget {
 
 class NoData extends StatelessWidget {
   bool show;
-  NoData({this.show=true});
+  double topPadding;
+  NoData({this.show=true,this.topPadding=0});
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +68,16 @@ class NoData extends StatelessWidget {
       visible: show,
       child: Container(
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 100),
-          child: Text("No Data ...",
-            style: TextStyle(fontFamily: 'RR',fontSize: 18,color: ColorUtil.text5),
+          padding: EdgeInsets.only(top: topPadding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset("assets/Slice/nodata.png",height: 80,),
+              const SizedBox(height: 10,),
+              Text("No Data ...",
+                style: TextStyle(fontFamily: 'RR',fontSize: 18,color: ColorUtil.text5),
+              ),
+            ],
           )
       ),
     );

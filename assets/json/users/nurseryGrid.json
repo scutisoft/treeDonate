@@ -1,24 +1,38 @@
 {
-  "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984C",
+  "Guid": "7FA6DA79-4B5A-4D49-9F00-B793E327B0F9",
   "valueArray": [
     {
-      "key": "NurserydataList",
+      "key": "NurseryList",
       "value": [
         {
-          "NurseryName": "Bala Nursery",
-          "InchargeName": "Muthu",
-          "location": "CHENNAI / Mambalam / Mambalam",
-          "TotalStock": "220",
-          "Status": "Approved",
-          "TotalTarget": "1000"
+          "SNO": 1,
+          "NurseryId": 1012,
+          "NurseryName": "madhan Nursery garden",
+          "NurseryIncharge": "Madhan Raj",
+          "NurseryLocation": "Iluppur ( MAYILADUDURAI ) ",
+          "NoOfStocks": 160,
+          "TotalTaken": 95,
+          "NoOfTargets": 100000,
+          "BalanceStock": 65,
+          "ApproveStatus": "Approved",
+          "DataJson": {
+            "NurseryId": 1012
+          }
         },
         {
-          "NurseryName": "Bala Nursery",
-          "InchargeName": "Muthu",
-          "location": "CHENNAI / Mambalam / Mambalam",
-          "TotalStock": "220",
-          "Status": "Approved",
-          "TotalTarget": "1000"
+          "SNO": 2,
+          "NurseryId": 1013,
+          "NurseryName": "small garden",
+          "NurseryIncharge": "Madhan Raj",
+          "NurseryLocation": "Allapuram ( VELLORE ) ",
+          "NoOfStocks": 300,
+          "TotalTaken": 60,
+          "NoOfTargets": 100000,
+          "BalanceStock": 240,
+          "ApproveStatus": "Approved",
+          "DataJson": {
+            "NurseryId": 1013
+          }
         }
       ]
     }

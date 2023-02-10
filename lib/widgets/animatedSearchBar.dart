@@ -27,7 +27,7 @@ class AnimSearchBar extends StatefulWidget {
   final Icon? prefixIcon;
   final String helpText;
   final int animationDurationInMilli;
-  final onSuffixTap;
+  final Function(bool) onSuffixTap;
   final bool rtl;
   final bool autoFocus;
   final TextStyle? style;
@@ -183,7 +183,7 @@ class _AnimSearchBarState extends State<AnimSearchBar>
                       onTap: () {
                         try {
                           ///trying to execute the onSuffixTap function
-                          widget.onSuffixTap();
+                          widget.onSuffixTap(widget.textController.text.isNotEmpty);
 
                           // * if field empty then the user trying to close bar
                           if (textFieldValue == '') {

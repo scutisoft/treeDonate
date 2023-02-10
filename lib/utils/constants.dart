@@ -9,13 +9,14 @@ class MyConstants{
   static String appVersion="1.0.2";
   static bool isLive=true;
   static bool fromUrl=true;
+  static bool hasAppVersionController=true;
   static bool bottomSafeArea=false;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;
 
   static String dbDateFormat="yyyy-MM-dd";
-  static String decimalReg=r'^\d+\.?\d{0,2}';
+  static String decimalReg=r'^\d+\.?\d{0,3}';
   static int phoneNoLength=10;
   static int zipcodeLength=6;
   static String digitRegEx='[0-9]';
@@ -24,8 +25,6 @@ class MyConstants{
   static String alphaSpaceRegEx2="/[அ-ஔ]+|[க-னௌ]+|[ァ-ヴー]+|[a-zA-Z ]+|[々〆〤ヶ]+/u";
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
 }
-
-
 
 var formatCurrency = NumberFormat.currency(locale: 'HI',name: "");
 double textFormWidth=400;

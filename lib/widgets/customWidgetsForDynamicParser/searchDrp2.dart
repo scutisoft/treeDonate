@@ -70,6 +70,10 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
     return search2.getValue();
   }
 
+  getValueMap() {
+    return search2.getValueMap();
+  }
+
   @override
   validate() {
     isValid.value=search2.validate();

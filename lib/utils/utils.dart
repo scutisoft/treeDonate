@@ -1,4 +1,6 @@
 import 'dart:developer';
+import '../widgets/recase.dart';
+
 import '../utils/colorUtil.dart';
 import 'package:flutter/material.dart';
 
@@ -105,6 +107,20 @@ Color getPaymentStsClr(int id){
   }
   return ColorUtil.payClr;
 }
+
+Color getStatusClr(String status){
+  if(status=="Approved"){
+    return ColorUtil.approvedClr;
+  }
+  else{
+    return ColorUtil.rejectClr;
+  }
+}
+
+String getTitleCase(value){
+  return value.toString().titleCase;
+}
+
 //Nested ScrollView
 double flexibleSpaceBarHeight=160.0;
 double toolBarHeight=50.0;

@@ -21,9 +21,8 @@ class LandParcelForm extends StatefulWidget {
   bool isEdit;
   String dataJson;
   Function? closeCb;
-
-
   LandParcelForm({this.closeCb,this.dataJson="",this.isEdit=false});
+
   @override
   _LandParcelFormState createState() => _LandParcelFormState();
 }

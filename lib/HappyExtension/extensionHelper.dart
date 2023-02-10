@@ -9,6 +9,7 @@ import 'dart:convert';
 import '../api/apiUtils.dart';
 import '../model/parameterMode.dart';
 import '../notifier/getUiNotifier.dart';
+import '../widgets/listView/HE_ListView.dart';
 abstract class ExtensionCallback {
   String getType();
   getValue();
@@ -150,7 +151,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               widget.setOrderBy(value['orderBy']??1);
             }
           }catch(e){
-            CustomAlert().cupertinoAlert("Error HE001 $e");
+            CustomAlert().cupertinoAlert("${widget.getDataName()} Error HE001 \n $e");
           }
           //print("widgetType $widgetType $value");
         }
@@ -197,6 +198,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   }
 
   Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{Function? successCallback}) async{
+    //"N'$dataJson'"
     await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
@@ -250,7 +252,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               if(clearFrm){
                 clearAll(widgets);
               }
-              if(successCallback!=null){
+              if(successCallback!=null && e['Table']!=null && e['Table'].length>0){
                 successCallback(e);
               }
             }
@@ -280,7 +282,29 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
         }
     ).yesOrNoDialog2('assets/Slice/like.png', content, false);
+  }
 
+  void sysDeleteHE_ListView(HE_ListViewBody he_listViewBody,String primaryKey,{Function? successCallback,String dataJson="",String content="Are you sure want to delete ?",}){
+    CustomAlert(
+        callback: (){
+          postUIJson(getPageIdentifier(),
+              dataJson,
+              "Delete",
+              successCallback: (e){
+                String errorMsg=e["TblOutPut"][0]["@Message"];
+                CustomAlert().successAlert(errorMsg, "");
+                if(successCallback!=null){
+                  successCallback(e);
+                }
+                he_listViewBody.updateArrById(primaryKey, e["Table"][0],action: ActionType.deleteById);
+                //updateArrById(primaryKey, e["Table"][0], arr,action: ActionType.deleteById,primaryArr:primaryArr );
+              }
+          );
+        },
+        cancelCallback: (){
+
+        }
+    ).yesOrNoDialog2('assets/Slice/like.png', content, false);
   }
 
   fillTreeDrp(List<dynamic> widgets,String key,{var refId,var page,bool clearValues=true}) async{
@@ -310,6 +334,17 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
   void clearAll(List<dynamic> widgets){
     setFrmValues(widgets, valueArray,fromClearAll: true);
+  }
+
+  void updateEnable(List<dynamic> widgets,key,{bool isEnabled=false}){
+    var fWid=foundWidgetByKey(widgets, key);
+    if(fWid!=null){
+      fWid.isEnabled=isEnabled;
+      fWid.reload.value=!fWid.reload.value;
+      if(!isEnabled){
+        fWid.clearValues();
+      }
+    }
   }
 
   @override

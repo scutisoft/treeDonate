@@ -319,15 +319,12 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
     widgets.add(HiddenController(dataname: "VolunteerId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
 
-
-    setState((){});
     await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
-
     try{
       landParcelView=valueArray.where((element) => element['key']=="VolunteerDetail").toList()[0]['value'];
-      setState((){});
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
-    }catch(e){
+      setState(() {});
+    }catch(e) {
       console(e);
     }
   }

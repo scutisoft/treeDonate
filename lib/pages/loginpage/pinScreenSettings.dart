@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-
+import 'dart:math' as math;
 import '../../api/ApiManager.dart';
 import '../../api/apiUtils.dart';
 import '../../api/sp.dart';
@@ -80,15 +80,27 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
     fingerPrintDialogWidth=SizeConfig.screenWidth!*0.9;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorUtil.greyLite.withOpacity(0.96),
         body: Stack(
           children: [
+          /*  Positioned(
+              left: -100,
+              child: Transform.rotate(
+                angle: -math.pi / 12.0,
+                child: Container(
+                  height: 100,
+                  width: SizeConfig.screenWidth!*2,
+                  color: Color(0xfff3f3f3),
+                ),
+              ),
+            ),*/
             Container(
               height: SizeConfig.screenHeight,
               decoration: BoxDecoration(
-                color: Colors.white,
-                  image: DecorationImage(
+                //color: Colors.transparent,
+                  /*image: DecorationImage(
                     image: AssetImage('assets/login/login-bg.jpg'),fit: BoxFit.cover,
-                  )
+                  )*/
               ),
               child: Column(
                 children: [

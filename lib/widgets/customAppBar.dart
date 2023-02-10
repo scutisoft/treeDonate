@@ -147,3 +147,28 @@ class GridDeleteIcon extends StatelessWidget {
     );
   }
 }
+class GridEditIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  double height;
+  bool hasAccess;
+  GridEditIcon({Key? key,this.onTap,this.height=30,required this.hasAccess}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return AccessWidget(
+      onTap:onTap,
+      hasAccess: hasAccess,
+      needToHide: true,
+      widget: Container(
+        width: height,
+        height: height,
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: ColorUtil.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(5)
+        ),
+        child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
+        //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
+      ),
+    );
+  }
+}

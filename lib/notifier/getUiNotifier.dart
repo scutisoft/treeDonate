@@ -113,6 +113,7 @@ class GetUiNotifier {
       print("CATCH $e");
     }
   }
+
   Future<dynamic> errorLog(String e,String t) async {
     List<ParameterModel> parameters=[
       ParameterModel(Key: "SpName", Type: "String", Value: "USP_InsertErrorLogMobileDetail"),

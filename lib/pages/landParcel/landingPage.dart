@@ -270,7 +270,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                 setState(() {});
                               },
 
-                              onSuffixTap: () {
+                              onSuffixTap: (clear) {
                                 filterNewsFeed=searchGrid("",newsFeed,filterNewsFeed);
                                 setState(() {});
                               },

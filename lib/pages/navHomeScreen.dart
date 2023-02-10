@@ -42,18 +42,22 @@ class MyDrawerController extends GetxController {
 class MyHomePage extends GetView<MyDrawerController> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MyDrawerController>(
-      builder: (_) => ZoomDrawer(
-        controller: _.zoomDrawerController,
-        style: DrawerStyle.defaultStyle,
-        menuScreen: MenuScreen(),
-        mainScreen: Masterpage(),
-        borderRadius: 24.0,
-        showShadow: true,
-        angle: 0.0,
-        drawerShadowsBackgroundColor: Colors.grey,
-        slideWidth: MediaQuery.of(context).size.width * 0.8,
-        menuBackgroundColor: Colors.white,
+    return SafeArea(
+      bottom: MyConstants.bottomSafeArea,
+      child: GetBuilder<MyDrawerController>(
+        builder: (_) => ZoomDrawer(
+          controller: _.zoomDrawerController,
+          style: DrawerStyle.defaultStyle,
+          menuScreen: MenuScreen(),
+          mainScreen: const Masterpage(),
+          borderRadius: 24.0,
+          showShadow: true,
+          angle: 0.0,
+          drawerShadowsBackgroundColor: Colors.grey,
+          slideWidth: MediaQuery.of(context).size.width * 0.8,
+          menuBackgroundColor: const Color(0xff1e3200),
+          mainScreenTapClose: true,
+        ),
       ),
     );
   }
@@ -74,8 +78,8 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
     {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"Land Parcel","PageNumber":9,"iconNav":Icon(Icons.landscape_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
-    {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
   ];
 
@@ -118,11 +122,11 @@ class MenuScreen extends GetView<MyDrawerController> {
             color: ColorUtil.primary.withOpacity(0.5),
           ),*/
           Container(
-            height: SizeConfig.screenHeight!-120,
+            height: SizeConfig.screenHeight!-(82+135),
+            margin: const EdgeInsets.only(top: 135),
             child: ListView(
               shrinkWrap: true,
               children: [
-                const SizedBox(height: 80,),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.start,
                 //   children: [
@@ -136,7 +140,6 @@ class MenuScreen extends GetView<MyDrawerController> {
                 //     ),
                 //   ],
                 // ),
-                const SizedBox(height: 20,),
                 for(int i=0;i<menuList.length;i++)
                   AccessWidget(
                     hasAccess:menuList[i]['accessId']==null?true: isHasAccess(menuList[i]['accessId']),
@@ -150,7 +153,6 @@ class MenuScreen extends GetView<MyDrawerController> {
                       controller.toggleDrawer();
                     },
                   ),
-
                 // Divider(color: Color(0xff099FAF),thickness: 0.1,),
               ],
             ),
@@ -205,10 +207,6 @@ class _MasterpageState extends State<Masterpage>{
 
   @override
   Widget build(BuildContext context) {
-    width=MediaQuery.of(context).size.width;
-    height=MediaQuery.of(context).size.height;
-    width2=width-16;
-    SizeConfig().init(context);
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
       child: Stack(
