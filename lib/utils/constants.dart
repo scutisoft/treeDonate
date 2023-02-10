@@ -6,11 +6,11 @@ class MyConstants{
   MyConstants._();
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.2";
-  static bool isLive=true;
+  static String appVersion="1.0.3";
+  static bool isLive=false;
   static bool fromUrl=true;
   static bool hasAppVersionController=true;
-  static bool bottomSafeArea=false;
+  static bool bottomSafeArea=true;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;
