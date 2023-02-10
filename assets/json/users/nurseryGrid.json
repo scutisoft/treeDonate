@@ -18,21 +18,6 @@
           "DataJson": {
             "NurseryId": 1012
           }
-        },
-        {
-          "SNO": 2,
-          "NurseryId": 1013,
-          "NurseryName": "small garden",
-          "NurseryIncharge": "Madhan Raj",
-          "NurseryLocation": "Allapuram ( VELLORE ) ",
-          "NoOfStocks": 300,
-          "TotalTaken": 60,
-          "NoOfTargets": 100000,
-          "BalanceStock": 240,
-          "ApproveStatus": "Approved",
-          "DataJson": {
-            "NurseryId": 1013
-          }
         }
       ]
     }

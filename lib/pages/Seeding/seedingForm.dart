@@ -381,6 +381,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     var seedDrpDetail=widgets[0].getValueMap();
     var seedOtherName=widgets[10].getValue();
     var seedQty=widgets[1].getValue();
+
     bool isOthers=seedDrpDetail['Id']=="Others";
     if(seedDrpDetail.isEmpty){
       CustomAlert().cupertinoAlert("Select Seed");

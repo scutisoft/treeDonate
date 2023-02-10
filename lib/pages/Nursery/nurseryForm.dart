@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -11,9 +9,11 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/logoPicker.dart';
+import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class NurseryForm extends StatefulWidget {
@@ -28,7 +28,7 @@ class NurseryForm extends StatefulWidget {
 class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
-  List<Widget> widgets=[];
+  List<dynamic> widgets=[];
   ScrollController? silverController;
   @override
   void initState(){
@@ -36,9 +36,11 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     assignWidgets();
     super.initState();
   }
-  List<dynamic> Planting = [];
-  String page="LandDetails";
+  RxList<dynamic> seedTreeList = RxList<dynamic>();
   var node;
+
+
+  String page="NurseryDetails";
   var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
@@ -55,8 +57,6 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
                   pinned: true,
                   leading: ArrowBack(
                     iconColor: ColorUtil.themeBlack,
@@ -113,16 +113,21 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               height: 60,
                               width: SizeConfig.screenWidth!-117,
                               child: widgets[16],),
-                          Container(
-                            height: 45,
-                            width:100,
-                            margin: EdgeInsets.only(top:10,),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              border: Border.all(color: ColorUtil.primary),
-                              color: ColorUtil.primary.withOpacity(0.3),
+                          GestureDetector( onTap: (){
+                            onPlantCollectionAdd();
+                            },
+
+                            child: Container(
+                              height: 45,
+                              width:100,
+                              margin: EdgeInsets.only(top:10,),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.primary),
+                                color: ColorUtil.primary.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
                             ),
-                            child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
                           ),
                         ],
                       ),
@@ -150,11 +155,38 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                                   ),
                                 ]
                             ),
-                            for(int i=0;i<Planting.length;i++)
-                              tableView(Planting[i]['Plant'],Planting[i]['NoOfPlant'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                            for(int i=0;i<seedTreeList.length;i++)
+                              TableRow(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("${seedTreeList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.greyBorder),),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("${seedTreeList[i]['Quantity']}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder),),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);},),
+                                          //Icon(Icons.delete_outline,color: ColorUtil.red,),
+                                        ],
+                                      ),
+                                    ),
+                                  ]
+                              ),
                           ],
                         ),
                       ),
+                      Obx(() => NoData(topPadding: 15,show: seedTreeList.isEmpty,)),
                       widgets[17],
                       SizedBox(height: 100,)
                     ],
@@ -237,16 +269,14 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       hasInput: true,
       required: true,
       labelText: "Nursery Incharge",
-      textInputType: TextInputType.number,
-      textLength: 10,
-      regExp: MyConstants.digitRegEx,
+      regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNumber',
+      dataname: 'NurseryInchargeContactNumber',
       hasInput: true,
       required: true,
       labelText: "Mobile Number",
@@ -259,36 +289,28 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Email',
+      dataname: 'NurseryInchargeEmail',
       hasInput: true,
       required: true,
       labelText: "Email",
-      textInputType: TextInputType.number,
-      textLength: 10,
-      regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Address',
+      dataname: 'LandAddress',
       hasInput: true,
       required: true,
       labelText: "Address",
-      textInputType: TextInputType.number,
-      textLength: 10,
-      regExp: MyConstants.digitRegEx,
+      regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"District","hintText":"Select District"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Taluk","hintText":"Select Taluk"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Village","hintText":"Select Village"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'Location',
+      dataname: 'AddressDetail',
       hasInput: true,
       required: true,
       labelText: "Location",
@@ -298,17 +320,27 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Electricity","hintText":"Select Electricity"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Fencing","hintText":"Select Fencing"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"Facility","hintText":"Select  Facility"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnership","hintText":"Select Land Ownership"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
+        }
+    ));//8
+    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+        onchange: (e){
+          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+        })); //9
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
+    widgets.add(SearchDrp2(map: const {"dataName":"IsElectricityAvailable","hintText":"Select Electricity"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"FencingId","hintText":"Select Fencing"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"WaterFacilityId","hintText":"Select  Facility"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Select Land Ownership"},));
     widgets.add(AddNewLabelTextField(
-      dataname: 'NoOfTargets',
+      dataname: 'NoOfStocks',
       hasInput: true,
       required: true,
-      labelText: "No of Targets",
+      labelText: "No of Stocks",
       textInputType: TextInputType.number,
-      textLength: 10,
+      textLength: 6,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -316,12 +348,12 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'NoOfStocks',
+      dataname: 'NoOfTargets',
       hasInput: true,
       required: true,
-      labelText: "No of Stocks",
+      labelText: "No of Targets",
       textInputType: TextInputType.number,
-      textLength: 10,
+      textLength: 6,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -333,6 +365,9 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NoOfPlant',
       hasInput: true,
       required: true,
+      textInputType: TextInputType.number,
+      textLength: 6,
+      regExp: MyConstants.digitRegEx,
       labelText: "No of Plant",
       onChange: (v){},
       onEditComplete: (){
@@ -341,23 +376,36 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     ));
 
     widgets.add( MultiImagePicker(
-      dataname: "LandImagesList",
+      dataname: "ImagesList",
       hasInput: true,
       required: true,
       folder: "Land",
     ));
 
-
-
-    setState(() {});
     await parseJson(widgets, General.addNurseryFormIdentifier);
     try{
-
-      Planting=valueArray.where((element) => element['key']=="PlantingList").toList()[0]['value'];
-      setState((){});
-
-    }catch(e){
+      seedTreeList.value=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
     }
+    catch(e){
+    }
+  }
+  void onPlantCollectionAdd(){
+    var seedDrpDetail=widgets[17].getValueMap();
+    var seedQty=widgets[18].getValue();
+
+    bool isOthers=seedDrpDetail['Id']=="Others";
+    if(seedDrpDetail.isEmpty){
+      CustomAlert().cupertinoAlert("Select Seed");
+      return;
+    }
+    seedTreeList.add({
+      "SeedTreeMasterId": isOthers ? null:seedDrpDetail['Id'],
+      "Quantity": seedQty
+    });
+    seedTreeList.refresh();
+    widgets[17].clearValues();
+    widgets[18].clearValues();
+    node.unfocus();
   }
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
     return TableRow(

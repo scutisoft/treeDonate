@@ -21,6 +21,7 @@ import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
+import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
 
 
@@ -99,14 +100,11 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
-                  pinned: false,
-                  leading: GestureDetector(
-                      onTap: (){
-                        widget.voidCallback();
-                      },
-                      child: Icon(Icons.arrow_back_ios_new_sharp,color: ColorUtil.themeBlack,size: 25,)
+                  pinned: true,
+                  leading:  NavBarIcon(
+                    onTap: (){
+                      widget.voidCallback();
+                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
