@@ -319,7 +319,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
             }catch(e){}*/
           },
         )
-    );;//12
+    );//12
     widgets.add(SearchDrp2(map: const {"dataName":"PlantingYearId","hintText":"Select Planting Year","mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//13
 
     widgets.add( MultiImagePicker(

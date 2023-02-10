@@ -181,7 +181,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                               ]
                           ),
                           for(int i=0;i<SeedsView.length;i++)
-                            tableView2(SeedsView[i]['SeedName'],SeedsView[i]['Qty'],ColorUtil.themeBlack),
+                            tableView2(SeedsView[i]['TreeName']??"",SeedsView[i]['Quantity']??"",ColorUtil.themeBlack),
                           // tableView2('Palm Seed','40',ColorUtil.themeBlack),
                         ],
                       ),
@@ -309,11 +309,14 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
     await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
 
+      isNewsFeed.value =valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
       SeedsGiverView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
-      SeedsView=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
+      SeedsView=valueArray.where((element) => element['key']=="Seeds").toList()[0]['value'];
       setState((){});
 
-    }catch(e){}
+    }catch(e){
+      console(e);
+    }
 
   }
 

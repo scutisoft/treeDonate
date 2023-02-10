@@ -542,7 +542,7 @@ class HE_LocationPicker extends StatelessWidget implements ExtensionCallback{
           child: Row(
             children: [
               Expanded(
-                child: Obx(() => Text(text.value.isEmpty ? "Address":text.value,
+                child: Obx(() => Text(text.value.isEmpty ? content:text.value,
                   style: text.value.isEmpty ?ts15(addNewTextFieldText.withOpacity(0.9)):contentTextStyle,
                 )),
               ),

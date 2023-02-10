@@ -1,28 +1,19 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/Nursery/nurseryForm.dart';
-import 'package:treedonate/pages/Nursery/nurseryViewPage.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
-import 'package:treedonate/pages/landParcel/LandParcelForm.dart';
-import 'package:treedonate/pages/landParcel/LandParcelViewPage.dart';
-import 'package:treedonate/pages/planting/plantingForm.dart';
-import 'package:treedonate/pages/planting/plantingViewPage.dart';
-
+import '../../HappyExtension/utils.dart';
+import '../../pages/Nursery/nurseryForm.dart';
+import '../../pages/Nursery/nurseryViewPage.dart';
 import '../../../HappyExtension/extensionHelper.dart';
-import '../../../HappyExtension/utilWidgets.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
-import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../utils/utils.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
-import '../Filter/FilterItems.dart';
 
 
 class NurseryGrid extends StatefulWidget {
@@ -67,10 +58,10 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "LandId",dataJson: dataJson);
+            sysDeleteHE_ListView(he_listViewBody, "NurseryId",dataJson: dataJson);
           },
           onEdit: (updatedMap){
-            he_listViewBody.updateArrById("LandId", updatedMap);
+            he_listViewBody.updateArrById("NurseryId", updatedMap);
           },
           globalKey: GlobalKey(),
         );
@@ -300,7 +291,8 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         color: Color(0xFFF2F3F7),
                       ),
                     ),
-                    Container(width: 1,color: Color(0xFFF2F3F7),height:separatorHeight.value,),
+                    Obx(() => Container(width: 1,height:separatorHeight.value,color: const Color(0xFFF2F3F7),)),
+
                     Container(
                       width: 15,
                       height:10,
@@ -326,55 +318,33 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                     Text("${dataListener['NoOfTargets']}",style: ColorUtil.textStyle18),
                     SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
+                        EyeIcon(
                           onTap: (){
                             fadeRoute(NurseryView());
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            alignment:Alignment.center,
-                            decoration: BoxDecoration(
-                                color: ColorUtil.primary.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
-                            //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                          ),
                         ),
-                        GestureDetector(
+                        const SizedBox(width: 10,),
+                        GridEditIcon(
+                          hasAccess: isHasAccess(accessId["NurseryEdit"]),
                           onTap: (){
-
+                            fadeRoute(NurseryForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                              updateDataListener(e['Table'][0]);
+                              if(onEdit!=null){
+                                onEdit!(e['Table'][0]);
+                              }
+                            },));
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            alignment:Alignment.center,
-                            decoration: BoxDecoration(
-                                color: ColorUtil.primary.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
-                            //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                          ),
                         ),
-                        GestureDetector(
+                        const SizedBox(width: 10,),
+                        GridDeleteIcon(
+                          hasAccess: isHasAccess(accessId["NurseryDelete"]),
                           onTap: (){
-
+                            if(onDelete!=null){
+                              onDelete!(getDataJsonForGrid(dataListener['DataJson']));
+                            }
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            alignment:Alignment.center,
-                            decoration: BoxDecoration(
-                                color: ColorUtil.primary.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
-                            //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                          ),
                         ),
                       ],
                     ),

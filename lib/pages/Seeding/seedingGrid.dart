@@ -312,9 +312,9 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                         Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
+                            EyeIcon(
                               onTap: (){
                                 fadeRoute(SeedingView(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
                                   updateDataListener(e['Table'][0]);
@@ -322,23 +322,12 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                     onEdit!(e['Table'][0]);
                                   }
                                 },));
-                                fadeRoute(SeedingView());
                               },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                alignment:Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: ColorUtil.primary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
-                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                              ),
                             ),
-                            GestureDetector(
+                            const SizedBox(width: 10,),
+                            GridEditIcon(
+                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]),
                               onTap: (){
-
                                 fadeRoute(SeedingForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
@@ -346,26 +335,17 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                   }
                                 },));
                               },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                alignment:Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: ColorUtil.primary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
-                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                              ),
                             ),
+                            const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]),
                               onTap: (){
                                 if(onDelete!=null){
                                   onDelete!(getDataJsonForGrid(dataListener['DataJson']));
                                 }
                               },
                             ),
+
                           ],
                         ),
                       ],
