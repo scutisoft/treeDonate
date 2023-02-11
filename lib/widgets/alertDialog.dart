@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utils/colorUtil.dart';
+import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
 
 
@@ -732,6 +733,85 @@ class CustomAlert{
         style: TextStyle(fontSize: 18,fontFamily: 'RR'),),
     ));
   }*/
+}
+
+enum NotificationType {
+  success,
+  error,
+  info
+}
+
+void addNotifications(NotificationType notificationType,{String msg=""}){
+  if(notificationType==NotificationType.success){
+    Get.snackbar(
+      "",
+      "",
+      titleText:Text("Success",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+      messageText: Text(msg,style: ts15(ColorUtil.text3),),
+      icon: Container(
+          height: 20,
+          width: 20,
+          child: Image(image: AssetImage("assets/icons/success.png",), width: 20,)),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.white,
+      borderRadius: 20,
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(15),
+      colorText: ColorUtil.themeBlack,
+      duration: Duration(milliseconds: 1000),
+      isDismissible: true,
+      dismissDirection: DismissDirection.horizontal,
+      forwardAnimationCurve: Curves.easeOutBack,
+    );
+    /* ElegantNotification.success(
+            title:  Text("Success",style: ts18(AppTheme.bgColor),),
+            description:  Text(msg,style: ts15(AppTheme.darkGrey1),),
+        ).show(Get.context!);*/
+  }
+  else if(notificationType==NotificationType.error){
+    Get.snackbar(
+        "",
+        "",
+        titleText:Text("Error",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+        messageText: Text(msg,style: ts15(ColorUtil.text3),),
+        icon: Container(
+            height: 20,
+            width: 20,
+            child: Image(image: AssetImage("assets/icons/error.png",), width: 20,)),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.white,
+        borderRadius: 20,
+        margin: EdgeInsets.all(15),
+        padding: EdgeInsets.all(15),
+        colorText: ColorUtil.themeBlack,
+        duration: Duration(milliseconds: 1500),
+        isDismissible: true,
+        dismissDirection: DismissDirection.horizontal,
+        forwardAnimationCurve: Curves.easeOutBack
+    );
+  }
+  else if(notificationType==NotificationType.info){
+    Get.snackbar(
+      "Info",
+      "",
+      titleText:Text("Info",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+      messageText: Text(msg,style: ts15(ColorUtil.text3),),
+      icon: Container(
+          height: 20,
+          width: 20,
+          child: Image(image: AssetImage("assets/icons/info.png",), width: 20,)),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.white,
+      borderRadius: 20,
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(15),
+      colorText: ColorUtil.themeBlack,
+      duration: Duration(milliseconds: 1000),
+      isDismissible: true,
+      dismissDirection: DismissDirection.horizontal,
+      forwardAnimationCurve: Curves.easeOutBack,
+    );
+  }
 }
 
 

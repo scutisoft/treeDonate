@@ -30,14 +30,31 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
 
 
   List<Widget> widgets=[];
-  ScrollController? silverController;
+  ScrollController silverController=ScrollController();
   TextEditingController textController = TextEditingController();
   late HE_ListViewBody he_listViewBody;
   double cardWidth=SizeConfig.screenWidth!-(20+15+25);
 
+
+  RxDouble silverBodyTopMargin=RxDouble(0.0);
+
   @override
   void initState(){
-    silverController= ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      silverBodyTopMargin.value=0.0;
+      silverController.addListener(() {
+        if(silverController.offset>triggerOffset){
+          silverBodyTopMargin.value=toolBarHeight-(-(silverController.offset-flexibleSpaceBarHeight));
+          if(silverBodyTopMargin.value<0){
+            silverBodyTopMargin.value=0;
+          }
+        }
+        else if(silverController.offset<triggerEndOffset){
+          silverBodyTopMargin.value=0;
+        }
+      });
+    });
 
     he_listViewBody=HE_ListViewBody(
       data: [],
@@ -74,15 +91,14 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
-            floatHeaderSlivers: true,
+            controller: silverController,
+            //floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  backgroundColor: Color(0XFFF3F3F3),
+                  backgroundColor: Color(0XFFf3f3f3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
-                  pinned: false,
+                  pinned: true,
                   leading: NavBarIcon(
                       onTap: (){
                         widget.voidCallback();
@@ -96,52 +112,61 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                 ),
               ];
             },
-            body:Container(
-             // height: SizeConfig.screenHeight,
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0,),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            body:Stack(
+              children: [
+                Container(
+                  // height: SizeConfig.screenHeight,
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0,),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      AnimSearchBar(
-                        width: SizeConfig.screenWidth!-80,
-                        color: ColorUtil.asbColor,
-                        boxShadow: ColorUtil.asbBoxShadow,
-                        textController: textController,
-                        closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                        searchIconColor: ColorUtil.asbSearchIconColor,
-                        suffixIcon: ColorUtil.getASBSuffix(),
-                        onSubmitted: (a){
-                        },
-                        onChange: (a){
-                          he_listViewBody.searchHandler(a);
-                        },
-                        onSuffixTap: (clear) {
-                          if(clear){
-                            he_listViewBody.searchHandler("");
-                          }
-                        },
+                      Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          AnimSearchBar(
+                            width: SizeConfig.screenWidth!-80,
+                            color: ColorUtil.asbColor,
+                            boxShadow: ColorUtil.asbBoxShadow,
+                            textController: textController,
+                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                            searchIconColor: ColorUtil.asbSearchIconColor,
+                            suffixIcon: ColorUtil.getASBSuffix(),
+                            onSubmitted: (a){
+                            },
+                            onChange: (a){
+                              he_listViewBody.searchHandler(a);
+                            },
+                            onSuffixTap: (clear) {
+                              if(clear){
+                                he_listViewBody.searchHandler("");
+                              }
+                            },
+                          ),
+                          const SizedBox(width: 5,),
+                          FilterIcon(
+                            onTap: (){
+                              fadeRoute(FilterItems());
+                            },
+                          ),
+                          const SizedBox(width: 5,),
+                          GridAddIcon(
+                            onTap: (){
+                              fadeRoute(SeedingForm(closeCb: (e){
+                                he_listViewBody.addData(e['Table'][0]);
+                              },));
+                            },
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 5,),
-                      FilterIcon(
-                        onTap: (){
-                          fadeRoute(FilterItems());
-                        },
-                      ),
-                      const SizedBox(width: 5,),
-                      GridAddIcon(
-                        onTap: (){
-                          fadeRoute(SeedingForm());
-                        },
-                      ),
+                      Flexible(child: he_listViewBody),
+                      Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,topPadding: 20,)),
                     ],
                   ),
-                  Flexible(child: he_listViewBody),
-                  Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
-                ],
-              ),
+                ),
+
+                ShimmerLoader()
+              ],
             ),
           ),
         )
@@ -179,7 +204,9 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      if(globalKey.currentContext!=null){
+        separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      }
     });
     return Obx(
             ()=> Container(
@@ -207,16 +234,16 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             Text('Seed : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
-                            Flexible(child: Text(dataListener['Seed'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),overflow: TextOverflow.ellipsis,)),
+                            Flexible(child: Text(dataListener['Seed']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),overflow: TextOverflow.ellipsis,)),
                           ],
                         ),
                         SizedBox(height: 2,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Name : ${ separatorHeight.value}',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text('Name : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
-                            Text(dataListener['GName'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                            Text(dataListener['GName']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                           ],
                         ),
                         SizedBox(height: 2,),
@@ -225,7 +252,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             Text('Mobile No  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             //  Spacer(),
-                            Text(dataListener['GPhoneNumber'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                            Text(dataListener['GPhoneNumber']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                           ],
                         ),
                         Row(
@@ -233,7 +260,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             Text('Location  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             //  Spacer(),
-                            Flexible(child: Text(dataListener['Glocation'],style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
+                            Flexible(child: Text(dataListener['Glocation']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
                           ],
                         ),
                         SizedBox(height: 2,),
@@ -242,7 +269,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                           children: [
                             Text('Status : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
-                            Flexible(child: Text(dataListener['Status'],style: TextStyle(color: getStatusClr(dataListener['Status']),fontSize: 14,fontFamily: 'RR'),)),
+                            Flexible(child: Text(dataListener['Status']??"",style: TextStyle(color: getStatusClr(dataListener['Status']??""),fontSize: 14,fontFamily: 'RR'),)),
                           ],
                         ),
                       ],
@@ -282,29 +309,24 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Seed Qty ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                        Text("${dataListener['SeedQty']}",style: ColorUtil.textStyle18),
+                        Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            GestureDetector(
+                            EyeIcon(
                               onTap: (){
-
-                                fadeRoute(SeedingView());
+                                fadeRoute(SeedingView(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
+                                  updateDataListener(e['Table'][0]);
+                                  if(onEdit!=null){
+                                    onEdit!(e['Table'][0]);
+                                  }
+                                },));
                               },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                alignment:Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: ColorUtil.primary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.primary,size: 20,),
-                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                              ),
                             ),
-                            GestureDetector(
+                            const SizedBox(width: 10,),
+                            GridEditIcon(
+                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]),
                               onTap: (){
                                 fadeRoute(SeedingForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
@@ -313,42 +335,17 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                   }
                                 },));
                               },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                alignment:Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: ColorUtil.primary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.edit,color: ColorUtil.themeBlack,size: 20,),
-                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                              ),
                             ),
+                            const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]),
                               onTap: (){
                                 if(onDelete!=null){
                                   onDelete!(getDataJsonForGrid(dataListener['DataJson']));
                                 }
                               },
                             ),
-                            GestureDetector(
-                              onTap: (){
 
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                alignment:Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: ColorUtil.primary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Icon(Icons.delete_outline,color: ColorUtil.red,size: 20,),
-                                //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
-                              ),
-                            ),
                           ],
                         ),
                       ],

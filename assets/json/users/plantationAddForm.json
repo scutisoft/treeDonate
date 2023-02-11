@@ -1,0 +1,139 @@
+{
+  "Guid": "F7DD2926-CC63-4F3D-AC52-CA8AF87B3F84",
+  "valueArray": [
+    {
+      "key": "PlantationId",
+      "value": 2025,
+      "orderBy": 1
+    },
+    {
+      "key": "ProjectId",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": 0
+      },
+      "orderBy": 2
+    },
+    {
+      "key": "DistrictId",
+      "value": {
+        "DropDownOptionList": [
+          {
+            "Id": "15",
+            "Text": "15"
+          }
+        ],
+        "SelectedId": 15
+      },
+      "orderBy": 3
+    },
+    {
+      "key": "TalukId",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": 63
+      },
+      "orderBy": 4
+    },
+    {
+      "key": "VillageId",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": 3892
+      },
+      "orderBy": 5
+    },
+    {
+      "key": "BagMaterialSize",
+      "value": {
+        "DropDownOptionList": [
+          {
+            "Id": "3037",
+            "Text": "3037"
+          }
+        ],
+        "SelectedId": 3037
+      },
+      "orderBy": 6
+    },
+    {
+      "key": "AddressDetail",
+      "value": "",
+      "orderBy": 7
+    },
+    {
+      "key": "LandOwnershipId",
+      "value": {
+        "DropDownOptionList": [
+          {
+            "Id": "13",
+            "Text": "13"
+          }
+        ],
+        "SelectedId": 13
+      },
+      "orderBy": 8
+    },
+    {
+      "key": "Place",
+      "value": "Gvt place",
+      "orderBy": 9
+    },
+    {
+      "key": "SourceId",
+      "value": {
+        "DropDownOptionList": [{"Id":1,"Text":"Vivek Nursery"},{"Id":2,"Text":"VIZUTHUGAL"},{"Id":0,"Text":"Own Plant (Self)"}],
+        "SelectedId": ""
+      },
+      "orderBy": 10
+    },
+    {
+      "key": "SeedTreeMasterId",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": ""
+      },
+      "orderBy": 11
+    },
+    {
+      "key": "SeedTreeMasterList",
+      "value": [
+        {
+          "SeedTreeMasterId": 10,
+          "SourceId": 0,
+          "NurseryName": "Own Plant (Self)",
+          "TreeName": "Simaroubaglauca ( சொர்கம் ) ",
+          "Quantity": 200,
+          "TreeDate": "02-02-2023",
+          "PlantationTreeMappingId": 2078
+        }
+      ],
+      "orderBy": 12
+    },
+    {
+      "key": "PlantationImagesList",
+      "value": [
+        {
+          "FolderName": "Plantation",
+          "ImageFile": "Plantation\/2_Bodh-Tree94.jpg",
+          "ImageFileName": "2_Bodh-Tree94.jpg"
+        },
+        {
+          "FolderName": "Plantation",
+          "ImageFile": "Plantation\/dreamstime_l_94990713539.png",
+          "ImageFileName": "dreamstime_l_94990713539.png"
+        }
+      ],
+      "orderBy": 13
+    }
+  ]
+}
+

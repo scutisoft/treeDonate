@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
@@ -159,6 +161,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text("${seedTreeList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.greyBorder),),
                                         ],
@@ -237,7 +240,18 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                                   if(widget.closeCb!=null){
                                     widget.closeCb!(e);
                                   }
+                                },
+                              needCustomValidation: true,
+                              onCustomValidation: (){
+                                if(seedTreeList.isEmpty){
+                                  CustomAlert().cupertinoAlert("Select Seeds...");
+                                  return false;
                                 }
+                                else{
+                                  foundWidgetByKey(widgets, "SeedTreeList",needSetValue: true,value: seedTreeList);
+                                }
+                                return true;
+                              }
                             );
                           },
                           child: Container(
@@ -271,9 +285,6 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       hasInput: false,
       required: false,
     ));//0
-
-
-
     widgets.add(AddNewLabelTextField(
       dataname: 'Qty',
       hasInput: false,
@@ -333,7 +344,8 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
         onchange: (e){
           fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
         })); //6
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//7
+    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},)
+    );//7
 
     widgets.add( MultiImagePicker(
       dataname: "ImagesList",
@@ -342,9 +354,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       folder: "Seeding",
     ));//8
 
-    widgets.add(HiddenController(dataname: "SeedDonorId"));//9
-
-
+    widgets.add(HiddenController(dataname: "SeedId"));//9
     widgets.add(AddNewLabelTextField(
       dataname: 'SeedNameOthers',
       hasInput: false,
@@ -358,7 +368,9 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       },
     )); //10
 
-    await parseJson(widgets, General.addSeedCollectionFrmIdentifier);
+    widgets.add(HiddenController(dataname: "SeedTreeList"));//11
+
+    await parseJson(widgets, General.addSeedCollectionFrmIdentifier,dataJson: widget.dataJson);
     try{
 
       seedTreeList.value=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
@@ -366,6 +378,11 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     }catch(e){}
   }
 
+
+  @override
+  String getPageIdentifier(){
+    return General.addSeedCollectionFrmIdentifier;
+  }
 
   void onSeedDrpChg(e){
     console(e);
@@ -381,6 +398,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     var seedDrpDetail=widgets[0].getValueMap();
     var seedOtherName=widgets[10].getValue();
     var seedQty=widgets[1].getValue();
+
     bool isOthers=seedDrpDetail['Id']=="Others";
     if(seedDrpDetail.isEmpty){
       CustomAlert().cupertinoAlert("Select Seed");
@@ -415,32 +433,4 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     node.unfocus();
   }
 
-  TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
-    return TableRow(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(tabelHead,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor1),),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(tablevalue,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor1),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.delete_outline,color: ColorUtil.red,),
-              ],
-            ),
-          ),
-        ]
-    );
-  }
 }

@@ -37,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.bottom,SystemUiOverlay.top]);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       /*navigate();
       return;*/
@@ -114,8 +115,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     topPadding=MediaQuery.of(context).padding.top;
+    SizeConfig().init(context);
+
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.bottom]);
     return SafeArea(

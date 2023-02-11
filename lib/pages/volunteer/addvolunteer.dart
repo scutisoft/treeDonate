@@ -33,7 +33,7 @@ class AddVolunteer extends StatefulWidget {
 }
 
 class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
-  
+
 
   List<dynamic> widgets=[];
 
@@ -106,7 +106,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                         ),
                         GestureDetector(
                           onTap: (){
-                            onSubmit();
+                            //onSubmit();
                           },
                           child: Container(
                             height: 30,

@@ -20,13 +20,19 @@ class General{
   static String addLandParcelViewIdentifier=!MyConstants.fromUrl?"assets/json/users/landParcelJSON/landParcelView.json":"4F219F7A-3203-420A-A816-D41627A002D3";
   static String addSeedCollectionFrmIdentifier=!MyConstants.fromUrl?"assets/json/users/seedCollectionForm.json":"9D888643-85F0-4EF7-80F0-E66150C99E82";
   static String addSeedGridViewIdentifier=!MyConstants.fromUrl?"assets/json/users/SeedingGrid.json":"24FEEB47-777D-4277-B2A4-D3066360FFC6";
-  static String addSeedviewListIdentifier=!MyConstants.fromUrl?"assets/json/users/seedingView.json":"4CE18B2F-15DC-4899-957B-C851ECCBFC34";
+  static String addSeedviewListIdentifier=!MyConstants.fromUrl?"assets/json/users/seedingView.json":"31741AB5-1321-413D-9457-7C73E5C10B15";
   static String addNurseryFormIdentifier=!MyConstants.fromUrl?"assets/json/users/NurseryForm.json":"204F5289-BD4A-4777-9C21-BB2CB5EEAEA8";
   static String NurseryGridIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryGrid.json":"7FA6DA79-4B5A-4D49-9F00-B793E327B0F9";
   static String NurseryViewIdentifier=!MyConstants.fromUrl?"assets/json/users/nurseryView.json":"012B1F87-406B-47C3-B40E-AB0BF1B6DB71";
   static String ProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/MyProfile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String EditProfileViewIdentifier=!MyConstants.fromUrl?"assets/json/users/Edit-Profile.json":"DEF0DF35-8B09-49DF-9560-06453BEFB043";
   static String HomePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/HomePage.json":"6F4207A7-8DF9-458B-9B99-D1386FCB2B93";
+  static String PlantationGirdPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationGrid.json":"26A643B8-C971-4E74-8892-FB729944678D";
+  static String PlantationAddFormPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationAddForm.json":"F7DD2926-CC63-4F3D-AC52-CA8AF87B3F84";
+  static String PlantationViewPageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/plantationView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String OurTreePageViewIdentifier=!MyConstants.fromUrl?"assets/json/users/ourtree.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String TreeViewIdentifier=!MyConstants.fromUrl?"assets/json/users/treeView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String TreeUsesViewIdentifier=!MyConstants.fromUrl?"assets/json/users/treeUsesView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 
   static String eventName="eventName";

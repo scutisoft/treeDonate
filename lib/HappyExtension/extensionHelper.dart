@@ -80,7 +80,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
           }
         }
       }
-      if(elementType=='multiImage'){
+      if(elementType=='multiImage' || elementType=='singleImagePicker'){
         if(widget.hasInput??false){
           if(widget.required??false){
             validate=widget.validate();
@@ -209,7 +209,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
           successCallback(parsed);
         }
         else{
-          CustomAlert().successAlert(errorMsg, "");
+          addNotifications(NotificationType.success,msg: errorMsg);
+          //CustomAlert().successAlert(errorMsg, "");
         }
       }
       else{
@@ -248,7 +249,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               if(closeFrmOnSubmit){
                 Get.back();
               }
-              CustomAlert().successAlert(errorMsg, "");
+              addNotifications(NotificationType.success,msg: errorMsg);
+              //CustomAlert().successAlert(errorMsg, "");
               if(clearFrm){
                 clearAll(widgets);
               }
@@ -270,7 +272,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               "Delete",
               successCallback: (e){
                 String errorMsg=e["TblOutPut"][0]["@Message"];
-                CustomAlert().successAlert(errorMsg, "");
+                addNotifications(NotificationType.success,msg: errorMsg);
+                //CustomAlert().successAlert(errorMsg, "");
                 if(successCallback!=null){
                   successCallback(e);
                 }
@@ -292,7 +295,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
               "Delete",
               successCallback: (e){
                 String errorMsg=e["TblOutPut"][0]["@Message"];
-                CustomAlert().successAlert(errorMsg, "");
+                addNotifications(NotificationType.success,msg: errorMsg);
+                //CustomAlert().successAlert(errorMsg, "");
                 if(successCallback!=null){
                   successCallback(e);
                 }

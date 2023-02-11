@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:treedonate/api/ApiManager.dart';
@@ -67,8 +68,8 @@ class MenuScreen extends GetView<MyDrawerController> {
   MenuScreen({Key? key}) : super(key: key);
 
   List<dynamic> menuList=[
-    {"Title":"DashBoard","PageNumber":14,"iconNav":Icon(Icons.dashboard,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
-    {"Title":"Home Page","PageNumber":13,"iconNav":Icon(Icons.home_work_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
+    {"Title":"DashBoard","PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
+    {"Title":"Home Page","PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
@@ -77,10 +78,10 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":"My trees","PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
     {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Land Parcel","PageNumber":9,"iconNav":Icon(Icons.landscape_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
-    {"Title":"Seeding","PageNumber":11,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Planting","PageNumber":10,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Nursery","PageNumber":12,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Land Parcel","PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
+    {"Title":"Seeding","PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Nursery","PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":"Planting","PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":100},
   ];
 
 /*  List<dynamic> menuList=[
@@ -201,7 +202,8 @@ class _MasterpageState extends State<Masterpage>{
 
   @override
   void initState(){
-    AppVersionController().getAppVersionDetail();
+    // AppVersionController().getAppVersionDetail();
+    AppVersionController().checkVersion();
     super.initState();
   }
 
@@ -304,6 +306,7 @@ class DrawerContent extends StatelessWidget {
             Container(
               height: 40,
               width: 40,
+              alignment: Alignment.center,
               child: iconNav,
             ),
             SizedBox(width: 20,),

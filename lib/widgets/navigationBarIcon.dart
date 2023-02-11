@@ -4,12 +4,13 @@ import '../utils/colorUtil.dart';
 
 class NavBarIcon extends StatelessWidget {
   VoidCallback? onTap;
-  NavBarIcon({super.key,this.onTap});
+  Color? iconColor;
+  NavBarIcon({super.key,this.onTap,this.iconColor});
   @override
   Widget build(BuildContext context) {
     return  IconButton(
         onPressed: onTap,
-        icon: Icon(Icons.grid_view_rounded,color:ColorUtil.primary)
+        icon: Icon(Icons.grid_view_rounded,color: iconColor??ColorUtil.primary)
       //   icon: Icon(Icons.menu,color: Colors.white,size: 30,),
     );
     // return Container(

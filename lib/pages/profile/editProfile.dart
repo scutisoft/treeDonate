@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/logoPicker.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/constants.dart';
@@ -85,6 +86,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                       ),
                     ),
                     SizedBox(height: 20,),
+                  //  widgets[4],
                     widgets[0],
                     widgets[1],
                     widgets[2],
@@ -171,6 +173,9 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
     ));
 
     widgets.add(HiddenController(dataname: "UserId"));
+
+   // widgets.add(SingleImagePicker(dataname: "ProfileImage", folder: "User",hasInput: true,required: true,));
+
     setState(() {});
     widgets[2].suffixIcon= GestureDetector(
       onTap: (){
@@ -185,7 +190,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
         child: Icon(! widgets[2].isObscure?Icons.visibility_off_outlined:Icons.visibility_outlined,color: ColorUtil.primary,)
       ),
     );
-    await parseJson(widgets, General. EditProfileViewIdentifier);
+    await parseJson(widgets, getPageIdentifier());
   }
 
   @override

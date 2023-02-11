@@ -1,9 +1,9 @@
 {
-  "Guid": "31741AB5-1321-413D-9457-7C73E5C10B15",
+  "Guid": "105E7E2B-D49C-4540-B05E-5D8F67FDEF4F",
   "valueArray": [
     {
       "key": "PageTitle",
-      "value": "Seed Collection",
+      "value": "Plantation Land",
       "orderBy": 1
     },
     {
@@ -15,35 +15,51 @@
       "key": "SeedingView",
       "value": [
         {
-          "Title": "Seed Donor Name",
+          "Title": "ProjectName",
           "Value": "Balasubramaniyan"
         },
         {
-          "Title": "Mobile",
-          "Value": "7550286133"
-        },
-        {
-          "Title": "Seed Donor Address",
-          "Value": "Pallipedu"
-        },
-        {
-          "Title": "District",
-          "Value": "SIVAGANGAI"
-        },
-        {
-          "Title": "Taluk",
-          "Value": "Sivaganga"
-        },
-        {
-          "Title": "Village",
-          "Value": "Tirumalai"
-        },
-        {
-          "Title": "User Name",
+          "Title": "DistrictName",
           "Value": "Muthu"
         },
         {
-          "Title": "Role",
+          "Title": "TalukName",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "VillageName",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "BagMaterialSize",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "Latitude",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "Longitude",
+          "Value": "Muthu"
+        },
+        {
+          "Title": "FirstName",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "UserGroupName",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "Place",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "IsApproved",
+          "Value": "Village Coordinator"
+        },
+        {
+          "Title": "LandOwnershipId",
           "Value": "Village Coordinator"
         }
       ],
@@ -55,9 +71,21 @@
       "orderBy": 4
     },
     {
-      "key": "SeedId",
+      "key": "PlantationId",
       "value": 1,
       "orderBy": 5
+    },
+    {
+      "key": "SeedTreeList",
+      "value": [
+        {
+          "SeedTreeMasterId": 4,
+          "Date": "02-02-2023",
+          "Nursery": "Bala Nursery",
+          "TreeName": "RainTree",
+          "Quantity": 10
+        }
+      ]
     },
     {
       "key": "ImagesList",
@@ -79,19 +107,7 @@
         }
       ],
       "orderBy": 6
-    },
-    {
-      "key": "Seeds",
-      "value": [
-        {"SeedName":"Simaroubaglauca","Qty":"50"},
-        {"SeedName":"Neem","Qty":"10"}
-      ],
-      "orderBy": 7
-    },
-    {
-      "key": "IsAccept",
-      "value": false,
-      "orderBy": 8
     }
   ]
 }
+

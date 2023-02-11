@@ -46,13 +46,14 @@ class _loginPageState extends State<loginPage> {
   }
 
   late  double width,height,width2,height2;
-
+  var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
     width=MediaQuery.of(context).size.width;
     height=MediaQuery.of(context).size.height;
     width2=width-16;
     height2=height-16;
+    isKeyboardVisible.value = MediaQuery.of(context).viewInsets.bottom != 0;
     return SafeArea(
         child: Scaffold(
           body: Stack(
@@ -221,10 +222,12 @@ class _loginPageState extends State<loginPage> {
                   ),
                 ),
               ),
-              Align(
+              Obx(() => Visibility(
+                  visible: !isKeyboardVisible.value,
+                  child:  Align(
                 alignment: Alignment.bottomCenter,
                 child: Text("v - ${MyConstants.appVersion}",style: const TextStyle(height: 3),),
-              ),
+              ))),
               Obx(() => Loader(value: showLoader.value,))
             ],
           ),

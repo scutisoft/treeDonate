@@ -10,6 +10,8 @@ import '../model/parameterMode.dart';
 import '../utils/constants.dart';
 import 'package:get/get.dart';
 
+import 'versionChecker.dart';
+
 class AppVersionController{
   void getAppVersionDetail() async{
     if(!MyConstants.hasAppVersionController){
@@ -48,6 +50,40 @@ class AppVersionController{
             }
           }
         }
+      }
+    });
+  }
+
+  void checkVersion() async {
+    if(!MyConstants.hasAppVersionController){
+      return;
+    }
+    final _checker = AppVersionChecker(
+      appId: MyConstants.appId,
+    );
+    _checker.checkUpdate().then((value) {
+      if(value.currentVersion != value.newVersion){
+        Get.defaultDialog(
+            title: "",
+            titleStyle: TextStyle(height: 0),radius: 10,middleText: "New Update Available",middleTextStyle: TextStyle(fontFamily: "RR",fontSize: 20,),
+            barrierDismissible: false,
+            contentPadding: EdgeInsets.all(20),
+            confirm: GestureDetector(
+              onTap: (){
+                launchUrl(Uri.parse(value.appURL!),mode: LaunchMode.externalApplication);
+              },
+              child: Container(
+                height: 50,
+                width: 150,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ColorUtil.red,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Text("Update",style: ts18(Colors.white),),
+              ),
+            )
+        );
       }
     });
   }

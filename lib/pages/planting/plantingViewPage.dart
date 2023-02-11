@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/donateTree/plantingplace.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -10,28 +8,32 @@ import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
-import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../api/apiUtils.dart';
+import '../../utils/utils.dart';
+import '../../widgets/accessWidget.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/customCheckBox.dart';
+import '../../widgets/loader.dart';
 
 
 class PlantingView extends StatefulWidget {
+  String? dataJson;
+  Function? closeCb;
+
+  PlantingView({this.closeCb,this.dataJson=""});
   @override
   _PlantingViewState createState() => _PlantingViewState();
 }
 
 class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  implements HappyExtensionHelperCallback {
 
-  final List<String> imgList = [
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-  ];
-  List<Widget> widgets = [];
+  List<dynamic> imgList = [];
+  List<dynamic> widgets = [];
   ScrollController? silverController;
   int _current = 0;
   final CarouselController _controller = CarouselController();
-
+  List<dynamic>PlantationSysView = [];
+  List<dynamic> PlantationView = [];
   @override
   void initState() {
     silverController = ScrollController();
@@ -70,7 +72,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                     background: Container(
                       height: 160,
                       width: SizeConfig.screenWidth,
-                      color: Colors.red,
+                      color: Colors.white,
                       child: Stack(
                         children: [
                           CarouselSlider(
@@ -88,8 +90,8 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                             ),
                             carouselController: _controller,
                             items: imgList
-                                .map((item) => Image.asset(
-                              item, fit: BoxFit.fill,
+                                .map((item) => Image.network(
+                              GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
                               width: SizeConfig.screenWidth,))
                                 .toList(),
                           ),
@@ -130,132 +132,162 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                 ),
               ];
             },
-            body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Form Plantation',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),
-                      Image.asset('assets/Slice/status-tick.png',width: 30,)
-                    ],
-                  ),
-                  SizedBox(height: 2,),
-                  Text('SIVAGANGAI  / Tirumalai Village',style: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),
-                  SizedBox(height: 5,),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
-                    ),
-                    child: Table(
-                      // defaultColumnWidth: FixedColumnWidth(160.0),
-                      border: TableBorder.all(
-                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+            body: Stack(
+              children: [
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TableRow(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Date',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Nursery',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Plant',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('No Of Plants',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
-                              ),
-                            ]
-                        ),
-                        tableView2('23-01-2023','Own Plant(Self)','artabotrysuncinatus','100',ColorUtil.themeBlack),
-                        tableView2('23-01-2023','Own Plant(Self)','Neem','200',ColorUtil.themeBlack),
+                        widgets[0],
+                        Image.asset('assets/Slice/status-tick.png',width: 30,)
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 0),
-                    child: Table(
-                      // defaultColumnWidth: FixedColumnWidth(160.0),
-                      border: TableBorder.all(
-                          color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                      children: [
-                        tableView('Bag Material & Size','Poly Bag (32*13)',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('District','Dharmapuri',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Taluk','Gummanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('village','Sudanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Place','tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Land Ownership','Private Land',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('User Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                        tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
-
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      isNewsFeed.value=!isNewsFeed.value;
-                    },
-                    child: Obx(() => Container(
-                      margin: EdgeInsets.only(left: 10, right: 10,top: 10),
-                      padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                    SizedBox(height: 2,),
+                    widgets[1],
+                    SizedBox(height: 5,),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
-                          borderRadius: BorderRadius.circular(10)
+                          border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Table(
+                        // defaultColumnWidth: FixedColumnWidth(160.0),
+                        border: TableBorder.all(
+                            color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                         children: [
-                          CustomCheckBox(
-                            isSelect: isNewsFeed.value,
-                            selectColor: ColorUtil.primary,
+                          TableRow(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Date',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Nursery',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Plant',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('No Of Plants',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                                ),
+                              ]
                           ),
-                          SizedBox(width: 5,),
-                          Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                          for(int i=0;i<PlantationSysView.length;i++)
+                          tableView2(PlantationSysView[i]['Date'],PlantationSysView[i]['Nursery'],PlantationSysView[i]['TreeName'],"${PlantationSysView[i]['Quantity']}",ColorUtil.themeBlack),
+                          // tableView2('23-01-2023','Own Plant(Self)','Neem','200',ColorUtil.themeBlack),
                         ],
                       ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+                      child: Table(
+                        // defaultColumnWidth: FixedColumnWidth(160.0),
+                        border: TableBorder.all(
+                            color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+                        children: [
+                          for(int i=0;i<PlantationView.length;i++)
+                          tableView(PlantationView[i]['Title'],PlantationView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('District','Dharmapuri',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Taluk','Gummanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('village','Sudanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Place','tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Land Ownership','Private Land',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('User Name','Bala',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
 
-                    )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: ColorUtil.red),
-                            color: ColorUtil.red.withOpacity(0.3),
-                          ),
-                          child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                        ],
+                      ),
+                    ),
+                    AccessWidget(
+                      hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                      needToHide: true,
+                      onTap: (){
+                        isNewsFeed.value=!isNewsFeed.value;
+                      },
+                      widget: Obx(() => Container(
+                        margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                        padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                        decoration: BoxDecoration(
+                            color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        Container(
-                          width: SizeConfig.screenWidth!*0.4,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: ColorUtil.primary,
-                          ),
-                          child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomCheckBox(
+                              isSelect: isNewsFeed.value,
+                              selectColor: ColorUtil.primary,
+                              onlyCheckbox: true,
+                            ),
+                            const SizedBox(width: 5,),
+                            Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                          ],
                         ),
-                      ],
+
+                      )),
+                    ),
+                    SizedBox(height: 100,),
+
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: AccessWidget(
+                    hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                    needToHide: true,
+                    widget: Container(
+                      height: 70,
+                      width: SizeConfig.screenWidth,
+                      color: Colors.white,
+                      //margin: EdgeInsets.only(top: 20,bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(false);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.red),
+                                color: ColorUtil.red.withOpacity(0.3),
+                              ),
+                              child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap:(){
+                              approveRejHandler(true);
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: ColorUtil.primary,
+                              ),
+                              child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                ShimmerLoader()
+              ],
             ),
           ),
         )
@@ -266,9 +298,43 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
   @override
   void assignWidgets() async {
     setState(() {});
-    await parseJson(widgets, General.donateIdentifier);
-  }
+    widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
 
+    widgets.add(HiddenController(dataname: "PlantationId"));
+    widgets.add(HiddenController(dataname: "IsNewsFeed"));
+    widgets.add(HiddenController(dataname: "IsAccept"));
+    await parseJson(widgets, General.PlantationViewPageViewIdentifier,dataJson: widget.dataJson);
+    try{
+
+      PlantationSysView=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
+      PlantationView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
+      isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
+      imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
+      setState((){});
+
+    }catch(e){
+    }
+  }
+  void approveRejHandler(isAccept){
+    sysSubmit(widgets,isEdit: true,
+        needCustomValidation: true,
+        onCustomValidation: (){
+          foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
+          foundWidgetByKey(widgets,"IsAccept",needSetValue: true,value: isAccept);
+          return true;
+        },
+        successCallback: (e){
+          if(widget.closeCb!=null){
+            widget.closeCb!(e);
+          }
+        }
+    );
+  }
+  @override
+  String getPageIdentifier(){
+    return General.PlantationViewPageViewIdentifier;
+  }
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){
     return TableRow(
         children: [

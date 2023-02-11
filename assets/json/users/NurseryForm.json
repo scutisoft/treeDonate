@@ -1,141 +1,153 @@
 {
   "Guid": "204F5289-BD4A-4777-9C21-BB2CB5EEAEA8",
   "valueArray": [
-
+    {
+      "key": "NurseryId",
+      "value": "2064",
+      "orderBy": 0
+    },
     {
       "key": "NurseryName",
-      "value": "Bala"
+      "value": "Yukesh Nursery",
+      "orderBy": 1
     },
     {
       "key": "NurseryIncharge",
-      "value": "Muthu"
+      "value": "Yukesh",
+      "orderBy": 2
     },
     {
-      "key": "PhoneNumber",
-      "value": "7550286133"
+      "key": "NurseryInchargeContactNumber",
+      "value": "7550286133",
+      "orderBy": 3
     },
     {
-      "key": "Email",
-      "value": "Bala@gmail.com"
+      "key": "NurseryInchargeEmail",
+      "value": "NO 10 Main Road vdp",
+      "orderBy": 4
     },
     {
-      "key": "Address",
-      "value": "49, TTS Nagar, 4th Street"
+      "key": "LandAddress",
+      "value": "",
+      "orderBy": 5
     },
     {
-      "key": "District",
+      "key": "AddressDetail",
+      "value": "",
+      "orderBy": 6
+    },
+    {
+      "key": "DistrictId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
+        "DropDownOptionList": [{"Id":1,"Text":"CHENNAI"},{"Id":2,"Text":"THIRUVALLUR"},{"Id":3,"Text":"RANIPET"},{"Id":4,"Text":"VELLORE"},{"Id":5,"Text":"THIRUPATTUR"},{"Id":6,"Text":"TIRUVANNAMALAI"},{"Id":7,"Text":"KANCHIPURAM"},{"Id":8,"Text":"CHENGALPATTU"},{"Id":9,"Text":"CUDDALORE"},{"Id":10,"Text":"KALLAKURUCHI"},{"Id":11,"Text":"VILLUPURAM"},{"Id":12,"Text":"TRICHY"},{"Id":13,"Text":"PERAMBALUR"},{"Id":14,"Text":"ARIYALUR"},{"Id":15,"Text":"MAYILADUDURAI"},{"Id":16,"Text":"NAGAPATTINAM"},{"Id":17,"Text":"THIRUVARUR"},{"Id":18,"Text":"THANJAVUR"},{"Id":19,"Text":"PUDUKKOTTAI"},{"Id":20,"Text":"THENI"},{"Id":21,"Text":"MADURAI"},{"Id":22,"Text":"SIVAGANGAI"},{"Id":23,"Text":"RAMANATHAPURAM"},{"Id":24,"Text":"VIRUDHUNAGAR"},{"Id":25,"Text":"THENKASI"},{"Id":26,"Text":"THOOTHUKUDI"},{"Id":27,"Text":"TIRUNELVELI"},{"Id":28,"Text":"KANYAKUMARI"},{"Id":29,"Text":"COIMBATORE"},{"Id":30,"Text":"NILGIRIS"},{"Id":31,"Text":"TIRUPUR"},{"Id":32,"Text":"DINDUGAL"},{"Id":33,"Text":"KARUR"},{"Id":34,"Text":"ERODE"},{"Id":35,"Text":"NAMMAKAL"},{"Id":36,"Text":"SALEM"},{"Id":37,"Text":"DHARMAPURI"},{"Id":38,"Text":"KRISHNAGIRI"}],
+        "SelectedId": ""
+      },
+      "orderBy": 7
     },
     {
-      "key": "Taluk",
+      "key": "TalukId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
+        "DropDownOptionList": [],
+        "SelectedId": ""
+      },
+      "orderBy": 8
     },
     {
-      "key": "Village",
+      "key": "VillageId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "CHENNAI"},
-          {"Id": 2,"Text": "THIRUVALLUR"},
-          {"Id": 3,"Text": "RANIPET"},
-          {"Id": 4,"Text": "VELLORE"},
-          {"Id": 5,"Text": "THIRUPATTUR"},
-          {"Id": 6,"Text": "TIRUVANNAMALAI"},
-          {"Id": 7,"Text": "KANCHIPURAM"}
-        ]
-      }
+        "DropDownOptionList": [],
+        "SelectedId": ""
+      },
+      "orderBy": 9
     },
     {
-      "key": "Location",
-      "value": ""
-    },
-    {
-      "key": "Electricity",
+      "key": "IsElectricityAvailable",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "Yes"},
-          {"Id": 2,"Text": "NO"}
-        ]
-      }
+      "DropDownOptionList": [{"Id":true,"Text":"Yes"},{"Id":false,"Text":"No"}],
+      "SelectedId": ""
+    },
+      "orderBy": 10
     },
     {
-      "key": "Fencing",
+      "key": "FencingId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "No Fencing"},
-          {"Id": 2,"Text": "Partial Fencing"},
-          {"Id": 3,"Text": "Completed Fencing"}
-        ]
-      }
+        "DropDownOptionList": [{"Id":1019,"Text":"No Fencing"},{"Id":1020,"Text":"Partial Fencing"},{"Id":1021,"Text":"Complete Fencing"}],
+        "SelectedId": ""
+      },
+      "orderBy": 11
     },
     {
-      "key": "Facility",
+      "key": "WaterFacilityId",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "None"},
-          {"Id": 2,"Text": "Bore Well"},
-          {"Id": 3,"Text": "Open Well"},
-          {"Id": 4,"Text": "Bore Well,Open Well"}
+        "DropDownOptionList": [{"Id":7,"Text":"None"},{"Id":8,"Text":"Bore Well"},{"Id":9,"Text":"Open Well"},{"Id":10,"Text":"Bore Well,Open Well"}],
+        "SelectedId": ""
+      },
+      "orderBy": 12
+    },
+    {
+      "key": "LandOwnershipId",
+      "value": {
+        "DropDownOptionList": [{"Id":11,"Text":"Forest Land"},{"Id":12,"Text":"Private Land"},{"Id":13,"Text":"Government Land"},{"Id":14,"Text":"Rented Land"}],
+        "SelectedId": ""
+      },
+      "orderBy": 13
+    },
+    {
+      "key": "NoOfStocks",
+      "value": "10",
+      "orderBy": 14
+    },
+    {
+      "key": "NoOfTargets",
+      "value": 12,
+      "orderBy": 15
+    },
 
-        ]
-      }
+    {
+      "key": "RangeName",
+      "value": "NO 10 Main Road vdp",
+      "orderBy": 16
     },
     {
-      "key": "LandOwnership",
+      "key": "SeedMasterList",
       "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "Forest Land"},
-          {"Id": 2,"Text": "Private Land"},
-          {"Id": 3,"Text": "Government Land"},
-          {"Id": 4,"Text": "Rented Land"}
-        ]
-      }
+        "DropDownOptionList": [{"Id":1,"Text":"Neem"},{"Id":2,"Text":"Indiantulip"},{"Id":3,"Text":"IndianAlmond"},{"Id":4,"Text":"RainTree"},{"Id":5,"Text":"Cordiasebestena"},{"Id":6,"Text":"MimusopsElengi"},{"Id":7,"Text":"Ficusreligiosa"},{"Id":8,"Text":"FicusGlomerata"},{"Id":9,"Text":"FisusTsiela"},{"Id":10,"Text":"Simaroubaglauca"},{"Id":11,"Text":"Eugeniajambolana"},{"Id":12,"Text":"Tamarind"},{"Id":13,"Text":"spathodeacampanulata"},{"Id":14,"Text":"Terminaliaarjuna"},{"Id":15,"Text":"Sesbaniagrandiflora"},{"Id":16,"Text":"Bael"},{"Id":17,"Text":"Pongamiapinnata"},{"Id":18,"Text":"bassialatifolia"},{"Id":19,"Text":"Fisusbengalensis"},{"Id":20,"Text":"CustardApple"},{"Id":21,"Text":"Pomegranate"},{"Id":22,"Text":"Guava"},{"Id":23,"Text":"artabotrysuncinatus"},{"Id":24,"Text":"Papaya"},{"Id":25,"Text":"Ocimumtenuiflorum"},{"Id":26,"Text":"countrygooseberry"},{"Id":27,"Text":"Bauhiniapurpurea"},{"Id":28,"Text":"Hennaplant"},{"Id":29,"Text":"jambonavaal"},{"Id":30,"Text":"ArecaPalm"},{"Id":31,"Text":"Terminalia belerica"},{"Id":32,"Text":"mahogany (Swieteniamacrophylla)"},{"Id":33,"Text":"Noni (morindacitrifolia)"},{"Id":34,"Text":"Ulmusintegrifolia"},{"Id":35,"Text":"Meliadubia"},{"Id":36,"Text":"Betelnut"},{"Id":37,"Text":"micheliachampaca"},{"Id":38,"Text":"calophylluminophyllum"},{"Id":39,"Text":"Soymidafebrifuga"},{"Id":40,"Text":"Betel"},{"Id":41,"Text":"calabash"},{"Id":42,"Text":"Couroupitaguianensis"},{"Id":43,"Text":"coconut"},{"Id":44,"Text":"soursop"},{"Id":45,"Text":"Anona reticulata"},{"Id":46,"Text":"gambhari"},{"Id":47,"Text":"Teakwood"},{"Id":48,"Text":"Artocarpusintegrifolia"},{"Id":49,"Text":"ManilaTamarind"},{"Id":50,"Text":"RedLuckySeed"},{"Id":51,"Text":"Polyalthia longifolia"},{"Id":52,"Text":"Goldenshower"},{"Id":53,"Text":"IndianLaurel"},{"Id":54,"Text":"Pterocarpusmarsupium"},{"Id":55,"Text":"Amla"},{"Id":56,"Text":"Sterculiafoetia"},{"Id":57,"Text":"Mangifera indica"},{"Id":58,"Text":"foxtailpalm"},{"Id":59,"Text":"SilkcottonTree"},{"Id":60,"Text":"sapota"},{"Id":61,"Text":"Lemon"}],
+        "SelectedId": "10,11"
+      },
+      "orderBy": 17
     },
     {
-      "Key": "NoOfTargets",
-      "value": ""
-    },
-    {
-      "Key": "NoOfStocks",
-      "value": ""
-    },
-    {
-      "key": "Plant",
-      "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "Neem"},
-          {"Id": 2,"Text": "Bael"}
-        ]
-      }
-    },{
-      "Key": "NoOfPlant",
-      "value": ""
-    },
-    {
-      "key": "PlantingList",
+      "key": "SeedTreeList",
       "value": [
-        {"Plant":"Neem","NoOfPlant":"180"},
-        {"Plant":"Tamarind","NoOfPlant":"130"}
-      ]
+        {
+          "SeedTreeMasterId": 10,
+          "TreeName": "Simaroubaglauca(???????)",
+          "Quantity": "11",
+          "TreeDate": "01-01-1900"
+        }
+      ],
+      "orderBy": 18
+    },
+    {
+      "key": "ImagesList",
+      "value": [
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 19
     }
   ]
 }

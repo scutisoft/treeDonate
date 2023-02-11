@@ -21,8 +21,6 @@ import '../../widgets/loader.dart';
 class LandParcelView extends StatefulWidget {
   String? dataJson;
   Function? closeCb;
-
-
   LandParcelView({this.closeCb,this.dataJson=""});
   @override
   _LandParcelViewState createState() => _LandParcelViewState();
