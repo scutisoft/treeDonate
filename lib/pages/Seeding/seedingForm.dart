@@ -354,7 +354,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       folder: "Seeding",
     ));//8
 
-    widgets.add(HiddenController(dataname: "SeedDonorId"));//9
+    widgets.add(HiddenController(dataname: "SeedId"));//9
     widgets.add(AddNewLabelTextField(
       dataname: 'SeedNameOthers',
       hasInput: false,

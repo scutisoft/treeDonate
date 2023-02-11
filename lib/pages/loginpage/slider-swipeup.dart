@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/pages/volunteer/addvolunteer.dart';
 
+import '../../helper/appVersionController.dart';
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
@@ -24,6 +25,11 @@ class _SlideSwipeState extends State<SlideSwipe> {
   ];
 
 
+  @override
+  void initState(){
+    AppVersionController().checkVersion();
+    super.initState();
+  }
 
 
  @override

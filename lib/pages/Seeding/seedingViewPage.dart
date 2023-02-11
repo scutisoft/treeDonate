@@ -302,7 +302,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
     widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
     widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
 
-    widgets.add(HiddenController(dataname: "SeedDonorId"));
+    widgets.add(HiddenController(dataname: "SeedId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
     widgets.add(HiddenController(dataname: "IsAccept"));
 

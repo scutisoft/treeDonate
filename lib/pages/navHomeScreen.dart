@@ -202,7 +202,8 @@ class _MasterpageState extends State<Masterpage>{
 
   @override
   void initState(){
-    AppVersionController().getAppVersionDetail();
+    // AppVersionController().getAppVersionDetail();
+    AppVersionController().checkVersion();
     super.initState();
   }
 
