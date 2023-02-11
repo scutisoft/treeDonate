@@ -180,7 +180,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                               ]
                           ),
                           for(int i=0;i<PlantationSysView.length;i++)
-                          tableView2(PlantationSysView[i]['Date'],PlantationSysView[i]['Nursery'],PlantationSysView[i]['TreeName'],PlantationSysView[i]['Quantity'],ColorUtil.themeBlack),
+                          tableView2(PlantationSysView[i]['Date'],PlantationSysView[i]['Nursery'],PlantationSysView[i]['TreeName'],"${PlantationSysView[i]['Quantity']}",ColorUtil.themeBlack),
                           // tableView2('23-01-2023','Own Plant(Self)','Neem','200',ColorUtil.themeBlack),
                         ],
                       ),
