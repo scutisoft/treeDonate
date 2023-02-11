@@ -91,7 +91,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
+                  pinned: true,
                   leading: NavBarIcon(
                     onTap: (){
                       widget.voidCallback();
@@ -128,6 +128,69 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         ///runAlignment: WrapAlignment.center,
                         //crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
+                          Container(
+                            width: SizeConfig.screenWidth!*0.45,
+                            height: 140,
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 5.0, // soften the shadow
+                                  spreadRadius: .0, //extend the shadow
+                                  offset: Offset(
+                                    0.0, // Move to right 10  horizontally
+                                    0.0, // Move to bottom 10 Vertically
+                                  ),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset('assets/logo.png',fit: BoxFit.contain,)
+                                // Row(
+                                //   children: [
+                                //     Container(
+                                //       width:50,
+                                //       height: 50,
+                                //       alignment: Alignment.center,
+                                //       decoration: BoxDecoration(
+                                //           color: Color(0XFFf8cba2),
+                                //           shape:BoxShape.circle
+                                //       ),
+                                //       child: Image.asset('assets/trees/Seeds.png',height: 30,),
+                                //     ),
+                                //     SizedBox(width:5 ,),
+                                //     RichText(
+                                //       text: TextSpan(
+                                //         children: <TextSpan>[
+                                //           TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                //           TextSpan(text: '10 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                //         ],
+                                //       ),
+                                //       // textScaleFactor: 0.5,
+                                //     )
+                                //   ],
+                                // ),
+                                // SizedBox(height: 5,),
+                                // Text('Zone',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                // SizedBox(height: 5,),
+                                // Text.rich(
+                                //   TextSpan(
+                                //     text: '5', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
+                                //     children: [
+                                //       TextSpan(text: ' Zone ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                //     ],
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
                           getCardPrimary(
                               img: "assets/Slice/DefaultVolunteer.png",
                               imgBg:  const Color(0XFFF2F2F2),
@@ -156,68 +219,6 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               primaryUnit: "",
                               secondaryUnit: '${dashBoardDetail["SeedingSecoundaryUnit"]} '
                           ),
-                          /*Container(
-                        width: SizeConfig.screenWidth!*0.45,
-                        height: 140,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 5.0, // soften the shadow
-                              spreadRadius: .0, //extend the shadow
-                              offset: Offset(
-                                0.0, // Move to right 10  horizontally
-                                0.0, // Move to bottom 10 Vertically
-                              ),
-                            )
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width:50,
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color(0XFFf8cba2),
-                                      shape:BoxShape.circle
-                                  ),
-                                  child: Image.asset('assets/trees/Seeds.png',height: 30,),
-                                ),
-                                SizedBox(width:5 ,),
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                                      TextSpan(text: '10 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                    ],
-                                  ),
-                                  // textScaleFactor: 0.5,
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                            Text('Zone',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                            SizedBox(height: 5,),
-                            Text.rich(
-                              TextSpan(
-                                text: '5', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                children: [
-                                  TextSpan(text: ' Zone ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),*/
                         ],
                       ),
                       SizedBox(height: 15,),
