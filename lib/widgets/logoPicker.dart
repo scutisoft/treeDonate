@@ -173,6 +173,124 @@ _cropImage(File picked,Function(File) onCropped) async {
 }*/
 
 
+class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
+  bool hasInput;
+  bool required;
+  String dataname;
+  String folder;
+  bool enabled;
+  String description;
+  String btnTitle;
+  SingleImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder,this.enabled=true,
+    this.description="Upload Your Logo", this.btnTitle="Choose File"});
+
+  Rxn<File> imageFile=Rxn<File>();
+  Rxn<String> imageName=Rxn<String>();
+
+  var orderBy=1.obs;
+  var isValid=true.obs;
+  var errorText="* Required".obs;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Obx(() => LogoAvatar(imageUrl: "${GetImageBaseUrl()}$folder/${imageName.value??""}", imageFile: imageFile.value,radius: 100,)),
+        const SizedBox(height: 20,),
+        Align(
+          alignment: Alignment.center,
+          child: Text(description,
+            style: TextStyle(fontFamily: 'RR',fontSize: 14,color: ColorUtil.text1),
+          ),
+        ),
+        Obx(
+                ()=>isValid.value?Container():ValidationErrorText(title: errorText.value,alignment: Alignment.center,leftPadding: 0,)
+        ),
+        const SizedBox(height: 10,),
+        Visibility(
+          visible: enabled,
+          child: GestureDetector(
+            onTap:enabled?  (){
+              getImage((file){
+                imageFile.value=file;
+              });
+            }:null,
+            child:  Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 150,
+                height:45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: ColorUtil.secondary,
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorUtil.secondary.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(1, 8), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Center(
+                    child: Text(btnTitle,style: TextStyle(color:Colors.white,fontSize:16,fontFamily: 'RM'),
+                    )
+                ),
+              ),
+            ),
+          ),
+        ),
+
+      ],
+    );
+  }
+
+  @override
+  void clearValues() {
+    imageFile.value=null;
+  }
+
+  @override
+  String getDataName() {
+    return dataname;
+  }
+
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  String getType() {
+    return 'singleImagePicker';
+  }
+
+  @override
+  getValue() async{
+    if(imageFile.value!=null){
+      imageName.value=await MyHelper.uploadFile(folder, imageFile.value!);
+    }
+    return imageName.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
+  }
+
+  @override
+  setValue(value) {
+    // TODO: implement setValue
+    throw UnimplementedError();
+  }
+
+  @override
+  bool validate() {
+    isValid.value=(imageName.value != null && imageName.value!.isNotEmpty) || imageFile.value != null;
+    return isValid.value;
+  }
+}
+
 
 
 class MultiImagePicker extends StatelessWidget implements ExtensionCallback{

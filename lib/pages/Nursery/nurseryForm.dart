@@ -318,7 +318,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       },
     ));
     widgets.add(AddNewLabelTextField(
-      dataname: 'LandAddress',
+      dataname: 'RangeName',
       hasInput: true,
       required: true,
       labelText: "Address",
@@ -409,12 +409,16 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     widgets.add(HiddenController(dataname: "NurseryId"));
     widgets.add(HiddenController(dataname: "SeedTreeList"));
 
-    await parseJson(widgets, General.addNurseryFormIdentifier);
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
       seedTreeList.value=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
     }
-    catch(e){
-    }
+    catch(e){}
+  }
+
+  @override
+  String getPageIdentifier(){
+    return General.addNurseryFormIdentifier;
   }
 
   void onPlantCollectionAdd(){

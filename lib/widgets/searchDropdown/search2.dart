@@ -118,12 +118,13 @@ class Search2 extends StatelessWidget {
         ),
         dialogWidget: Obx(
                 ()=>Container(
-              height:dataNotifier.isEmpty?150:  (data!.length*45.0)+(showSearch?50:0),
+              height:dataNotifier.isEmpty?150:  (data!.length*45.0)+(showSearch?80:0),
               width: dialogWidth??SizeConfig.screenWidth,
               margin:dialogMargin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:5):dialogMargin,
               //padding: EdgeInsets.only(top: 10),
               clipBehavior: Clip.antiAlias,
               alignment: Alignment.topCenter,
+
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
@@ -140,17 +141,19 @@ class Search2 extends StatelessWidget {
                   maxHeight: maxHeight
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   !showSearch?Container():Container(
                     height: 50,
                     width: width,
-                    margin: EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
                     alignment: Alignment.centerLeft,
                     child: TextFormField(
                       //    style: textFormTs1,
                       focusNode: f4,
                       //scrollPadding: EdgeInsets.only(bottom: 200),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Search",
                           // hintStyle: textFormHintTs1,
                           border: OutlineInputBorder(),
@@ -167,13 +170,14 @@ class Search2 extends StatelessWidget {
                   dataNotifier.isEmpty?Container(
                     height: 50,
                     alignment: Alignment.center,
-                    child: Text("No Data Found",),
+                    child: const Text("No Data Found",),
                   ):
                   Flexible(child: ListView.builder(
                     itemCount: dataNotifier.length,
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     itemBuilder: (ctx,index){
-                      return   InkWell(
+                      return   GestureDetector(
                         onTap:(){
                           Navigator.pop(ctx);
                           if(isToJson!)
@@ -184,9 +188,9 @@ class Search2 extends StatelessWidget {
                           selectedValueFunc!(dataNotifier[index]);
                         },
                         child: Container(
-                          height: 40,
+                          height: 45,
                           width:width,
-                          padding: EdgeInsets.only(left: 20,),
+                          padding: const EdgeInsets.only(left: 20,),
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             color:(isToJson!?"${dataNotifier[index][propertyId].toString()}":"${dataNotifier[index].toString()}" )== (isToJson!?selectedData[propertyId].toString():selectedData['value'])?ColorUtil.search2ActBg:ColorUtil.search2InActBg,

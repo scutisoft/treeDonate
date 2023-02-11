@@ -95,7 +95,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                             carouselController: _controller,
                             items: imgList
                                 .map((item) => Image.network(
-                              GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
+                              "${GetImageBaseUrl()+item["ImagePath"]??""}", fit: BoxFit.contain,
                               width: SizeConfig.screenWidth,))
                                 .toList(),
                           ),
@@ -141,7 +141,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                 ListView(
                   shrinkWrap: true,
                   children: [
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -182,7 +182,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                             ]
                           ),
                           for(int i=0;i<NurserySysView.length;i++)
-                          tableView3(NurserySysView[i]['Date'],NurserySysView[i]['PlantName'],NurserySysView[i]['NoOfPlant'],ColorUtil.themeBlack),
+                          tableView3(NurserySysView[i]['Date'],NurserySysView[i]['PlantName'],"${NurserySysView[i]['NoOfPlant']}",ColorUtil.themeBlack),
                         ],
                       ),
                     ),
@@ -288,15 +288,15 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
 
   @override
   void assignWidgets() async {
-    setState(() {});
+
     widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
-    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
 
 
-    widgets.add(HiddenController(dataname: "LandParcelId"));
+    widgets.add(HiddenController(dataname: "NurseryId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
     widgets.add(HiddenController(dataname: "IsAccept"));
-    await parseJson(widgets, General.NurseryViewIdentifier,dataJson: widget.dataJson);
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
 
       NurserySysView=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
@@ -306,6 +306,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
       setState((){});
 
     }catch(e){
+      console(e);
     }
   }
 

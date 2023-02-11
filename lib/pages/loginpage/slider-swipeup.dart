@@ -132,12 +132,12 @@ class _SlideSwipeState extends State<SlideSwipe> {
                   height: 50,
                  width: 120,
                  alignment: Alignment.center,
-                 // padding: EdgeInsets.only(left: 10,right: 10,top: ),
+                  padding: const EdgeInsets.only(left: 5,right: 5 ),
                   decoration: BoxDecoration(
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(10)
                   ),
-                  child: Text("+ Volunteer",style: ts18(ColorUtil.themeBlack),),
+                  child: FittedBox(child: Text("+ Volunteer",style: ts18(ColorUtil.themeBlack),)),
                 ),
               ),
             )

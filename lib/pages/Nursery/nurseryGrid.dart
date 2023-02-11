@@ -322,7 +322,12 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                       children: [
                         EyeIcon(
                           onTap: (){
-                            fadeRoute(NurseryView());
+                            fadeRoute(NurseryView(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
+                              updateDataListener(e['Table'][0]);
+                              if(onEdit!=null){
+                                onEdit!(e['Table'][0]);
+                              }
+                            },));
                           },
                         ),
                         const SizedBox(width: 10,),

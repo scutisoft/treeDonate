@@ -80,7 +80,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
           }
         }
       }
-      if(elementType=='multiImage'){
+      if(elementType=='multiImage' || elementType=='singleImagePicker'){
         if(widget.hasInput??false){
           if(widget.required??false){
             validate=widget.validate();

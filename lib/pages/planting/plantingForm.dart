@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -10,6 +11,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/logoPicker.dart';
@@ -245,6 +247,17 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                                   if(widget.closeCb!=null){
                                     widget.closeCb!(e);
                                   }
+                                },
+                                needCustomValidation: true,
+                                onCustomValidation: (){
+                                  if(SeedTreeMasterList.isEmpty){
+                                    CustomAlert().cupertinoAlert("Select Plant...");
+                                    return false;
+                                  }
+                                  else{
+                                    foundWidgetByKey(widgets, "SeedTreeMasterList",needSetValue: true,value: SeedTreeMasterList);
+                                  }
+                                  return true;
                                 }
                             );
                           },
@@ -335,25 +348,55 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     ));
     widgets.add(HiddenController(dataname: "PlantationId"));
     widgets.add(HiddenController(dataname: "ProjectId"));
-    widgets.add(HiddenController(dataname: "SeedDonorId"));
+    widgets.add(HiddenController(dataname: "SeedTreeMasterList"));
 
 
-    await parseJson(widgets, General.PlantationAddFormPageViewIdentifier);
+    await parseJson(widgets,getPageIdentifier(),dataJson: widget.dataJson);
     try{
       SeedTreeMasterList.value=valueArray.where((element) => element['key']=="SeedTreeMasterList").toList()[0]['value'];
     }
     catch(e){
     }
   }
+
+  @override
+  String getPageIdentifier(){
+    return General.PlantationAddFormPageViewIdentifier;
+  }
+
   void onPlantCollectionAdd(){
     var sourceDrpDetail=widgets[0].getValueMap();
     var plant=widgets[1].getValueMap();
     var plantQty=widgets[2].getValue();
 
+    String treeDate=DateFormat("dd-MM-yyyy").format(DateTime.now());
+
+    if(sourceDrpDetail.isEmpty){
+      CustomAlert().cupertinoAlert("Select Source");
+      return;
+    }
+    if(plant.isEmpty){
+      CustomAlert().cupertinoAlert("Select Plant");
+      return;
+    }
+    if(parseDouble(plantQty)<=0){
+      CustomAlert().cupertinoAlert("Enter Quantity");
+      return;
+    }
+
+    if(SeedTreeMasterList.any((element) => element["SeedTreeMasterId"] == plant['Id'] && element["TreeDate"]==treeDate && element["SourceId"]==sourceDrpDetail["Id"])){
+      CustomAlert().cupertinoAlert("Plant Name Already Exists...");
+      return;
+    }
+
     SeedTreeMasterList.add({
-      "NurseryName": sourceDrpDetail["Text"] ,
+      "SeedTreeMasterId": plant["Id"],
+      "SourceId": sourceDrpDetail["Id"],
+      "NurseryName": sourceDrpDetail["Text"],
       "TreeName": plant["Text"],
-      "Quantity": plantQty
+      "Quantity": plantQty,
+      "TreeDate": treeDate,
+      "PlantationTreeMappingId": null
     });
     SeedTreeMasterList.refresh();
     widgets[0].clearValues();

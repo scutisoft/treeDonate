@@ -106,7 +106,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                         ),
                         GestureDetector(
                           onTap: (){
-                            onSubmit();
+                            //onSubmit();
                           },
                           child: Container(
                             height: 30,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../../HappyExtension/utils.dart';
@@ -7,7 +8,8 @@ import '../../HappyExtension/utils.dart';
 class HE_ListViewBody extends StatelessWidget {
   List<dynamic> data;
   Function(Map) getWidget;
-  HE_ListViewBody({Key? key,required this.data,required this.getWidget}) : super(key: key){
+  ScrollController? scrollController;
+  HE_ListViewBody({Key? key,required this.data,required this.getWidget,this.scrollController}) : super(key: key){
     //assignWidget(data);
   }
 
@@ -65,10 +67,19 @@ class HE_ListViewBody extends StatelessWidget {
     widgetList.insert(0, getWidget(dataMap));
   }
 
+/*  ScrollController scrollController=ScrollController();*/
+
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        /*SingleChildScrollView(
+    return Scrollbar(
+        thumbVisibility: true,
+        radius:  const Radius.circular(ColorUtil.scrollBarRadius),
+        thickness: 6,
+        controller: scrollController,
+        trackVisibility: true,
+        interactive: true,
+        child: Obx(() =>
+    /*SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -77,15 +88,15 @@ class HE_ListViewBody extends StatelessWidget {
             ],
           ),
         )*/
-        ListView.builder(
-          itemCount: widgetList.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx,i){
-            return widgetList[i];
-          },
-        )
-    );
+    ListView.builder(
+      itemCount: widgetList.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (ctx,i){
+        return widgetList[i];
+      },
+    )
+    ));
   }
 }
 

@@ -73,6 +73,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
           },
         );
       },
+      scrollController: silverController,
     );
 
     assignWidgets();

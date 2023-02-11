@@ -12,13 +12,14 @@ class ValidationErrorText extends StatelessWidget {
  final String title;
  double leftPadding;
  double rightPadding;
- ValidationErrorText({this.title="* Required",this.leftPadding=15.0,this.rightPadding=0.0});
+ Alignment alignment;
+ ValidationErrorText({this.title="* Required",this.leftPadding=15.0,this.rightPadding=0.0,this.alignment=Alignment.centerLeft});
 
   @override
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.only(left: leftPadding,right: rightPadding,top:0,bottom: 5),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: alignment,
           child: Text("$title",style: errorTS,textAlign: TextAlign.left,)),
     );
   }

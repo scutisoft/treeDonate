@@ -65,4 +65,9 @@ class ColorUtil{
     return const Icon(Icons.clear,color: Colors.white,);
   }
 
+  //rawScrollBar Properties
+  static const Color scrollBarColor=Colors.grey;
+  static const double scrollBarRadius=5.0;
+  static const double scrollBarThickness=4.0;
+
 }

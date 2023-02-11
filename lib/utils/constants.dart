@@ -9,9 +9,9 @@ class MyConstants{
   static String appVersion="1.0.3";
   static String appId="com.scutisoft.nammaramnamkadamai";
   static String appPlayStoreUrl="https://play.google.com/store/apps/details?id=com.scutisoft.nammaramnamkadamai";
-  static bool isLive=false;
-  static bool fromUrl=false;
-  static bool hasAppVersionController=false;
+  static bool isLive=true;
+  static bool fromUrl=true;
+  static bool hasAppVersionController=true;
   static bool bottomSafeArea=true;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
