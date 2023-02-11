@@ -502,6 +502,111 @@ class HE_WrapText extends StatelessWidget implements ExtensionCallback{
     orderBy.value=oBy;
   }
 }
+class HE_WrapText2 extends StatelessWidget implements ExtensionCallback{
+  bool hasInput;
+  bool required;
+  String dataname;
+  String content;
+  TextStyle contentTextStyle;
+  String content2;
+  TextStyle contentTextStyle2;
+
+  HE_WrapText2({this.hasInput=false,this.required=false,required this.dataname,this.content="Hello",required this.contentTextStyle,
+    this.content2="Hello",required this.contentTextStyle2}){
+    text.value=content;
+    text2.value=content2;
+    textStyle.value=contentTextStyle;
+    textStyle2.value=contentTextStyle2;
+  }
+  Rxn text=Rxn();
+  Rxn text2=Rxn();
+  Rxn<TextStyle> textStyle=Rxn<TextStyle>();
+  Rxn<TextStyle> textStyle2=Rxn<TextStyle>();
+
+  var orderBy=1.obs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+   //   crossAxisAlignment: WrapCrossAlignment.center,
+ //     spacing: 5.0,
+      children: [
+        Obx(
+              ()=> Text(
+            "${text.value??""}",
+            style: textStyle.value,
+
+          ),
+        ),
+        Obx(
+              ()=> Flexible(
+                child: Text(
+            "${text2.value??""}",
+            style: textStyle2.value,
+          ),
+              ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void clearValues() {
+    // TODO: implement clearValues
+  }
+
+  @override
+  String getDataName() {
+    return dataname;
+  }
+
+  @override
+  String getType() {
+    return 'HE_WrapText';
+  }
+
+  @override
+  getValue() {
+    // TODO: implement getValue
+    throw UnimplementedError();
+  }
+
+  @override
+  setValue(value) {
+    print(value);
+    if(value.runtimeType.toString()=="_InternalLinkedHashMap<String, dynamic>" || value.runtimeType.toString()=="_InternalLinkedHashMap<dynamic, dynamic>" ){
+      Map parsedValue=value;
+      if(parsedValue.containsKey("value2")){
+        text2.value=parsedValue["value2"].toString();
+      }
+      if(parsedValue.containsKey("style2")){
+        textStyle2.value=parsedValue["style2"];
+      }
+      if(parsedValue.containsKey("value1")){
+        text.value=parsedValue["value1"].toString();
+      }
+      if(parsedValue.containsKey("style1")){
+        textStyle.value=parsedValue["style1"];
+      }
+    }
+  }
+
+  @override
+  bool validate() {
+    // TODO: implement validate
+    throw UnimplementedError();
+  }
+  @override
+  int getOrderBy() {
+    return orderBy.value;
+  }
+
+  @override
+  setOrderBy(int oBy) {
+    orderBy.value=oBy;
+  }
+}
 
 class HE_LocationPicker extends StatelessWidget implements ExtensionCallback{
   bool hasInput;

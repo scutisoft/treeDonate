@@ -54,6 +54,7 @@ dependencies:
   image_picker:
   http:
   decimal:
+  youtube_player_flutter:
   package_info_plus:
   syncfusion_flutter_charts:
     path: ./syncfusion_flutter_charts

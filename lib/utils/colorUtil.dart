@@ -5,7 +5,7 @@ class ColorUtil{
   static Color  theme=const Color(0xffF8F8F8);
   static Color themeWhite=const Color(0xffffffff);
   static Color themeBlack=const Color(0xff2C2C2D);
-  static Color secondary=const Color(0xff019342);
+  static Color secondary=const Color(0xff476039);
   static Color primary=const Color(0xff5A8418);
   static Color secondaryOpa01=const Color(0xff019342).withOpacity(0.1);
   static Color secondaryOpa02=const Color(0xff019342).withOpacity(0.2);

@@ -43,25 +43,27 @@ class _SlideSwipeState extends State<SlideSwipe> {
             Container(
               width: SizeConfig.screenWidth,
                 height: SizeConfig.screenHeight,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: SizeConfig.screenHeight,
-                    viewportFraction: 1.0,
-                    enlargeCenterPage: false,
-                     scrollDirection: Axis.vertical,
-                    autoPlay: true,
-                  ),
-                  items: imgList
-                      .map((item) => Container(
-                    child: Center(
-                        child: Image.asset(
-                          item,
-                          fit: BoxFit.cover,
-                          height: SizeConfig.screenHeight,
-                        )),
-                  ))
-                      .toList(),
-                )),
+                child: Image.asset('assets/Slice/logoin-bg.jpg',fit:BoxFit.cover)
+                // CarouselSlider(
+                //   options: CarouselOptions(
+                //     height: SizeConfig.screenHeight,
+                //     viewportFraction: 1.0,
+                //     enlargeCenterPage: false,
+                //      scrollDirection: Axis.vertical,
+                //     autoPlay: true,
+                //   ),
+                //   items: imgList
+                //       .map((item) => Container(
+                //     child: Center(
+                //         child: Image.asset(
+                //           item,
+                //           fit: BoxFit.cover,
+                //           height: SizeConfig.screenHeight,
+                //         )),
+                //   ))
+                //       .toList(),
+                // )
+            ),
             Align(
                 alignment: Alignment.topCenter,
                 child:Padding(
