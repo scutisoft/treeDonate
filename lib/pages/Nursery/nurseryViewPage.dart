@@ -292,6 +292,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
     widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
     widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
 
+
     widgets.add(HiddenController(dataname: "LandParcelId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
     widgets.add(HiddenController(dataname: "IsAccept"));

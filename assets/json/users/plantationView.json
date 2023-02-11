@@ -80,13 +80,10 @@
       "value": [
         {
           "SeedTreeMasterId": 4,
+          "Date": "02-02-2023",
+          "Nursery": "Bala Nursery",
           "TreeName": "RainTree",
-          "Quantity": 10
-        },
-        {
-          "SeedTreeMasterId": 5,
-          "TreeName": "Cordiasebestena",
-          "Quantity": 10
+          "Quantity": "10"
         }
       ]
     },
