@@ -56,6 +56,7 @@ dependencies:
   decimal:
   youtube_player_flutter:
   package_info_plus:
+  polymaker: ^1.0.3
   syncfusion_flutter_charts:
     path: ./syncfusion_flutter_charts
 dev_dependencies:

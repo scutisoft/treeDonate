@@ -42,8 +42,8 @@ android {
 
     defaultConfig {
 
-        applicationId "com.scutisoft.nammaramnamkadamai"
-        //applicationId "com.scutisoft.nammaramnamkadamai_dev"
+        //applicationId "com.scutisoft.nammaramnamkadamai"
+        applicationId "com.scutisoft.nammaramnamkadamai_dev"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()

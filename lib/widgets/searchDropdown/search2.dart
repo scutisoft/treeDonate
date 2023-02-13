@@ -109,9 +109,9 @@ class Search2 extends StatelessWidget {
             Obx(() =>  Visibility(
               visible: selectedData.isNotEmpty,
               child: Positioned(
-                top: 0,
+                top: -2,
                 left: 30,
-                child: Text(labelText,style: ts18(addNewTextFieldText.withOpacity(0.8),fontsize: 13),),
+                child: Container(padding: const EdgeInsets.only(left: 1,right: 1),color:Colors.white,child: Text(labelText,style: ts18(addNewTextFieldText.withOpacity(0.8),fontsize: 13),)),
               ),
             ))
           ],
@@ -278,10 +278,13 @@ class Search2MultiSelect extends StatelessWidget {
   bool hasInput;
   bool required;
 
+  Mode mode;
+  double maxHeight;
+
   Search2MultiSelect({ this.width,this.selectedValueFunc,
     this.data, this.onitemTap, this.isToJson,this.propertyName="Text",this.propertyId="Id", this.hinttext,
     this.isEnable=true, this.scrollTap,this.margin,required this.dataName,this.hasInput=true,this.required=false,
-    this.dialogMargin, this.selectWidgetBoxDecoration,this.showSearch=true,required this.doneCallback});
+    this.dialogMargin, this.selectWidgetBoxDecoration,this.showSearch=true,required this.doneCallback,this.mode=Mode.MENU,this.maxHeight=400.0,});
 
   FocusNode f4 = FocusNode();
   // final ValueNotifier<List<dynamic>> dataNotifier = ValueNotifier([]);
@@ -343,7 +346,7 @@ class Search2MultiSelect extends StatelessWidget {
               ()=>Container(
             height: (dataNotifier.length*hei1)+150.0,
             width: width,
-            margin:dialogMargin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:5):dialogMargin,
+            margin:dialogMargin ?? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:5),
             //padding: EdgeInsets.only(top: 10),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -359,7 +362,7 @@ class Search2MultiSelect extends StatelessWidget {
                 ]
             ),
             constraints: BoxConstraints(
-                maxHeight: 400
+                maxHeight: maxHeight
             ),
             child: Column(
               children: [
@@ -443,6 +446,7 @@ class Search2MultiSelect extends StatelessWidget {
                       ListView.builder(
                         itemCount: checked.value?dataNotifier.length:dataNotifier.length,
                         shrinkWrap: true,
+                        padding: EdgeInsets.zero,
                         itemBuilder: (ctx,index){
                           return   InkWell(
                             onTap:(){
@@ -543,11 +547,11 @@ class Search2MultiSelect extends StatelessWidget {
     return 'searchDrp';
   }
   validate(){
-
+    return getValue()!=null && getValue()!='';
   }
 }
 
 checkNullEmpty(dynamic value){
-  return value==null|| value=='';
+  return value==null || value=='';
 }
 EdgeInsets addNewPageMargin=EdgeInsets.only(left:20,right:20,top:20);

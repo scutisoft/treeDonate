@@ -82,6 +82,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                                 enlargeCenterPage: false,
                                 scrollDirection: Axis.horizontal,
                                 autoPlay: true,
+                                enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
                                   setState(() {
                                     _current = index;
@@ -193,7 +194,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                             color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                         children: [
                           for(int i=0;i<PlantationView.length;i++)
-                          tableView(PlantationView[i]['Title'],PlantationView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          tableView(PlantationView[i]['Title'],"${PlantationView[i]['Value']}",ColorUtil.greyBorder,ColorUtil.themeBlack),
                           // tableView('District','Dharmapuri',ColorUtil.greyBorder,ColorUtil.themeBlack),
                           // tableView('Taluk','Gummanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
                           // tableView('village','Sudanur',ColorUtil.greyBorder,ColorUtil.themeBlack),
@@ -207,7 +208,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                      hasAccess: isHasAccess(accessId['PlantationApproved']),
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -242,7 +243,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                 Positioned(
                   bottom: 0,
                   child: AccessWidget(
-                    hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                    hasAccess: isHasAccess(accessId['PlantationApproved']),
                     needToHide: true,
                     widget: Container(
                       height: 70,
@@ -304,7 +305,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
     widgets.add(HiddenController(dataname: "PlantationId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
     widgets.add(HiddenController(dataname: "IsAccept"));
-    await parseJson(widgets, General.PlantationViewPageViewIdentifier,dataJson: widget.dataJson);
+    await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
 
       PlantationSysView=valueArray.where((element) => element['key']=="SeedTreeList").toList()[0]['value'];
@@ -313,8 +314,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
       imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
       setState((){});
 
-    }catch(e){
-    }
+    }catch(e,t){ assignWidgetErrorToast(e, t); }
   }
   void approveRejHandler(isAccept){
     sysSubmit(widgets,isEdit: true,

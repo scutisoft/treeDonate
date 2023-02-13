@@ -267,7 +267,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                       children: [
                         Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
-                        Text("${dataListener['ApproveStatus']}",style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                        Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RM'),),
                       ],
                     ),
                   ],

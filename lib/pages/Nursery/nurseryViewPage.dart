@@ -86,6 +86,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                                 enlargeCenterPage: false,
                                 scrollDirection: Axis.horizontal,
                                 autoPlay: true,
+                                enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
                                   setState(() {
                                     _current = index;

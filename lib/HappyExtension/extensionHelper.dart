@@ -311,15 +311,21 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     ).yesOrNoDialog2('assets/Slice/like.png', content, false);
   }
 
-  fillTreeDrp(List<dynamic> widgets,String key,{var refId,var page,bool clearValues=true}) async{
+  fillTreeDrp(List<dynamic> widgets,String key,{var refId,var page,bool clearValues=true,var refType,bool toggleRequired=false}) async{
     var fWid=foundWidgetByKey(widgets, key);
     if(fWid!=null){
       if(clearValues){
         fWid.clearValues();
       }
-      getMasterDrp(page, key, refId, null).then((value){
+      getMasterDrp(page, key, refId, refType,null).then((value){
         //console("$key    ${value.runtimeType}");
         fWid.setValue(value);
+        if(toggleRequired){
+          fWid.required=value.isNotEmpty;
+          try{
+            fWid.isValid.value=true;
+          }catch(e){assignWidgetErrorToast("IsValid",e);}
+        }
       });
     }
   }

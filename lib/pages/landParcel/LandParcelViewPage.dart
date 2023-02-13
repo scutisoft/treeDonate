@@ -88,6 +88,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                                     scrollDirection: Axis.horizontal,
                                     reverse: false,
                                     autoPlay: true,
+                                    enableInfiniteScroll: false,
                                     onPageChanged: (index, reason) {
                                       setState(() {
                                         _current = index;

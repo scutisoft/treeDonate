@@ -1,4 +1,5 @@
 import 'dart:developer';
+import '../widgets/alertDialog.dart';
 import '../widgets/recase.dart';
 
 import '../utils/colorUtil.dart';
@@ -126,3 +127,7 @@ double flexibleSpaceBarHeight=160.0;
 double toolBarHeight=50.0;
 double triggerOffset=60.0;
 double triggerEndOffset=80.0;
+
+void assignWidgetErrorToast(e,t){
+  CustomAlert().cupertinoAlert("$e\n\n\n$t");
+}

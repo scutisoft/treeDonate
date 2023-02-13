@@ -110,58 +110,61 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
             },
             body: Stack(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //SizedBox(height: 50,),
-                    Obx(() => Container(
-                      height: 50,
-                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
-                            color: ColorUtil.asbColor,
-                            boxShadow: ColorUtil.asbBoxShadow,
-                            textController: textController,
-                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                            searchIconColor: ColorUtil.asbSearchIconColor,
-                            suffixIcon: ColorUtil.getASBSuffix(),
-                            onSubmitted: (a){
-                            },
-                            onChange: (a){
-                              he_listViewBody.searchHandler(a);
-                            },
-                            onSuffixTap: (clear) {
-                              if(clear){
-                                he_listViewBody.searchHandler("");
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              //fadeRoute(FilterItems());
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(LandParcelForm(closeCb: (e){
-                                he_listViewBody.addData(e);
-                              },));
-                            },
-                          ),
-                          const SizedBox(width: 15,),
-                        ],
-                      ),
-                    ),),
+                Container(
+                  padding: const EdgeInsets.only( right: 5.0,),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //SizedBox(height: 50,),
+                      Obx(() => Container(
+                        height: 50,
+                        margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            AnimSearchBar(
+                              width: SizeConfig.screenWidth!-80,
+                              color: ColorUtil.asbColor,
+                              boxShadow: ColorUtil.asbBoxShadow,
+                              textController: textController,
+                              closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                              searchIconColor: ColorUtil.asbSearchIconColor,
+                              suffixIcon: ColorUtil.getASBSuffix(),
+                              onSubmitted: (a){
+                              },
+                              onChange: (a){
+                                he_listViewBody.searchHandler(a);
+                              },
+                              onSuffixTap: (clear) {
+                                if(clear){
+                                  he_listViewBody.searchHandler("");
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 5,),
+                            FilterIcon(
+                              onTap: (){
+                                //fadeRoute(FilterItems());
+                              },
+                            ),
+                            const SizedBox(width: 5,),
+                            GridAddIcon(
+                              onTap: (){
+                                fadeRoute(LandParcelForm(closeCb: (e){
+                                  he_listViewBody.addData(e);
+                                },));
+                              },
+                            ),
+                            const SizedBox(width: 15,),
+                          ],
+                        ),
+                      ),),
 
-                    Flexible(child:he_listViewBody),
-                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
-                  ],
+                      Flexible(child:he_listViewBody),
+                      Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
+                    ],
+                  ),
                 ),
                 ShimmerLoader(),
               ],
@@ -211,8 +214,8 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
     return Obx(
             ()=> Container(
               key: globalKey,
-              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 15),
-              padding: const EdgeInsets.only(left: 15.0,right: 10.0),
+              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
+              padding: const EdgeInsets.only(left: 10.0,right: 0.0),
 
           width: SizeConfig.screenWidth!*1,
           decoration: BoxDecoration(

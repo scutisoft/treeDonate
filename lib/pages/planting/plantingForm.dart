@@ -299,6 +299,9 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       hasInput: false,
       required: false,
       labelText: "No of Plants",
+      textInputType: TextInputType.number,
+      regExp: MyConstants.digitRegEx,
+      textLength: 10,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -312,7 +315,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     ));//8
     widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
-          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
     widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
     widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},));
@@ -327,24 +330,25 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
         node.unfocus();
       },
     ));
+    widgets.add(
+        HE_LocationPicker(
+          dataname: "AddressDetail",
+          contentTextStyle: ts15(addNewTextFieldText),
+          hasInput: true,
+          required: true,
+          //isEnabled: !isView,
+          locationPickCallback: (addressDetail){
+          },
+        )
+    );
     widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'AddressDetail',
-      hasInput: true,
-      required: true,
-      labelText: "Location",
-      suffixIcon: Icon(Icons.location_searching,color: ColorUtil.primary,),
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
+
 
     widgets.add( MultiImagePicker(
       dataname: "ImagesList",
       hasInput: true,
-      required: true,
-      folder: "Land",
+      required: false,
+      folder: "Plantation",
     ));
     widgets.add(HiddenController(dataname: "PlantationId"));
     widgets.add(HiddenController(dataname: "ProjectId"));
@@ -355,8 +359,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     try{
       SeedTreeMasterList.value=valueArray.where((element) => element['key']=="SeedTreeMasterList").toList()[0]['value'];
     }
-    catch(e){
-    }
+    catch(e,t){ assignWidgetErrorToast(e, t); }
   }
 
   @override

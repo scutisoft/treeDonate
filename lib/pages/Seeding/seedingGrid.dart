@@ -116,7 +116,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
               children: [
                 Container(
                   // height: SizeConfig.screenHeight,
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0,),
+                  padding: const EdgeInsets.only(right: 5.0,),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -211,8 +211,8 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
     return Obx(
             ()=> Container(
               key: globalKey,
-              margin: const EdgeInsets.only(bottom: 10,left: 0,right: 0),
-              padding: const EdgeInsets.only(left: 15.0,right: 10.0),
+              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
+              padding: const EdgeInsets.only(left: 10.0,right: 5.0),
               width: cardWidth+25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
