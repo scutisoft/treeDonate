@@ -376,7 +376,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             onTap: (){
-             // setPageNumber(11);
+              if(isHasAccess(accessId["SeedCollectionView"])){
+                setPageNumber(11);
+              }
             },
             child: Container(
               // width: SizeConfig.screenWidth!*0.4,
@@ -412,6 +414,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             onTap: (){
+              if(isHasAccess(accessId["NurseryView"])){
+                setPageNumber(12);
+              }
               // setPageNumber(12);
             },
             child: Container(
@@ -446,6 +451,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           mainAxisCellCount: 1.1,
           child:GestureDetector(
             onTap: (){
+              if(isHasAccess(accessId["PlantationView"])){
+                setPageNumber(10);
+              }
               // setPageNumber(10);
             },
             child: Container(
@@ -543,7 +551,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
           ),
         );
       }
-      else if(cunt==3){
+      else if(cunt>=3){
         return SizedBox(
           height: 200,
           child: Row(

@@ -325,9 +325,10 @@ class HE_PlantationViewContent extends StatelessWidget {
                             //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
                           ),
                         ),
-                        const SizedBox(width: 10,),
+                       // const SizedBox(width: 10,),
                         GridEditIcon(
-                          hasAccess: isHasAccess(accessId["LandParcelEdit"]),
+                          hasAccess: isHasAccess(accessId["LandParcelEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(PlantingForm(dataJson:getDataJsonForGrid(dataListener['DataJson']),isEdit: true,
                               closeCb: (e){
@@ -339,9 +340,10 @@ class HE_PlantationViewContent extends StatelessWidget {
                             ));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                       // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["LandParcelDelete"]),
+                          hasAccess: isHasAccess(accessId["LandParcelDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

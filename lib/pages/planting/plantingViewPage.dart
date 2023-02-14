@@ -34,6 +34,9 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
   final CarouselController _controller = CarouselController();
   List<dynamic>PlantationSysView = [];
   List<dynamic> PlantationView = [];
+
+  var isNeedApproval=false.obs;
+
   @override
   void initState() {
     silverController = ScrollController();
@@ -138,7 +141,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                 ListView(
                   shrinkWrap: true,
                   children: [
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -146,9 +149,9 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                         Image.asset('assets/Slice/status-tick.png',width: 30,)
                       ],
                     ),
-                    SizedBox(height: 2,),
+                    const SizedBox(height: 2,),
                     widgets[1],
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Container(
                       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
                       padding: EdgeInsets.all(10),
@@ -208,7 +211,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['PlantationApproved']),
+                      hasAccess: isHasAccess(accessId['PlantationApproved']) && isNeedApproval.value,
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -236,14 +239,14 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
 
                       )),
                     ),
-                    SizedBox(height: 100,),
+                    const SizedBox(height: 100,),
 
                   ],
                 ),
                 Positioned(
                   bottom: 0,
                   child: AccessWidget(
-                    hasAccess: isHasAccess(accessId['PlantationApproved']),
+                    hasAccess: isHasAccess(accessId['PlantationApproved']) && isNeedApproval.value,
                     needToHide: true,
                     widget: Container(
                       height: 70,
@@ -300,7 +303,7 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
   void assignWidgets() async {
     setState(() {});
     widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
-    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    widgets.add(HE_Text(dataname: "DistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
 
     widgets.add(HiddenController(dataname: "PlantationId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
@@ -312,6 +315,8 @@ class _PlantingViewState extends State<PlantingView> with HappyExtensionHelper  
       PlantationView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
       imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
+      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
+      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
       setState((){});
 
     }catch(e,t){ assignWidgetErrorToast(e, t); }

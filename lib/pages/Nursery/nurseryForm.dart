@@ -310,7 +310,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'NurseryInchargeEmail',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Email",
       onChange: (v){},
       onEditComplete: (){
@@ -320,7 +320,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'RangeName',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Address",
       regExp: null,
       onChange: (v){},
@@ -334,7 +334,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
           contentTextStyle: ts15(addNewTextFieldText),
           content: "Pick Location",
           hasInput: true,
-          required: true,
+          required: false,
           //isEnabled: !isView,
           locationPickCallback: (addressDetail){
             console("locationPickCallback $addressDetail");
@@ -348,17 +348,17 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     ));//8
     widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
-          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
     widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
-    widgets.add(SearchDrp2(map: const {"dataName":"IsElectricityAvailable","hintText":"Select Electricity"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"FencingId","hintText":"Select Fencing"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"WaterFacilityId","hintText":"Select  Facility"},));
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Select Land Ownership"},));
+    widgets.add(SearchDrp2(map: const {"dataName":"IsElectricityAvailable","hintText":"Select Electricity","labelText":"Electricity"},required: false,));
+    widgets.add(SearchDrp2(map: const {"dataName":"FencingId","hintText":"Select Fencing","labelText":"Fencing"},required: false));
+    widgets.add(SearchDrp2(map: const {"dataName":"WaterFacilityId","hintText":"Select Facility","labelText":"Facility"},required: false));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Select Land Ownership","labelText":"Land Ownership"},required: false));
     widgets.add(AddNewLabelTextField(
       dataname: 'NoOfStocks',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "No of Stocks",
       textInputType: TextInputType.number,
       textLength: 6,
@@ -371,7 +371,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'NoOfTargets',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "No of Targets",
       textInputType: TextInputType.number,
       textLength: 6,

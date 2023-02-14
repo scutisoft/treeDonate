@@ -70,4 +70,6 @@ class ColorUtil{
   static const double scrollBarRadius=5.0;
   static const double scrollBarThickness=4.0;
 
+  static EdgeInsets formMargin=const EdgeInsets.only(left:15,right:15,top:10,);
+
 }

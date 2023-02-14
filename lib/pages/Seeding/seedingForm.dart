@@ -314,7 +314,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'SeedDonorContactNumber',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Mobile No",
       textInputType: TextInputType.number,
       textLength: 10,
@@ -327,7 +327,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'SeedDonorAddress',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Address",
       regExp: null,
       onChange: (v){},

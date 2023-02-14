@@ -122,11 +122,14 @@ class GridAddIcon extends StatelessWidget {
   }
 }
 
+EdgeInsets actionIconMargin=const EdgeInsets.only(left: 5);
+
 class GridDeleteIcon extends StatelessWidget {
   VoidCallback? onTap;
   double height;
   bool hasAccess;
-  GridDeleteIcon({Key? key,this.onTap,this.height=30,required this.hasAccess}) : super(key: key);
+  EdgeInsets margin;
+  GridDeleteIcon({Key? key,this.onTap,this.height=30,required this.hasAccess,this.margin=const EdgeInsets.all(0)}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AccessWidget(
@@ -137,6 +140,7 @@ class GridDeleteIcon extends StatelessWidget {
         width: height,
         height: height,
         alignment:Alignment.center,
+        margin: margin,
         decoration: BoxDecoration(
             color: ColorUtil.primary.withOpacity(0.2),
             borderRadius: BorderRadius.circular(5)
@@ -151,7 +155,8 @@ class GridEditIcon extends StatelessWidget {
   VoidCallback? onTap;
   double height;
   bool hasAccess;
-  GridEditIcon({Key? key,this.onTap,this.height=30,required this.hasAccess}) : super(key: key);
+  EdgeInsets margin;
+  GridEditIcon({Key? key,this.onTap,this.height=30,required this.hasAccess,this.margin=const EdgeInsets.all(0)}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AccessWidget(
@@ -162,6 +167,7 @@ class GridEditIcon extends StatelessWidget {
         width: height,
         height: height,
         alignment:Alignment.center,
+        margin: margin,
         decoration: BoxDecoration(
             color: ColorUtil.primary.withOpacity(0.2),
             borderRadius: BorderRadius.circular(5)

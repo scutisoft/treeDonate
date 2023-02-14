@@ -109,9 +109,9 @@ class Search2 extends StatelessWidget {
             Obx(() =>  Visibility(
               visible: selectedData.isNotEmpty,
               child: Positioned(
-                top: -2,
+                top: 4,
                 left: 30,
-                child: Container(padding: const EdgeInsets.only(left: 1,right: 1),color:Colors.white,child: Text(labelText,style: ts18(addNewTextFieldText.withOpacity(0.8),fontsize: 13),)),
+                child: Container(padding: const EdgeInsets.only(left: 1,right: 1),color:Colors.transparent,child: Text(labelText,style: ts18(addNewTextFieldText.withOpacity(0.8),fontsize: 13),)),
               ),
             ))
           ],

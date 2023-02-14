@@ -38,6 +38,8 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
   List<dynamic> NurserySysView = [];
   List<dynamic> NurseryView = [];
 
+  var isNeedApproval=false.obs;
+
   @override
   void initState() {
     silverController = ScrollController();
@@ -200,7 +202,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                      hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -234,7 +236,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                 Positioned(
                   bottom: 0,
                   child: AccessWidget(
-                    hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                    hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
                     needToHide: true,
                     widget: Container(
                       height: 70,
@@ -304,6 +306,8 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
       NurseryView=valueArray.where((element) => element['key']=="NurseryView").toList()[0]['value'];
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
       imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
+      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
+      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
       setState((){});
 
     }catch(e){

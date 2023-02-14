@@ -13,6 +13,7 @@ class MyConstants{
   static bool fromUrl=true;
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
+  static bool defaultActionEnable=true;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;

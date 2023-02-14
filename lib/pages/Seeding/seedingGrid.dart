@@ -312,7 +312,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                         Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             EyeIcon(
                               onTap: (){
@@ -324,9 +324,10 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                 },));
                               },
                             ),
-                            const SizedBox(width: 10,),
+                           // const SizedBox(width: 10,),
                             GridEditIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]),
+                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                              margin: actionIconMargin,
                               onTap: (){
                                 fadeRoute(SeedingForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
@@ -336,9 +337,10 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                                 },));
                               },
                             ),
-                            const SizedBox(width: 10,),
+                          //  const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]),
+                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                              margin: actionIconMargin,
                               onTap: (){
                                 if(onDelete!=null){
                                   onDelete!(getDataJsonForGrid(dataListener['DataJson']));

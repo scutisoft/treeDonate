@@ -75,7 +75,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   }
   var node;
 
-  double cardWidth=SizeConfig.screenWidth!-(30+15+25);
+  double cardWidth=SizeConfig.screenWidth!-(30+15+15);
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('My Land Parcel History',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text('Land Parcel',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -115,51 +115,47 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      //SizedBox(height: 50,),
-                      Obx(() => Container(
-                        height: 50,
-                        margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AnimSearchBar(
-                              width: SizeConfig.screenWidth!-80,
-                              color: ColorUtil.asbColor,
-                              boxShadow: ColorUtil.asbBoxShadow,
-                              textController: textController,
-                              closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                              searchIconColor: ColorUtil.asbSearchIconColor,
-                              suffixIcon: ColorUtil.getASBSuffix(),
-                              onSubmitted: (a){
-                              },
-                              onChange: (a){
-                                he_listViewBody.searchHandler(a);
-                              },
-                              onSuffixTap: (clear) {
-                                if(clear){
-                                  he_listViewBody.searchHandler("");
-                                }
-                              },
-                            ),
-                            const SizedBox(width: 5,),
-                            FilterIcon(
-                              onTap: (){
-                                //fadeRoute(FilterItems());
-                              },
-                            ),
-                            const SizedBox(width: 5,),
-                            GridAddIcon(
-                              onTap: (){
-                                fadeRoute(LandParcelForm(closeCb: (e){
-                                  he_listViewBody.addData(e);
-                                },));
-                              },
-                            ),
-                            const SizedBox(width: 15,),
-                          ],
-                        ),
-                      ),),
+                      Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        //crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          AnimSearchBar(
+                            width: SizeConfig.screenWidth!-80,
+                            color: ColorUtil.asbColor,
+                            boxShadow: ColorUtil.asbBoxShadow,
+                            textController: textController,
+                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                            searchIconColor: ColorUtil.asbSearchIconColor,
+                            suffixIcon: ColorUtil.getASBSuffix(),
+                            onSubmitted: (a){
+                            },
+                            onChange: (a){
+                              he_listViewBody.searchHandler(a);
+                            },
+                            onSuffixTap: (clear) {
+                              if(clear){
+                                he_listViewBody.searchHandler("");
+                              }
+                            },
+                          ),
+                          const SizedBox(width: 5,),
+                          FilterIcon(
+                            onTap: (){
+                              //fadeRoute(FilterItems());
+                            },
+                          ),
+                          const SizedBox(width: 5,),
+                          GridAddIcon(
+                            onTap: (){
+                              fadeRoute(LandParcelForm(closeCb: (e){
+                                he_listViewBody.addData(e['Table'][0]);
+                              },));
+                            },
+                          ),
+                          const SizedBox(width: 15,),
+                        ],
+                      ),
 
                       Flexible(child:he_listViewBody),
                       Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
@@ -321,7 +317,7 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                     Text(dataListener['LandInHectares'],style: ColorUtil.textStyle18),
                     const SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         GestureDetector(
                           onTap: (){
@@ -346,9 +342,10 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                             //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
                           ),
                         ),
-                        const SizedBox(width: 10,),
+                      //  const SizedBox(width: 10,),
                         GridEditIcon(
-                            hasAccess: isHasAccess(accessId["LandParcelEdit"]),
+                            hasAccess: isHasAccess(accessId["LandParcelEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(LandParcelForm(dataJson:getDataJsonForGrid(dataListener['DataJson']),isEdit: true,
                               closeCb: (e){
@@ -360,9 +357,10 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                             ));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                        //const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["LandParcelDelete"]),
+                          hasAccess: isHasAccess(accessId["LandParcelDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

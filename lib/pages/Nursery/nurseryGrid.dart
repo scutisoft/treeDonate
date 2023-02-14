@@ -85,7 +85,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
-            floatHeaderSlivers: true,
+            controller: silverController,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
@@ -110,50 +110,46 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Obx(() => Container(
-                      height: 50,
-                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
-                            color: ColorUtil.asbColor,
-                            boxShadow: ColorUtil.asbBoxShadow,
-                            textController: textController,
-                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                            searchIconColor: ColorUtil.asbSearchIconColor,
-                            suffixIcon: ColorUtil.getASBSuffix(),
-                            onSubmitted: (a){
-                            },
-                            onChange: (a){
-                              he_listViewBody.searchHandler(a);
-                            },
-                            onSuffixTap: (clear) {
-                              if(clear){
-                                he_listViewBody.searchHandler("");
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              //fadeRoute(FilterItems());
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(NurseryForm(closeCb: (e){
-                                he_listViewBody.addData(e);
-                              },));
-                            },
-                          ),
-                          const SizedBox(width: 15,),
-                        ],
-                      ),
-                    ),
+                    Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                     // crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        AnimSearchBar(
+                          width: SizeConfig.screenWidth!-80,
+                          color: ColorUtil.asbColor,
+                          boxShadow: ColorUtil.asbBoxShadow,
+                          textController: textController,
+                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                          searchIconColor: ColorUtil.asbSearchIconColor,
+                          suffixIcon: ColorUtil.getASBSuffix(),
+                          onSubmitted: (a){
+                          },
+                          onChange: (a){
+                            he_listViewBody.searchHandler(a);
+                          },
+                          onSuffixTap: (clear) {
+                            if(clear){
+                              he_listViewBody.searchHandler("");
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        FilterIcon(
+                          onTap: (){
+                            //fadeRoute(FilterItems());
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        GridAddIcon(
+                          onTap: (){
+                            fadeRoute(NurseryForm(closeCb: (e){
+                              he_listViewBody.addData(e);
+                            },));
+                          },
+                        ),
+                        const SizedBox(width: 15,),
+                      ],
                     ),
                     Flexible(child:he_listViewBody),
                   ],
@@ -318,7 +314,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                     Text("${dataListener['NoOfTargets']}",style: ColorUtil.textStyle18),
                     SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         EyeIcon(
                           onTap: (){
@@ -330,9 +326,10 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                             },));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                        //const SizedBox(width: 10,),
                         GridEditIcon(
-                          hasAccess: isHasAccess(accessId["NurseryEdit"]),
+                          hasAccess: isHasAccess(accessId["NurseryEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(NurseryForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                               updateDataListener(e['Table'][0]);
@@ -344,7 +341,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         ),
                         const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["NurseryDelete"]),
+                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

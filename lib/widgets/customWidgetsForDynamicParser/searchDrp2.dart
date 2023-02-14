@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../../HappyExtension/extensionHelper.dart';
@@ -24,8 +25,7 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
       hinttext: map['hintText'],
       data: dataList??[],
       showSearch: map['showSearch']??false,
-      onitemTap: (i){
-      },
+      onitemTap: (i){},
       selectedValueFunc: (e){
         if(onchange!=null){
           onchange!(e);
@@ -33,7 +33,7 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
       },
       scrollTap: (){},
       isToJson: true,
-      margin: const EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 0),
+      margin: map['margin']?? ColorUtil.formMargin,
       dialogMargin: map['dialogMargin']?? const EdgeInsets.only(left: 15,right: 15,top: 0),
       selectWidgetBoxDecoration: BoxDecoration(
           border: Border.all(color: const Color(0xffEBEBEB)),

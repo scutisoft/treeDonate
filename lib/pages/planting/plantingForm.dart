@@ -90,6 +90,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                   height: SizeConfig.screenHeight,
                   child: ListView(
                     children: [
+                      const SizedBox(height: 10,),
                       widgets[0],
                       widgets[1],
                       Row(
@@ -181,6 +182,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                       widgets[7],
                       widgets[8],
                       widgets[9],
+                      const SizedBox(height: 10,),
                       widgets[10],
 
                       Container(
@@ -318,11 +320,11 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
           fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
     widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},required: false,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Place',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Place",
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
@@ -335,13 +337,13 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
           dataname: "AddressDetail",
           contentTextStyle: ts15(addNewTextFieldText),
           hasInput: true,
-          required: true,
+          required: false,
           //isEnabled: !isView,
           locationPickCallback: (addressDetail){
           },
         )
     );
-    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},));
+    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},required: false,));
 
 
     widgets.add( MultiImagePicker(

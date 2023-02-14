@@ -38,6 +38,8 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
   List<dynamic> SeedsView = [];
   List<dynamic> SeedsGiverView = [];
 
+  var isNeedApproval=false.obs;
+
   @override
   void initState() {
 
@@ -207,7 +209,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                      hasAccess: isHasAccess(accessId['SeedCollectionApproval']) && isNeedApproval.value,
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -241,7 +243,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                 Positioned(
                   bottom: 0,
                   child:  AccessWidget(
-                    hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                    hasAccess: isHasAccess(accessId['SeedCollectionApproval']) && isNeedApproval.value,
                     needToHide: true,
                     widget: Container(
                       height: 70,
@@ -311,6 +313,8 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
       SeedsGiverView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
       SeedsView=valueArray.where((element) => element['key']=="Seeds").toList()[0]['value'];
       imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
+      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
+      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
       setState((){});
 
     }catch(e){
