@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/api/apiUtils.dart';
+import 'package:treedonate/utils/utils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -83,7 +84,7 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Obx(() => Image.network(GetImageBaseUrl()+'${profileImgPath.value}',width: 90,fit: BoxFit.cover,
+                                      child: Obx(() => Image.network('${GetImageBaseUrl()}${profileImgPath.value}',width: 90,fit: BoxFit.cover,
                                           errorBuilder: (a,b,c){
                                             return Image.asset('assets/trees/plant.png',width: 90,fit: BoxFit.cover,);
                                           },
@@ -153,7 +154,7 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                     child:  GestureDetector(
                       onTap: (){
                         fadeRoute(EditProfile(closeCb: (e){
-                          assignWidgets();
+                            assignWidgets();
                         },));
                       },
                       child: Container(
@@ -287,7 +288,7 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
     await parseJson(widgets, General.ProfileViewIdentifier);
 
     try{
-      profileImgPath.value=valueArray.where((element) => element['key']=="UserImage").toList()[0]['value'];
+      profileImgPath.value="Image/"+valueArray.where((element) => element['key']=="UserImage").toList()[0]['value'];
     }catch(e){}
   }
 }

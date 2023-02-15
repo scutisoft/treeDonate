@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:treedonate/widgets/calculation.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -105,98 +106,95 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                       widgets[12],
                       widgets[13],
                       widgets[14],
-                      widgets[15],
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                              height: 60,
-                              width: SizeConfig.screenWidth!-117,
-                              child: widgets[16],
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                             onPlantCollectionAdd();
-                            },
-                            child: Container(
-                              height: 45,
-                              width:100,
-                              margin: EdgeInsets.only(top:10,),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(color: ColorUtil.primary),
-                                color: ColorUtil.primary.withOpacity(0.3),
+
+
+                      formGridContainer(
+                        [
+                          widgets[15],
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 60,
+                                width: SizeConfig.screenWidth!-125,
+                                child: widgets[16],
                               ),
-                              child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
-                            ),
+                              GestureDetector(
+                                onTap: (){
+                                  onPlantCollectionAdd();
+                                },
+                                child: Container(
+                                  height: 47,
+                                  width: 80,
+                                  margin: const EdgeInsets.only(top:8,),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(color: ColorUtil.primary),
+                                    color: ColorUtil.primary.withOpacity(0.3),
+                                  ),
+                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
+                                ),
+                              ),
+                            ],
                           ),
+                          Container(
+                            margin: EdgeInsets.only(left: 15, right: 15, top: 10),
+                            child: Obx(() => Table(
+                              columnWidths: const {
+                                0: FlexColumnWidth(3),
+                                1: FlexColumnWidth(2),
+                                2: FlexColumnWidth(1),
+                              },
+                              // defaultColumnWidth: FixedColumnWidth(80.0),
+                              border: TableBorder.all(
+                                  color: ColorUtil.formTableBorder, style: BorderStyle.solid, width: 1),
+                              children: [
+                                TableRow(
+                                    children: [
+                                      formTableHeader('Planting Name'),
+                                      formTableHeader('No of Plants'),
+                                      formTableHeader('Action',needFittedBox: true),
+                                    ]
+                                ),
+                                for(int i=0;i<seedTreeList.length;i++)
+                                  TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("${seedTreeList[i]['TreeName']}",style: ColorUtil.formTableBodyTS,),
+                                              const SizedBox(height: 8,),
+                                              Text("${seedTreeList[i]['TreeDate']}",style: ColorUtil.formTableBodyTSB,),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${seedTreeList[i]['Quantity']}",style: ColorUtil.formTableBodyTSB,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);stockCalc();},),
+                                            ],
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                              ],
+                            )),
+                          ),
+                          Obx(() => NoData(topPadding: 15,show: seedTreeList.isEmpty,)),
                         ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 15, right: 15, top: 10),
-                        child: Obx(() => Table(
-                          columnWidths: const {
-                            0: FlexColumnWidth(3),
-                            1: FlexColumnWidth(2),
-                            2: FlexColumnWidth(1),
-                          },
-                          // defaultColumnWidth: FixedColumnWidth(80.0),
-                          border: TableBorder.all(
-                              color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                          children: [
-                            TableRow(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Planting Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('No of Plants',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                ]
-                            ),
-                            for(int i=0;i<seedTreeList.length;i++)
-                              TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("${seedTreeList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text3),),
-                                          const SizedBox(height: 8,),
-                                          Text("${seedTreeList[i]['TreeDate']}",style: TextStyle(fontSize: 16,fontFamily: 'RB',color: ColorUtil.themeBlack),),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("${seedTreeList[i]['Quantity']}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text3),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);},),
-                                        ],
-                                      ),
-                                    ),
-                                  ]
-                              ),
-                          ],
-                        )),
-                      ),
-                      Obx(() => NoData(topPadding: 15,show: seedTreeList.isEmpty,)),
                       widgets[17],
-                      SizedBox(height: 100,)
+                      const SizedBox(height: 100,)
                     ],
                   ),
                 ),
@@ -237,13 +235,14 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                                 },
                                 needCustomValidation: true,
                                 onCustomValidation: (){
-                                  if(seedTreeList.isEmpty){
+                                  foundWidgetByKey(widgets, "SeedTreeList",needSetValue: true,value: seedTreeList);
+                                  /*if(seedTreeList.isEmpty){
                                     CustomAlert().cupertinoAlert("Select Plant...");
                                     return false;
                                   }
                                   else{
                                     foundWidgetByKey(widgets, "SeedTreeList",needSetValue: true,value: seedTreeList);
-                                  }
+                                  }*/
                                   return true;
                                 }
                             );
@@ -359,6 +358,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NoOfStocks',
       hasInput: true,
       required: false,
+      isEnabled: false,
       labelText: "No of Stocks",
       textInputType: TextInputType.number,
       textLength: 6,
@@ -446,6 +446,15 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     widgets[15].clearValues();
     widgets[16].clearValues();
     node.unfocus();
+    stockCalc();
+  }
+  
+  void stockCalc(){
+    double stock=0;
+    seedTreeList.forEach((element) { 
+      stock=Calculation().add(stock, element['Quantity']);
+    });
+    foundWidgetByKey(widgets, "NoOfStocks",needSetValue: true,value: stock.toString());
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){

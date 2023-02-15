@@ -131,3 +131,41 @@ double triggerEndOffset=80.0;
 void assignWidgetErrorToast(e,t){
   CustomAlert().cupertinoAlert("$e\n\n\n$t");
 }
+
+Widget formGridContainer(List<Widget> children){
+  return Container(
+      margin: const EdgeInsets.only(top: 15,bottom: 20,left: 15,right: 15),
+      padding: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+      color: ColorUtil.primary.withOpacity(0.3),
+      borderRadius: BorderRadius.circular(5)
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: children,
+    ),
+  );
+}
+
+Widget formTableHeader(String title,{bool needFittedBox=false}){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child:needFittedBox? Container(height: 15,child: FittedBox(alignment: Alignment.centerLeft,child: Text(title,style: ColorUtil.formTableHeaderTS,))):Text(title,style: ColorUtil.formTableHeaderTS,),
+  );
+}
+
+Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? textOverflow}){
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 2),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+        // Spacer(),
+        Flexible(
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?'RB':'RR'),overflow: textOverflow,)
+        ),
+      ],
+    ),
+  );
+}

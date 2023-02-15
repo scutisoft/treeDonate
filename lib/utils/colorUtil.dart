@@ -31,6 +31,7 @@ class ColorUtil{
   static const Color menu=Color(0xFF858585);
   static const Color bgColor=Color(0xFFF1F3F6);
   static const Color primaryTextColor2=Color(0xFF383838);
+  static const Color formGridBg=Color(0xFFf2f6f0);
 
   static Color rejectClr=const Color(0xffE1433A);
   static Color paidClr=const Color(0xff019342);
@@ -71,5 +72,9 @@ class ColorUtil{
   static const double scrollBarThickness=4.0;
 
   static EdgeInsets formMargin=const EdgeInsets.only(left:15,right:15,top:10,);
+  static Color formTableBorder=primary.withOpacity(0.15);
+  static TextStyle formTableBodyTS=TextStyle(fontSize: 13,fontFamily: 'RR',color: themeBlack );
+  static TextStyle formTableBodyTSB=TextStyle(fontSize: 13,fontFamily: 'RB',color: themeBlack );
+  static TextStyle formTableHeaderTS=TextStyle(fontSize: 12,fontFamily: 'RM',color:ColorUtil.themeBlack );
 
 }

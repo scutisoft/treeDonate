@@ -223,33 +223,9 @@ class HE_PlantationViewContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Plant : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['PlantName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Location : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['PlantLocation']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Bag & Size : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['BagMaterialSize']??""}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
+                    gridCardText("Date", dataListener['Date'],isBold: true),
+                    gridCardText("Plant", dataListener['PlantName']),
+                    gridCardText("Location", dataListener['PlantLocation']),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -299,7 +275,7 @@ class HE_PlantationViewContent extends StatelessWidget {
                     Text("${dataListener['NumberOfPlants']}",style: ts18(ColorUtil.themeBlack,fontfamily: 'USB')),
                     const SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
                           onTap: (){
@@ -342,7 +318,7 @@ class HE_PlantationViewContent extends StatelessWidget {
                         ),
                        // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["LandParcelDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["LandParcelDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                           margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){

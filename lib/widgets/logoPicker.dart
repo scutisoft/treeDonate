@@ -280,8 +280,7 @@ class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
 
   @override
   setValue(value) {
-    // TODO: implement setValue
-    throw UnimplementedError();
+    imageName.value=value;
   }
 
   @override

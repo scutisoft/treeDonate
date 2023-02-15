@@ -144,7 +144,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                         GridAddIcon(
                           onTap: (){
                             fadeRoute(NurseryForm(closeCb: (e){
-                              he_listViewBody.addData(e);
+                              he_listViewBody.addData(e['Table'][0]);
                             },));
                           },
                         ),
@@ -222,48 +222,29 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   // mainAxisSize: MainAxisSize.min,
                   children: [
+                    gridCardText("Date", dataListener['Date'],isBold: true),
+                    gridCardText("Nursery", dataListener['NurseryName']),
+                    gridCardText("Incharge", dataListener['NurseryIncharge']),
+                    gridCardText("Location", dataListener['NurseryLocation']),
+                    gridCardText("Total Target", dataListener['NoOfTargets']),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nursery   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('Total Taken : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['BalanceStock']}",style: TextStyle(color: ColorUtil.red,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Incharge   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryIncharge']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Location   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryLocation']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Total Stock : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NoOfStocks']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
+                    const SizedBox(height: 2,),
+                    /*gridCardText("Balance Stock", dataListener['BalanceStock']),*/
+
+
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
-                        Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RM'),),
+                        Flexible(child: Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                   ],
@@ -310,11 +291,16 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.end,
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Total Target ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                    Text("${dataListener['NoOfTargets']}",style: ColorUtil.textStyle18),
-                    SizedBox(height: 10,),
+                    Text('Total Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    Text("${dataListener['NoOfStocks']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
+                    const SizedBox(height: 10,),
+
+                    Text('Balance Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    Text("${dataListener['BalanceStock']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
+                    const SizedBox(height: 10,),
+
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         EyeIcon(
                           onTap: (){
@@ -339,9 +325,10 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                             },));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                       // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

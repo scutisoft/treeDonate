@@ -75,7 +75,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   }
   var node;
 
-  double cardWidth=SizeConfig.screenWidth!-(30+15+15);
+  double cardWidth=SizeConfig.screenWidth!-(30+20+15);
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +211,7 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
             ()=> Container(
               key: globalKey,
               margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
-              padding: const EdgeInsets.only(left: 10.0,right: 0.0),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
 
           width: SizeConfig.screenWidth!*1,
           decoration: BoxDecoration(
@@ -229,44 +229,12 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('User : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Text("${dataListener['UserName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Land Owner : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(
-                            child: Text("${dataListener['LandOwner']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Land Type : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['LandType']??""}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Role  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        //  Spacer(),
-                        Text("${dataListener['Role']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
+                    gridCardText("Date",dataListener['Date'],isBold: true),
+                    gridCardText("User",dataListener['UserName']),
+                    gridCardText("Land Owner",dataListener['LandOwner']),
+                    gridCardText("Land Type",dataListener['LandType']??""),
+                    gridCardText("Role",dataListener['Role']??""),
+
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -317,7 +285,7 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                     Text(dataListener['LandInHectares'],style: ColorUtil.textStyle18),
                     const SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
                           onTap: (){

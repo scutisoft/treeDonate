@@ -33,7 +33,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
   ScrollController silverController=ScrollController();
   TextEditingController textController = TextEditingController();
   late HE_ListViewBody he_listViewBody;
-  double cardWidth=SizeConfig.screenWidth!-(20+15+25);
+  double cardWidth=SizeConfig.screenWidth!-(20+20+25);
 
 
   RxDouble silverBodyTopMargin=RxDouble(0.0);
@@ -212,7 +212,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
             ()=> Container(
               key: globalKey,
               margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
-              padding: const EdgeInsets.only(left: 10.0,right: 5.0),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
               width: cardWidth+25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -229,41 +229,12 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Seed : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            // Spacer(),
-                            Flexible(child: Text(dataListener['Seed']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),overflow: TextOverflow.ellipsis,)),
-                          ],
-                        ),
-                        SizedBox(height: 2,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Name : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            // Spacer(),
-                            Text(dataListener['GName']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                          ],
-                        ),
-                        SizedBox(height: 2,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Mobile No  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            //  Spacer(),
-                            Text(dataListener['GPhoneNumber']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Location  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            //  Spacer(),
-                            Flexible(child: Text(dataListener['Glocation']??"",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
-                          ],
-                        ),
-                        SizedBox(height: 2,),
+                        gridCardText("Date", dataListener['Date'],isBold: true),
+                        gridCardText('Seed', dataListener['Seed']??"",textOverflow: TextOverflow.ellipsis),
+                        gridCardText('Name', dataListener['GName']??""),
+                        gridCardText('Mobile No', dataListener['GPhoneNumber']??""),
+                        gridCardText('Location', dataListener['Glocation']??""),
+
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -312,7 +283,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                         Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             EyeIcon(
                               onTap: (){
@@ -339,7 +310,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                             ),
                           //  const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
                                 if(onDelete!=null){

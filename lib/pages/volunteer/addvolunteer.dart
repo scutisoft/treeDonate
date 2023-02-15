@@ -41,7 +41,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
 
   List<dynamic> widgets=[];
 
-  var volunteerType=2.obs;
+  var volunteerType=1.obs;
   var isAccept=false.obs;
 
   BoxDecoration inActiveDec=BoxDecoration(
@@ -166,7 +166,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                             children: [
                               GestureDetector(
                                 onTap:(){
-                                  volunteerType.value=1;
+                                  volunteerType.value=2;
                                 },
                                 child: Container(
                                   color: Colors.transparent,
@@ -184,7 +184,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                           padding: const EdgeInsets.all(10),
                                           width: 10,
                                           height: 10,
-                                          decoration: volunteerType.value==1?activeDec:inActiveDec,
+                                          decoration: volunteerType.value==2?activeDec:inActiveDec,
                                         )),
                                       ),
                                       const SizedBox(width: 10,),
@@ -196,7 +196,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                               const SizedBox(width: 30,),
                               GestureDetector(
                                 onTap:(){
-                                  volunteerType.value=2;
+                                  volunteerType.value=1;
                                 },
                                 child: Container(
                                   color: Colors.transparent,
@@ -214,7 +214,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                           padding: const EdgeInsets.all(10),
                                           width: 10,
                                           height: 10,
-                                          decoration: volunteerType.value==2?activeDec:inActiveDec,
+                                          decoration: volunteerType.value==1?activeDec:inActiveDec,
                                         )),
                                       ),
                                       SizedBox(width: 10,),

@@ -85,24 +85,26 @@ class Search2 extends StatelessWidget {
               curve: Curves.easeIn,
               height: selectWidgetHeight,
               width: width,
-              margin:margin==null? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:20):margin,
+              margin:margin ?? EdgeInsets.only(left:SizeConfig.width100!,right:SizeConfig.width100!,top:20),
               decoration:selectWidgetBoxDecoration?? BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(color:ColorUtil.text4),
                 color: Colors.white,
               ),
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 15),
               child: Row(
                 children: [
                   Obx(
-                        ()=>Text("${selectedData.isEmpty? hinttext!: isToJson!?selectedData[propertyName]??hinttext:selectedData['value']}",
+                        ()=>Expanded(
+                          child: Text("${selectedData.isEmpty? hinttext!: isToJson!?selectedData[propertyName]??hinttext:selectedData['value']}",
                       style: TextStyle(color:selectedData.isEmpty? addNewTextFieldText.withOpacity(0.8):addNewTextFieldText,fontSize: 16,fontFamily: 'RR'),
+                            overflow: TextOverflow.ellipsis,
                     ),
+                        ),
                   ),
-                  Spacer(),
-                  Icon(Icons.keyboard_arrow_down,size: 30,color: Colors.grey,),
-                  SizedBox(width: 15,)
+                  const Icon(Icons.keyboard_arrow_down,size: 30,color: Colors.grey,),
+                  const SizedBox(width: 15,)
                 ],
               ),
             ),
