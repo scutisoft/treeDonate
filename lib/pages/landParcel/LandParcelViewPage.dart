@@ -36,6 +36,8 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
 
   List<dynamic> landParcelView = [];
 
+  var isNeedApproval=false.obs;
+
   @override
   void initState() {
     silverController = ScrollController();
@@ -88,6 +90,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                                     scrollDirection: Axis.horizontal,
                                     reverse: false,
                                     autoPlay: true,
+                                    enableInfiniteScroll: false,
                                     onPageChanged: (index, reason) {
                                       setState(() {
                                         _current = index;
@@ -140,83 +143,77 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                     ),
                   ];
                 },
-                body: SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 5,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          widgets[0],
-                          Image.asset('assets/Slice/status-tick.png',width: 30,)
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      widgets[1],
-                      SizedBox(height: 5,),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: Table(
-                          // defaultColumnWidth: FixedColumnWidth(160.0),
-                          border: TableBorder.all(
-                              color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
+                body: Stack(
+                  children: [
+                    ListView(
+                      shrinkWrap: true,
+                      children: [
+                        const SizedBox(height: 5,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            for(int i=0;i<landParcelView.length;i++)
-                              tableView(landParcelView[i]['Title'],landParcelView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Type Of Land','Coastal Forest',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Staff','Balasubramanyani',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Mobile','90923-22264',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Email','Balasubramanyani@gmail.com',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Soil Type','Black Cotton Soil',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Survey Number','585265885',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Hectare','100 Hectare',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Acre','247.1 Acre',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Planting year','2023',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Village','Tirumalai',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Taluk','Sivagangai  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('District','SIVAGANGAI  ',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Address','14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, Sivagangai, TamilNadu 600032',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Location','13.0233232,80.2203782',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('User Name','Muthu Gokul',ColorUtil.greyBorder,ColorUtil.themeBlack),
-                            // tableView('Role','Village Coordinator',ColorUtil.greyBorder,ColorUtil.themeBlack),
+                            widgets[0],
+                            Image.asset('assets/Slice/status-tick.png',width: 30,)
                           ],
                         ),
-                      ),
-                      AccessWidget(
-                        hasAccess: isHasAccess(accessId['LandParcelApproval']),
-                        needToHide: true,
-                        onTap: (){
-                          isNewsFeed.value=!isNewsFeed.value;
-                        },
-                        widget: Obx(() => Container(
-                          margin: EdgeInsets.only(left: 10, right: 10,top: 10),
-                          padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
-                          decoration: BoxDecoration(
-                              color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        const SizedBox(height: 2,),
+                        widgets[1],
+                        const  SizedBox(height: 5,),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                          child: Table(
+                            // defaultColumnWidth: FixedColumnWidth(160.0),
+                            border: TableBorder.all(
+                                color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                             children: [
-                              CustomCheckBox(
-                                isSelect: isNewsFeed.value,
-                                selectColor: ColorUtil.primary,
-                                onlyCheckbox: true,
-                              ),
-                              const SizedBox(width: 5,),
-                              Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                              for(int i=0;i<landParcelView.length;i++)
+                                tableView(landParcelView[i]['Title'],"${landParcelView[i]['Value']}",ColorUtil.greyBorder,ColorUtil.themeBlack),
+
                             ],
                           ),
+                        ),
+                        AccessWidget(
+                          hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
+                          needToHide: true,
+                          onTap: (){
+                            isNewsFeed.value=!isNewsFeed.value;
+                          },
+                          widget: Obx(() => Container(
+                            margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                            padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                            decoration: BoxDecoration(
+                                color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomCheckBox(
+                                  isSelect: isNewsFeed.value,
+                                  selectColor: ColorUtil.primary,
+                                  onlyCheckbox: true,
+                                ),
+                                const SizedBox(width: 5,),
+                                Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                              ],
+                            ),
 
-                        )),
-                      ),
-                      AccessWidget(
-                        hasAccess: isHasAccess(accessId['LandParcelApproval']),
+                          )),
+                        ),
+                        const SizedBox(height: 100,),
+
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: AccessWidget(
+                        hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
                         needToHide: true,
                         widget: Container(
-                          margin: EdgeInsets.only(top: 20,bottom: 20),
+                          height: 70,
+                          width: SizeConfig.screenWidth,
+                          color: Colors.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -253,11 +250,12 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    ShimmerLoader()
+                  ],
                 ),
               ),
-              ShimmerLoader()
+
             ],
           )
         )
@@ -282,7 +280,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
   void assignWidgets() async {
 
     widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
-    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),),);
+    widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
 
     widgets.add(HiddenController(dataname: "LandParcelId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
@@ -293,9 +291,12 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
       landParcelView=valueArray.where((element) => element['key']=="LandParcelView").toList()[0]['value'];
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
       imgList=valueArray.where((element) => element['key']=="LandImagesList").toList()[0]['value'];
+      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
+      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
       setState((){});
 
-    }catch(e){
+    }catch(e,t){
+      assignWidgetErrorToast(e, t);
     }
   }
 

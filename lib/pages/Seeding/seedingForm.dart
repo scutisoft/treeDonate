@@ -98,96 +98,94 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                           padding: const EdgeInsets.only(left: 15),
                           child: Text("Seed Collection Details",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )),
                       const SizedBox(height: 10,),
-                      widgets[0],
-                      widgets[10],
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height: 60,
-                              width: SizeConfig.screenWidth!-117,
-                              child: widgets[1]
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              onSeedCollectionAdd();
-                            },
-                            child: Container(
-                              height: 45,
-                              width:100,
-                              margin: const EdgeInsets.only(top:10,),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(color: ColorUtil.primary),
-                                color: ColorUtil.primary.withOpacity(0.3),
+
+                      formGridContainer(
+                        [
+                          widgets[0],
+                          widgets[10],
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                  height: 60,
+                                  width: SizeConfig.screenWidth!-125,
+                                  child: widgets[1]
                               ),
-                              child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                        child: Obx(() => Table(
-                          columnWidths: const {
-                            0: FlexColumnWidth(3),
-                            1: FlexColumnWidth(2),
-                            2: FlexColumnWidth(1),
-                          },
-                          // defaultColumnWidth: FixedColumnWidth(80.0),
-                          border: TableBorder.all(color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                          children: [
-                            TableRow(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Seed Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
+                              GestureDetector(
+                                onTap: (){
+                                  onSeedCollectionAdd();
+                                },
+                                child: Container(
+                                  height: 47,
+                                  width: 80,
+                                  margin: const EdgeInsets.only(top:8,),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(color: ColorUtil.primary),
+                                    color: ColorUtil.primary.withOpacity(0.3),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Quantity',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                ]
-                            ),
-                            for(int i=0;i<seedTreeList.length;i++)
-                              TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("${seedTreeList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.greyBorder),),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("${seedTreeList[i]['Quantity']}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);},),
-                                          //Icon(Icons.delete_outline,color: ColorUtil.red,),
-                                        ],
-                                      ),
-                                    ),
-                                  ]
+                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
+                                ),
                               ),
-                            //tableView(SeedsGridView[i]['TreeName'],SeedsGridView[i]['Quantity'],ColorUtil.greyBorder,ColorUtil.themeBlack),
-                          ],
-                        )),
+                            ],
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                            child: Obx(() => Table(
+                              columnWidths: const {
+                                0: FlexColumnWidth(3),
+                                1: FlexColumnWidth(2),
+                                2: FlexColumnWidth(1),
+                              },
+                              // defaultColumnWidth: FixedColumnWidth(80.0),
+                              border: TableBorder.all(color: ColorUtil.formTableBorder, style: BorderStyle.solid, width: 1),
+                              children: [
+                                TableRow(
+                                    children: [
+                                      formTableHeader('Seed Name'),
+                                      formTableHeader('Quantity'),
+                                      formTableHeader('Action',needFittedBox: true),
+                                    ]
+                                ),
+                                for(int i=0;i<seedTreeList.length;i++)
+                                  TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("${seedTreeList[i]['TreeName']}",style: ColorUtil.formTableBodyTS,),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${seedTreeList[i]['Quantity']}",style: ColorUtil.formTableBodyTS,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);},),
+                                              //Icon(Icons.delete_outline,color: ColorUtil.red,),
+                                            ],
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                //tableView(SeedsGridView[i]['TreeName'],SeedsGridView[i]['Quantity'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                              ],
+                            )),
+                          ),
+                          Obx(() => NoData(topPadding: 15,show: seedTreeList.isEmpty,)),
+                        ]
                       ),
-                      Obx(() => NoData(topPadding: 15,show: seedTreeList.isEmpty,)),
+
+
 
                       const SizedBox(height: 10,),
                       Container(
@@ -327,7 +325,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
     widgets.add(AddNewLabelTextField(
       dataname: 'SeedDonorAddress',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Address",
       regExp: null,
       onChange: (v){},

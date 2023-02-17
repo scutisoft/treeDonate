@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/loader.dart';
 import 'package:treedonate/widgets/logoPicker.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -50,8 +51,8 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                 height: height,
                 width: width,
                 padding: EdgeInsets.only(left: 15.0,right: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
                   children:[
                     Container(
                       height: 70,
@@ -85,12 +86,13 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
-                  //  widgets[4],
+                    const SizedBox(height: 20,),
+                    widgets[4],
+                    const SizedBox(height: 20,),
                     widgets[0],
                     widgets[1],
                     widgets[2],
-
+                    const SizedBox(height: 100,),
                   ],
                 ),
               ),
@@ -118,6 +120,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                   ),
                 ),
               ),
+              ShimmerLoader(),
             ],
           ),
         )
@@ -173,10 +176,10 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
     ));
 
     widgets.add(HiddenController(dataname: "UserId"));
-
-   // widgets.add(SingleImagePicker(dataname: "ProfileImage", folder: "User",hasInput: true,required: true,));
+    widgets.add(SingleImagePicker(dataname: "UserImage", folder: "Image",hasInput: true,required: true,));
 
     setState(() {});
+
     widgets[2].suffixIcon= GestureDetector(
       onTap: (){
         widgets[2].isObscure=!widgets[2].isObscure;

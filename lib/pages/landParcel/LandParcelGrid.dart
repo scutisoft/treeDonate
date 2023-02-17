@@ -75,7 +75,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
   }
   var node;
 
-  double cardWidth=SizeConfig.screenWidth!-(30+15+25);
+  double cardWidth=SizeConfig.screenWidth!-(30+20+15);
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('My Land Parcel History',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text('Land Parcel',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -110,16 +110,15 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
             },
             body: Stack(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //SizedBox(height: 50,),
-                    Obx(() => Container(
-                      height: 50,
-                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                      child: Row(
+                Container(
+                  padding: const EdgeInsets.only( right: 5.0,),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        //crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           AnimSearchBar(
                             width: SizeConfig.screenWidth!-80,
@@ -150,18 +149,18 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                           GridAddIcon(
                             onTap: (){
                               fadeRoute(LandParcelForm(closeCb: (e){
-                                he_listViewBody.addData(e);
+                                he_listViewBody.addData(e['Table'][0]);
                               },));
                             },
                           ),
                           const SizedBox(width: 15,),
                         ],
                       ),
-                    ),),
 
-                    Flexible(child:he_listViewBody),
-                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
-                  ],
+                      Flexible(child:he_listViewBody),
+                      Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
+                    ],
+                  ),
                 ),
                 ShimmerLoader(),
               ],
@@ -211,8 +210,8 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
     return Obx(
             ()=> Container(
               key: globalKey,
-              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 15),
-              padding: const EdgeInsets.only(left: 15.0,right: 10.0),
+              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
 
           width: SizeConfig.screenWidth!*1,
           decoration: BoxDecoration(
@@ -230,44 +229,12 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('User : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Text("${dataListener['UserName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Land Owner : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(
-                            child: Text("${dataListener['LandOwner']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Land Type : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['LandType']??""}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Role  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        //  Spacer(),
-                        Text("${dataListener['Role']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
+                    gridCardText("Date",dataListener['Date'],isBold: true),
+                    gridCardText("User",dataListener['UserName']),
+                    gridCardText("Land Owner",dataListener['LandOwner']),
+                    gridCardText("Land Type",dataListener['LandType']??""),
+                    gridCardText("Role",dataListener['Role']??""),
+
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -318,7 +285,7 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                     Text(dataListener['LandInHectares'],style: ColorUtil.textStyle18),
                     const SizedBox(height: 10,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
                           onTap: (){
@@ -343,9 +310,10 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                             //child:Text('View ',style: TextStyle(color: ColorUtil.primaryTextColor2,fontSize: 14,fontFamily: 'RR'),),
                           ),
                         ),
-                        const SizedBox(width: 10,),
+                      //  const SizedBox(width: 10,),
                         GridEditIcon(
-                            hasAccess: isHasAccess(accessId["LandParcelEdit"]),
+                            hasAccess: isHasAccess(accessId["LandParcelEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(LandParcelForm(dataJson:getDataJsonForGrid(dataListener['DataJson']),isEdit: true,
                               closeCb: (e){
@@ -357,9 +325,10 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                             ));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                        //const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["LandParcelDelete"]),
+                          hasAccess: isHasAccess(accessId["LandParcelDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

@@ -10,6 +10,8 @@ import 'package:treedonate/widgets/alertDialog.dart';
 import 'package:treedonate/widgets/customAppBar.dart';
 import 'package:treedonate/widgets/customCheckBox.dart';
 import 'package:treedonate/widgets/searchDropdown/dropdown_search.dart';
+import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
 import '../../model/parameterMode.dart';
@@ -20,6 +22,8 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../widgets/videoPlayer/src/flick_video_player.dart';
+import '../../widgets/videoPlayer/src/manager/flick_manager.dart';
 
 class AddVolunteer extends StatefulWidget {
   String? editId;
@@ -37,7 +41,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
 
   List<dynamic> widgets=[];
 
-  var volunteerType=2.obs;
+  var volunteerType=1.obs;
   var isAccept=false.obs;
 
   BoxDecoration inActiveDec=BoxDecoration(
@@ -73,8 +77,6 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
                   pinned: true,
                   automaticallyImplyLeading: true,
                   leading:  ArrowBack(
@@ -106,7 +108,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                         ),
                         GestureDetector(
                           onTap: (){
-                            //onSubmit();
+                            showProductVideo();
                           },
                           child: Container(
                             height: 30,
@@ -162,7 +164,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                             children: [
                               GestureDetector(
                                 onTap:(){
-                                  volunteerType.value=1;
+                                  volunteerType.value=2;
                                 },
                                 child: Container(
                                   color: Colors.transparent,
@@ -180,7 +182,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                           padding: const EdgeInsets.all(10),
                                           width: 10,
                                           height: 10,
-                                          decoration: volunteerType.value==1?activeDec:inActiveDec,
+                                          decoration: volunteerType.value==2?activeDec:inActiveDec,
                                         )),
                                       ),
                                       const SizedBox(width: 10,),
@@ -192,7 +194,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                               const SizedBox(width: 30,),
                               GestureDetector(
                                 onTap:(){
-                                  volunteerType.value=2;
+                                  volunteerType.value=1;
                                 },
                                 child: Container(
                                   color: Colors.transparent,
@@ -210,7 +212,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                           padding: const EdgeInsets.all(10),
                                           width: 10,
                                           height: 10,
-                                          decoration: volunteerType.value==2?activeDec:inActiveDec,
+                                          decoration: volunteerType.value==1?activeDec:inActiveDec,
                                         )),
                                       ),
                                       SizedBox(width: 10,),
@@ -428,4 +430,60 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
     return General.addVolunteerIdentifier;
   }
 
+
+  void showProductVideo(){
+    YoutubePlayerController controller = YoutubePlayerController(
+      initialVideoId: '4NvaH_aSjyM',
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+
+    /*FlickManager flickManager=FlickManager(
+        videoPlayerController: VideoPlayerController.network("https://www.youtube.com/watch?v=4NvaH_aSjyM")
+    );*/
+
+    Get.dialog(Dialog(
+
+      //shape: alertRadius,
+      backgroundColor: Colors.black,
+      clipBehavior: Clip.antiAlias,
+      insetPadding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+      child: Container(
+          height:186,
+          width:SizeConfig.screenWidth,
+          decoration:const BoxDecoration(
+            color:Colors.black,
+          ),
+
+          child:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                YoutubePlayer(
+                  controller: controller,
+                  showVideoProgressIndicator: true,
+                  //videoProgressIndicatorColor: Colors.amber,
+                  /*progressColors: ProgressColors(
+                    playedColor: Colors.amber,
+                    handleColor: Colors.amberAccent,
+                  ),*/
+                  /*onReady () {
+                _controller.addListener(listener);
+                },*/
+                ),
+                /*Container(
+                  //margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                  child: FlickVideoPlayer(
+                      flickManager: flickManager
+                  ),
+                )*/
+              ]
+          )
+      ),
+    )).then((value){
+      //flickManager.dispose();
+      controller.dispose();
+    });
+  }
 }

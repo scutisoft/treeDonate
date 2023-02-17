@@ -170,14 +170,3 @@ setFrmValuesV2(List widgets,List response){
     }
   }
 }
-
-
-fillDrp(Map widgets,String key,var refId, var hiraricalId ) async{
-  String page=widgets['page'].getValue();
-/*  var response=await getMasterDrp(page, key, refId, hiraricalId);
-  widgets[key].typeAheadSearchState.setDataArray(response);*/
-  getMasterDrp(page, key, refId, hiraricalId).then((response){
-    // print("fillDrp $value");
-    widgets[key].typeAheadSearchState.setDataArray(response);
-  });
-}

@@ -12,6 +12,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../api/apiUtils.dart';
 import '../../utils/utils.dart';
 import '../../widgets/accessWidget.dart';
 import '../../widgets/customAppBar.dart';
@@ -28,11 +29,7 @@ class SeedingView extends StatefulWidget {
 
 class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  implements HappyExtensionHelperCallback {
 
-  final List<String> imgList = [
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-    'assets/trees/green-pasture-with-mountain.jpg',
-  ];
+  List<dynamic> imgList = [];
   List<Widget> widgets = [];
   ScrollController? silverController;
   int _current = 0;
@@ -40,6 +37,8 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
 
   List<dynamic> SeedsView = [];
   List<dynamic> SeedsGiverView = [];
+
+  var isNeedApproval=false.obs;
 
   @override
   void initState() {
@@ -80,7 +79,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                     background: Container(
                       height: 160,
                       width: SizeConfig.screenWidth,
-                      color: Colors.red,
+                      color: Colors.white,
                       child: Stack(
                         children: [
                           CarouselSlider(
@@ -90,6 +89,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                                 enlargeCenterPage: false,
                                 scrollDirection: Axis.horizontal,
                                 autoPlay: true,
+                                enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
                                   setState(() {
                                     _current = index;
@@ -98,8 +98,8 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                             ),
                             carouselController: _controller,
                             items: imgList
-                                .map((item) => Image.asset(
-                              item, fit: BoxFit.fill,
+                                .map((item) =>item["ImagePath"]==null?Container(): Image.network(
+                              GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
                               width: SizeConfig.screenWidth,)
                             )
                                 .toList(),
@@ -209,7 +209,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                      hasAccess: isHasAccess(accessId['SeedCollectionApproval']) && isNeedApproval.value,
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -243,7 +243,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                 Positioned(
                   bottom: 0,
                   child:  AccessWidget(
-                    hasAccess: isHasAccess(accessId['SeedCollectionApproval']),
+                    hasAccess: isHasAccess(accessId['SeedCollectionApproval']) && isNeedApproval.value,
                     needToHide: true,
                     widget: Container(
                       height: 70,
@@ -312,6 +312,9 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
       isNewsFeed.value =valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
       SeedsGiverView=valueArray.where((element) => element['key']=="SeedingView").toList()[0]['value'];
       SeedsView=valueArray.where((element) => element['key']=="Seeds").toList()[0]['value'];
+      imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
+      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
+      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
       setState((){});
 
     }catch(e){

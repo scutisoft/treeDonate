@@ -103,7 +103,40 @@ class PinWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               for(int i=0;i<textControllers.length;i++)
-                Row(
+                SizedBox(
+                  width: 45,
+                  height: 45,
+                  child: TextFormField(
+                    controller: textControllers[i],
+                    focusNode: focusNodes[i],
+                    autofocus: true,
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    style: const TextStyle(fontSize: 24),
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    decoration: otpInputDecoration,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(1),
+                      FilteringTextInputFormatter.allow(RegExp(MyConstants.digitRegEx)),
+                    ],
+
+                    onChanged: (value) {
+                      if(i==pinLength-1 && value.isNotEmpty){
+                        focusNodes[i].unfocus();
+                        onComplete();
+                      }
+                      else if(value.length==pinLength){
+                        focusNodes[i].unfocus();
+                        onComplete();
+                      }
+                      else{
+                        nextField(value,i);
+                      }
+                    },
+                  ),
+                ),
+                /*Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     RawKeyboardListener(
@@ -116,41 +149,9 @@ class PinWidget extends StatelessWidget {
 
                         },
                     ),
-                    SizedBox(
-                      width: 45,
-                      height: 45,
-                      child: TextFormField(
-                        controller: textControllers[i],
-                        focusNode: focusNodes[i],
-                        autofocus: true,
-                        obscureText: true,
-                        obscuringCharacter: '*',
-                        style: const TextStyle(fontSize: 24),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        decoration: otpInputDecoration,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.allow(RegExp(MyConstants.digitRegEx)),
-                        ],
 
-                        onChanged: (value) {
-                          if(i==pinLength-1 && value.isNotEmpty){
-                            focusNodes[i].unfocus();
-                            onComplete();
-                          }
-                          else if(value.length==pinLength){
-                            focusNodes[i].unfocus();
-                            onComplete();
-                          }
-                          else{
-                            nextField(value,i);
-                          }
-                        },
-                      ),
-                    ),
                   ],
-                )
+                )*/
             ],
           ),
         ),

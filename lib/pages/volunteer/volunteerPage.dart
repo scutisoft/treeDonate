@@ -128,50 +128,53 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
             },
             body:Stack(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //SizedBox(height: 50,),
-                    Obx(() => Container(
-                      height: 50,
-                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
-                            color: ColorUtil.asbColor,
-                            boxShadow: ColorUtil.asbBoxShadow,
-                            textController: textController,
-                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                            searchIconColor: ColorUtil.asbSearchIconColor,
-                            suffixIcon: ColorUtil.getASBSuffix(),
-                            onSubmitted: (a){
-                            },
-                            onChange: (a){
-                              he_listViewBody.searchHandler(a);
-                            },
-                            onSuffixTap: (clear) {
-                              if(clear){
-                                he_listViewBody.searchHandler("");
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              fadeRoute(VolunteerFilter());
-                            },
-                          ),
-                          SizedBox(width: 15,),
-                        ],
-                      ),
-                    ),),
+                Container(
+                  padding: const EdgeInsets.only(right: 5.0,),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //SizedBox(height: 50,),
+                      Obx(() => Container(
+                        height: 50,
+                        margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            AnimSearchBar(
+                              width: SizeConfig.screenWidth!-80,
+                              color: ColorUtil.asbColor,
+                              boxShadow: ColorUtil.asbBoxShadow,
+                              textController: textController,
+                              closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                              searchIconColor: ColorUtil.asbSearchIconColor,
+                              suffixIcon: ColorUtil.getASBSuffix(),
+                              onSubmitted: (a){
+                              },
+                              onChange: (a){
+                                he_listViewBody.searchHandler(a);
+                              },
+                              onSuffixTap: (clear) {
+                                if(clear){
+                                  he_listViewBody.searchHandler("");
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 5,),
+                            FilterIcon(
+                              onTap: (){
+                                fadeRoute(VolunteerFilter());
+                              },
+                            ),
+                            const SizedBox(width: 15,),
+                          ],
+                        ),
+                      ),),
 
-                    Flexible(child:he_listViewBody),
-                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
-                  ],
+                      Flexible(child:he_listViewBody),
+                      Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
+                    ],
+                  ),
                 ),
                 ShimmerLoader(),
               ],
@@ -214,8 +217,8 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
   Widget build(BuildContext context) {
     return Obx(
             ()=> Container(
-              margin: EdgeInsets.only(bottom: /*i==filterVolunteerList.length-1? 30:*/3,left: 15,right: 15),
-              padding: const EdgeInsets.only(left: 15.0,right: 10.0),
+              margin: EdgeInsets.only(bottom: /*i==filterVolunteerList.length-1? 30:*/3,left: 15,right: 10),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
               width: SizeConfig.screenWidth!*1,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),

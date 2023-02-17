@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -90,89 +92,84 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                   height: SizeConfig.screenHeight,
                   child: ListView(
                     children: [
-                      widgets[0],
-                      widgets[1],
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                      const SizedBox(height: 5,),
+
+                      formGridContainer(
+                        [
+                          widgets[0],
+                          widgets[1],
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 60,
+                                  width: SizeConfig.screenWidth!-125,
+                                  child: widgets[2]
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  onPlantCollectionAdd();
+                                },
+                                child: Container(
+                                  width:80,
+                                  height: 47,
+                                  margin: const EdgeInsets.only(top: 7),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(color: ColorUtil.primary),
+                                    color: ColorUtil.primary.withOpacity(0.3),
+                                  ),
+                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                                ),
+                              ),
+                            ],
+                          ),
                           Container(
-                              height: 60,
-                              width: SizeConfig.screenWidth!-98,
-                              child: widgets[2]
+                            margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                            child: Obx(() => Table(
+                              //defaultColumnWidth: FixedColumnWidth(80.0),
+                              border: TableBorder.all(
+                                  color: ColorUtil.formTableBorder, style: BorderStyle.solid, width: 1),
+                              children: [
+                                TableRow(
+                                    children: [
+                                      formTableHeader('Nursery Name'),
+                                      formTableHeader('Tree Name'),
+                                      formTableHeader('No of Trees'),
+                                      formTableHeader('Action',needFittedBox: true)
+                                    ]
+                                ),
+                                for(int i=0;i<SeedTreeMasterList.length;i++)
+                                  TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all( 8.0),
+                                          child: Text("${SeedTreeMasterList[i]['NurseryName']}",style: ColorUtil.formTableBodyTS,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${SeedTreeMasterList[i]['TreeName']}",style: ColorUtil.formTableBodyTS,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${SeedTreeMasterList[i]['Quantity']}",style: ColorUtil.formTableBodyTS,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              GridDeleteIcon(hasAccess: true,onTap: (){SeedTreeMasterList.removeAt(i);},),
+                                            ],
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                              ],
+                            )),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              onPlantCollectionAdd();
-                            },
-                            child: Container(
-                              width:80,
-                              height: 45,
-                              margin: EdgeInsets.only(top: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(color: ColorUtil.primary),
-                                color: ColorUtil.primary.withOpacity(0.3),
-                              ),
-                              child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
-                            ),
-                          ),
-                        ],
+                          Obx(() => NoData(topPadding: 15,show: SeedTreeMasterList.isEmpty,)),
+                        ]
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: Obx(() => Table(
-                          defaultColumnWidth: FixedColumnWidth(80.0),
-                          border: TableBorder.all(
-                              color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
-                          children: [
-                            TableRow(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('S.No',style: TextStyle(fontSize: 15,fontFamily: 'RR',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Tree Name',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('No of Trees',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Action',style: TextStyle(fontSize: 15,fontFamily: 'RM',color:ColorUtil.themeBlack ),),
-                                  ),
-                                ]
-                            ),
-                            for(int i=0;i<SeedTreeMasterList.length;i++)
-                              TableRow(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all( 8.0),
-                                      child: Text("${i+1}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder ),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("${SeedTreeMasterList[i]['TreeName']}",style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.greyBorder),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("${SeedTreeMasterList[i]['Quantity']}",style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.greyBorder),),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          GridDeleteIcon(hasAccess: true,onTap: (){SeedTreeMasterList.removeAt(i);},),
-                                        ],
-                                      ),
-                                    ),
-                                  ]
-                              ),
-                          ],
-                        )),
-                      ),Obx(() => NoData(topPadding: 15,show: SeedTreeMasterList.isEmpty,)),
 
                       widgets[3],
                       widgets[4],
@@ -181,6 +178,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                       widgets[7],
                       widgets[8],
                       widgets[9],
+                      const SizedBox(height: 10,),
                       widgets[10],
 
                       Container(
@@ -291,7 +289,10 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
         },
       hasInput: false,required: false,
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"SeedTreeMasterId","hintText":"Select Plant","labelText":"Plant","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,));
+    widgets.add(SearchDrp2(map: const {"dataName":"SeedTreeMasterId","hintText":"Select Plant","labelText":"Plant","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
+      onchange: (e){
+      console("$e");
+      },));
 
    // widgets.add(SearchDrp2(map: const {"dataName":"ProjectId","hintText":"Select Plant"},));
     widgets.add(AddNewLabelTextField(
@@ -299,6 +300,9 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       hasInput: false,
       required: false,
       labelText: "No of Plants",
+      textInputType: TextInputType.number,
+      regExp: MyConstants.digitRegEx,
+      textLength: 10,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -312,14 +316,14 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     ));//8
     widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
-          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
+          fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
     widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},));
+    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},required: false,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Place',
       hasInput: true,
-      required: true,
+      required: false,
       labelText: "Place",
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
@@ -327,24 +331,25 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},));
-    widgets.add(AddNewLabelTextField(
-      dataname: 'AddressDetail',
-      hasInput: true,
-      required: true,
-      labelText: "Location",
-      suffixIcon: Icon(Icons.location_searching,color: ColorUtil.primary,),
-      onChange: (v){},
-      onEditComplete: (){
-        node.unfocus();
-      },
-    ));
+    widgets.add(
+        HE_LocationPicker(
+          dataname: "AddressDetail",
+          contentTextStyle: ts15(addNewTextFieldText),
+          hasInput: true,
+          required: false,
+          //isEnabled: !isView,
+          locationPickCallback: (addressDetail){
+          },
+        )
+    );
+    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},required: false,));
+
 
     widgets.add( MultiImagePicker(
       dataname: "ImagesList",
       hasInput: true,
-      required: true,
-      folder: "Land",
+      required: false,
+      folder: "Plantation",
     ));
     widgets.add(HiddenController(dataname: "PlantationId"));
     widgets.add(HiddenController(dataname: "ProjectId"));
@@ -355,8 +360,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     try{
       SeedTreeMasterList.value=valueArray.where((element) => element['key']=="SeedTreeMasterList").toList()[0]['value'];
     }
-    catch(e){
-    }
+    catch(e,t){ assignWidgetErrorToast(e, t); }
   }
 
   @override
@@ -368,6 +372,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     var sourceDrpDetail=widgets[0].getValueMap();
     var plant=widgets[1].getValueMap();
     var plantQty=widgets[2].getValue();
+    double stock=parseDouble(plant["Value"]);
 
     String treeDate=DateFormat("dd-MM-yyyy").format(DateTime.now());
 
@@ -383,6 +388,12 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       CustomAlert().cupertinoAlert("Enter Quantity");
       return;
     }
+
+    if(sourceDrpDetail["Id"]!=0 && parseDouble(plantQty)>stock){
+      CustomAlert().cupertinoAlert("Quantity Should be less than $stock");
+      return;
+    }
+
 
     if(SeedTreeMasterList.any((element) => element["SeedTreeMasterId"] == plant['Id'] && element["TreeDate"]==treeDate && element["SourceId"]==sourceDrpDetail["Id"])){
       CustomAlert().cupertinoAlert("Plant Name Already Exists...");
@@ -403,5 +414,6 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     widgets[1].clearValues();
     widgets[2].clearValues();
     node.unfocus();
+    console(jsonEncode(SeedTreeMasterList));
   }
 }

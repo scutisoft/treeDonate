@@ -85,7 +85,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
-            floatHeaderSlivers: true,
+            controller: silverController,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
@@ -110,50 +110,46 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Obx(() => Container(
-                      height: 50,
-                      margin: EdgeInsets.only(top: (10+silverBodyTopMargin.value),bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
-                            color: ColorUtil.asbColor,
-                            boxShadow: ColorUtil.asbBoxShadow,
-                            textController: textController,
-                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                            searchIconColor: ColorUtil.asbSearchIconColor,
-                            suffixIcon: ColorUtil.getASBSuffix(),
-                            onSubmitted: (a){
-                            },
-                            onChange: (a){
-                              he_listViewBody.searchHandler(a);
-                            },
-                            onSuffixTap: (clear) {
-                              if(clear){
-                                he_listViewBody.searchHandler("");
-                              }
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              //fadeRoute(FilterItems());
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(NurseryForm(closeCb: (e){
-                                he_listViewBody.addData(e);
-                              },));
-                            },
-                          ),
-                          const SizedBox(width: 15,),
-                        ],
-                      ),
-                    ),
+                    Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                     // crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        AnimSearchBar(
+                          width: SizeConfig.screenWidth!-80,
+                          color: ColorUtil.asbColor,
+                          boxShadow: ColorUtil.asbBoxShadow,
+                          textController: textController,
+                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                          searchIconColor: ColorUtil.asbSearchIconColor,
+                          suffixIcon: ColorUtil.getASBSuffix(),
+                          onSubmitted: (a){
+                          },
+                          onChange: (a){
+                            he_listViewBody.searchHandler(a);
+                          },
+                          onSuffixTap: (clear) {
+                            if(clear){
+                              he_listViewBody.searchHandler("");
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        FilterIcon(
+                          onTap: (){
+                            //fadeRoute(FilterItems());
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        GridAddIcon(
+                          onTap: (){
+                            fadeRoute(NurseryForm(closeCb: (e){
+                              he_listViewBody.addData(e['Table'][0]);
+                            },));
+                          },
+                        ),
+                        const SizedBox(width: 15,),
+                      ],
                     ),
                     Flexible(child:he_listViewBody),
                   ],
@@ -200,7 +196,9 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      try{
+        separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      }catch(e){}
     });
 
     return Obx(
@@ -226,48 +224,29 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   // mainAxisSize: MainAxisSize.min,
                   children: [
+                    gridCardText("Date", dataListener['Date'],isBold: true),
+                    gridCardText("Nursery", dataListener['NurseryName']),
+                    gridCardText("Incharge", dataListener['NurseryIncharge']),
+                    gridCardText("Location", dataListener['NurseryLocation']),
+                    gridCardText("Total Target", dataListener['NoOfTargets']),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nursery   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('Total Taken : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryName']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['TotalTaken']}",style: TextStyle(color: ColorUtil.red,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Incharge   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryIncharge']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Location   : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NurseryLocation']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Total Stock : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                        // Spacer(),
-                        Flexible(child: Text("${dataListener['NoOfStocks']}",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
-                      ],
-                    ),
-                    SizedBox(height: 2,),
+                    const SizedBox(height: 2,),
+                    /*gridCardText("Balance Stock", dataListener['BalanceStock']),*/
+
+
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
-                        Text("${dataListener['ApproveStatus']}",style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                        Flexible(child: Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                   ],
@@ -314,11 +293,16 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.end,
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Total Target ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
-                    Text("${dataListener['NoOfTargets']}",style: ColorUtil.textStyle18),
-                    SizedBox(height: 10,),
+                    Text('Total Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    Text("${dataListener['NoOfStocks']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
+                    const SizedBox(height: 10,),
+
+                    Text('Balance Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    Text("${dataListener['BalanceStock']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
+                    const SizedBox(height: 10,),
+
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         EyeIcon(
                           onTap: (){
@@ -330,9 +314,10 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                             },));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                        //const SizedBox(width: 10,),
                         GridEditIcon(
-                          hasAccess: isHasAccess(accessId["NurseryEdit"]),
+                          hasAccess: isHasAccess(accessId["NurseryEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(NurseryForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                               updateDataListener(e['Table'][0]);
@@ -342,9 +327,10 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                             },));
                           },
                         ),
-                        const SizedBox(width: 10,),
+                       // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["NurseryDelete"]),
+                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){
                               onDelete!(getDataJsonForGrid(dataListener['DataJson']));

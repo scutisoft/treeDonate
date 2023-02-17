@@ -7,17 +7,17 @@ import '../api/apiUtils.dart';
 import '../api/sp.dart';
 import '../model/parameterMode.dart';
 
-Future<List> getMasterDrp(String page,String typeName, dynamic refId,  dynamic hiraricalId) async {
+Future<List> getMasterDrp(String page,String typeName, dynamic refId,dynamic refTypeName,  dynamic hiraricalId) async {
 
   List<ParameterModel> parameters= await getParameterEssential();
   parameters.add(ParameterModel(Key: "SpName", Type: "String", Value: "${Sp.MasterdropDown}"));
   parameters.add(ParameterModel(Key: "TypeName", Type: "String", Value: typeName));
   parameters.add(ParameterModel(Key: "Page", Type: "String", Value: page));
   parameters.add(ParameterModel(Key: "RefId", Type: "String", Value: refId));
-  parameters.add(ParameterModel(Key: "RefTypeName", Type: "String", Value: typeName));
+  parameters.add(ParameterModel(Key: "RefTypeName", Type: "String", Value: refTypeName??typeName));
   parameters.add(ParameterModel(Key: "HiraricalId", Type: "String", Value: hiraricalId));
 
-  //print(body);
+  //console(jsonEncode(parameters));
   var result=[];
   try{
     await ApiManager().GetInvoke(parameters).then((value) {

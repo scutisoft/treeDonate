@@ -112,7 +112,7 @@ class AddNewLabelTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(left:15,right:15,top:10,),
+          margin: ColorUtil.formMargin,
           height: 50,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
@@ -637,7 +637,7 @@ class HE_LocationPicker extends StatelessWidget implements ExtensionCallback{
         Container(
           height: 50,
           width: SizeConfig.screenWidth,
-          margin: EdgeInsets.only(left:15,right:15,top:5,),
+          margin: ColorUtil.formMargin,
           padding: EdgeInsets.only(left:10,),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
