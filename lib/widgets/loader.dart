@@ -72,11 +72,11 @@ class NoData extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset("assets/Slice/nodata.png",height: 80,),
-              const SizedBox(height: 10,),
+              Image.asset("assets/Slice/no-data-available.jpg",height: 120,),
+              /*const SizedBox(height: 10,),
               Text("No Data ...",
                 style: TextStyle(fontFamily: 'RR',fontSize: 18,color: ColorUtil.text5),
-              ),
+              ),*/
             ],
           )
       ),

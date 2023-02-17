@@ -196,7 +196,9 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      try{
+        separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      }catch(e){}
     });
 
     return Obx(
@@ -232,7 +234,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                       children: [
                         Text('Total Taken : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         // Spacer(),
-                        Flexible(child: Text("${dataListener['BalanceStock']}",style: TextStyle(color: ColorUtil.red,fontSize: 14,fontFamily: 'RM'),)),
+                        Flexible(child: Text("${dataListener['TotalTaken']}",style: TextStyle(color: ColorUtil.red,fontSize: 14,fontFamily: 'RM'),)),
                       ],
                     ),
                     const SizedBox(height: 2,),

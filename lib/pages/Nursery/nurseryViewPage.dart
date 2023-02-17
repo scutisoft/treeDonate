@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/pages/donateTree/plantingplace.dart';
+import 'package:treedonate/widgets/fittedText.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -64,9 +65,7 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
-                  pinned: false,
+                  pinned: true,
                   leading: ArrowBack(
                     iconColor: ColorUtil.themeBlack,
                     onTap: () {
@@ -164,6 +163,13 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                         border:Border(top: BorderSide(color: ColorUtil.greyBorder,),left: BorderSide(color: ColorUtil.greyBorder,),right: BorderSide(color: ColorUtil.greyBorder,))
                       ),
                       child: Table(
+                        columnWidths: const {
+                          0: FlexColumnWidth(1),
+                          1: FlexColumnWidth(2),
+                          2: FlexColumnWidth(1),
+                          3: FlexColumnWidth(1),
+                          4: FlexColumnWidth(1),
+                        },
                         // defaultColumnWidth: FixedColumnWidth(160.0),
                         border: TableBorder.all(
                             color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
@@ -182,10 +188,20 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('No of Plants',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
                               ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Plants Taken',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Balance Stock',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                  ),
                             ]
                           ),
                           for(int i=0;i<NurserySysView.length;i++)
-                          tableView3(NurserySysView[i]['Date'],NurserySysView[i]['PlantName'],"${NurserySysView[i]['NoOfPlant']}",ColorUtil.themeBlack),
+                          tableView3(NurserySysView[i]['Date'],NurserySysView[i]['PlantName'],"${NurserySysView[i]['NoOfPlant']}",
+                              "${NurserySysView[i]['NoofPlantsTaken']}", "${NurserySysView[i]['BalanceStock']}",
+                              ColorUtil.themeBlack),
                         ],
                       ),
                     ),
@@ -197,12 +213,12 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                             color: ColorUtil.greyBorder, style: BorderStyle.solid, width: 1),
                         children: [
                           for(int i=0;i<NurseryView.length;i++)
-                          tableView(NurseryView[i]['Title'],NurseryView[i]['Value'],ColorUtil.greyBorder,ColorUtil.themeBlack),
+                          tableView("${NurseryView[i]['Title']}","${NurseryView[i]['Value']}",ColorUtil.greyBorder,ColorUtil.themeBlack),
                         ],
                       ),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
+                      hasAccess: true,
                       needToHide: true,
                       onTap: (){
                         isNewsFeed.value=!isNewsFeed.value;
@@ -233,26 +249,29 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                     SizedBox(height: 100,)
                   ],
                 ),
+                 /*hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
+                    needToHide: true,*/
                 Positioned(
                   bottom: 0,
-                  child: AccessWidget(
-                    hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
-                    needToHide: true,
-                    widget: Container(
-                      height: 70,
-                      width: SizeConfig.screenWidth,
-                      color: Colors.white,
-                      //margin: EdgeInsets.only(top: 20,bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
+                  child: Container(
+                    height: 70,
+                    width: SizeConfig.screenWidth,
+                    color: Colors.white,
+                    //margin: EdgeInsets.only(top: 20,bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AccessWidget(
+                          hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
+                          needToHide: true,
+                          widget: GestureDetector(
                             onTap:(){
                               approveRejHandler(false);
                             },
                             child: Container(
                               width: SizeConfig.screenWidth!*0.4,
                               height: 50,
+                              margin: const EdgeInsets.only(right: 20),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(3),
                                 border: Border.all(color: ColorUtil.red),
@@ -261,22 +280,22 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
                               child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
                             ),
                           ),
-                          GestureDetector(
-                            onTap:(){
-                              approveRejHandler(true);
-                            },
-                            child: Container(
-                              width: SizeConfig.screenWidth!*0.4,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: ColorUtil.primary,
-                              ),
-                              child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                        ),
+                        GestureDetector(
+                          onTap:(){
+                            approveRejHandler(true);
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth!*0.4,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: ColorUtil.primary,
                             ),
+                            child: Center(child: Text(!isNeedApproval.value?'Approved':'Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -350,20 +369,45 @@ class _NurseryViewState extends State<NurseryView> with HappyExtensionHelper  im
         ]
     );
   }
-  TableRow tableView3(String td1,String td2,String td3,Color textcolor ){
+  TableRow tableView3(String td1,String td2,String td3,String td4,String td5,Color textcolor ){
     return TableRow(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(td1,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor),),
+            padding: const EdgeInsets.fromLTRB(2.0,8.0,2,0),
+            child: FittedText(
+              height: 20,
+              textStyle: ts15(textcolor),
+              text: td1,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(td2,style: TextStyle(fontSize: 15,fontFamily: 'RM',color: textcolor),),
+            child: Text(td2,style: ts15(textcolor),),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(td3,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor),),
+            child:FittedText(
+              height: 20,
+              textStyle: ts15(textcolor),
+              text: td3,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FittedText(
+              height: 20,
+              textStyle: ts15(textcolor),
+              text: td4,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child:FittedText(
+              height: 20,
+              textStyle: ts15(textcolor),
+              text: td5,
+            )
+            //child: Text(td5,style: TextStyle(fontSize: 15,fontFamily: 'RR',color: textcolor),),
           ),
         ]
     );

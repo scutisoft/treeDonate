@@ -199,7 +199,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
   Future<void> postUIJson(String pageIdentifier,String dataJson,String action,{Function? successCallback}) async{
     //"N'$dataJson'"
-    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, dataJson, {"actionType":action}).then((value){
+    await GetUiNotifier().postUiJson(await getLoginId(), pageIdentifier, "N'$dataJson'", {"actionType":action}).then((value){
       //print("----- post    $value");
       if(value[0]){
        // console(value);

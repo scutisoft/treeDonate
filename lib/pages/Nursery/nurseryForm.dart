@@ -144,7 +144,8 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               columnWidths: const {
                                 0: FlexColumnWidth(3),
                                 1: FlexColumnWidth(2),
-                                2: FlexColumnWidth(1),
+                                2: FlexColumnWidth(2),
+                                3: FlexColumnWidth(1),
                               },
                               // defaultColumnWidth: FixedColumnWidth(80.0),
                               border: TableBorder.all(
@@ -154,6 +155,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                                     children: [
                                       formTableHeader('Planting Name'),
                                       formTableHeader('No of Plants'),
+                                      formTableHeader('Plants Taken'),
                                       formTableHeader('Action',needFittedBox: true),
                                     ]
                                 ),
@@ -178,10 +180,19 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
+                                          child: Text("${seedTreeList[i]['QuantityTaken']}",style: ColorUtil.formTableBodyTSB,),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);stockCalc();},),
+                                              Container(
+                                                height: 25,
+                                                child: FittedBox(
+                                                  child: GridDeleteIcon(hasAccess: true,onTap: (){seedTreeList.removeAt(i);stockCalc();},),
+                                                ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -276,7 +287,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       hasInput: true,
       required: true,
       labelText: "Nursery Name",
-      regExp: MyConstants.alphaSpaceRegEx,
+      regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -440,7 +451,8 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       "SeedTreeMasterId": seedDrpDetail['Id'],
       "TreeName": seedDrpDetail['Text'],
       "Quantity": seedQty,
-      "TreeDate":treeDate
+      "TreeDate":treeDate,
+      "QuantityTaken":""
     });
     seedTreeList.refresh();
     widgets[15].clearValues();
@@ -454,7 +466,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
     seedTreeList.forEach((element) { 
       stock=Calculation().add(stock, element['Quantity']);
     });
-    foundWidgetByKey(widgets, "NoOfStocks",needSetValue: true,value: stock.toString());
+    foundWidgetByKey(widgets, "NoOfStocks",needSetValue: true,value: stock.toInt().toString());
   }
 
   TableRow tableView(String tabelHead,String tablevalue,Color textcolor1,Color textcolor2 ){

@@ -77,8 +77,6 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                 SliverAppBar(
                   backgroundColor: Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
-                  floating: true,
-                  snap: true,
                   pinned: true,
                   automaticallyImplyLeading: true,
                   leading:  ArrowBack(
