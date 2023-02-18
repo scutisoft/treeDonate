@@ -14,6 +14,8 @@ import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
+import '../../helper/language.dart';
+import '../../widgets/customAppBar.dart';
 import '../../widgets/navigationBarIcon.dart';
 
 
@@ -82,14 +84,14 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
     return SafeArea(
         bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
-          backgroundColor: Color(0XFFF3F3F3),
+          backgroundColor: const Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  backgroundColor: Color(0XFFF3F3F3),
+                  backgroundColor: const Color(0XFFF3F3F3),
                   expandedHeight: 160.0,
                   pinned: true,
                   leading: NavBarIcon(
@@ -97,9 +99,12 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       widget.voidCallback();
                     },
                   ),
+                  /*actions: [
+                    LanguageSwitch(),
+                  ],*/
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('Dashboard',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.dashboard,style: TextStyle(color:ColorUtil.themeBlack,fontFamily:Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit:BoxFit.fill),
                   ),
                 ),
@@ -120,7 +125,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                     margin: EdgeInsets.only(left: 5, right: 5,bottom: 10),
                     child: Text('Eco Green Foundation Dashboard',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
                   ),*/
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       Wrap(
                         spacing: 0,
                         runSpacing: 8,
@@ -131,12 +136,12 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                           Container(
                             width: SizeConfig.screenWidth!*0.45,
                             height: 140,
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
-                                BoxShadow(
+                                const BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 5.0, // soften the shadow
                                   spreadRadius: .0, //extend the shadow
@@ -196,7 +201,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               imgBg:  const Color(0XFFF2F2F2),
                               target: "3 ",
                               targetUnit: "Lac",
-                              title: "Volunteer",
+                              title: Language.volunteer['Value'],
                               primaryTotal: '${dashBoardDetail["TotalVolunteer"]}',
                               primaryUnit: "",
                               secondaryUnit: '${dashBoardDetail["VolunteerSecoundaryUnit"]} '
@@ -205,7 +210,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               img: "assets/trees/planting.png",
                               target: "6 ",
                               targetUnit: "Lac Hectare",
-                              title: "Land Parcel",
+                              title: Language.landParcel,
                               primaryTotal: '${dashBoardDetail["TotalLandParcel"]}',
                               primaryUnit: "",
                               secondaryUnit: '${dashBoardDetail["LandParcelSecoundaryUnit"]} '
@@ -214,16 +219,16 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               img: "assets/trees/Seeds.png",
                               target: "500 ",
                               targetUnit: "Cr",
-                              title: "Seeds Stock",
+                              title: Language.seedsStock,
                               primaryTotal: '${dashBoardDetail["TotalSeeding"]}',
                               primaryUnit: "",
                               secondaryUnit: '${dashBoardDetail["SeedingSecoundaryUnit"]} '
                           ),
                         ],
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Container(
-                        margin: EdgeInsets.only(left: 5, right: 5,),
+                        margin: const EdgeInsets.only(left: 5, right: 5,),
                         child: Row(
                           children: [
                             Container(
@@ -231,7 +236,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               height: 150,
                               clipBehavior: Clip.antiAlias,
                               //padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0xffF9CBA5),
                               ),
                               child: Stack(
@@ -249,17 +254,17 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                               width:50,
                                               height: 50,
                                               alignment: Alignment.center,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                   color: Color(0XFFF2F2F2),
                                                   shape:BoxShape.circle
                                               ),
                                               child: Image.asset('assets/trees/Nursery.png',height: 30,),
                                             ),
-                                            SizedBox(width:5 ,),
+                                            const SizedBox(width:5 ,),
                                             RichText(
                                               text: TextSpan(
                                                 children: <TextSpan>[
-                                                  TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
                                                   TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                                 ],
                                               ),
@@ -267,18 +272,18 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                             )
                                           ],
                                         ),
-                                        SizedBox(height: 5,),
-                                        Text('Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
+                                        Text(Language.nursery,style: TextStyle(fontFamily: Language.mediumFF,fontSize: 14,color: ColorUtil.themeBlack),),
+                                        const SizedBox(height: 5,),
                                         Text.rich(
                                           TextSpan(
                                             text: '${dashBoardDetail["TotalNursery"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                             children: [
-                                              TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                               TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: ColorUtil.themeBlack),)
                                             ],
                                           ),
                                         ),
-                                        Text('${dashBoardDetail["TotalNurseryPlants"]} Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                        Text('${dashBoardDetail["TotalNurseryPlants"]} Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeBlack),),
                                       ],
                                     ),
                                   ),
@@ -286,11 +291,11 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                     alignment: Alignment.bottomRight,
                                     child: Transform(
                                       transform: Matrix4.skewY(2.3),
-                                      origin:Offset(50 ,-50),
+                                      origin:const Offset(50 ,-50),
                                       child: Container(
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Color(0xffCFEDD8),
                                         ),
                                       ),
@@ -303,7 +308,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                               width: SizeConfig.screenWidth!*0.46,
                               height: 150,
                               //padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0xffCFEDD8),
                               ),
                               child: Stack(
@@ -321,17 +326,17 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                               width:50,
                                               height: 50,
                                               alignment: Alignment.center,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                   color: Color(0XFFF2F2F2),
                                                   shape:BoxShape.circle
                                               ),
                                               child: Image.asset('assets/trees/plant.png',height: 30,),
                                             ),
-                                            SizedBox(width:5 ,),
+                                            const SizedBox(width:5 ,),
                                             RichText(
-                                              text: TextSpan(
+                                              text:  TextSpan(
                                                 children: <TextSpan>[
-                                                  TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
                                                   TextSpan(text: '2 CR ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                                 ],
                                               ),
@@ -339,18 +344,18 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                             )
                                           ],
                                         ),
-                                        SizedBox(height: 5,),
-                                        Text('Plantation',style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
+                                        Text(Language.planting,style: TextStyle(fontFamily:Language.mediumFF,fontSize: 14,color: Color(0xff000000)),),
+                                        const SizedBox(height: 5,),
                                         Text.rich(
                                           TextSpan(
                                             text: '${dashBoardDetail["TotalPlantations"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                             children: [
-                                              TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                              const TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
                                             ],
                                           ),
                                         ),
-                                        Text('${dashBoardDetail["TotalPlanting"]} Plantation ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                        Text('${dashBoardDetail["TotalPlanting"]} Plantation ',  style: const TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
                                       ],
                                     ),
                                   ),
@@ -358,11 +363,11 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                     alignment: Alignment.bottomRight,
                                     child: Transform(
                                       transform: Matrix4.skewY(2.3),
-                                      origin:Offset(50 ,-50),
+                                      origin:const Offset(50 ,-50),
                                       child: Container(
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Color(0xffF3F3F3),
                                         ),
                                       ),
@@ -374,15 +379,15 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                           ],
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Container(
                         height: 370,
-                        margin: EdgeInsets.only(left: 5, right: 5),
+                        margin: const EdgeInsets.only(left: 5, right: 5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Colors.black12,
                               blurRadius: 5.0, // soften the shadow
                               spreadRadius: .0, //extend the shadow
@@ -393,7 +398,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                             )
                           ],
                         ),
-                        padding: EdgeInsets.only(left: 10,right: 10, top: 10),
+                        padding: const EdgeInsets.only(left: 10,right: 10, top: 10),
                         child: Column(
                           children: [
                             Row(
@@ -403,8 +408,8 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Total Land Parcel ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
-                                    Text('${dashBoardDetail["TotalLandParcel"]} ${dashBoardDetail["LandParcelSecoundaryUnit"]}',  style: TextStyle(fontFamily: 'RM',fontSize: 13,color: Color(0xff000000)),),
+                                    const Text('Total Land Parcel ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                    Text('${dashBoardDetail["TotalLandParcel"]} ${dashBoardDetail["LandParcelSecoundaryUnit"]}',  style: const TextStyle(fontFamily: 'RM',fontSize: 13,color: Color(0xff000000)),),
                                   ],
                                 ),
                                 Row(
@@ -417,7 +422,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                       },
                                       //child: Icon(Icons.bar_chart, color:! isWaveView? Colors.black45:Color(0xffFF0022),size: 30)
                                       child: Container(
-                                        padding: EdgeInsets.all(5.0),
+                                        padding: const EdgeInsets.all(5.0),
                                         decoration: !isWaveView?BoxDecoration(
                                             borderRadius: BorderRadius.circular(5.0),
                                             border: Border.all(color: ColorUtil.primary),
@@ -430,7 +435,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                         child:Text('Zone',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:! isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
                                       ),
                                     ),
-                                    SizedBox(width: 5,),
+                                    const SizedBox(width: 5,),
                                     GestureDetector(
                                       onTap: (){
                                         setState((){
@@ -438,7 +443,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                         });
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.all(5.0),
+                                        padding: const EdgeInsets.all(5.0),
                                         decoration: isWaveView?BoxDecoration(
                                             borderRadius: BorderRadius.circular(5.0),
                                             border: Border.all(color: ColorUtil.primary),
@@ -456,29 +461,29 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                               ],
                             ),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             AnimatedCrossFade(
                                 firstChild: BarZone(),
                                 secondChild: BarDistrict(),
                                 crossFadeState: isWaveView?CrossFadeState.showSecond:CrossFadeState.showFirst,
-                                duration: Duration(milliseconds: 400)
+                                duration: const Duration(milliseconds: 400)
                             ),
 
                           ],
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Container(
                         width: SizeConfig.screenWidth,
                         height: 300,
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 15,right: 15,top:15,bottom: 15),
-                        margin: EdgeInsets.only(left: 5, right: 5),
+                        padding: const EdgeInsets.only(left: 15,right: 15,top:15,bottom: 15),
+                        margin: const EdgeInsets.only(left: 5, right: 5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Colors.black12,
                               blurRadius: 5.0, // soften the shadow
                               spreadRadius: .0, //extend the shadow
@@ -499,16 +504,16 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Upcoming Nursery & Plants',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
-                                    SizedBox(height: 1,),
+                                    const Text('Upcoming Nursery & Plants',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                    const SizedBox(height: 1,),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text('300 Nursery /',style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
+                                        const Text('300 Nursery /',style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
                                         Container(
-                                            margin:EdgeInsets.only(top:5),
-                                            child: Text(' 2 Cr Plants',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),)),
+                                            margin:const EdgeInsets.only(top:5),
+                                            child: const Text(' 2 Cr Plants',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),)),
                                       ],
                                     ),
                                   ],
@@ -525,7 +530,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 ),
                               ],
                             ),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -534,7 +539,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                   height: 30,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffAC6839),
+                                    color: const Color(0xffAC6839),
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                   child: Row(
@@ -545,13 +550,13 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 5,),
+                                const SizedBox(width: 5,),
                                 Container(
                                   width: 70,
                                   height: 30,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Color(0xff00565B),
+                                    color: const Color(0xff00565B),
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                   child: Row(
@@ -562,11 +567,11 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 5,),
-                                Text('Increased for Last Year ',style: TextStyle(fontFamily: 'RR',fontSize: 12,color: Color(0xff000000)),),
+                                const SizedBox(width: 5,),
+                                const Text('Increased for Last Year ',style: TextStyle(fontFamily: 'RR',fontSize: 12,color: Color(0xff000000)),),
                               ],
                             ),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                             Flexible(
                               // height: SizeConfig.screenHeight,
                               // width: cardWidth,
@@ -575,7 +580,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (ctx,i){
                                   return Container(
-                                    margin: EdgeInsets.only(bottom: 10),
+                                    margin: const EdgeInsets.only(bottom: 10),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -594,15 +599,15 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text('100 Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
-                                            SizedBox(height: 1,),
-                                            Text(' 1 Month Later',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000).withOpacity(0.4)),)
+                                            const Text('100 Nursery',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                            const SizedBox(height: 1,),
+                                            Text(' 1 Month Later',style: TextStyle(fontFamily: 'RR',fontSize: 13,color: const Color(0xff000000).withOpacity(0.4)),)
                                           ],
                                         ),
                                         Row(
                                           children: [
                                             Image.asset('assets/trees/leaf-nur.png',height: 25,),
-                                            Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                                            const Text('50,000.00',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
                                           ],
                                         ),
                                       ],
@@ -614,7 +619,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                           ],
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
 
                     ],
                   ),
@@ -664,7 +669,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
       children: [
         Container(
           // height: 200,
-          padding: EdgeInsets.only(left: 5,right: 5),
+          padding: const EdgeInsets.only(left: 5,right: 5),
           child: FutureBuilder<dynamic>(
             future: Future.value(District),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -684,7 +689,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       isVisible: true,
                       interval: 1,
                       majorGridLines: const MajorGridLines(width: 0),
-                      majorTickLines: MajorTickLines(
+                      majorTickLines: const MajorTickLines(
                           size: 0,
                           width: 0,
                           color: Colors.transparent
@@ -700,7 +705,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       //numberFormat: formattedNumber,
                       axisLine: const AxisLine(width: 0),
                       majorGridLines: const MajorGridLines(width: 0),
-                      majorTickLines: MajorTickLines(
+                      majorTickLines: const MajorTickLines(
                           size: 0,
                           width: 0,
                           color: Colors.transparent
@@ -733,7 +738,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         //   //  stops: [0,30]
                         // ),
                         width: 0.5,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
                         name: 'District',
                         xValueMapper: (dynamic sales, _) =>sales['DistrictName'],
                         yValueMapper: (dynamic sales, _) => sales['Hectares'],
@@ -754,21 +759,21 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         //   format: "point.y",
                         color: ColorUtil.primary,
                         header: "",
-                        textStyle:TextStyle(color: Colors.white,fontSize: 14),
+                        textStyle:const TextStyle(color: Colors.white,fontSize: 14),
                         canShowMarker: false,
                         builder: (dynamic data, dynamic point, dynamic series,
                             int pointIndex, int seriesIndex) {
                           return Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text('${data['DistrictName']}',
-                                    style: TextStyle(color: Colors.white,fontSize: 12),
+                                    style: const TextStyle(color: Colors.white,fontSize: 12),
                                   ),
                                   const SizedBox(height: 3,),
                                   Text('${formatCurrency.format(data['Hectares'])} ${data["UnitName"]}',
-                                    style: TextStyle(color: Colors.white,fontSize: 15,fontFamily: 'RM'),
+                                    style: const TextStyle(color: Colors.white,fontSize: 15,fontFamily: 'RM'),
                                   ),
                                 ],
                               )
@@ -791,7 +796,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
       children: [
         Container(
           // height: 200,
-          padding: EdgeInsets.only(left: 5,right: 5),
+          padding: const EdgeInsets.only(left: 5,right: 5),
           child: FutureBuilder<dynamic>(
             future: Future.value(Zone),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -811,7 +816,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       isVisible: true,
                       interval: 1,
                       majorGridLines: const MajorGridLines(width: 0),
-                      majorTickLines: MajorTickLines(
+                      majorTickLines: const MajorTickLines(
                           size: 0,
                           width: 0,
                           color: Colors.transparent
@@ -827,7 +832,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       //numberFormat: formattedNumber,
                       axisLine: const AxisLine(width: 0),
                       majorGridLines: const MajorGridLines(width: 0),
-                      majorTickLines: MajorTickLines(
+                      majorTickLines: const MajorTickLines(
                           size: 0,
                           width: 0,
                           color: Colors.transparent
@@ -860,7 +865,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         //   //  stops: [0,30]
                         // ),
                         width: 0.5,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(7),topRight: Radius.circular(7)),
                         name: 'Zone',
                         xValueMapper: (dynamic sales, _) =>sales['ZoneName'],
                         yValueMapper: (dynamic sales, _) => sales['Hectares'],
@@ -881,14 +886,14 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                         //   format: "point.y",
                         color: ColorUtil.primary,
                         header: "",
-                        textStyle:TextStyle(color: Colors.white,fontSize: 14),
+                        textStyle:const TextStyle(color: Colors.white,fontSize: 14),
                         canShowMarker: false,
                         builder: (dynamic data, dynamic point, dynamic series,
                             int pointIndex, int seriesIndex) {
                           return Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Text('${formatCurrency.format(data['Hectares'])} ${data["UnitName"]}',
-                                style: TextStyle(color: Colors.white,fontSize: 14),
+                                style: const TextStyle(color: Colors.white,fontSize: 14),
                               )
                           );
                         }
@@ -909,12 +914,12 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
     return Container(
       width: SizeConfig.screenWidth!*0.45,
       height: 140,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black12,
             blurRadius: 5.0, // soften the shadow
             spreadRadius: .0, //extend the shadow
@@ -945,11 +950,11 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
               Flexible(
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.black, fontSize: 36),
+                    style: const TextStyle(color: Colors.black, fontSize: 36),
                     children: <TextSpan>[
-                      TextSpan(text: 'Target ',  style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),),
-                      TextSpan(text: '$target ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                      TextSpan(text: '$targetUnit', style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
+                      TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
+                      TextSpan(text: '$target ' ,style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                      TextSpan(text: '$targetUnit', style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
                     ],
                   ),
                   // textScaleFactor: 0.5,
@@ -964,7 +969,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
             TextSpan(
               text: primaryTotal, style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
               children: [
-                TextSpan(text: ' / $secondaryUnit ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                TextSpan(text: ' / $secondaryUnit ', style: const TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
               ],
             ),
           ),

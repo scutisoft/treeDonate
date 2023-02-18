@@ -10,6 +10,7 @@ import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/loader.dart';
 import '../helper/appVersionController.dart';
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
 import '../widgets/zoomDrawer/config.dart';
@@ -69,20 +70,20 @@ class MenuScreen extends GetView<MyDrawerController> {
   MenuScreen({Key? key}) : super(key: key);
 
   List<dynamic> menuList=[
-    {"Title":"DashBoard","PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
-    {"Title":"Home Page","PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
-    {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My Certificate","PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Our Events","PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My trees","PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
-    {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Land Parcel","PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
-    {"Title":"Seeding","PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
-    {"Title":"Nursery","PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
-    {"Title":"Planting","PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
+    {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
+    {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
+    {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.ourEvents,"PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.myTrees,"PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"+ ${Language.volunteer['Value']}","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
+    {"Title":Language.notification,"PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.landParcel,"PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
+    {"Title":Language.seeding,"PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
+    {"Title":Language.nursery,"PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
+    {"Title":Language.planting,"PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
     {"Title":"PolyMaker","PageNumber":15,"iconNav":const Icon(Icons.map_outlined,color: Colors.white,),"accessId":100},
   ];
 
@@ -161,7 +162,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             ),
           ),
           DrawerContent(
-              title: 'LogOut',
+              title: Language.logOut,
               ontap: (){
                 clearUserSessionDetail();
               },
@@ -171,7 +172,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. All Rights Reserved.',
+                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. ${Language.rights}',
                   style: TextStyle(fontSize: 12,color:Color(0xffffffff), fontFamily:'RR'),textAlign: TextAlign.center, )
             ),
           ),
@@ -320,7 +321,7 @@ class DrawerContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("$title",
-                  style: TextStyle(fontFamily: 'RR',fontSize: 16,color: Colors.white,letterSpacing: 0.1),
+                  style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: Colors.white,letterSpacing: 0.1),
                 ),
               ],
             )

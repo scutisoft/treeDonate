@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/helper/language.dart';
 import 'package:treedonate/pages/volunteer/addvolunteer.dart';
+import 'package:treedonate/widgets/fittedText.dart';
 
 import '../../helper/appVersionController.dart';
 import '../../utils/colorUtil.dart';
@@ -87,10 +89,10 @@ class _SlideSwipeState extends State<SlideSwipe> {
                       ),
                       child: Image.asset('assets/login/leaf.png',width: 50,),
                     ),
-                    SizedBox(width: 15,),
-                    Text('Growing \nPlant',style: TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 15,),),
-                    SizedBox(width: 10,),
-                    Icon(Icons.arrow_downward_outlined,color: ColorUtil.menu,size: 25,)
+                    const SizedBox(width: 15,),
+                    Text(Language.growingPlant['Value'],style: TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.growingPlant['FontFamily'],fontSize: Language.growingPlant['FontSize'],),),
+                    const SizedBox(width: 10,),
+                    const Icon(Icons.arrow_downward_outlined,color: ColorUtil.menu,size: 25,)
                   ],
                 )
             ),
@@ -111,8 +113,8 @@ class _SlideSwipeState extends State<SlideSwipe> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Take \nLogin',style: TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RR',fontSize: 15,),),
-                        SizedBox(width: 10,),
+                        Text(Language.takeLogin['Value'],style: TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.takeLogin['FontFamily'],fontSize: Language.takeLogin['FontSize'],),),
+                        const SizedBox(width: 10,),
                         Icon(Icons.arrow_forward_ios,color: ColorUtil.themeWhite,size: 20,)
                       ],
                     ),
@@ -137,7 +139,13 @@ class _SlideSwipeState extends State<SlideSwipe> {
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(10)
                   ),
-                  child: FittedBox(child: Text("+ Volunteer",style: ts18(ColorUtil.themeBlack),)),
+                  //child: FittedBox(child: Text("+ ${Language.volunteer}",style: ts18(ColorUtil.themeBlack,fontsize: 16),)),
+                  child: FittedText(
+                    textStyle: ts18(ColorUtil.themeBlack,fontsize: Language.volunteer['FontSize'],fontfamily: Language.volunteer['FontFamily']),
+                    text: "+ ${Language.volunteer['Value']}",
+                    height: 25,
+                    alignment: Alignment.center,
+                  ),
                 ),
               ),
             )

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/api/ApiManager.dart';
 import 'package:treedonate/api/apiUtils.dart';
+import 'package:treedonate/helper/language.dart';
 import 'package:treedonate/pages/navHomeScreen.dart';
+import 'package:treedonate/widgets/customAppBar.dart';
 import 'package:treedonate/widgets/loader.dart';
 import '../../HappyExtension/utils.dart';
 import '../../utils/general.dart';
@@ -62,7 +64,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
-          backgroundColor: Color(0xFFe8e8e8),
+          backgroundColor: const Color(0xFFe8e8e8),
           resizeToAvoidBottomInset: true,
           body: Stack(
             children: [
@@ -93,17 +95,16 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    const LanguageSwitch(),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         widgets[0],
                                         widgets[1],
-                                        // Text("Mr.Balasubramaniyan",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
-                                        // Text("Zone 7 Co-Ordinator",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
                                       ],
                                     ),
-                                    SizedBox(width: 5,),
+                                    const SizedBox(width: 5,),
                                     GestureDetector(
                                       onTap: (){
                                         setPageNumber(1);
@@ -119,41 +120,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                         child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                                       ),
                                     ),
-                                    // SizedBox(width: 5,),
-                                    // GestureDetector(
-                                    //   onTap: (){
-                                    //
-                                    //   },
-                                    //   child: Container(
-                                    //     height: 40,
-                                    //     width: 40,
-                                    //     alignment: Alignment.center,
-                                    //     decoration: BoxDecoration(
-                                    //       color: ColorUtil.themeWhite,
-                                    //       shape: BoxShape.circle,
-                                    //     ),
-                                    //     child: Stack(
-                                    //       children: [
-                                    //         Icon(Icons.notifications,color:Colors.orangeAccent,size: 25,),
-                                    //         Positioned(
-                                    //           right: 0,
-                                    //           top: 0,
-                                    //           child: Container(
-                                    //             height: 15,
-                                    //             width: 15,
-                                    //             alignment: Alignment.center,
-                                    //             decoration: BoxDecoration(
-                                    //               shape: BoxShape.circle,
-                                    //               color: ColorUtil.red,
-                                    //             ),
-                                    //             child: Text("1",style:  TextStyle(fontFamily: 'RR',fontSize: 10,color: Colors.white),),
-                                    //           ),
-                                    //         ),
-                                    //       ],
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    SizedBox(width: 15,),
+                                    const SizedBox(width: 15,),
                                   ],
                                 ),
                               ],
@@ -217,7 +184,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                 child: Container(
                                   width: 12.0,
                                   height: 12.0,
-                                  margin: EdgeInsets.symmetric(
+                                  margin: const EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 4.0),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -238,7 +205,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                     ),
                     const SizedBox(height: 10,),
                     Container(
-                      padding: EdgeInsets.only(left: 15,right: 15),
+                      padding: const EdgeInsets.only(left: 15,right: 15),
                       child: buildGrid(),
                     ),
                     const SizedBox(height: 10,),
@@ -249,8 +216,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       children: [
                         Container(
                             alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text("News & Feeds",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(Language.newsFeedTitle,style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:Language.mediumFF), )
 
                         ),
                         Row(
@@ -328,6 +295,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
         ),
     );
   }
+
+
   StaggeredGrid buildGrid() {
     return StaggeredGrid.count(
       crossAxisCount: 2,
@@ -361,7 +330,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text("Land Parcel",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
+                            Text(Language.landParcel,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
                            // Text("500 Hectare",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
@@ -399,7 +368,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text("Seed collection",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
+                            Text(Language.seeding,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
                           //  Text("500 Kg",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
@@ -436,7 +405,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text("Nursery",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
+                            Text(Language.nursery,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
                            // Text("250 Numbers",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
@@ -473,7 +442,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text("Plantings",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RM',fontSize: 14,letterSpacing: 1.0),),
+                            Text(Language.planting,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
                            // Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
@@ -626,7 +595,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                      },),
                      // child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                     ),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -636,7 +605,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                         Text("$nfType",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -649,51 +618,51 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                   ],
                 ),
               ),
-              SizedBox(height: 10 ,),
+              const SizedBox(height: 10 ,),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0,right: 8.0),
                 child: Text("$nfDescription",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0,right: 8.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(Icons.location_on,color: ColorUtil.text4,),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Text("$nfLoc",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
                   ],
                 ),
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Divider(
                 thickness: 1,
                 color: ColorUtil.text4,
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
-                        SizedBox(width: 8,),
+                        const SizedBox(width: 8,),
                         Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
                     Row(
                       children: [
                         Icon(Icons.comment,color: ColorUtil.primary,),
-                        SizedBox(width: 8,),
+                        const SizedBox(width: 8,),
                         Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
                     Row(
                       children: [
                         Icon(Icons.thumb_up,color: ColorUtil.primary,),
-                        SizedBox(width: 8,),
+                        const SizedBox(width: 8,),
                         Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     )
@@ -732,7 +701,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       color: ColorUtil.themeBlack,
                       blurRadius: 15.0, // soften the shadow
                       spreadRadius: 0.0, //extend the shadow
-                      offset: Offset(
+                      offset: const Offset(
                         0.0, // Move to right 10  horizontally
                         0.0, // Move to bottom 10 Vertically
                       ),

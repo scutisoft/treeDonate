@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
@@ -721,7 +722,7 @@ class CustomAlert{
     Get.dialog(  CupertinoAlertDialog(
       title: Icon(Icons.error_outline,color: Colors.red,size: 50,),
       content: Text(title,
-        style: TextStyle(fontSize: 18,fontFamily: 'RR'),),
+        style: TextStyle(fontSize: 18,fontFamily: Language.regularFF),),
     ));
   }
 

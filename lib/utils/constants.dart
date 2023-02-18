@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../helper/language.dart';
+
 class MyConstants{
   MyConstants._();
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.4";
+  static String appVersion="1.0.5";
   static String appId="com.scutisoft.nammaramnamkadamai";
-  static String appPlayStoreUrl="https://play.google.com/store/apps/details?id=com.scutisoft.nammaramnamkadamai";
-  static bool isLive=true;
+  static bool isLive=false;
   static bool fromUrl=true;
-  static bool hasAppVersionController=true;
+  static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
 
@@ -53,6 +54,7 @@ ts16(Color color,{String fontfamily='RR'}){
   return TextStyle(fontSize: 16,fontFamily: fontfamily,color: color,letterSpacing: 0.1);
 }
 ts18(Color color,{String fontfamily='RR',double fontsize=18,double ls=0.1}){
+  /*fontfamily=fontfamily=='RR'?Language.regularFF:fontfamily;*/
   return TextStyle(fontSize: fontsize,fontFamily: fontfamily,color: color,letterSpacing: ls);
 }
 

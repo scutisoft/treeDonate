@@ -1,0 +1,296 @@
+{
+  "LanguagesList": [
+    {
+      "Id": 1,
+      "Text": "English"
+    },
+    {
+      "Id": 2,
+      "Text": "Tamil"
+    }
+  ],
+  "Source": {
+    "LB_1": {
+      "Id": "LB_1",
+      "1": {
+        "Value": "Volunteer",
+        "FontSize":18.0,
+        "FontFamily":"RR"
+      },
+      "2": {
+        "Value": "தொண்டர்",
+        "FontSize":18.0,
+        "FontFamily":"MMR"
+      },
+      "Description": "Landing Page Add Volunteer Button"
+    },
+    "LB_2": {
+      "Id": "LB_2",
+      "1": {
+        "Value": "Take \nLogin",
+        "FontSize":15.0,
+        "FontFamily":"RR"
+      },
+      "2": {
+        "Value": "உள் \nநுழையவும்",
+        "FontSize":15.0,
+        "FontFamily":"MMR"
+      },
+      "Description": "Landing Page Login Button"
+    },
+    "LB_3": {
+      "Id": "LB_3",
+      "1": {
+        "Value": "Growing \nPlant",
+        "FontSize":15.0,
+        "FontFamily":"RR"
+      },
+      "2": {
+        "Value": "வளரும் \nசெடி",
+        "FontSize":15.0,
+        "FontFamily":"MMR"
+      },
+      "Description": "Landing Page Growing Plant Info Button at the bottom of the page."
+    },
+    "LB_4": {
+      "Id": "LB_4",
+      "1": {
+        "Value": "Login",
+        "FontSize":15.0,
+        "FontFamily":"RR"
+      },
+      "2": {
+        "Value": "உள்நுழைய",
+        "FontSize":15.0,
+        "FontFamily":"MMR"
+      },
+      "Description": "Login Page Button Text."
+    },
+    "LB_5": {
+      "Id": "LB_5",
+      "1": {
+        "Value": "Your Account",
+        "FontSize":14.0,
+        "FontFamily":"RR"
+      },
+      "2": {
+        "Value": "உங்கள் கணக்கு",
+        "FontSize":14.0,
+        "FontFamily":"MMR"
+      },
+      "Description": "Login Page Your Account Title."
+    },
+    "LB_6": {
+      "Id": "LB_6",
+      "1": "Enter Email",
+      "2": "மின்னஞ்சலை உள்ளிடவும்",
+      "Description": "Login Page Email InputBox HintText."
+    },
+    "LB_7": {
+      "Id": "LB_7",
+      "1": "Enter Password",
+      "2": "கடவுச்சொல்லை உள்ளிடவும்",
+      "Description": "Login Page Password InputBox HintText."
+    },
+    "LB_8": {
+      "Id": "LB_8",
+      "1": "Create Pin",
+      "2": "பின்னை உருவாக்கவும்",
+      "Description": "MPin Page Title."
+    },
+    "LB_9": {
+      "Id": "LB_9",
+      "1": "Reset Pin",
+      "2": "பின்னை மீட்டமைக்கவும்",
+      "Description": "MPin Page Title."
+    },
+    "LB_10": {
+      "Id": "LB_10",
+      "1": "Skip",
+      "2": "தவிர்க்கவும்",
+      "Description": "MPin Page Skip Text."
+    },
+    "LB_11": {
+      "Id": "LB_11",
+      "1": "Enter New Pin",
+      "2": "புதிய பின்னை உள்ளிடவும்",
+      "Description": "MPin Page New Pin Input Box Title."
+    },
+    "LB_12": {
+      "Id": "LB_12",
+      "1": "Confirm New Pin",
+      "2": "புதிய பின்னை உறுதிப்படுத்தவும்",
+      "Description": "MPin Page Skip Text."
+    },
+    "LB_13": {
+      "Id": "LB_13",
+      "1": "Set Pin",
+      "2": "பின்னை அமைக்கவும்",
+      "Description": "MPin Page Set Pin Button Text."
+    },
+    "LB_14": {
+      "Id": "LB_14",
+      "1": "Pin doesn't match...",
+      "2": "பின் பொருந்தவில்லை...",
+      "Description": "MPin Page Pin does not match error message."
+    },
+    "LB_15": {
+      "Id": "LB_15",
+      "1": {
+        "Value": "Login",
+        "FontSize":16.0,
+        "FontFamily":"RB"
+      },
+      "2": {
+        "Value": "உள்நுழைய",
+        "FontSize":16.0,
+        "FontFamily":"MMB"
+      },
+      "Description": "Login Page Title."
+    },
+    "LB_16": {
+      "Id": "LB_16",
+      "1": "Dashboard",
+      "2": "டாஷ்போர்டு",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_17": {
+      "Id": "LB_17",
+      "1": "Home Page",
+      "2": "முகப்பு பக்கம்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_18": {
+      "Id": "LB_18",
+      "1": "My Profile",
+      "2": "என் சுயவிவரம்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_19": {
+      "Id": "LB_19",
+      "1": "Donate",
+      "2": "தானம் செய்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_20": {
+      "Id": "LB_20",
+      "1": "My History",
+      "2": "என் வரலாறு",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_21": {
+      "Id": "LB_21",
+      "1": "My Certificate",
+      "2": "எனது சான்றிதழ்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_22": {
+      "Id": "LB_22",
+      "1": "Our Events",
+      "2": "எங்கள் நிகழ்வுகள்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_23": {
+      "Id": "LB_23",
+      "1": "My trees",
+      "2": "என் மரங்கள்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_24": {
+      "Id": "LB_24",
+      "1": "Land Parcel",
+      "2": "நிலம் பார்சல்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_25": {
+      "Id": "LB_25",
+      "1": "Notification",
+      "2": "அறிவிப்பு",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_26": {
+      "Id": "LB_26",
+      "1": "Seed Collection",
+      "2": "விதை சேகரிப்பு",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_27": {
+      "Id": "LB_27",
+      "1": "Nursery",
+      "2": "நாற்றங்கால்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_28": {
+      "Id": "LB_28",
+      "1": "Plantation",
+      "2": "தோட்டம்",
+      "Description": "Navigation Drawer Title"
+    },
+    "LB_29": {
+      "Id": "LB_29",
+      "1": "News & Feeds",
+      "2": "செய்திகள் & ஊட்டங்கள்",
+      "Description": "Home Page News Feed Title"
+    },
+    "LB_30": {
+      "Id": "LB_30",
+      "1": "No Data Available",
+      "2": "தரவு எதுவும் கிடைக்கவில்லை",
+      "Description": "No Data"
+    },
+    "LB_31": {
+      "Id": "LB_31",
+      "1": "Seeds Stock",
+      "2": "விதைகள் பங்கு",
+      "Description": "Seeds Stock in Dashboard"
+    },
+    "LB_32": {
+      "Id": "LB_32",
+      "1": "Target",
+      "2": "இலக்கு",
+      "Description": "Target in Dashboard"
+    },
+    "LB_33": {
+      "Id": "LB_33",
+      "1": "Edit Profile",
+      "2": "சுயவிவரத்தைத் திருத்து",
+      "Description": "Edit Profile Button in My Profile Page."
+    },
+    "LB_34": {
+      "Id": "LB_34",
+      "1": "Update",
+      "2": "புதுப்பிக்கவும்",
+      "Description": "Update Button Text."
+    },
+    "LB_35": {
+      "Id": "LB_35",
+      "1": "Email",
+      "2": "மின்னஞ்சல்",
+      "Description": "Update Button Text."
+    },
+    "LB_36": {
+      "Id": "LB_36",
+      "1": "Mobile Number",
+      "2": "கைபேசி எண்",
+      "Description": "Update Button Text."
+    },
+    "LB_37": {
+      "Id": "LB_37",
+      "1": "Password",
+      "2": "கடவுச்சொல்",
+      "Description": "Update Button Text."
+    },
+    "LB_38": {
+      "Id": "LB_38",
+      "1": "LogOut",
+      "2": "வெளியேறு",
+      "Description": "LogOut Button Text."
+    },
+    "LB_39": {
+      "Id": "LB_39",
+      "1": "All Rights Reserved.",
+      "2": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+      "Description": "LogOut Button Text."
+    }
+  }
+}

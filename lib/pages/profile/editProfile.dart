@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/utils/colorUtil.dart';
-import 'package:treedonate/utils/utils.dart';
-import 'package:treedonate/widgets/loader.dart';
-import 'package:treedonate/widgets/logoPicker.dart';
+import '../../helper/language.dart';
+import '../../utils/colorUtil.dart';
+import '../../widgets/loader.dart';
+import '../../widgets/logoPicker.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
 import '../../utils/constants.dart';
@@ -79,7 +79,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                             Container(
                               width: SizeConfig.screenWidth!*0.65,
                               alignment: Alignment.center,
-                              child: Text('My Profile',style: TextStyle(fontFamily: 'RM',fontSize: 18,color: Colors.black,letterSpacing: 0.1),),
+                              child: Text(Language.myProfile,style: TextStyle(fontFamily:Language.mediumFF,fontSize: 18,color: Colors.black,letterSpacing: 0.1),),
                             ),
 
                           ],
@@ -116,7 +116,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
                       borderRadius: BorderRadius.circular(3),
                       color: ColorUtil.primary,
                     ),
-                    child:Center(child: Text('Update',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                    child:Center(child: Text(Language.update,style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:Language.regularFF), )) ,
                   ),
                 ),
               ),
@@ -143,7 +143,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       dataname: 'Email',
       hasInput: true,
       required: true,
-      labelText: "E-mail",
+      labelText: Language.email,
       regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -154,7 +154,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       dataname: 'PhoneNumber',
       hasInput: true,
       required: true,
-      labelText: "Mobile Number",
+      labelText: Language.mobileNo,
       regExp: MyConstants.digitRegEx,
       textLength: MyConstants.phoneNoLength,
       onChange: (v){},
@@ -167,7 +167,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       hasInput: true,
       required: true,
       isObscure: true,
-      labelText: "Password",
+      labelText: Language.password,
       regExp: MyConstants.addressRegEx,
       onChange: (v){},
       onEditComplete: (){

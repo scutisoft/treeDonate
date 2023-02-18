@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../helper/language.dart';
 
 import '../api/ApiManager.dart';
 import '../utils/colorUtil.dart';
@@ -73,10 +74,10 @@ class NoData extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset("assets/Slice/no-data-available.jpg",height: 120,),
-              /*const SizedBox(height: 10,),
-              Text("No Data ...",
-                style: TextStyle(fontFamily: 'RR',fontSize: 18,color: ColorUtil.text5),
-              ),*/
+              const SizedBox(height: 10,),
+              Text(Language.noData,
+                style: TextStyle(fontFamily: Language.regularFF,fontSize: 18,color: ColorUtil.text5),
+              ),
             ],
           )
       ),

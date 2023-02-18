@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/utils.dart';
 
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
@@ -181,7 +182,7 @@ class DoneBtn extends StatelessWidget {
           color: ColorUtil.secondary,
         ),
         alignment: Alignment.center,
-        child: Text(title,style: ts18(Colors.white,fontsize: 20,fontfamily: 'USB'),),
+        child: Text(title,style: ts18(Colors.white,fontsize: 18,fontfamily: Language.mediumFF),),
       ),
     );
   }
@@ -194,8 +195,8 @@ class LeftAlignHeader extends StatelessWidget {
     return Container(
       height: 30,
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(left: 20),
-      child: Text(title,style: ts18(ColorUtil.primaryTextColor2),),
+      padding: const EdgeInsets.only(left: 20),
+      child: Text(title,style: ts18(ColorUtil.primaryTextColor2,fontfamily: Language.regularFF),),
     );
   }
 }
