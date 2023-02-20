@@ -95,7 +95,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const LanguageSwitch(),
+                                    LanguageSwitch(onChange: (){
+                                      setState(() {});
+                                    },),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -442,7 +444,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(Language.planting,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
+                            Text(Language.plantation,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
                            // Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import '../helper/language.dart';
 import '../widgets/alertDialog.dart';
 import '../widgets/recase.dart';
 
@@ -150,7 +151,13 @@ Widget formGridContainer(List<Widget> children){
 Widget formTableHeader(String title,{bool needFittedBox=false}){
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child:needFittedBox? Container(height: 15,child: FittedBox(alignment: Alignment.centerLeft,child: Text(title,style: ColorUtil.formTableHeaderTS,))):Text(title,style: ColorUtil.formTableHeaderTS,),
+    child:needFittedBox? Container(
+        height: 15,
+        child: FittedBox(
+            alignment: Alignment.centerLeft,
+            child: Text(title,style: ColorUtil.formTableHeaderTS,)
+        )
+    ):Text(title,style: ColorUtil.formTableHeaderTS,),
   );
 }
 
@@ -160,10 +167,10 @@ Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? text
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+        Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),),
         // Spacer(),
         Flexible(
-            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?'RB':'RR'),overflow: textOverflow,)
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
         ),
       ],
     ),

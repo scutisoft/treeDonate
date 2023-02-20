@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
@@ -102,7 +103,7 @@ class AddNewLabelTextField extends StatelessWidget {
   }
   var isValid=true.obs;
   var orderBy=1.obs;
-  var errorText="* Required".obs;
+  var errorText="* ${Language.required}".obs;
   var reload=false.obs;
   @override
   Widget build(BuildContext context) {
@@ -124,22 +125,22 @@ class AddNewLabelTextField extends StatelessWidget {
             obscureText: isObscure,
             obscuringCharacter: '*',
             scrollPadding: EdgeInsets.only(bottom: scrollPadding),
-            style:  TextStyle(fontFamily: 'RR',fontSize: 16,color:ColorUtil.text3,letterSpacing: 0.2),
+            style:  TextStyle(fontFamily: Language.regularFF,fontSize: 16,color:ColorUtil.text3,letterSpacing: 0.2),
             controller: textEditingController,
             cursorColor:ColorUtil.text4,
             decoration: InputDecoration(
               fillColor:isEnabled?Colors.white:ColorUtil.disableColor,
               filled: true,
-              labelStyle: TextStyle(fontFamily: 'RR',fontSize: 16,color: ColorUtil.text3),
+              labelStyle: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.text3),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(3)),
+                borderRadius: const BorderRadius.all(Radius.circular(3)),
                 borderSide: BorderSide(
                   width: 0.2,
                   color: ColorUtil.text4,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(3)),
+                borderRadius: const BorderRadius.all(Radius.circular(3)),
                 borderSide: BorderSide(
                   width: 0.2,
                   color: ColorUtil.text4,
@@ -153,7 +154,7 @@ class AddNewLabelTextField extends StatelessWidget {
                 ),
               ),
               labelText: labelText,
-              contentPadding: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
             ),
@@ -181,7 +182,7 @@ class AddNewLabelTextField extends StatelessWidget {
         ),
         Obx(
                 ()=>isValid.value?Container():Container(
-                margin:  EdgeInsets.only(left:20,right:20,bottom:5,),
+                margin:  const EdgeInsets.only(left:20,right:20,bottom:5,),
                 child: Text(errorText.value,style: errorTS,)
             )
         ),
@@ -189,7 +190,7 @@ class AddNewLabelTextField extends StatelessWidget {
     ):
     Container(
 
-      margin: EdgeInsets.only(left:20,right:20,top:15,),
+      margin: const EdgeInsets.only(left:20,right:20,top:15,),
       //    height: 50,
 
       decoration: BoxDecoration(
@@ -202,12 +203,12 @@ class AddNewLabelTextField extends StatelessWidget {
         obscureText: isObscure,
         obscuringCharacter: '*',
         scrollPadding: EdgeInsets.only(bottom: scrollPadding),
-        style:  TextStyle(fontFamily: 'RR',fontSize: 15,color:addNewTextFieldText,letterSpacing: 0.2),
+        style:  TextStyle(fontFamily: Language.regularFF,fontSize: 15,color:addNewTextFieldText,letterSpacing: 0.2),
         controller: textEditingController,
         decoration: InputDecoration(
             fillColor:isEnabled?Colors.white: Color(0xFFe8e8e8),
             filled: true,
-            labelStyle: TextStyle(fontFamily: 'RL',fontSize: 15,color: addNewTextFieldText.withOpacity(0.9)),
+            labelStyle: TextStyle(fontFamily: Language.regularFF,fontSize: 15,color: addNewTextFieldText.withOpacity(0.9)),
             border:  OutlineInputBorder(
                 borderSide: BorderSide(color: addNewTextFieldBorder)
             ),
@@ -268,7 +269,7 @@ class AddNewLabelTextField extends StatelessWidget {
   requiredCheck(){
   if(textEditingController.text.isEmpty){
     isValid.value=false;
-    errorText.value="* Required";
+    errorText.value="* ${Language.required}";
   }
   else{
     isValid.value=true;
@@ -625,7 +626,7 @@ class HE_LocationPicker extends StatelessWidget implements ExtensionCallback{
   Rxn addressDetail=Rxn();
 
   var isValid=true.obs;
-  var errorText="* Required".obs;
+  var errorText="* ${Language.required}".obs;
   var orderBy=1.obs;
 
   @override

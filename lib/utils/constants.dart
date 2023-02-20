@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:treedonate/utils/utils.dart';
 
 import '../helper/language.dart';
 
@@ -42,22 +43,43 @@ glowFunTransparent(BuildContext context){
 }
 
 ts12(Color color,{String fontfamily='RR'}){
-  return TextStyle(fontSize: 12,fontFamily: fontfamily,color: color,letterSpacing: 0.1);
+  return TextStyle(fontSize: 12,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
 }
 ts14(Color color,{String fontfamily='RR'}){
-  return TextStyle(fontSize: 14,fontFamily: fontfamily,color: color,letterSpacing: 0.1);
+  return TextStyle(fontSize: 14,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1,);
 }
 ts15(Color color,{String fontfamily='RR'}){
-  return TextStyle(fontSize: 15,fontFamily: fontfamily,color: color,letterSpacing: 0.1);
+  return TextStyle(fontSize: 15,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
 }
 ts16(Color color,{String fontfamily='RR'}){
-  return TextStyle(fontSize: 16,fontFamily: fontfamily,color: color,letterSpacing: 0.1);
+  return TextStyle(fontSize: 16,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
 }
 ts18(Color color,{String fontfamily='RR',double fontsize=18,double ls=0.1}){
   /*fontfamily=fontfamily=='RR'?Language.regularFF:fontfamily;*/
-  return TextStyle(fontSize: fontsize,fontFamily: fontfamily,color: color,letterSpacing: ls);
+  return TextStyle(fontSize: fontsize,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: ls,height: Language.height);
 }
 
+String getLangFontFamily(String ff){
+
+  if(ff=='RR'){
+    return Language.regularFF;
+  }
+  else if(ff=='Reg'){
+    return Language.regularFF;
+  }
+  else if(ff=='Bold'){
+    return Language.boldFF;
+  }
+  else if(ff=='Med'){
+    return Language.mediumFF;
+  }
+  else if(ff=='Lit'){
+    return Language.lightFF;
+  }
+  else{
+    return Language.regularFF;
+  }
+}
 
 // double topPad=24.0;
 

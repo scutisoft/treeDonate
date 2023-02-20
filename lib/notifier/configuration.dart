@@ -154,8 +154,7 @@ void clearUserSessionDetail(){
 navigateByUserType() async{
   String ut=await getSharedPrefString(SP_USERTYPEID);
   if(ut=="1" || ut=="3"){
-    //menuSel.value=14;
-    menuSel.value=13;
+    menuSel.value=14;
     if(!isHasAccess(accessId["DashBoardView"])){
       menuSel.value=1;
     }

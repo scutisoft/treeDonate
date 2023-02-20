@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/utils/utils.dart';
-import 'package:treedonate/widgets/accessWidget.dart';
-import 'package:treedonate/widgets/pinWidget.dart';
+import 'package:treedonate/widgets/fittedText.dart';
+import '../../helper/language.dart';
+import '../../utils/utils.dart';
+import '../../widgets/accessWidget.dart';
+import '../../widgets/pinWidget.dart';
 import '../../api/ApiManager.dart';
 import '../../widgets/customCheckBox.dart';
 
@@ -91,7 +93,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                       color: Colors.white,
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(left: 50),
-                      child: Text("Volunteer Detail",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM',ls: 0.8,fontsize: 20),),
+                      child: Text(Language.volunteerDetails,style: ts18(ColorUtil.themeBlack,fontfamily:Language.mediumFF,ls: 0.8,fontsize: 20),),
                       /*child: Stack(
                         children: [
                           CarouselSlider(
@@ -198,7 +200,12 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                               onlyCheckbox: true,
                             ),
                             const SizedBox(width: 5,),
-                            Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                            FittedText(
+                              alignment: Alignment.centerLeft,
+                              text: Language.newsFeedChkBox,
+                              textStyle: ts14(isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack,),
+                            ),
+                           // Text(Language.newsFeedChkBox,style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
                           ],
                         ),
 
@@ -233,7 +240,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                             }
                           }
                         );
-                      }, title: "Update"),
+                      }, title: Language.update),
                       /*child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,28 +299,28 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
   @override
   void assignWidgets() async {
-    widgets.add(SearchDrp2(map: const {"dataName":"VolunteerRoleId","hintText":"Select Work Field","labelText":"Work Field"},
+    widgets.add(SearchDrp2(map:  {"dataName":"VolunteerRoleId","hintText":Language.selWorkField,"labelText": Language.workField},
     onchange: (e){onRoleChange(e['Id'].toString());},));
-    widgets.add(SearchDrp2(map: const {
-      "dataName":"DistrictId","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
-      "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
+    widgets.add(SearchDrp2(map:  {
+      "dataName":"DistrictId","hintText":Language.selDistrict,"showSearch":true,"mode":Mode.DIALOG,
+      "dialogMargin":const EdgeInsets.all(0.0),"labelText":Language.district
     },
       onchange: (e){
         console("onchange $e");
         fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
       },
     ));
-    widgets.add(SearchDrp2(map: const {
-      "dataName":"TalukId","hintText":"Select Taluk","showSearch":true,"mode":Mode.DIALOG,
-      "dialogMargin":EdgeInsets.all(0.0),"labelText":"Taluk"
+    widgets.add(SearchDrp2(map:  {
+      "dataName":"TalukId","hintText":Language.selTaluk,"showSearch":true,"mode":Mode.DIALOG,
+      "dialogMargin":const EdgeInsets.all(0.0),"labelText":Language.taluk
     },
       onchange: (e){
         fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
       },
     ));
-    widgets.add(SearchDrp2(map: const {
-      "dataName":"VillageId","hintText":"Select Village","showSearch":true,"mode":Mode.DIALOG,
-      "dialogMargin":EdgeInsets.all(0.0),"labelText":"Village"
+    widgets.add(SearchDrp2(map:  {
+      "dataName":"VillageId","hintText": Language.selVillage,"showSearch":true,"mode":Mode.DIALOG,
+      "dialogMargin":const EdgeInsets.all(0.0),"labelText": Language.village
     },));
 
     widgets.add(HiddenController(dataname: "VolunteerId"));

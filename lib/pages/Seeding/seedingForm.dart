@@ -13,6 +13,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../helper/language.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/logoPicker.dart';
 import '../../widgets/searchDropdown/dropdown_search.dart';
@@ -70,16 +71,14 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
                     //expandedTitleScale: 1.8,
-                    title: Container(
-                      height: 35,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Seeding Details',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                          Text('Form',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'R',fontSize: 12,),textAlign: TextAlign.left,)
-                        ],
-                      ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(Language.seeding,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
+                        Text(Language.form,style: ts12(ColorUtil.themeBlack,fontfamily: 'Med'),textAlign: TextAlign.left,)
+                      ],
                     ),
                     background: Image.asset('assets/trees/green-pasture-with-mountain.jpg',fit: BoxFit.cover,),
                   ),
@@ -96,7 +95,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                       const SizedBox(height: 10,),
                       Container(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Text("Seed Collection Details",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )),
+                          child: Text(Language.seedCollDet,style: ts16(ColorUtil.themeBlack,fontfamily: 'Med'), )),
                       const SizedBox(height: 10,),
 
                       formGridContainer(
@@ -125,7 +124,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                                     border: Border.all(color: ColorUtil.primary),
                                     color: ColorUtil.primary.withOpacity(0.3),
                                   ),
-                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
+                                  child:Center(child: Text('+ ${Language.add}',style: ts16(ColorUtil.themeWhite), )) ,
                                 ),
                               ),
                             ],
@@ -143,9 +142,9 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                               children: [
                                 TableRow(
                                     children: [
-                                      formTableHeader('Seed Name'),
-                                      formTableHeader('Quantity'),
-                                      formTableHeader('Action',needFittedBox: true),
+                                      formTableHeader('${Language.seed} ${Language.name}'),
+                                      formTableHeader(Language.quantity),
+                                      formTableHeader(Language.action,needFittedBox: true),
                                     ]
                                 ),
                                 for(int i=0;i<seedTreeList.length;i++)
@@ -190,7 +189,8 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                       const SizedBox(height: 10,),
                       Container(
                           padding: const EdgeInsets.only(left: 15,top: 15,bottom: 10),
-                          child: Text("Seed Giver Info",style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:'RM'), )
+                          child: Text(Language.seedGiverInfo,
+                            style: ts16(ColorUtil.themeBlack,fontfamily: 'Med'), )
                       ),
                       widgets[2],
                       widgets[3],
@@ -226,7 +226,8 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                               border: Border.all(color: ColorUtil.primary),
                               color: ColorUtil.primary.withOpacity(0.3),
                             ),
-                            child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.cancel,
+                              style: ts16(ColorUtil.primary,fontfamily: 'Med'), )) ,
                           ),
                         ),
                         GestureDetector(
@@ -259,7 +260,8 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
                               borderRadius: BorderRadius.circular(3),
                               color: ColorUtil.primary,
                             ),
-                            child:Center(child: Text('Save',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.save,
+                              style: ts16(ColorUtil.themeWhite,fontfamily: 'Med'), )) ,
                           ),
                         ),
                       ],
@@ -276,7 +278,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"SeedMasterList","hintText":"Select Seed","labelText":"Seed","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"SeedMasterList","hintText":Language.selSeed,"labelText":Language.seed,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
       onchange: (e){
         onSeedDrpChg(e);
       },
@@ -287,7 +289,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       dataname: 'Qty',
       hasInput: false,
       required: false,
-      labelText: "Quantity",
+      labelText: Language.quantity,
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.decimalReg,
@@ -302,7 +304,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       dataname: 'SeedDonorName',
       hasInput: true,
       required: true,
-      labelText: "Name",
+      labelText: Language.name,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
@@ -313,7 +315,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       dataname: 'SeedDonorContactNumber',
       hasInput: true,
       required: true,
-      labelText: "Mobile No",
+      labelText: Language.mobileNo,
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.digitRegEx,
@@ -326,23 +328,23 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       dataname: 'SeedDonorAddress',
       hasInput: true,
       required: false,
-      labelText: "Address",
+      labelText: Language.address,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
       },
     ));//4
-    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"DistrictId","hintText":Language.selDistrict,"labelText":Language.district,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
         }
     ));//5
-    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"TalukId","hintText":Language.selTaluk,"labelText":Language.taluk,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id']);
         })); //6
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},)
+    widgets.add(SearchDrp2(map:  {"dataName":"VillageId","hintText":Language.selVillage,"labelText":Language.village,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},)
     );//7
 
     widgets.add( MultiImagePicker(
@@ -358,7 +360,7 @@ class _SeedingFormState extends State<SeedingForm> with HappyExtensionHelper  im
       hasInput: false,
       required: false,
       isEnabled: false,
-      labelText: "Other Seed Name",
+      labelText: Language.otherSeedName,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){

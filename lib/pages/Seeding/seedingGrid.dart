@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../HappyExtension/utils.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
@@ -106,7 +107,7 @@ class _SeedingGridState extends State<SeedingGrid> with HappyExtensionHelper  im
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('Seeding',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.seeding,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -229,16 +230,15 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText("Date", dataListener['Date'],isBold: true),
-                        gridCardText('Seed', dataListener['Seed']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText('Name', dataListener['GName']??""),
-                        gridCardText('Mobile No', dataListener['GPhoneNumber']??""),
-                        gridCardText('Location', dataListener['Glocation']??""),
-
+                        gridCardText(Language.date, dataListener['Date'],isBold: true),
+                        gridCardText(Language.seed, dataListener['Seed']??"",textOverflow: TextOverflow.ellipsis),
+                        gridCardText(Language.name, dataListener['GName']??""),
+                        gridCardText(Language.mobileNo, dataListener['GPhoneNumber']??""),
+                        gridCardText(Language.location, dataListener['Glocation']??""),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Status : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            Text('${Language.status} : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
                             Flexible(child: Text(dataListener['Status']??"",style: TextStyle(color: getStatusClr(dataListener['Status']??""),fontSize: 14,fontFamily: 'RR'),)),
                           ],
@@ -279,7 +279,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                       crossAxisAlignment:CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Seed Qty ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                        Text('${Language.seedQty} ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
                         Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(

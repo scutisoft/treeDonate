@@ -113,7 +113,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                               navigateByUserType();
                              // checkHasCall();
                             },
-                            child: Text("${Language.skip}   ",style: ts18(ColorUtil.red,fontfamily: Language.boldFF,),))
+                            child: Text("${Language.skip}   ",style: ts18(ColorUtil.red,fontfamily: 'Bold',),))
                     ),
                     prefix: GestureDetector(
                       onTap:(){
@@ -210,8 +210,8 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                       SizedBox(height:30),
                       Container(
                         //width: textWidth,
-                        child: Text("Do you want to enable Fingerprint Authentication ?",
-                          style:TextStyle(fontFamily:'RR',fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
+                        child: Text(Language.fingerPrintContent,
+                          style:TextStyle(fontFamily:Language.regularFF,fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
                               height: 1.5),textAlign: TextAlign.center,
                         ),
                       ),
@@ -245,7 +245,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                                 // ]
                               ),
                               child: Center(
-                                child: Text("No",
+                                child: Text(Language.no,
                                   style: TextStyle(fontFamily:'RR',color: Color(0xFF808080),fontSize: 16),
                                 ),
                               ),
@@ -276,7 +276,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                                 // ]
                               ),
                               child: Center(
-                                child: Text("Yes",
+                                child: Text(Language.yes,
                                   style: TextStyle(fontFamily:'RR',color: Colors.white,fontSize: 16),
                                 ),
                               ),

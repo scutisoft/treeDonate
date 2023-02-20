@@ -77,13 +77,13 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.ourEvents,"PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":Language.myTrees,"PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.myTrees,"PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":"+ ${Language.volunteer['Value']}","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
     {"Title":Language.notification,"PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.landParcel,"PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
     {"Title":Language.seeding,"PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
     {"Title":Language.nursery,"PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
-    {"Title":Language.planting,"PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
+    {"Title":Language.plantation,"PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
     {"Title":"PolyMaker","PageNumber":15,"iconNav":const Icon(Icons.map_outlined,color: Colors.white,),"accessId":100},
   ];
 
@@ -126,7 +126,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             color: ColorUtil.primary.withOpacity(0.5),
           ),*/
           Container(
-            height: SizeConfig.screenHeight!-(82+135),
+            height: SizeConfig.screenHeight!-(82+135+26),
             margin: const EdgeInsets.only(top: 135),
             child: ListView(
               shrinkWrap: true,
@@ -168,12 +168,13 @@ class MenuScreen extends GetView<MyDrawerController> {
               },
               iconNav: Icon(Icons.lock,color: ColorUtil.themeWhite,)
           ),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. ${Language.rights}',
-                  style: TextStyle(fontSize: 12,color:Color(0xffffffff), fontFamily:'RR'),textAlign: TextAlign.center, )
+                  style: TextStyle(fontSize: 12,color:const Color(0xffffffff), fontFamily:Language.regularFF),textAlign: TextAlign.center, )
             ),
           ),
         ],

@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:treedonate/utils/constants.dart';
+
+import '../helper/language.dart';
 
 class AnimSearchBar extends StatefulWidget {
   ///  width - double ,isRequired : Yes
@@ -51,7 +54,7 @@ class AnimSearchBar extends StatefulWidget {
     required this.textController,
     this.suffixIcon,
     this.prefixIcon,
-    this.helpText = "Search...",
+    this.helpText = "",
 
     /// choose your custom color
     this.color = Colors.white,
@@ -281,15 +284,11 @@ class _AnimSearchBarState extends State<AnimSearchBar>
                         : TextStyle(color: Colors.black),
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(bottom: 5),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5),
                       isDense: true,
                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: widget.helpText,
-                      labelStyle: TextStyle(
-                        color: Color(0xff5B5B5B),
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      labelText: widget.helpText.isEmpty?"${Language.search} ...":widget.helpText,
+                      labelStyle: ts15(const Color(0xff5B5B5B)),
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),

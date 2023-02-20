@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/constants.dart';
+import '../../helper/language.dart';
 import '../../utils/sizeLocal.dart';
 import 'dropdown_search.dart';
 
@@ -71,8 +72,8 @@ class Search2 extends StatelessWidget {
         popupElevation: 2,
         showClearButton: false,
         showSearchBox: false,
-        dropDownButton: Icon(Icons.eleven_mp),
-        searchDelay: Duration(milliseconds: 0),
+        dropDownButton: const Icon(Icons.eleven_mp),
+        searchDelay: const Duration(milliseconds: 0),
 
         ontap: (){
           scrollTap!();
@@ -81,7 +82,7 @@ class Search2 extends StatelessWidget {
         selectWidget: Stack(
           children: [
             AnimatedContainer(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               curve: Curves.easeIn,
               height: selectWidgetHeight,
               width: width,
@@ -98,7 +99,7 @@ class Search2 extends StatelessWidget {
                   Obx(
                         ()=>Expanded(
                           child: Text("${selectedData.isEmpty? hinttext!: isToJson!?selectedData[propertyName]??hinttext:selectedData['value']}",
-                      style: TextStyle(color:selectedData.isEmpty? addNewTextFieldText.withOpacity(0.8):addNewTextFieldText,fontSize: 16,fontFamily: 'RR'),
+                      style: TextStyle(color:selectedData.isEmpty? addNewTextFieldText.withOpacity(0.8):addNewTextFieldText,fontSize: 16,fontFamily: Language.regularFF),
                             overflow: TextOverflow.ellipsis,
                     ),
                         ),

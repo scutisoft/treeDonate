@@ -10,6 +10,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
@@ -68,16 +69,13 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     //expandedTitleScale: 1.8,
-                    title: Container(
-                      height: 35,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Nursery',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                          Text('Form',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'R',fontSize: 12,),textAlign: TextAlign.left,)
-                        ],
-                      ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(Language.nursery,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
+                        Text(Language.form,style: ts12(ColorUtil.themeBlack,fontfamily: 'Med'),textAlign: TextAlign.left,)
+                      ],
                     ),
                     background: Image.asset('assets/trees/green-pasture-with-mountain.jpg',fit: BoxFit.cover,),
                   ),
@@ -133,7 +131,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                                     border: Border.all(color: ColorUtil.primary),
                                     color: ColorUtil.primary.withOpacity(0.3),
                                   ),
-                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:'RR'), )) ,
+                                  child:Center(child: Text('+ ${Language.add}',style: ts16(ColorUtil.themeWhite), )) ,
                                 ),
                               ),
                             ],
@@ -153,10 +151,10 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               children: [
                                 TableRow(
                                     children: [
-                                      formTableHeader('Planting Name'),
-                                      formTableHeader('No of Plants'),
-                                      formTableHeader('Plants Taken'),
-                                      formTableHeader('Action',needFittedBox: true),
+                                      formTableHeader('${Language.planting} ${Language.name}'),
+                                      formTableHeader(Language.noPlant),
+                                      formTableHeader(Language.plantsTaken),
+                                      formTableHeader(Language.action,needFittedBox: true),
                                     ]
                                 ),
                                 for(int i=0;i<seedTreeList.length;i++)
@@ -231,7 +229,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               border: Border.all(color: ColorUtil.primary),
                               color: ColorUtil.primary.withOpacity(0.3),
                             ),
-                            child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.cancel,style: ts16( ColorUtil.primary), )) ,
                           ),
                         ),
                         GestureDetector(
@@ -265,7 +263,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
                               borderRadius: BorderRadius.circular(3),
                               color: ColorUtil.primary,
                             ),
-                            child:Center(child: Text('Save',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.save,style: ts16( ColorUtil.themeWhite), )) ,
                           ),
                         ),
                       ],
@@ -286,7 +284,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NurseryName',
       hasInput: true,
       required: true,
-      labelText: "Nursery Name",
+      labelText: "${Language.nursery} ${Language.name}",
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
@@ -297,7 +295,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NurseryIncharge',
       hasInput: true,
       required: true,
-      labelText: "Nursery Incharge",
+      labelText: "${Language.nursery} ${Language.inCharge}",
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
@@ -308,7 +306,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NurseryInchargeContactNumber',
       hasInput: true,
       required: true,
-      labelText: "Mobile Number",
+      labelText: Language.mobileNo,
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.digitRegEx,
@@ -321,7 +319,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NurseryInchargeEmail',
       hasInput: true,
       required: false,
-      labelText: "Email",
+      labelText: Language.email,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -331,7 +329,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'RangeName',
       hasInput: true,
       required: false,
-      labelText: "Address",
+      labelText: Language.address,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
@@ -342,7 +340,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         HE_LocationPicker(
           dataname: "AddressDetail",
           contentTextStyle: ts15(addNewTextFieldText),
-          content: "Pick Location",
+          content: Language.pickLocation,
           hasInput: true,
           required: false,
           //isEnabled: !isView,
@@ -351,26 +349,26 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
           },
         )
     );
-    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"DistrictId","hintText":Language.selDistrict,"labelText":Language.district,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
         }
     ));//8
-    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"TalukId","hintText":Language.selTaluk,"labelText":Language.taluk,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
-    widgets.add(SearchDrp2(map: const {"dataName":"IsElectricityAvailable","hintText":"Select Electricity","labelText":"Electricity"},required: false,));
-    widgets.add(SearchDrp2(map: const {"dataName":"FencingId","hintText":"Select Fencing","labelText":"Fencing"},required: false));
-    widgets.add(SearchDrp2(map: const {"dataName":"WaterFacilityId","hintText":"Select Facility","labelText":"Facility"},required: false));
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Select Land Ownership","labelText":"Land Ownership"},required: false));
+    widgets.add(SearchDrp2(map:  {"dataName":"VillageId","hintText":Language.selVillage,"labelText":Language.village,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
+    widgets.add(SearchDrp2(map:  {"dataName":"IsElectricityAvailable","hintText":Language.selElectricity,"labelText":Language.electricity},required: false,));
+    widgets.add(SearchDrp2(map:  {"dataName":"FencingId","hintText":Language.selFencing,"labelText":Language.fencing},required: false));
+    widgets.add(SearchDrp2(map:  {"dataName":"WaterFacilityId","hintText":Language.selFacility,"labelText":Language.facility},required: false));
+    widgets.add(SearchDrp2(map:  {"dataName":"LandOwnershipId","hintText":Language.selLandOwnership,"labelText":Language.landOwnership},required: false));
     widgets.add(AddNewLabelTextField(
       dataname: 'NoOfStocks',
       hasInput: true,
       required: false,
       isEnabled: false,
-      labelText: "No of Stocks",
+      labelText: Language.noStocks,
       textInputType: TextInputType.number,
       textLength: 6,
       regExp: MyConstants.digitRegEx,
@@ -383,7 +381,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       dataname: 'NoOfTargets',
       hasInput: true,
       required: false,
-      labelText: "No of Targets",
+      labelText: Language.noTargets,
       textInputType: TextInputType.number,
       textLength: 6,
       regExp: MyConstants.digitRegEx,
@@ -392,7 +390,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"SeedMasterList","hintText":"Select Plant","labelText":"Plant","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"SeedMasterList","hintText":Language.selPlant,"labelText":Language.plant,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
       hasInput: false,
       required: false,
     ));
@@ -403,7 +401,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       textInputType: TextInputType.number,
       textLength: 6,
       regExp: MyConstants.digitRegEx,
-      labelText: "No of Plant",
+      labelText: Language.noPlant,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

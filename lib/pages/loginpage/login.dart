@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../helper/language.dart';
+import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
@@ -82,6 +83,7 @@ class _loginPageState extends State<loginPage> {
                           Container(
                               child: Image.asset('assets/login/login.png')
                           ),
+
                           Container(
                             margin: EdgeInsets.all(20.0),
                             padding: EdgeInsets.only(top: 50.0,bottom: 150,left: 20,right: 20),
@@ -178,7 +180,7 @@ class _loginPageState extends State<loginPage> {
                                     },
                                   ),
                                 ),
-                                SizedBox(height: 40,),
+                                const SizedBox(height: 40,),
                                 GestureDetector(
                                   onTap: (){
                                     // Get.to(Masterpage());
@@ -208,7 +210,7 @@ class _loginPageState extends State<loginPage> {
                                     child:Center(child: Text(Language.login['Value'],style: TextStyle(fontSize: Language.login['FontSize'],color: Color(0xffffffff),fontFamily:Language.login['FontFamily']), )) ,
                                   ),
                                 ),
-                                SizedBox(height: 20,),
+                                const SizedBox(height: 20,),
                               ],
                             ),
                           ),
@@ -217,6 +219,15 @@ class _loginPageState extends State<loginPage> {
                       ),
                     ],
                   ),
+                ),
+              ),
+              Positioned(
+                top: 20,
+                right: 20,
+                child: LanguageSwitch(
+                  onChange: (){
+                    setState(() {});
+                  },
                 ),
               ),
               Obx(() => Visibility(

@@ -8,6 +8,7 @@ import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/model/parameterMode.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/alertDialog.dart';
+import 'package:treedonate/widgets/fittedText.dart';
 import 'package:treedonate/widgets/loader.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
@@ -99,9 +100,9 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                       widget.voidCallback();
                     },
                   ),
-                  /*actions: [
-                    LanguageSwitch(),
-                  ],*/
+                  actions: [
+                    LanguageSwitch(onChange: () { setState(() {}); },),
+                  ],
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
                     title: Text(Language.dashboard,style: TextStyle(color:ColorUtil.themeBlack,fontFamily:Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
@@ -209,7 +210,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                           getCardPrimary(
                               img: "assets/trees/planting.png",
                               target: "6 ",
-                              targetUnit: "Lac Hectare",
+                              targetUnit: Language.lacHectare,
                               title: Language.landParcel,
                               primaryTotal: '${dashBoardDetail["TotalLandParcel"]}',
                               primaryUnit: "",
@@ -218,7 +219,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                           getCardPrimary(
                               img: "assets/trees/Seeds.png",
                               target: "500 ",
-                              targetUnit: "Cr",
+                              targetUnit: Language.crore,
                               title: Language.seedsStock,
                               primaryTotal: '${dashBoardDetail["TotalSeeding"]}',
                               primaryUnit: "",
@@ -265,7 +266,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                               text: TextSpan(
                                                 children: <TextSpan>[
                                                   TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
-                                                  TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                  const TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                                 ],
                                               ),
                                               // textScaleFactor: 0.5,
@@ -274,16 +275,23 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                         ),
                                         const SizedBox(height: 5,),
                                         Text(Language.nursery,style: TextStyle(fontFamily: Language.mediumFF,fontSize: 14,color: ColorUtil.themeBlack),),
-                                        const SizedBox(height: 5,),
+                                        const SizedBox(height: 4,),
                                         Text.rich(
                                           TextSpan(
                                             text: '${dashBoardDetail["TotalNursery"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                             children: [
-                                               TextSpan(text: ' Nursery ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: ColorUtil.themeBlack),)
+                                               TextSpan(text: ' ${Language.nursery} ', style: ts14(ColorUtil.themeBlack),)
                                             ],
                                           ),
                                         ),
-                                        Text('${dashBoardDetail["TotalNurseryPlants"]} Nursery Plants ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: ColorUtil.themeBlack),),
+                                        FittedText(
+                                          height: 22,
+                                          text: '${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
+                                          textStyle: ts18(ColorUtil.themeBlack,fontsize: 13),
+                                          alignment: Alignment.centerLeft,
+                                        ),
+                                        /*Text('${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
+                                          style: ts18(ColorUtil.themeBlack,fontsize: 13),),*/
                                       ],
                                     ),
                                   ),
@@ -336,8 +344,8 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                             RichText(
                                               text:  TextSpan(
                                                 children: <TextSpan>[
-                                                  TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
-                                                  TextSpan(text: '2 CR ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '${Language.target} ',  style: ts14(ColorUtil.themeBlack,),),
+                                                  TextSpan(text: '2 ${Language.crore} ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
                                                 ],
                                               ),
                                               // textScaleFactor: 0.5,
@@ -345,17 +353,17 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                           ],
                                         ),
                                         const SizedBox(height: 5,),
-                                        Text(Language.planting,style: TextStyle(fontFamily:Language.mediumFF,fontSize: 14,color: Color(0xff000000)),),
+                                        Text(Language.plantation,style: TextStyle(fontFamily:Language.mediumFF,fontSize: 14,color: Color(0xff000000)),),
                                         const SizedBox(height: 5,),
                                         Text.rich(
                                           TextSpan(
                                             text: '${dashBoardDetail["TotalPlantations"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                             children: [
-                                              const TextSpan(text: ' Plants ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                                               TextSpan(text: ' ${Language.plant} ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
                                             ],
                                           ),
                                         ),
-                                        Text('${dashBoardDetail["TotalPlanting"]} Plantation ',  style: const TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                        Text('${dashBoardDetail["TotalPlanting"]} ${Language.plantation} ',  style: const TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
                                       ],
                                     ),
                                   ),
@@ -408,7 +416,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text('Total Land Parcel ',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
+                                    Text('${Language.total} ${Language.landParcel} ',  style: ts18(ColorUtil.themeBlack,fontsize: 14),),
                                     Text('${dashBoardDetail["TotalLandParcel"]} ${dashBoardDetail["LandParcelSecoundaryUnit"]}',  style: const TextStyle(fontFamily: 'RM',fontSize: 13,color: Color(0xff000000)),),
                                   ],
                                 ),
@@ -432,7 +440,9 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                             border: Border.all(color: ColorUtil.primary),
                                             color: ColorUtil.primary
                                         ),
-                                        child:Text('Zone',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:! isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
+                                        child:Text(Language.zone,
+                                          style:ts18(! isWaveView? ColorUtil.primary:ColorUtil.themeWhite,fontsize: 13)
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 5,),
@@ -453,7 +463,10 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                             border: Border.all(color: ColorUtil.primary),
                                             color: ColorUtil.primary
                                         ),
-                                        child:Text('District',  style: TextStyle(fontFamily: 'RR',fontSize: 13,color:isWaveView? ColorUtil.primary:ColorUtil.themeWhite),),
+                                        child:Text(Language.district,
+                                            style:ts18(isWaveView? ColorUtil.primary:ColorUtil.themeWhite,fontsize: 13)
+
+                                        ),
                                       ),
                                       // child: Icon(Icons.auto_graph, color: isWaveView? Colors.black45:Color(0xffFF0022),size: 30,)
                                     ),
@@ -952,9 +965,9 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                   text: TextSpan(
                     style: const TextStyle(color: Colors.black, fontSize: 36),
                     children: <TextSpan>[
-                      TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
+                      TextSpan(text: '${Language.target} ',  style: ts14(const Color(0xff000000),fontfamily: 'Med'),),
                       TextSpan(text: '$target ' ,style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                      TextSpan(text: '$targetUnit', style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),)
+                      TextSpan(text: '$targetUnit', style: ts14(const Color(0xff000000),fontfamily: 'Med'),)
                     ],
                   ),
                   // textScaleFactor: 0.5,
@@ -963,13 +976,13 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
             ],
           ),
           const SizedBox(height: 5,),
-          Text(title,style: const TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+          Text(title,style: ts14(const Color(0xff000000),),),
           const SizedBox(height: 5,),
           Text.rich(
             TextSpan(
               text: primaryTotal, style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
               children: [
-                TextSpan(text: ' / $secondaryUnit ', style: const TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
+                TextSpan(text: ' / $secondaryUnit ', style: ts14(const Color(0xff000000),fontfamily: 'Med'),)
               ],
             ),
           ),

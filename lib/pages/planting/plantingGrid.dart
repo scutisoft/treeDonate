@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/pages/planting/plantingForm.dart';
-import 'package:treedonate/pages/planting/plantingViewPage.dart';
+import '../../helper/language.dart';
+import 'plantingForm.dart';
+import 'plantingViewPage.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
@@ -101,7 +102,7 @@ class _PlantingGridState extends State<PlantingGrid> with HappyExtensionHelper  
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('Plantation',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.plantation,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
                     //background: FlutterLogo(),
                   ),
                 ),
@@ -223,13 +224,13 @@ class HE_PlantationViewContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    gridCardText("Date", dataListener['Date'],isBold: true),
-                    gridCardText("Plant", dataListener['PlantName']),
-                    gridCardText("Location", dataListener['PlantLocation']),
+                    gridCardText(Language.date, dataListener['Date'],isBold: true),
+                    gridCardText(Language.plant, dataListener['PlantName']),
+                    gridCardText(Language.location, dataListener['PlantLocation']),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('${Language.status}  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
                         Flexible(child: Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']),fontSize: 14,fontFamily: 'RM'),)),
                       ],
@@ -271,7 +272,7 @@ class HE_PlantationViewContent extends StatelessWidget {
                 child:  Column(
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
-                    Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                    Text(Language.noPlant,style: ts14(ColorUtil.themeBlack),textAlign: TextAlign.right,),
                     Text("${dataListener['NumberOfPlants']}",style: ts18(ColorUtil.themeBlack,fontfamily: 'USB')),
                     const SizedBox(height: 10,),
                     Row(

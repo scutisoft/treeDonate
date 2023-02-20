@@ -13,10 +13,12 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../api/apiUtils.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../widgets/accessWidget.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/customCheckBox.dart';
+import '../../widgets/fittedText.dart';
 
 
 class SeedingView extends StatefulWidget {
@@ -172,11 +174,11 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Seeds',style: TextStyle(fontSize: 15,fontFamily: 'RR',color: ColorUtil.text4),),
+                                  child: Text(Language.seed,style: ts15(ColorUtil.text4),),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text('Quantity',style: TextStyle(fontSize: 15,fontFamily: 'RM',color: ColorUtil.text4),),
+                                  child: Text(Language.quantity,style: ts15(ColorUtil.text4),),
                                 ),
                               ]
                           ),
@@ -231,7 +233,11 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                               onlyCheckbox: true,
                             ),
                             const SizedBox(width: 5,),
-                            Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                            FittedText(
+                              alignment: Alignment.centerLeft,
+                              text: Language.newsFeedChkBox,
+                              textStyle: ts14(isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack,),
+                            ),
                           ],
                         ),
 
@@ -264,7 +270,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                                 border: Border.all(color: ColorUtil.red),
                                 color: ColorUtil.red.withOpacity(0.3),
                               ),
-                              child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                              child:Center(child: Text(Language.reject,style: ts16(ColorUtil.red,), )) ,
                             ),
                           ),
                           GestureDetector(
@@ -278,7 +284,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                                 borderRadius: BorderRadius.circular(3),
                                 color: ColorUtil.primary,
                               ),
-                              child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                              child:Center(child: Text(Language.accept,style: ts16(ColorUtil.themeWhite,), )) ,
                             ),
                           ),
                         ],

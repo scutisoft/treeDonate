@@ -461,8 +461,8 @@ class CustomAlert{
                     SizedBox(height:30),
                     Container(
                       width: textWidth,
-                      child: Text(title,
-                        style:TextStyle(fontFamily:'RR',fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
+                      child: Text(Language.deleteConfTxt,
+                        style:TextStyle(fontFamily:Language.regularFF,fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
                         height: 1.5),textAlign: TextAlign.center,
                       ),
                     ),
@@ -494,8 +494,8 @@ class CustomAlert{
                                 // ]
                             ),
                             child: Center(
-                              child: Text("No",
-                                style: TextStyle(fontFamily:'RR',color: Color(0xFF808080),fontSize: 16),
+                              child: Text(Language.no,
+                                style: TextStyle(fontFamily:Language.regularFF,color: Color(0xFF808080),fontSize: 16),
                               ),
                             ),
                           ),
@@ -525,8 +525,8 @@ class CustomAlert{
                                 // ]
                             ),
                             child: Center(
-                              child: Text("Yes",
-                                style: TextStyle(fontFamily:'RR',color: Colors.white,fontSize: 16),
+                              child: Text(Language.yes,
+                                style: TextStyle(fontFamily:Language.regularFF,color: Colors.white,fontSize: 16),
                               ),
                             ),
                           ),
@@ -747,7 +747,7 @@ void addNotifications(NotificationType notificationType,{String msg=""}){
     Get.snackbar(
       "",
       "",
-      titleText:Text("Success",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+      titleText:Text("Success",style: ts18(ColorUtil.themeBlack,fontfamily: 'Med'),),
       messageText: Text(msg,style: ts15(ColorUtil.text3),),
       icon: Container(
           height: 20,
@@ -773,7 +773,7 @@ void addNotifications(NotificationType notificationType,{String msg=""}){
     Get.snackbar(
         "",
         "",
-        titleText:Text("Error",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+        titleText:Text("Error",style: ts18(ColorUtil.themeBlack,fontfamily: 'Med'),),
         messageText: Text(msg,style: ts15(ColorUtil.text3),),
         icon: Container(
             height: 20,
@@ -795,7 +795,7 @@ void addNotifications(NotificationType notificationType,{String msg=""}){
     Get.snackbar(
       "Info",
       "",
-      titleText:Text("Info",style: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),),
+      titleText:Text("Info",style: ts18(ColorUtil.themeBlack,fontfamily: 'Med'),),
       messageText: Text(msg,style: ts15(ColorUtil.text3),),
       icon: Container(
           height: 20,

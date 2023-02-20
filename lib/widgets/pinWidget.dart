@@ -182,7 +182,7 @@ class DoneBtn extends StatelessWidget {
           color: ColorUtil.secondary,
         ),
         alignment: Alignment.center,
-        child: Text(title,style: ts18(Colors.white,fontsize: 18,fontfamily: Language.mediumFF),),
+        child: Text(title,style: ts18(Colors.white,fontsize: 18,fontfamily: 'Med'),textAlign: TextAlign.center,),
       ),
     );
   }
@@ -196,7 +196,7 @@ class LeftAlignHeader extends StatelessWidget {
       height: 30,
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.only(left: 20),
-      child: Text(title,style: ts18(ColorUtil.primaryTextColor2,fontfamily: Language.regularFF),),
+      child: Text(title,style: ts18(ColorUtil.primaryTextColor2),),
     );
   }
 }

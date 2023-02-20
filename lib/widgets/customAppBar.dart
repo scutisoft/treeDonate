@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:treedonate/utils/sizeLocal.dart';
+import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/fittedText.dart';
 import '../helper/language.dart';
 import '../utils/colorUtil.dart';
@@ -34,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
             height: 40,
             width: SizeConfig.screenWidth!-200,
             text: title,
-            textStyle: ts18(ColorUtil.primaryTextColor2,fontfamily: Language.mediumFF),
+            textStyle: ts18(ColorUtil.primaryTextColor2,fontfamily: 'Med'),
           ),
           //Text(title,style:  ts18(ColorUtil.primaryTextColor2,fontfamily: Language.regularFF),),
           const Spacer(),
@@ -189,14 +190,10 @@ class GridEditIcon extends StatelessWidget {
 }
 
 
+class LanguageSwitch extends StatelessWidget {
+  VoidCallback onChange;
+  LanguageSwitch({required this.onChange});
 
-class LanguageSwitch extends StatefulWidget {
-  const LanguageSwitch({Key? key}) : super(key: key);
-  @override
-  State<LanguageSwitch> createState() => _LanguageSwitchState();
-}
-
-class _LanguageSwitchState extends State<LanguageSwitch> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -208,7 +205,7 @@ class _LanguageSwitchState extends State<LanguageSwitch> {
           selectedLanguage.value=1;
         }
         Language.parseJson(selectedLanguage.value).then((value){
-          setState(() {});
+          onChange();
         });
 
       },
@@ -223,3 +220,7 @@ class _LanguageSwitchState extends State<LanguageSwitch> {
     );
   }
 }
+
+
+
+
