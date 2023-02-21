@@ -29,6 +29,7 @@ import 'myCertificate/certificatePage.dart';
 import 'myTrees/trees.dart';
 import 'notification/notification.dart';
 import 'ourEvents/events.dart';
+import 'ourEvents/eventsGrid.dart';
 import 'planting/plantingGrid.dart';
 import 'profile/myprofile.dart';
 import 'volunteer/volunteerPage.dart';
@@ -242,7 +243,7 @@ class _MasterpageState extends State<Masterpage>{
               voidCallback:(){
                 controller.toggleDrawer();
               },
-            ) :menuSel.value==5?OurEventsPage (
+            ) :menuSel.value==5?EventsGrid (
               voidCallback:(){
                 controller.toggleDrawer();
               },
