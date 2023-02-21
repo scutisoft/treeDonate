@@ -1,0 +1,22 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "EventList",
+      "value": [
+        {
+          "SNO": 1,
+          "EventName": "Flower Show",
+          "Date": "03-02-2023 , 11:23 Am",
+          "Place": "Government School",
+          "PlantsQty": 10000,
+          "Glocation": "RANIPET / Nemili / Anverthikanpettai",
+          "Status": "Approved",
+          "DataJson": {
+            "SeedId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}
