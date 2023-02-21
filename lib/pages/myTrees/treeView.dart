@@ -21,6 +21,12 @@ class OurTreeView extends StatefulWidget {
 class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
   List<Widget> widgets=[];
+  List<dynamic> imgList = [
+  {"Img": "assets/trees/Amla.jpg"},
+    {"Img": "assets/trees/Anona reticulata.jpg"},
+  ];
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
 
   @override
   void initState(){
@@ -36,7 +42,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
     "PlantationCount": 0
   };
 
-  double headerWidth=SizeConfig.screenWidth!-(150+15+50);
+  double headerWidth=SizeConfig.screenWidth!-(30+50);
 
   var node;
   @override
@@ -53,96 +59,205 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
             child: Stack(
               children: [
                 ListView(
-                 shrinkWrap: true,
+                  shrinkWrap: true,
                   children:[
-                    SizedBox(height: 20,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: SizeConfig.screenWidth!-150,
-                          padding: EdgeInsets.only(left: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ArrowBack(
-                                    iconColor: ColorUtil.themeBlack,
-                                    onTap: (){
-                                      Get.back();
-                                    },
+                    Container(
+                      height: 180,
+                      width: SizeConfig.screenWidth,
+                      color: Color(0xffFAFAF8),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 160,
+                            width: SizeConfig.screenWidth,
+                            color: Colors.white,
+                            clipBehavior: Clip.none,
+                            child: Stack(
+                              children: [
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                      height: 160,
+                                      viewportFraction: 1.0,
+                                      enlargeCenterPage: false,
+                                      scrollDirection: Axis.horizontal,
+                                      autoPlay: true,
+                                      enableInfiniteScroll: false,
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          _current = index;
+                                        });
+                                      }
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      widgets[0],
-                                      widgets[1],
-                                    ],
+                                  carouselController: _controller,
+                                  items: imgList
+                                      .map((item) =>  Container(
+                                    width: SizeConfig.screenWidth,
+                                      child: Image.asset(item['Img'],fit: BoxFit.cover,)),
+                                    //   Image.asset(
+                                    // GetImageBaseUrl()+item["Img"], fit: BoxFit.cover,
+                                    // width: SizeConfig.screenWidth,)
                                   )
-                                ],
-                              ),
-                              const SizedBox(height: 15,),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset("assets/trees/user-icon.png",width: 40,),
-                                  const SizedBox(width: 10,),
-                                  Text("${treeDetails['SeedCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 20),
+                                      .toList(),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: imgList
+                                        .asMap()
+                                        .entries
+                                        .map((entry) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            _controller.animateToPage(entry.key),
+                                        child: Container(
+                                          width: 12.0,
+                                          height: 12.0,
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 4.0),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: (Theme
+                                                  .of(context)
+                                                  .brightness == Brightness.dark
+                                                  ? Colors.white
+                                                  : ColorUtil.primary)
+                                                  .withOpacity(
+                                                  _current == entry.key ? 0.9 : 0.4)),
+                                        ),
+                                      );
+                                    }).toList(),
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 10,),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset("assets/trees/user-icon.png",width: 40,),
-                                  const SizedBox(width: 10,),
-                                  SizedBox(
-                                    width: headerWidth,
-                                    child: RichText(
-                                        text: TextSpan(text: "${treeDetails['NurseryCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 20),
-                                        children: <TextSpan>[
-                                          TextSpan(text: "${treeDetails['NurseryAddress']} ", style: TextStyle(color:ColorUtil.text4,fontFamily: 'RR',fontSize: 15)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ArrowBack(
+                                      iconColor: ColorUtil.themeWhite,
+                                      onTap: () {
+                                        Get.back();
+                                      },
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 13),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          widgets[0],
+                                          widgets[1],
                                         ],
                                       ),
-                                    ),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 15.0,top: 13),
+                                  width: 40,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorUtil.primary,
                                   ),
-
-                                ],
-                              ),
-                              const SizedBox(height: 10,),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset("assets/trees/user-icon.png",width: 40,),
-                                  const SizedBox(width: 10,),
-
-                                  SizedBox(
-                                    width: headerWidth,
-                                    child: RichText(
-                                      text: TextSpan(text: "${treeDetails['PlantationCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 20),
-                                        children: <TextSpan>[
-                                          TextSpan(text:"${treeDetails['PlantationAddress']} " , style: TextStyle(color:ColorUtil.text4,fontFamily: 'RR',fontSize: 15)),
-                                        ],
+                                  child: Icon(Icons.favorite,color: ColorUtil.themeWhite,size: 25,),
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 15,
+                            top: 145,
+                            child: Container(
+                                width: 110,
+                                height: 30,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3.0),
+                                  color: Colors.amber,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.amber,
+                                      blurRadius: 25.0, // soften the shadow
+                                      spreadRadius: 0.0, //extend the shadow
+                                      offset: Offset(
+                                        0.0, // Move to right 10  horizontally
+                                        5.0, // Move to bottom 10 Vertically
                                       ),
-                                    ),
-                                  ),
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.account_tree_outlined,color: ColorUtil.primary,),
+                                    SizedBox(width: 5,),
+                                    Text("${treeDetails['SeedCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily:'RB',fontSize: 16),),
+                                  ],
+                                )
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-                                ],
+                    Container(
+                      width: SizeConfig.screenWidth,
+                      padding: EdgeInsets.only(left: 15,right: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset("assets/trees/user-icon.png",width: 40,),
+                              const SizedBox(width: 10,),
+                              SizedBox(
+                                width: headerWidth,
+                                child: RichText(
+                                  text: TextSpan(text: "${treeDetails['NurseryCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 20),
+                                    children: <TextSpan>[
+                                      TextSpan(text: "${treeDetails['NurseryAddress']} ", style: TextStyle(color:ColorUtil.text4,fontFamily: 'RR',fontSize: 15)),
+                                    ],
+                                  ),
+                                ),
                               ),
+
                             ],
                           ),
-                        ),
-                        Container(
-                          width: 150,
-                            height: 280,
-                            child: Image.asset("assets/trees/tree-100.png",fit: BoxFit.fill,)
-                        ),
-                      ],
+                          const SizedBox(height: 10,),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset("assets/trees/user-icon.png",width: 40,),
+                              const SizedBox(width: 10,),
+
+                              SizedBox(
+                                width: headerWidth,
+                                child: RichText(
+                                  text: TextSpan(text: "${treeDetails['PlantationCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily: 'RB',fontSize: 20),
+                                    children: <TextSpan>[
+                                      TextSpan(text:"${treeDetails['PlantationAddress']} " , style: TextStyle(color:ColorUtil.text4,fontFamily: 'RR',fontSize: 15)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: 10,),
                     ListView.builder(
                       itemCount: TreeOtherDetails.length,
                       physics: const NeverScrollableScrollPhysics(),
@@ -174,7 +289,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
-                              fadeRoute(OurTreeUsesView());
+                            fadeRoute(OurTreeUsesView());
                           },
                           child: Container(
                             margin:const EdgeInsets.only(left: 15,right: 15,bottom: 10),
@@ -200,6 +315,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                     const SizedBox(height: 100,)
                   ],
                 ),
+
                 Positioned(
                   bottom: -10,
                   child: Container(
@@ -227,9 +343,9 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                         ),
                         Row(
                           children: [
-                            Icon(Icons.save_alt_outlined,color: ColorUtil.themeWhite,),
+                            Icon(Icons.copy_all,color: ColorUtil.themeWhite,),
                             SizedBox(width: 5,),
-                            Text('Download',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 14),),
+                            Text('Copy',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 14),),
                           ],
                         ),
                       ],
@@ -246,8 +362,8 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     widgets.clear();
-    widgets.add(HE_Text(dataname: "TreeName", contentTextStyle: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 20),));
-    widgets.add(HE_Text(dataname: "SubCatg", contentTextStyle: TextStyle(color:ColorUtil.secondary,fontFamily: 'RB',fontSize: 20),));
+    widgets.add(HE_Text(dataname: "TreeName", contentTextStyle: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 20),));
+    widgets.add(HE_Text(dataname: "SubCatg", contentTextStyle: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 20),));
     // widgets.add(HE_Text(dataname: "Plants", contentTextStyle: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),));
     // widgets.add(HE_Text(dataname: "Place", contentTextStyle: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),));
     // widgets.add(HE_Text(dataname: "Role", contentTextStyle: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),));
@@ -261,6 +377,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
     treeDetails=valueArray.where((element) => element['key']=='TreeDetails').toList()[0]['value'];
     TreeOtherDetails=valueArray.where((element) => element['key']=='TreeOtherDetails').toList()[0]['value'];
     ListofUses=valueArray.where((element) => element['key']=='ListofUses').toList()[0]['value'];
+   // imgList=valueArray.where((element) => element['key']=="Img").toList()[0]['value'];
     setState(() {});
   }
 }

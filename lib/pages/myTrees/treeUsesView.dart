@@ -124,9 +124,9 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                         ),
                         Row(
                           children: [
-                            Icon(Icons.save_alt_outlined,color: ColorUtil.themeWhite,),
+                            Icon(Icons.copy_all,color: ColorUtil.themeWhite,),
                             SizedBox(width: 5,),
-                            Text('Download',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 14),),
+                            Text('Copy',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 14),),
                           ],
                         ),
                       ],

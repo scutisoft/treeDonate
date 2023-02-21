@@ -12,7 +12,7 @@ class MyConstants{
   static String appVersion="1.0.5";
   static String appId="com.scutisoft.nammaramnamkadamai";
   static bool isLive=false;
-  static bool fromUrl=true;
+  static bool fromUrl=false;
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
