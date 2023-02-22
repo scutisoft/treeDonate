@@ -16,6 +16,8 @@ import '../../widgets/customAppBar.dart';
 
 
 class NewsFeedsView extends StatefulWidget {
+  VoidCallback voidCallback;
+  NewsFeedsView({required this.voidCallback});
   @override
   _NewsFeedsViewState createState() => _NewsFeedsViewState();
 }

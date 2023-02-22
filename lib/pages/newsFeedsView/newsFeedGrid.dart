@@ -16,20 +16,19 @@ import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
-import 'eventForm.dart';
-import 'eventViewPage.dart';
-import 'eventsInterestedGrid.dart';
+import 'newsFeedForm.dart';
 
 
 
-class EventsGrid extends StatefulWidget {
+
+class NewsFeedGrid extends StatefulWidget {
   VoidCallback voidCallback;
-  EventsGrid({required this.voidCallback});
+  NewsFeedGrid({required this.voidCallback});
   @override
-  _EventsGridState createState() => _EventsGridState();
+  _NewsFeedGridState createState() => _NewsFeedGridState();
 }
 
-class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
+class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
   List<Widget> widgets=[];
@@ -62,14 +61,14 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_EventContent(
+        return HE_NewsFeedContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "EventId",dataJson: dataJson);
+            sysDeleteHE_ListView(he_listViewBody, "NewsFeedId",dataJson: dataJson);
           },
           onEdit: (updatedMap){
-            he_listViewBody.updateArrById("EventId", updatedMap);
+            he_listViewBody.updateArrById("NewsFeedId", updatedMap);
           },
           globalKey: GlobalKey(),
         );
@@ -109,7 +108,7 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text(Language.ourEvents,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.newsFeedTitle,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -155,7 +154,7 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                           const SizedBox(width: 5,),
                           GridAddIcon(
                             onTap: (){
-                              fadeRoute(EventsForm(closeCb: (e){
+                              fadeRoute(NewsFeedForm(closeCb: (e){
                                 he_listViewBody.addData(e['Table'][0]);
                               },));
                             },
@@ -180,25 +179,25 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
   void assignWidgets() async{
     await parseJson(widgets, getPageIdentifier());
     try{
-      List<dynamic> EventList=valueArray.where((element) => element['key']=="EventList").toList()[0]['value'];
-      he_listViewBody.assignWidget(EventList);
+      List<dynamic> NewsFeedList=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
+      he_listViewBody.assignWidget(NewsFeedList);
 
     }catch(e){}
   }
 
   @override
   String getPageIdentifier(){
-    return General.EventsGridViewIdentifier;
+    return General.NewsFeedGridViewIdentifier;
   }
 }
 
-class HE_EventContent extends StatelessWidget implements HE_ListViewContentExtension{
+class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentExtension{
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_EventContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_NewsFeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
   }
   var dataListener={}.obs;
@@ -232,18 +231,10 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date, dataListener['Date'],isBold: true),
-                        gridCardText("Event Name", dataListener['EventName']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText("Place", dataListener['Place']??""),
-                        gridCardText('Location' ,dataListener['Glocation']??""),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${Language.status} : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            // Spacer(),
-                            Flexible(child: Text(dataListener['Status']??"",style: TextStyle(color: getStatusClr(dataListener['Status']??""),fontSize: 14,fontFamily: 'RR'),)),
-                          ],
-                        ),
+                        gridCardText(Language.date ,dataListener['Date']??"",isBold: true),
+                        gridCardText(Language.name, dataListener['Name'],),
+                        gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
+                        gridCardText('Description', dataListener['Description']??""),
                       ],
                     ),
                   ),
@@ -277,31 +268,31 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     // color:Colors.red,
                     child:  Column(
-                      crossAxisAlignment:CrossAxisAlignment.end,
+                      crossAxisAlignment:CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
+                        // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            EyeIcon(
-                              onTap: (){
-                                fadeRoute(EventViewPage(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
-                                  updateDataListener(e['Table'][0]);
-                                  if(onEdit!=null){
-                                    onEdit!(e['Table'][0]);
-                                  }
-                                },));
-                              },
-                            ),
+                           //  EyeIcon(
+                           //    onTap: (){
+                           //      fadeRoute(EventViewPage(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
+                           //        updateDataListener(e['Table'][0]);
+                           //        if(onEdit!=null){
+                           //          onEdit!(e['Table'][0]);
+                           //        }
+                           //      },));
+                           //    },
+                           //  ),
                            // const SizedBox(width: 10,),
                             GridEditIcon(
                               hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
-                                fadeRoute(EventsForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                fadeRoute(NewsFeedForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
                                     onEdit!(e['Table'][0]);
@@ -323,12 +314,6 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                           ],
                         ),
                         const SizedBox(height: 10,),
-                        GestureDetector(
-                          onTap: (){
-                              fadeRoute(EventInterestedView());
-                          },
-                            child: Image.asset('assets/like.png',width: 30,)
-                        ),
                       ],
                     ),
                   ),

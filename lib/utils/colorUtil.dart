@@ -23,6 +23,7 @@ class ColorUtil{
   static Color text2=const Color(0xff452800);
   static Color text3=const Color(0xff828282);
   static Color text4=const Color(0xffA6A6A6);
+  static Color lightgrey=const Color(0xffF2F2F2);
   static Color text5=const Color(0xff6E6E6E);
   static Color lightBlue=const Color(0xffF4F7FC);
   static Color red=const Color(0xffE1433A);

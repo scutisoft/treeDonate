@@ -18,20 +18,17 @@ import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
 import 'eventForm.dart';
 import 'eventViewPage.dart';
-import 'eventsInterestedGrid.dart';
 
 
 
-class EventsGrid extends StatefulWidget {
-  VoidCallback voidCallback;
-  EventsGrid({required this.voidCallback});
+class EventInterestedView extends StatefulWidget {
   @override
-  _EventsGridState createState() => _EventsGridState();
+  _EventInterestedViewState createState() => _EventInterestedViewState();
 }
 
-class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
+class _EventInterestedViewState extends State<EventInterestedView> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
-
+  List<dynamic> InterestedPeople=[];
   List<Widget> widgets=[];
   ScrollController silverController=ScrollController();
   TextEditingController textController = TextEditingController();
@@ -102,14 +99,15 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                   backgroundColor: Color(0XFFf3f3f3),
                   expandedHeight: 160.0,
                   pinned: true,
-                  leading: NavBarIcon(
-                      onTap: (){
-                        widget.voidCallback();
-                      },
+                  leading: ArrowBack(
+                    iconColor: ColorUtil.themeBlack,
+                    onTap: (){
+                      Get.back();
+                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text(Language.ourEvents,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text("Event List",style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -124,11 +122,48 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                      SizedBox(height: 10,),
+                      Container(
+                        margin:const EdgeInsets.only(left: 5),
+                        padding: const EdgeInsets.all(5.0),
+                        height: 120,
+                        width: SizeConfig.screenWidth,
+                        child: ListView.builder(
+                          itemCount: InterestedPeople.length,
+                          scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (ctx,i){
+                            return  Container(
+                                 margin:const EdgeInsets.all(5.0),
+                                 width: 150,
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.all(Radius.circular(10)),
+                                   color: ColorUtil.text4,
+                                 ),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                   mainAxisAlignment: MainAxisAlignment.center,
+                                   children: [
+                                     Container(
+                                       // padding: EdgeInsets.only(left: 10),
+                                       child: Text('${InterestedPeople[i]['Title']} ',
+                                         style: TextStyle(color: ColorUtil.themeWhite,fontSize: 16,fontFamily: 'RR')),
+                                     ),
+                                     const SizedBox(height: 5,),
+                                     Container(
+                                       child: Text('${InterestedPeople[i]['Count']} ',style: TextStyle(color: ColorUtil.themeWhite,fontSize: 24,fontFamily: 'RB'),),
+                                     ),
+                                   ],
+                                 ),
+                               );
+                            }
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
+                            width: SizeConfig.screenWidth!,
                             color: ColorUtil.asbColor,
                             boxShadow: ColorUtil.asbBoxShadow,
                             textController: textController,
@@ -146,20 +181,20 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                               }
                             },
                           ),
+                          // const SizedBox(width: 5,),
+                          // FilterIcon(
+                          //   onTap: (){
+                          //     fadeRoute(FilterItems());
+                          //   },
+                          // ),
                           const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              fadeRoute(FilterItems());
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(EventsForm(closeCb: (e){
-                                he_listViewBody.addData(e['Table'][0]);
-                              },));
-                            },
-                          ),
+                          // GridAddIcon(
+                          //   onTap: (){
+                          //     fadeRoute(EventsForm(closeCb: (e){
+                          //       he_listViewBody.addData(e['Table'][0]);
+                          //     },));
+                          //   },
+                          // ),
                         ],
                       ),
                       Flexible(child: he_listViewBody),
@@ -179,16 +214,17 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
   @override
   void assignWidgets() async{
     await parseJson(widgets, getPageIdentifier());
+    InterestedPeople=valueArray.where((element) => element['key']=='InterestedPeople').toList()[0]['value'];
     try{
-      List<dynamic> EventList=valueArray.where((element) => element['key']=="EventList").toList()[0]['value'];
-      he_listViewBody.assignWidget(EventList);
+      List<dynamic> EventInterestedList=valueArray.where((element) => element['key']=="EventInterestedList").toList()[0]['value'];
+      he_listViewBody.assignWidget(EventInterestedList);
 
     }catch(e){}
   }
 
   @override
   String getPageIdentifier(){
-    return General.EventsGridViewIdentifier;
+    return General.EventsInterestedIdentifier;
   }
 }
 
@@ -232,18 +268,11 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date, dataListener['Date'],isBold: true),
-                        gridCardText("Event Name", dataListener['EventName']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText("Place", dataListener['Place']??""),
-                        gridCardText('Location' ,dataListener['Glocation']??""),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${Language.status} : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            // Spacer(),
-                            Flexible(child: Text(dataListener['Status']??"",style: TextStyle(color: getStatusClr(dataListener['Status']??""),fontSize: 14,fontFamily: 'RR'),)),
-                          ],
-                        ),
+                        gridCardText(Language.name, dataListener['Name'],isBold: true),
+                        gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
+                        gridCardText(Language.phoneNo, dataListener['Pnumber']??""),
+                        gridCardText(Language.email ,dataListener['Email']??""),
+                        gridCardText(Language.location ,dataListener['Glocation']??""),
                       ],
                     ),
                   ),
@@ -280,9 +309,9 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                       crossAxisAlignment:CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
-                        const SizedBox(height: 10,),
+                        // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
+                        // const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -297,18 +326,18 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                               },
                             ),
                            // const SizedBox(width: 10,),
-                            GridEditIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
-                              margin: actionIconMargin,
-                              onTap: (){
-                                fadeRoute(EventsForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
-                                  updateDataListener(e['Table'][0]);
-                                  if(onEdit!=null){
-                                    onEdit!(e['Table'][0]);
-                                  }
-                                },));
-                              },
-                            ),
+                           //  GridEditIcon(
+                           //    hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                           //    margin: actionIconMargin,
+                           //    onTap: (){
+                           //      fadeRoute(EventsForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                           //        updateDataListener(e['Table'][0]);
+                           //        if(onEdit!=null){
+                           //          onEdit!(e['Table'][0]);
+                           //        }
+                           //      },));
+                           //    },
+                           //  ),
                           //  const SizedBox(width: 10,),
                             GridDeleteIcon(
                               hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
@@ -323,12 +352,6 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                           ],
                         ),
                         const SizedBox(height: 10,),
-                        GestureDetector(
-                          onTap: (){
-                              fadeRoute(EventInterestedView());
-                          },
-                            child: Image.asset('assets/like.png',width: 30,)
-                        ),
                       ],
                     ),
                   ),

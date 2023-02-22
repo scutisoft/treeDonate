@@ -1,0 +1,20 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "NewsFeedList",
+      "value": [
+        {
+          "SNO": 1,
+          "Date": "22-02-2023",
+          "Name": "BalaSubramaniyan",
+          "Role": "Volunteer",
+          "Description": "Neem Tree",
+          "DataJson": {
+            "NewsFeedId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}

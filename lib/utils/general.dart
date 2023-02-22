@@ -34,8 +34,11 @@ class General{
   static String TreeViewIdentifier=!MyConstants.fromUrl?"assets/json/users/treeView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String TreeUsesViewIdentifier=!MyConstants.fromUrl?"assets/json/users/treeUsesView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String EventsGridViewIdentifier=!MyConstants.fromUrl?"assets/json/users/eventGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
-  static String EventsFormViewIdentifier=!MyConstants.fromUrl?"assets/json/users/eventsForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String NewsFeedGridViewIdentifier=!MyConstants.fromUrl?"assets/json/users/newsFeedGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String NewsFeedFormViewIdentifier=!MyConstants.fromUrl?"assets/json/users/newsFeedGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String EventsFormViewIdentifier=!MyConstants.fromUrl?"assets/json/users/newsFeedForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String EventsViewIdentifier=!MyConstants.fromUrl?"assets/json/users/eventsView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String EventsInterestedIdentifier=!MyConstants.fromUrl?"assets/json/users/eventInterestedGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 
   static String eventName="eventName";
