@@ -13,6 +13,8 @@ import '../../widgets/navigationBarIcon.dart';
 
 
 class OurTreeUsesView extends StatefulWidget {
+  String dataJson;
+  OurTreeUsesView({this.dataJson=""});
   @override
   _OurTreeUsesViewState createState() => _OurTreeUsesViewState();
 }
@@ -145,7 +147,7 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
     widgets.clear();
     widgets.add(HE_Text(dataname: "TreeName", contentTextStyle: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 20),));
     widgets.add(HE_Text(dataname: "SubCatg", contentTextStyle: TextStyle(color:ColorUtil.secondary,fontFamily: 'RB',fontSize: 20),));
-    await parseJson(widgets, General.TreeUsesViewIdentifier);
+    await parseJson(widgets, General.TreeUsesViewIdentifier,dataJson: widget.dataJson);
 
     TreeOtherDetails=valueArray.where((element) => element['key']=='TreeOtherDetails').toList()[0]['value'];
     setState(() {});

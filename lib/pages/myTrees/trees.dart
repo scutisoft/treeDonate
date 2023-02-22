@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/HappyExtension/utils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
@@ -218,8 +219,7 @@ class HE_OurTreeViewContent extends StatelessWidget implements HE_ListViewConten
               children: [
                 GestureDetector(
                   onTap: (){
-                    fadeRoute(OurTreeView());
-
+                    fadeRoute(OurTreeView(dataJson: getDataJsonForGrid(dataListener['DataJson']),));
                   },
                   child: Container(
                     width: cardWidth*0.6,
@@ -316,7 +316,9 @@ class HE_OurTreeViewContent extends StatelessWidget implements HE_ListViewConten
                     padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
                     alignment:Alignment.center,
                     // color:Colors.red,
-                    child: Image.asset("${dataListener['ImagePath']}",fit: BoxFit.contain,height: 100,)
+                    child: Image.asset("${dataListener['ImagePath']}",fit: BoxFit.contain,height: 100,errorBuilder: (a,b,c){
+                      return Image.asset("assets/splash.jpg",fit:BoxFit.contain,height: 80,);
+                    },)
                 ),
               ],
             )

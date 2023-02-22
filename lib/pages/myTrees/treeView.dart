@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/HappyExtension/utils.dart';
 import 'package:treedonate/api/apiUtils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
@@ -14,6 +15,8 @@ import 'treeUsesView.dart';
 
 
 class OurTreeView extends StatefulWidget {
+  String dataJson;
+  OurTreeView({this.dataJson=""});
   @override
   _OurTreeViewState createState() => _OurTreeViewState();
 }
@@ -289,7 +292,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
-                            fadeRoute(OurTreeUsesView());
+                            fadeRoute(OurTreeUsesView(dataJson: getDataJsonForGrid(ListofUses[i]['DataJson']),));
                           },
                           child: Container(
                             margin:const EdgeInsets.only(left: 15,right: 15,bottom: 10),
@@ -372,7 +375,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
     // widgets.add(HE_Text(dataname: "Password", contentTextStyle: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),));
 
 
-    await parseJson(widgets, General.TreeViewIdentifier);
+    await parseJson(widgets, General.TreeViewIdentifier,dataJson: widget.dataJson);
 
     treeDetails=valueArray.where((element) => element['key']=='TreeDetails').toList()[0]['value'];
     TreeOtherDetails=valueArray.where((element) => element['key']=='TreeOtherDetails').toList()[0]['value'];

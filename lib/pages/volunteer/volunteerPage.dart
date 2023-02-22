@@ -44,8 +44,26 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
 
   @override
   void initState(){
+    silverController=ScrollController();
+    he_listViewBody=HE_ListViewBody(
+      data: [],
+      getWidget: (e){
+        return HE_VListViewContent(
+          data: e,
+          globalKey: GlobalKey(),
+          cardWith: SizeConfig.screenWidth!-(55+30),
+          onDelete: (dataJson){
+            sysDeleteHE_ListView(he_listViewBody, "VolunteerId",dataJson: dataJson);
+          },
+          onEdit: (updatedMap){
+            he_listViewBody.updateArrById("VolunteerId", updatedMap);
+          },
+        );
+      },
+      //scrollController: globalKey.currentState!.innerController,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_){
-      silverController=ScrollController();
+
       silverBodyTopMargin.value=0.0;
       silverController!.addListener(() {
         if(silverController!.offset>triggerOffset){
@@ -58,32 +76,18 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
             silverBodyTopMargin.value=0;
         }
       });
+     // he_listViewBody.scrollListener(globalKey.currentState!.innerController);
+
     });
-
-    he_listViewBody=HE_ListViewBody(
-      data: [],
-      getWidget: (e){
-        return HE_VListViewContent(
-            data: e,
-            globalKey: GlobalKey(),
-            cardWith: SizeConfig.screenWidth!-(55+30),
-            onDelete: (dataJson){
-                sysDeleteHE_ListView(he_listViewBody, "VolunteerId",dataJson: dataJson);
-            },
-          onEdit: (updatedMap){
-              he_listViewBody.updateArrById("VolunteerId", updatedMap);
-          },
-        );
-      },
-      scrollController: silverController,
-    );
-
     assignWidgets();
     super.initState();
   }
 
+
+
   var node;
   double cardWith=0.0;
+  final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +99,8 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
           backgroundColor: const Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
+            key: globalKey,
+            //physics: const NeverScrollableScrollPhysics(),
             controller: silverController,
             // floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -128,11 +134,14 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 ),
               ];
             },
-            body:Stack(
+            body: Stack(
               children: [
                 Container(
                   padding: const EdgeInsets.only(right: 5.0,),
                   child: Column(
+                    // controller: silverController,
+                    //  physics: const NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       //SizedBox(height: 50,),
@@ -172,7 +181,6 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                           ],
                         ),
                       ),),
-
                       Flexible(child:he_listViewBody),
                       Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
                     ],
@@ -180,7 +188,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 ),
                 ShimmerLoader(),
               ],
-            ),
+            )
           ),
         ),
     );
