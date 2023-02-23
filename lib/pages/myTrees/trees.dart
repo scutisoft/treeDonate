@@ -8,6 +8,7 @@ import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
@@ -103,7 +104,7 @@ class _MyTreesPageState extends State<MyTreesPage> with HappyExtensionHelper  im
                   flexibleSpace: FlexibleSpaceBar(
                     titlePadding: const EdgeInsets.only(left: 50,bottom: 10),
                     expandedTitleScale: 1.8,
-                    title: Obx(() => Text('Our Tree\n${treeCount.value} Varieties',style: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,),textAlign: TextAlign.left,)),
+                    title: Obx(() => Text('${treeCount.value} ${Language.myTrees}',style: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,),textAlign: TextAlign.left,)),
                     background: Image.asset('assets/trees/banner_5.jpg',fit:BoxFit.fill),
                   ),
                 ),

@@ -178,10 +178,17 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier());
+    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.traditional,traditionalParam: TraditionalParam(executableSp: "USP_Events_GetEventDetails"),
+    resCb: (e){
+      console(e);
+      if(e['Table']!=null){
+        he_listViewBody.assignWidget(e['Table']);
+      }
+    });
+
     try{
-      List<dynamic> EventList=valueArray.where((element) => element['key']=="EventList").toList()[0]['value'];
-      he_listViewBody.assignWidget(EventList);
+      //List<dynamic> EventList=valueArray.where((element) => element['key']=="EventList").toList()[0]['value'];
+      //he_listViewBody.assignWidget(EventList);
 
     }catch(e){}
   }
@@ -232,16 +239,16 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date, dataListener['Date'],isBold: true),
+                        gridCardText(Language.date, dataListener['EventDate'],isBold: true),
                         gridCardText("Event Name", dataListener['EventName']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText("Place", dataListener['Place']??""),
-                        gridCardText('Location' ,dataListener['Glocation']??""),
+                        gridCardText(Language.place, dataListener['Place']??""),
+                        gridCardText(Language.location ,dataListener['EventLocation']??""),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('${Language.status} : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                             // Spacer(),
-                            Flexible(child: Text(dataListener['Status']??"",style: TextStyle(color: getStatusClr(dataListener['Status']??""),fontSize: 14,fontFamily: 'RR'),)),
+                            Flexible(child: Text(dataListener['ApproveStatus']??"",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RR'),)),
                           ],
                         ),
                       ],
@@ -281,7 +288,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
+                        Text("${dataListener['NoOfPlants']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

@@ -14,6 +14,7 @@ import '../helper/appVersionController.dart';
 import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
+import '../widgets/fittedText.dart';
 import '../widgets/zoomDrawer/config.dart';
 import '../widgets/zoomDrawer/flutter_zoom_drawer.dart';
 import 'Nursery/nurseryGrid.dart';
@@ -75,15 +76,15 @@ class MenuScreen extends GetView<MyDrawerController> {
 
   List<dynamic> menuList=[
     {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
-    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": 100},
     {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":Language.ourEvents,"PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":Language.newsFeedTitle,"PageNumber":16,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":Language.myTrees,"PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.ourEvents,"PageNumber":5,"iconNav":SvgPicture.asset("assets/Slice/calendar-check.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.newsFeedTitle,"PageNumber":16,"iconNav":SvgPicture.asset("assets/Slice/newspaper.svg",height: 22,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.myTrees,"PageNumber":6,"iconNav":SvgPicture.asset("assets/Slice/palm-tree.svg",height: 26,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"+ ${Language.volunteer['Value']}","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
     {"Title":Language.notification,"PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.landParcel,"PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
@@ -324,19 +325,23 @@ class DrawerContent extends StatelessWidget {
         margin: EdgeInsets.only(top: 5,bottom: 5),
         child: Row(
           children: [
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Container(
               height: 40,
               width: 40,
               alignment: Alignment.center,
               child: iconNav,
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 10,),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text("$title",
-                  style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: Colors.white,letterSpacing: 0.1),
+                FittedText(
+                  text: title,
+                  textStyle: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: Colors.white,letterSpacing: 0.1),
+                  alignment: Alignment.centerLeft,
+                  height: 28,
                 ),
               ],
             )

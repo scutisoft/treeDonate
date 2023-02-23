@@ -156,6 +156,9 @@ class Language{
   static String enterPin="";
   static String logWithEmail="";
   static String search="";
+  static String description="";
+  static String addNFTitle="";
+  static String addNFTitle2="";
 
   static Future parseJson(languageId) async{
     if(languageId==1){
@@ -323,6 +326,9 @@ class Language{
     enterPin=languageSource['LB_138'][languageId.toString()];
     logWithEmail=languageSource['LB_139'][languageId.toString()];
     search=languageSource['LB_140'][languageId.toString()];
+    description=languageSource['LB_141'][languageId.toString()];
+    addNFTitle=languageSource['LB_142'][languageId.toString()];
+    addNFTitle2=languageSource['LB_143'][languageId.toString()];
 
 
     //DateTime dataAssignedTime=DateTime.now();

@@ -298,7 +298,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                       itemBuilder: (ctx,i){
                         return GestureDetector(
                           onTap: (){
-                            fadeRoute(OurTreeUsesView(dataJson: getDataJsonForGrid(ListofUses[i]['DataJson']),));
+                            fadeRoute(OurTreeUsesView(dataJson: getDataJsonForGrid(ListofUses[i]['DataJson']),title: ListofUses[i]['Title']??"",));
                           },
                           child: Container(
                             margin:const EdgeInsets.only(left: 15,right: 15,bottom: 10),
@@ -328,7 +328,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                 Positioned(
                   bottom: -10,
                   child: Container(
-                    height: 70,
+                    height: 0,
                     width: SizeConfig.screenWidth,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(

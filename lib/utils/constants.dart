@@ -13,7 +13,7 @@ class MyConstants{
   static String appVersion="1.0.5";
   static String appId="com.scutisoft.nammaramnamkadamai";
   static bool isLive=false;
-  static bool fromUrl=false;
+  static bool fromUrl=true;
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
@@ -47,8 +47,8 @@ glowFunTransparent(BuildContext context){
 ts12(Color color,{String fontfamily='RR'}){
   return TextStyle(fontSize: 12,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
 }
-ts14(Color color,{String fontfamily='RR'}){
-  return TextStyle(fontSize: 14,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1,);
+ts14(Color color,{String fontfamily='RR',TextOverflow? textOverflow}){
+  return TextStyle(fontSize: 14,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1,overflow: textOverflow,);
 }
 ts15(Color color,{String fontfamily='RR'}){
   return TextStyle(fontSize: 15,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
@@ -57,8 +57,10 @@ ts16(Color color,{String fontfamily='RR'}){
   return TextStyle(fontSize: 16,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: 0.1);
 }
 ts18(Color color,{String fontfamily='RR',double fontsize=18,double ls=0.1}){
-  /*fontfamily=fontfamily=='RR'?Language.regularFF:fontfamily;*/
   return TextStyle(fontSize: fontsize,fontFamily: getLangFontFamily(fontfamily),color: color,letterSpacing: ls,height: Language.height);
+}
+ts20(Color color,{String fontfamily='RR',double fontsize=18,double ls=0.1}){
+  return TextStyle(fontSize: fontsize,fontFamily: fontfamily,color: color,letterSpacing: ls);
 }
 
 String getLangFontFamily(String ff){

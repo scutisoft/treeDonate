@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/widgets/fittedText.dart';
@@ -60,6 +61,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
   var node;
   var isNewsFeed=false.obs;
+  var isEGFZone=false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +213,33 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
                       )),
                     ),
+                    AccessWidget(
+                      hasAccess: isHasAccess(accessId['VolunteerApproval']) && false,
+                      needToHide: true,
+                      widget: Obx(() => Container(
+                        margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                        padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                        /*decoration: BoxDecoration(
+                            color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
+                            borderRadius: BorderRadius.circular(10)
+                        ),*/
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CupertinoSwitch(
+                              value: isEGFZone.value,
+                              activeColor: ColorUtil.primary,
+                              onChanged: (v){
+                                isEGFZone.value=v;
+                              },
+                            ),
+                           Text("   EGF Zone",style: ts20(ColorUtil.themeBlack),)
+                          ],
+                        ),
+
+                      )),
+                    ),
 
                     const SizedBox(height: 80,)
                   ],
@@ -231,6 +260,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                           needCustomValidation: true,
                           onCustomValidation: (){
                             foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
+                            //foundWidgetByKey(widgets,"VolunteerRoleTypeId",needSetValue: true,value: isEGFZone.value);
                             return true;
                           },
                           successCallback: (e){
@@ -325,11 +355,13 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
 
     widgets.add(HiddenController(dataname: "VolunteerId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
+    widgets.add(HiddenController(dataname: "VolunteerRoleTypeId"));
 
     await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
     try{
       landParcelView=valueArray.where((element) => element['key']=="VolunteerDetail").toList()[0]['value'];
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
+      //isEGFZone.value=valueArray.where((element) => element['key']=="VolunteerRoleTypeId").toList()[0]['value'];
       setState(() {});
     }catch(e) {
       console(e);

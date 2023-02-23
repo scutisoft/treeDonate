@@ -242,7 +242,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                         gridCardText(Language.date ,dataListener['NewsFeedDate']??"",isBold: true),
                         gridCardText(Language.name, dataListener['FirstName'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText('Description', dataListener['NewsFeedDescription']??""),
+                        gridCardText(Language.description, dataListener['NewsFeedDescription']??""),
                       ],
                     ),
                   ),

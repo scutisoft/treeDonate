@@ -73,8 +73,8 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Add News Feed',style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
-                        Text('Form',style: ts12(ColorUtil.themeBlack,fontfamily: 'Med'),textAlign: TextAlign.left,)
+                        Text(Language.addNFTitle,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
+                        Text(Language.form,style: ts12(ColorUtil.themeBlack,fontfamily: 'Med'),textAlign: TextAlign.left,)
                       ],
                     ),
                     background: Image.asset('assets/trees/green-pasture-with-mountain.jpg',fit: BoxFit.cover,),
@@ -91,7 +91,7 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
                     children: [
                       Container(
                           padding: const EdgeInsets.only(left: 15,top: 15,bottom: 10),
-                          child: Text('Add News Feed Details',
+                          child: Text(Language.addNFTitle2,
                             style: ts16(ColorUtil.themeBlack,fontfamily: 'Med'), )
                       ),
                       widgets[0],
@@ -130,7 +130,6 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
                             sysSubmit(widgets,
                                 isEdit: widget.isEdit,
                                 successCallback: (e){
-                                  console("sysSubmit $e");
                                   if(widget.closeCb!=null){
                                     widget.closeCb!(e);
                                   }
@@ -173,7 +172,7 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
       hasInput: true,
       required: true,
       maxlines: null,
-      labelText: "Description",
+      labelText: Language.description,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){

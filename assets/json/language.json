@@ -192,8 +192,8 @@
     },
     "LB_23": {
       "Id": "LB_23",
-      "1": "My trees",
-      "2": "என் மரங்கள்",
+      "1": "Trees",
+      "2": "மரங்கள்",
       "Description": "Navigation Drawer Title"
     },
     "LB_24": {
@@ -897,6 +897,24 @@
       "1": "Search",
       "2": "தேடல்",
       "Description": "Search"
+    },
+    "LB_141": {
+      "Id": "LB_141",
+      "1": "Description",
+      "2": "விளக்கம்",
+      "Description": "Grid Card Column Name."
+    },
+    "LB_142": {
+      "Id": "LB_142",
+      "1": "Add News Feed",
+      "2": "செய்தி ஊட்டத்தைச் சேர்க்கவும்",
+      "Description": "News Feed Add Form Title"
+    },
+    "LB_143": {
+      "Id": "LB_143",
+      "1": "Add News Feed Details",
+      "2": "செய்தி ஊட்ட விவரங்களைச் சேர்க்கவும்",
+      "Description": "News Feed Add Form Title2"
     }
   }
 }

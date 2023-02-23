@@ -274,20 +274,37 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                           ],
                                         ),
                                         const SizedBox(height: 5,),
-                                        Text(Language.nursery,style: TextStyle(fontFamily: Language.mediumFF,fontSize: 14,color: ColorUtil.themeBlack),),
+                                        FittedText(
+                                          alignment: Alignment.centerLeft,
+                                          text: Language.nursery,
+                                          textStyle: ts14(ColorUtil.themeBlack,fontfamily: 'Med'),
+                                        ),
+                                       // Text(Language.nursery,style: TextStyle(fontFamily: Language.mediumFF,fontSize: 14,color: ColorUtil.themeBlack),),
                                         const SizedBox(height: 4,),
-                                        Text.rich(
+                                        Row(
+                                          children: [
+                                            Text('${dashBoardDetail["TotalNursery"]}',style: ts18(ColorUtil.themeBlack,fontsize: 20,fontfamily: 'Bold'),),
+                                            //Text(' ${Language.nursery}',style: ts14(ColorUtil.themeBlack),),
+                                            FittedText(
+                                              height: 20,
+                                              text: ' ${Language.nursery}',
+                                              textStyle: ts14(ColorUtil.themeBlack),
+                                              alignment: Alignment.centerLeft,
+                                            )
+                                          ],
+                                        ),
+                                        /*Text.rich(
                                           TextSpan(
                                             text: '${dashBoardDetail["TotalNursery"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
                                             children: [
-                                               TextSpan(text: ' ${Language.nursery} ', style: ts14(ColorUtil.themeBlack),)
+                                               TextSpan(text: ' ${Language.nursery} ', style: ts14(ColorUtil.themeBlack,textOverflow: TextOverflow.ellipsis),)
                                             ],
                                           ),
-                                        ),
+                                        ),*/
                                         FittedText(
                                           height: 22,
-                                          text: '${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
-                                          textStyle: ts18(ColorUtil.themeBlack,fontsize: 13),
+                                          text: '${dashBoardDetail["TotalNurseryPlants"]} ${Language.plant} ',
+                                          textStyle: ts18(ColorUtil.themeBlack,fontsize: 16),
                                           alignment: Alignment.centerLeft,
                                         ),
                                         /*Text('${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
@@ -345,7 +362,7 @@ class _DashboardState extends State<Dashboard> with HappyExtensionHelper  implem
                                               text:  TextSpan(
                                                 children: <TextSpan>[
                                                   TextSpan(text: '${Language.target} ',  style: ts14(ColorUtil.themeBlack,),),
-                                                  TextSpan(text: '2 ${Language.crore} ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
+                                                  TextSpan(text: '2 ${Language.crore} ' ,style: ts15(ColorUtil.themeBlack,fontfamily: 'Med'),),
                                                 ],
                                               ),
                                               // textScaleFactor: 0.5,

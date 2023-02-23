@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/loader.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -17,7 +18,8 @@ import '../../widgets/treeDonateWidgets.dart';
 
 class OurTreeUsesView extends StatefulWidget {
   String dataJson;
-  OurTreeUsesView({this.dataJson=""});
+  String title;
+  OurTreeUsesView({this.dataJson="",required this.title});
   @override
   _OurTreeUsesViewState createState() => _OurTreeUsesViewState();
 }
@@ -53,15 +55,8 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                 ListView(
                  shrinkWrap: true,
                   children:[
-                    SizedBox(height: 20,),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: ArrowBack(
-                        iconColor: ColorUtil.themeBlack,
-                        onTap: (){
-                          Get.back();
-                        },
-                      ),
+                    CustomAppBar(
+                      title: widget.title,
                     ),
                     const SizedBox(height: 15,),
                     Container(
@@ -85,19 +80,40 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                       itemBuilder: (ctx,i){
                         return Container(
                           width: SizeConfig.screenWidth,
-                          padding:const EdgeInsets.all(10),
-                          margin:const EdgeInsets.only(left:15,right: 15,bottom: 5),
+                          margin:const EdgeInsets.only(left:15,right: 15,bottom: 15),
                           decoration: BoxDecoration(
                              // color: ColorUtil.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10.0)
                           ),
-                          child: RichText(
+                          child:Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Container(
+                                height: 20,
+                                width: 20,
+                                margin: const EdgeInsets.only(right: 10,top: 5),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle
+                                ),
+                                alignment: Alignment.center,
+                                clipBehavior: Clip.antiAlias,
+                                child: Image.asset("assets/splash.jpg"),
+                              ),
+                              Expanded(
+                                child: Text('${TreeOtherDetails[i]['Description']}',
+                                    style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'MMR',fontSize: 14)
+                                ),
+                              )
+                            ],
+                          )
+                          /*child: RichText(
                             text: TextSpan(text: '${TreeOtherDetails[i]['Title']} ',style: TextStyle(color:ColorUtil.secondary,fontFamily: 'MMB',fontSize: 14),
                               children: <TextSpan>[
                                 TextSpan(text: '${TreeOtherDetails[i]['Description']}', style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'MMR',fontSize: 14)),
                               ],
                             ),
-                          ),
+                          ),*/
                         );
                       },
                     ),
@@ -107,7 +123,7 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                 Positioned(
                   bottom: -10,
                   child: Container(
-                    height: 70,
+                    height: 0,
                     width: SizeConfig.screenWidth,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -140,6 +156,7 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                     ),
                   ),
                 ),
+                ShimmerLoader()
               ],
             ),
           ),

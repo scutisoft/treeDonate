@@ -255,15 +255,18 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
         await ApiManager().GetInvoke(finalParams,isNeedErrorAlert: false).then((value){
           if(value[0]){
             var parsed=jsonDecode(value[1]);
-            valueArray=parsed['Table'];
+            if(parsed['Table']!=null){
+              if(isGetById){
+                setFrmValuesV2(widgets, parsed['Table']);
+              }
+            }
             if(resCb!=null){
               resCb(parsed);
             }
-            if(parsed['Table']!=null){
-              if(isGetById){
-                setFrmValuesV2(widgets, valueArray);
-              }
+            else{
+              valueArray=parsed['Table'];
             }
+
           }
           else{
             CustomAlert().cupertinoAlert(value[1]);
