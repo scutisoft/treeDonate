@@ -176,3 +176,15 @@ Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? text
     ),
   );
 }
+
+Map tamilText={
+  "Thavaraviyal Peyar":"தாவரவியல் பெயர்",
+  "Thavara Kudumbam":"தாவர குடும்பம்",
+  "Thavaraviyal Peyar":"தாவரவியல் பெயர்",
+  "Man Vagai":"மண் வகை",
+  "Matra Peyaragal":"மற்ற பெயர்கள்"
+};
+
+String getTamilWord(String text){
+  return tamilText[text]??text;
+}

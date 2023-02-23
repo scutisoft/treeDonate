@@ -337,6 +337,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
 
     setState(() {});
     await parseJson(widgets, getPageIdentifier(),dataJson: widget.dataJson);
+    console(valueArray);
   }
 
   @override

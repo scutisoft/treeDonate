@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:treedonate/utils/utils.dart';
 
+import '../HappyExtension/extensionHelper.dart';
 import '../helper/language.dart';
 
 class MyConstants{
@@ -16,6 +17,7 @@ class MyConstants{
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
+  static const DevelopmentMode developmentMode=DevelopmentMode.json;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;

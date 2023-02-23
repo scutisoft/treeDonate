@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/api/apiUtils.dart';
+import 'package:treedonate/utils/utils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -10,6 +12,7 @@ import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 
 
 class OurTreeUsesView extends StatefulWidget {
@@ -66,7 +69,9 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset("assets/trees/user-icon.png",width: 40,),
+                          StackIcon(
+                            icon: SvgPicture.asset("assets/Slice/nursery.svg",color: ColorUtil.primary,height: 28,),
+                          ),
                           const SizedBox(width: 10,),
                           widgets[0],
                         ],
@@ -87,9 +92,9 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
                               borderRadius: BorderRadius.circular(10.0)
                           ),
                           child: RichText(
-                            text: TextSpan(text: '${TreeOtherDetails[i]['Title']} ',style: TextStyle(color:ColorUtil.secondary,fontFamily: 'RB',fontSize: 14),
+                            text: TextSpan(text: '${TreeOtherDetails[i]['Title']} ',style: TextStyle(color:ColorUtil.secondary,fontFamily: 'MMB',fontSize: 14),
                               children: <TextSpan>[
-                                TextSpan(text: '${TreeOtherDetails[i]['SubTitle']}', style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'RR',fontSize: 14)),
+                                TextSpan(text: '${TreeOtherDetails[i]['Description']}', style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'MMR',fontSize: 14)),
                               ],
                             ),
                           ),
@@ -148,7 +153,7 @@ class _OurTreeUsesViewState extends State<OurTreeUsesView> with HappyExtensionHe
     widgets.add(HE_Text(dataname: "TreeName", contentTextStyle: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 20),));
     widgets.add(HE_Text(dataname: "SubCatg", contentTextStyle: TextStyle(color:ColorUtil.secondary,fontFamily: 'RB',fontSize: 20),));
     await parseJson(widgets, General.TreeUsesViewIdentifier,dataJson: widget.dataJson);
-
+    console(valueArray);
     TreeOtherDetails=valueArray.where((element) => element['key']=='TreeOtherDetails').toList()[0]['value'];
     setState(() {});
   }

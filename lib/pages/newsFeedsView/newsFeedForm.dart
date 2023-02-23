@@ -1,22 +1,18 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/utils/utils.dart';
-import 'package:treedonate/widgets/alertDialog.dart';
-import 'package:treedonate/widgets/loader.dart';
-
+import '../../api/sp.dart';
+import '../../utils/utils.dart';
+import '../../widgets/loader.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
-import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../helper/language.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/logoPicker.dart';
-import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
 class NewsFeedForm extends StatefulWidget {
@@ -39,6 +35,9 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
   void initState(){
     silverController= ScrollController();
     assignWidgets();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+    });
     super.initState();
   }
   var node;
@@ -135,7 +134,13 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
                                   if(widget.closeCb!=null){
                                     widget.closeCb!(e);
                                   }
-                                }
+                                },
+                                developmentMode: DevelopmentMode.traditional,
+                              traditionalParam: TraditionalParam(
+                                getByIdSp: Sp.getByIdNewsFeedDetail,
+                                insertSp: Sp.insertNewsFeedDetail,
+                                updateSp: Sp.updateNewsFeedDetail
+                              )
                             );
                           },
                           child: Container(
@@ -164,9 +169,9 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
   void assignWidgets() async{
 
     widgets.add(AddNewLabelTextField(
-      dataname: 'Description',
+      dataname: 'NewsFeedDescription',
       hasInput: true,
-      required: false,
+      required: true,
       maxlines: null,
       labelText: "Description",
       regExp: null,
@@ -174,16 +179,25 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
       onEditComplete: (){
         node.unfocus();
       },
-    ));//7
+    ));//0
     widgets.add( MultiImagePicker(
-      dataname: "ImagesList",
+      dataname: "NewsFeedImage",
       hasInput: true,
       required: false,
-      folder: "Event",
-    ));//8
+      folder: "NewsFeed",
+      imageFileNameKey: "NewsFeedImage",
+      imagePathKey: "ImageFile",
+      developmentMode: DevelopmentMode.traditional,
+    ));//1
+    widgets.add(HiddenController(dataname: 'NewsFeedId'));
 
-
-    await parseJson(widgets, General.NewsFeedFormViewIdentifier,dataJson: widget.dataJson);
+    await parseJson(widgets, General.NewsFeedFormViewIdentifier,dataJson: widget.dataJson,developmentMode: DevelopmentMode.traditional,
+    traditionalParam: TraditionalParam(getByIdSp: Sp.getByIdNewsFeedDetail),resCb: (res){
+      console("res $res");
+      if(res['Table1']!=null && res['Table1'].isNotEmpty){
+        widgets[1].setValue(res['Table1']);
+      }
+        });
   }
 
 

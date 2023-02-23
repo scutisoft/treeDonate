@@ -18,7 +18,7 @@
         "FontFamily":"RR"
       },
       "2": {
-        "Value": "தொண்டர்",
+        "Value": "தன்னார்வலர்",
         "FontSize":18.0,
         "FontFamily":"MMR"
       },
@@ -27,12 +27,12 @@
     "LB_2": {
       "Id": "LB_2",
       "1": {
-        "Value": "Take \nLogin",
+        "Value": "Login",
         "FontSize":15.0,
         "FontFamily":"RR"
       },
       "2": {
-        "Value": "உள் \nநுழையவும்",
+        "Value": "உள்நுழை",
         "FontSize":15.0,
         "FontFamily":"MMR"
       },
@@ -169,7 +169,7 @@
     "LB_19": {
       "Id": "LB_19",
       "1": "Donate",
-      "2": "தானம் செய்",
+      "2": "நன்கொடை",
       "Description": "Navigation Drawer Title"
     },
     "LB_20": {
@@ -199,7 +199,7 @@
     "LB_24": {
       "Id": "LB_24",
       "1": "Land Parcel",
-      "2": "நிலப்பரப்பு",
+      "2": "நிலத்தொகுப்பு",
       "Description": "Navigation Drawer Title"
     },
     "LB_25": {
@@ -217,13 +217,13 @@
     "LB_27": {
       "Id": "LB_27",
       "1": "Nursery",
-      "2": "நாற்றங்கால்",
+      "2": "நாற்றுப்பண்ணை (நர்சரி)",
       "Description": "Navigation Drawer Title"
     },
     "LB_28": {
       "Id": "LB_28",
       "1": "Plantation",
-      "2": "தோட்டம்",
+      "2": "நடவு",
       "Description": "Navigation Drawer Title"
     },
     "LB_29": {
@@ -241,7 +241,7 @@
     "LB_31": {
       "Id": "LB_31",
       "1": "Seeds Stock",
-      "2": "விதைகள் பங்கு",
+      "2": "விதைகள் இருப்பு",
       "Description": "Seeds Stock in Dashboard"
     },
     "LB_32": {
@@ -271,7 +271,7 @@
     "LB_36": {
       "Id": "LB_36",
       "1": "Mobile Number",
-      "2": "கைபேசி எண்",
+      "2": "அலைபேசி எண்",
       "Description": "Update Button Text."
     },
     "LB_37": {
@@ -301,7 +301,7 @@
     "LB_41": {
       "Id": "LB_41",
       "1": "Volunteer Details",
-      "2": "தன்னார்வ விவரங்கள்",
+      "2": "தன்னார்வலர் விவரங்கள்",
       "Description": "Volunteer Grid Page Title."
     },
     "LB_42": {
@@ -325,7 +325,7 @@
     "LB_45": {
       "Id": "LB_45",
       "1": "Role",
-      "2": "பங்கு",
+      "2": "பயனர் வகை",
       "Description": "Grid Card Column Name."
     },
     "LB_46": {
@@ -451,13 +451,13 @@
     "LB_66": {
       "Id": "LB_66",
       "1": "Soil Type",
-      "2": "மண் வகையைத் தேர்ந்தெடுக்கவும்",
+      "2": "மண் வகை",
       "Description": "Soil Type Label Text"
     },
     "LB_67": {
       "Id": "LB_67",
       "1": "Survey Number",
-      "2": "சர்வே எண்",
+      "2": "நிலஅளவு எண்",
       "Description": "Survey Number Label Text"
     },
     "LB_68": {
@@ -565,7 +565,7 @@
     "LB_85": {
       "Id": "LB_85",
       "1": "Add",
-      "2": "சேர்",
+      "2": "சேர்க்கவும்",
       "Description": "Add Button text"
     },
     "LB_86": {
@@ -601,7 +601,7 @@
     "LB_91": {
       "Id": "LB_91",
       "1": "Incharge",
-      "2": "பொறுப்பு",
+      "2": "பொறுப்பாளர்",
       "Description": "Grid Card Column Name."
     },
     "LB_92": {
@@ -613,25 +613,25 @@
     "LB_93": {
       "Id": "LB_93",
       "1": "Total Taken",
-      "2": "மொத்த இலக்கு",
+      "2": "மொத்தம் எடுக்கப்பட்டது",
       "Description": "Grid Card Column Name."
     },
     "LB_94": {
       "Id": "LB_94",
       "1": "Total Stock",
-      "2": "மொத்த பங்கு",
+      "2": "மொத்த இருப்பு",
       "Description": "Grid Card Column Name."
     },
     "LB_95": {
       "Id": "LB_95",
       "1": "Balance Stock",
-      "2": "இருப்பு பங்கு",
+      "2": "மீதமுள்ள இருப்பு",
       "Description": "Grid Card Column Name."
     },
     "LB_96": {
       "Id": "LB_96",
-      "1": "Select Electricity",
-      "2": "மின்சாரத்தைத் தேர்ந்தெடுக்கவும்",
+      "1": "Is there electricity?",
+      "2": "மின்சாரம் இருக்கிறதா?",
       "Description": "Electricity DropDown"
     },
     "LB_97": {
@@ -643,25 +643,25 @@
     "LB_98": {
       "Id": "LB_98",
       "1": "Select Fencing",
-      "2": "ஃபென்சிங் என்பதைத் தேர்ந்தெடுக்கவும்",
+      "2": "வேலியடைப்பு நிலை?",
       "Description": "Fencing DropDown"
     },
     "LB_99": {
       "Id": "LB_99",
       "1": "Fencing",
-      "2": "ஃபென்சிங்",
+      "2": "வேலியடைப்பு",
       "Description": "Fencing DropDown"
     },
     "LB_100": {
       "Id": "LB_100",
-      "1": "Select Facility",
-      "2": "வசதியைத் தேர்ந்தெடுக்கவும்",
+      "1": "Select Water Facility",
+      "2": "தண்ணீர் வசதியைத் தேர்ந்தெடுக்கவும்",
       "Description": "Facility DropDown"
     },
     "LB_101": {
       "Id": "LB_101",
-      "1": "Facility",
-      "2": "வசதி",
+      "1": "Water Facility",
+      "2": "தண்ணீர் வசதி",
       "Description": "Facility DropDown"
     },
     "LB_102": {
@@ -679,7 +679,7 @@
     "LB_104": {
       "Id": "LB_104",
       "1": "No of Stocks",
-      "2": "பங்குகளின் எண்ணிக்கை",
+      "2": "இருப்புகளின் எண்ணிக்கை",
       "Description": "Nursery Form"
     },
     "LB_105": {
@@ -750,20 +750,20 @@
     },
     "LB_116": {
       "Id": "LB_116",
-      "1": "Bag Material & Size",
-      "2": "பை பொருள் & அளவு",
+      "1": "Plant Grow Bag & Size",
+      "2": "செடி வளரும் பை & அளவு",
       "Description": "Bag Material & Size"
     },
     "LB_117": {
       "Id": "LB_117",
       "1": "Select Bag Material & Size",
-      "2": "பை மெட்டீரியல் & அளவைத் தேர்ந்தெடுக்கவும்",
+      "2": "செடி வளரும் பை & அளவைத் தேர்ந்தெடுக்கவும்",
       "Description": "Bag Material & Size"
     },
     "LB_118": {
       "Id": "LB_118",
       "1": "Select Nursery",
-      "2": "நர்சரியைத் தேர்ந்தெடுக்கவும்",
+      "2": "நாற்றுப்பண்ணையைத் தேர்ந்தெடுக்கவும்",
       "Description": "Nursery Drop Down"
     },
     "LB_119": {
@@ -793,7 +793,7 @@
     "LB_123": {
       "Id": "LB_123",
       "1": "Volunteer Information",
-      "2": "தன்னார்வ தகவல்",
+      "2": "தன்னார்வலர் தகவல்",
       "Description": "Volunteer Information"
     },
     "LB_124": {
@@ -865,12 +865,12 @@
     "LB_135": {
       "Id": "LB_135",
       "1": "Required",
-      "2": "தேவை",
+      "2": "கட்டாயம் தேவை",
       "Description": "Required"
     },
     "LB_136": {
       "Id": "LB_136",
-      "1": "Do you want to enable Fingerprint Authentication ?",
+      "1": "Do you want to enable Fingerprint Authentication?",
       "2": "கைரேகை அங்கீகாரத்தை இயக்க விரும்புகிறீர்களா?",
       "Description": "fingerPrintContent"
     },
@@ -895,7 +895,7 @@
     "LB_140": {
       "Id": "LB_140",
       "1": "Search",
-      "2": "தேடு",
+      "2": "தேடல்",
       "Description": "Search"
     }
   }

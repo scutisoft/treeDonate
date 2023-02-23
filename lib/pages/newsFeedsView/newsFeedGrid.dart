@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
+import '../../api/sp.dart';
 import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
@@ -65,7 +67,10 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "NewsFeedId",dataJson: dataJson);
+            sysDeleteHE_ListView(he_listViewBody, "NewsFeedId",dataJson: dataJson,
+              traditionalParam: TraditionalParam(executableSp: Sp.deleteNewsFeedDetail),
+              developmentMode: DevelopmentMode.traditional
+            );
           },
           onEdit: (updatedMap){
             he_listViewBody.updateArrById("NewsFeedId", updatedMap);
@@ -177,10 +182,12 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier());
+    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.traditional,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
+   // console("valueArr $valueArray");
     try{
-      List<dynamic> NewsFeedList=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
-      he_listViewBody.assignWidget(NewsFeedList);
+      he_listViewBody.assignWidget(valueArray);
+      /*List<dynamic> NewsFeedList=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
+      he_listViewBody.assignWidget(NewsFeedList);*/
 
     }catch(e){}
   }
@@ -199,6 +206,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
   GlobalKey globalKey;
   HE_NewsFeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
+    dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
   }
   var dataListener={}.obs;
   var separatorHeight = 50.0.obs;
@@ -225,16 +233,16 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: cardWidth*0.6,
+                    width: cardWidth-70,
                     alignment: Alignment.topLeft  ,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date ,dataListener['Date']??"",isBold: true),
-                        gridCardText(Language.name, dataListener['Name'],),
-                        gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText('Description', dataListener['Description']??""),
+                        gridCardText(Language.date ,dataListener['NewsFeedDate']??"",isBold: true),
+                        gridCardText(Language.name, dataListener['FirstName'],),
+                        //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
+                        gridCardText('Description', dataListener['NewsFeedDescription']??""),
                       ],
                     ),
                   ),
@@ -264,7 +272,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                     ),
                   ),
                   Container(
-                    width: cardWidth*0.4,
+                    width: 70,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     // color:Colors.red,
                     child:  Column(
@@ -289,9 +297,10 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                            //  ),
                            // const SizedBox(width: 10,),
                             GridEditIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                              hasAccess: true /*isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable)*/,
                               margin: actionIconMargin,
                               onTap: (){
+
                                 fadeRoute(NewsFeedForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
@@ -302,7 +311,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                             ),
                           //  const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                              hasAccess: true/*isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable)*/,
                               margin: actionIconMargin,
                               onTap: (){
                                 if(onDelete!=null){

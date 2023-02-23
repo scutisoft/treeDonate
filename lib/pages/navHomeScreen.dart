@@ -82,7 +82,7 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.ourEvents,"PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":"News Feed","PageNumber":16,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.newsFeedTitle,"PageNumber":16,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":Language.myTrees,"PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":"+ ${Language.volunteer['Value']}","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
     {"Title":Language.notification,"PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
@@ -90,7 +90,7 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":Language.seeding,"PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
     {"Title":Language.nursery,"PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
     {"Title":Language.plantation,"PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
-    {"Title":"PolyMaker","PageNumber":15,"iconNav":const Icon(Icons.map_outlined,color: Colors.white,),"accessId":null},
+    {"Title":"PolyMaker","PageNumber":15,"iconNav":const Icon(Icons.map_outlined,color: Colors.white,),"accessId":100},
   ];
 
 /*  List<dynamic> menuList=[

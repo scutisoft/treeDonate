@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
 import '../../api/ApiManager.dart';
 import '../../helper/language.dart';
 import '../../pages/volunteer/viewVolunteer.dart';
@@ -263,8 +263,9 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${Language.phoneNo} :',style: ts14(ColorUtil.text4,),),
+                            Flexible(child: Text('${Language.phoneNo} :',style: ts14(ColorUtil.text4,),),),
                             Text('${dataListener['VolunteerContactNo']}',style: ts14(ColorUtil.primary,fontfamily: 'Med'),),
                           ],
                         ),
@@ -277,9 +278,10 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${Language.role} :',style: ts14(ColorUtil.text4,),),
-                            Text(getTitleCase(dataListener['VolunteerRole']),style: ts14(ColorUtil.primary,fontfamily: 'Med'),),
+                            Text('${Language.role} :  ',style: ts14(ColorUtil.text4,),),
+                            Flexible(child: Text(getTitleCase(dataListener['VolunteerRole']),style: ts14(ColorUtil.primary,fontfamily: 'Med'),),)
                           ],
                         ),
                       ],

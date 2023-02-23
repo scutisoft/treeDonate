@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/HappyExtension/utils.dart';
-import 'package:treedonate/api/apiUtils.dart';
+import '../../HappyExtension/extensionUtils.dart';
+import '../../api/apiUtils.dart';
+import '../../utils/utils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -11,7 +13,8 @@ import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/navigationBarIcon.dart';
-import 'treeUsesView.dart';
+import '../../widgets/treeDonateWidgets.dart';
+import 'treeUsesView_3.dart';
 
 
 class OurTreeView extends StatefulWidget {
@@ -23,11 +26,8 @@ class OurTreeView extends StatefulWidget {
 
 class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
-  List<Widget> widgets=[];
-  List<dynamic> imgList = [
-  {"Img": "assets/trees/Amla.jpg"},
-    {"Img": "assets/trees/Anona reticulata.jpg"},
-  ];
+  List<dynamic> widgets=[];
+  List<dynamic> imgList = [];
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
@@ -45,7 +45,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
     "PlantationCount": 0
   };
 
-  double headerWidth=SizeConfig.screenWidth!-(30+50);
+  double headerWidth=SizeConfig.screenWidth!-(35+50);
 
   var node;
   @override
@@ -73,7 +73,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                           Container(
                             height: 160,
                             width: SizeConfig.screenWidth,
-                            color: Colors.white,
+                            color: ColorUtil.primary,
                             clipBehavior: Clip.none,
                             child: Stack(
                               children: [
@@ -93,9 +93,10 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                                   ),
                                   carouselController: _controller,
                                   items: imgList
-                                      .map((item) =>  Container(
+                                      .map((item) =>  Image.network(
+                                    GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
                                     width: SizeConfig.screenWidth,
-                                      child: Image.asset(item['Img'],fit: BoxFit.cover,)),
+                                  ),
                                     //   Image.asset(
                                     // GetImageBaseUrl()+item["Img"], fit: BoxFit.cover,
                                     // width: SizeConfig.screenWidth,)
@@ -201,8 +202,8 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.account_tree_outlined,color: ColorUtil.primary,),
-                                    SizedBox(width: 5,),
+                                    SvgPicture.asset("assets/Slice/seed-outline.svg",color: ColorUtil.primary),
+                                    const SizedBox(width: 5,),
                                     Text("${treeDetails['SeedCount']} ",style: TextStyle(color:ColorUtil.primary,fontFamily:'RB',fontSize: 16),),
                                   ],
                                 )
@@ -214,7 +215,7 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
 
                     Container(
                       width: SizeConfig.screenWidth,
-                      padding: EdgeInsets.only(left: 15,right: 15),
+                      padding: const EdgeInsets.only(left: 15,right: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -222,7 +223,11 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset("assets/trees/user-icon.png",width: 40,),
+                              StackIcon(
+                                icon: SvgPicture.asset("assets/Slice/nursery.svg",color: ColorUtil.primary,height: 28,),
+                              ),
+
+                              //Image.asset("assets/trees/user-icon.png",width: 40,),
                               const SizedBox(width: 10,),
                               SizedBox(
                                 width: headerWidth,
@@ -241,9 +246,10 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset("assets/trees/user-icon.png",width: 40,),
+                              StackIcon(
+                                icon: SvgPicture.asset("assets/Slice/leaf.svg",color: ColorUtil.primary,height: 25,),
+                              ),
                               const SizedBox(width: 10,),
-
                               SizedBox(
                                 width: headerWidth,
                                 child: RichText(
@@ -275,9 +281,9 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                               borderRadius: BorderRadius.circular(10.0)
                           ),
                           child: RichText(
-                            text: TextSpan(text: '${TreeOtherDetails[i]['Title']} ',style: TextStyle(color:ColorUtil.secondary,fontFamily: 'RB',fontSize: 14),
+                            text: TextSpan(text: '${getTamilWord(TreeOtherDetails[i]['Title'])}  ',style: TextStyle(color:ColorUtil.secondary,fontFamily: 'MMB',fontSize: 14),
                               children: <TextSpan>[
-                                TextSpan(text: '${TreeOtherDetails[i]['SubTitle']}', style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'RR',fontSize: 14)),
+                                TextSpan(text: '${TreeOtherDetails[i]['SubTitle']}', style: TextStyle(color:ColorUtil.secondary.withOpacity(0.8),fontFamily: 'MMR',fontSize: 14)),
                               ],
                             ),
                           ),
@@ -303,9 +309,9 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image.asset("assets/trees/user-icon.png",width: 40,),
+                                    StackIcon(icon: Image.asset("assets/Slice/description.png",height: 20,color: ColorUtil.primary,),top: 2,right: 1,),
                                     const SizedBox(width: 20,),
-                                    Text('${ListofUses[i]['Title']}',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),)
+                                    Text('${ListofUses[i]['Title']??""}',style: TextStyle(color:ColorUtil.primary,fontFamily: 'MMR',fontSize: 16),)
                                   ],
                                 ),
                                 Icon(Icons.arrow_forward_ios_outlined,size: 15,color: ColorUtil.primary,)
@@ -377,10 +383,11 @@ class _OurTreeViewState extends State<OurTreeView> with HappyExtensionHelper  im
 
     await parseJson(widgets, General.TreeViewIdentifier,dataJson: widget.dataJson);
 
+    console(valueArray);
     treeDetails=valueArray.where((element) => element['key']=='TreeDetails').toList()[0]['value'];
     TreeOtherDetails=valueArray.where((element) => element['key']=='TreeOtherDetails').toList()[0]['value'];
     ListofUses=valueArray.where((element) => element['key']=='ListofUses').toList()[0]['value'];
-   // imgList=valueArray.where((element) => element['key']=="Img").toList()[0]['value'];
+    imgList=valueArray.where((element) => element['key']=="ImagesList").toList()[0]['value'];
     setState(() {});
   }
 }

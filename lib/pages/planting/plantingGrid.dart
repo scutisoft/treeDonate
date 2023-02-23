@@ -9,7 +9,7 @@ import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
 import '../../utils/utils.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';

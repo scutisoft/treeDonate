@@ -6,6 +6,7 @@ import '../api/ApiManager.dart';
 import '../api/apiUtils.dart';
 import '../api/sp.dart';
 import '../model/parameterMode.dart';
+import 'extensionHelper.dart';
 
 Future<List> getMasterDrp(String page,String typeName, dynamic refId,dynamic refTypeName,  dynamic hiraricalId) async {
 
@@ -80,7 +81,7 @@ bool HE_IsMap(value){
       value.runtimeType.toString() =="_Map<String, Object?>" ;
 }
 bool HE_IsList(value){
-  return value.runtimeType.toString()=="List<dynamic>";
+  return value.runtimeType.toString()=="List<dynamic>" || value.runtimeType.toString()=="List<Widget>";
 }
 
 Future<Position> determinePosition() async {
@@ -166,4 +167,11 @@ String getDataJsonForGrid(x){
     return x;
   }
   return "[]";
+}
+
+WidgetType getWidgetType(var widgets){
+  if(HE_IsList(widgets)){
+    return WidgetType.list;
+  }
+  return WidgetType.map;
 }

@@ -8,7 +8,7 @@ import 'package:treedonate/helper/language.dart';
 import 'package:treedonate/pages/navHomeScreen.dart';
 import 'package:treedonate/widgets/customAppBar.dart';
 import 'package:treedonate/widgets/loader.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';

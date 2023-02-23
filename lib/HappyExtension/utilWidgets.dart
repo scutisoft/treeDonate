@@ -12,7 +12,7 @@ import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
 import '../utils/sizeLocal.dart';
-import 'utils.dart';
+import 'extensionUtils.dart';
 
 TextStyle errorTS=TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xFFE34343));
 

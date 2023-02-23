@@ -14,7 +14,7 @@ String GetBaseUrl(){
   return MyConstants.isLive?"http://45.126.252.78/NMNK": "http://192.168.1.140:5009";
 }
 String GetImageBaseUrl(){
- // return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://45.126.252.78/EGF_UAT/AppAttachments/";
+  //return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://45.126.252.78/EGF_UAT/AppAttachments/";
   return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://192.168.1.140:5009/AppAttachments/";
 }
 

@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 /*import 'package:image_cropper/image_cropper.dart';*/
 import 'package:image_picker/image_picker.dart';
-import 'package:treedonate/HappyExtension/utils.dart';
+import 'package:treedonate/HappyExtension/extensionUtils.dart';
 import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/utils/constants.dart';
 import 'package:treedonate/utils/utils.dart';
@@ -300,8 +300,11 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
   bool required;
   String dataname;
   String folder;
-
-  MultiImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder});
+  DevelopmentMode developmentMode;
+  String imageFileNameKey;
+  String imagePathKey;
+  MultiImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder,
+  this.developmentMode=MyConstants.developmentMode,this.imageFileNameKey="ImageFileName",this.imagePathKey="ImagePath"});
 
   /*MultiImagePicker({});*/
   RxList<XFile> imageFileList=RxList<XFile>();
@@ -356,7 +359,7 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
                   child: Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
-                      LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList[i]["ImagePath"], imageFile: null,height: 100,radius: (imgWidth*0.33)-20),
+                      LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList[i][imagePathKey], imageFile: null,height: 100,radius: (imgWidth*0.33)-20),
                       Positioned(
                           top: 0,
                           right: 0,
@@ -444,13 +447,13 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
     if(imageFileList.isNotEmpty){
       String files=await MyHelper.uploadMultiFile(folder, imageFileList.value);
       files.split(",").forEach((element) {
-        images.add({"FolderName":folder,"ImageFileName":element,"ImagePath":"$folder/$element"});
+        images.add({"FolderName":folder,imageFileNameKey:element,imagePathKey:"$folder/$element"});
       });
     }
     if(imagesList.isNotEmpty){
       images.addAll(imagesList);
     }
-    return images;
+    return developmentMode==DevelopmentMode.json?images:jsonEncode(images);
   }
 
   @override
