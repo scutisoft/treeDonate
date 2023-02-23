@@ -167,6 +167,7 @@ class _NewsFeedFormState extends State<NewsFeedForm> with HappyExtensionHelper  
       dataname: 'Description',
       hasInput: true,
       required: false,
+      maxlines: null,
       labelText: "Description",
       regExp: null,
       onChange: (v){},

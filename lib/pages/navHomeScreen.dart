@@ -17,6 +17,7 @@ import '../utils/sizeLocal.dart';
 import '../widgets/zoomDrawer/config.dart';
 import '../widgets/zoomDrawer/flutter_zoom_drawer.dart';
 import 'Nursery/nurseryGrid.dart';
+import 'dashboard/csrDashboard.dart';
 import 'dashboard/dashboard.dart';
 import 'donateTree/donate.dart';
 import 'donateTree/donateTree.dart';
@@ -74,6 +75,7 @@ class MenuScreen extends GetView<MyDrawerController> {
 
   List<dynamic> menuList=[
     {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
+    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
@@ -287,6 +289,10 @@ class _MasterpageState extends State<Masterpage>{
                 controller.toggleDrawer();
               },
             ):menuSel.value==16?NewsFeedGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==17?CSRDashboard (
               voidCallback:(){
                 controller.toggleDrawer();
               },
