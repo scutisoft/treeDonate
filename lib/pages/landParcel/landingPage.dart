@@ -285,7 +285,6 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                     ShimmerLoader(),
                     NoData(show: filterNewsFeed.isEmpty),
                     //Obx(() => NoData(show: filterNewsFeed.isEmpty && !showLoader.value,)),
-
                     const SizedBox(height: 15,),
 
                   ],
