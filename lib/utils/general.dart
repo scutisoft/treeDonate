@@ -39,6 +39,7 @@ class General{
   static String EventsFormViewIdentifier=!MyConstants.fromUrl?"assets/json/users/newsFeedForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String EventsViewIdentifier=!MyConstants.fromUrl?"assets/json/users/eventsView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String EventsInterestedIdentifier=!MyConstants.fromUrl?"assets/json/users/eventInterestedGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String CSRDashboardIdentifier=!MyConstants.fromUrl?"assets/json/users/csrDashbdGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 
   static String eventName="eventName";

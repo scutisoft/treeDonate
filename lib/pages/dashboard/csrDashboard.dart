@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -7,6 +9,7 @@ import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:treedonate/api/ApiManager.dart';
 import 'package:treedonate/api/apiUtils.dart';
 import 'package:treedonate/model/parameterMode.dart';
+import 'package:treedonate/pages/donateTree/donateTree.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/alertDialog.dart';
 import 'package:treedonate/widgets/fittedText.dart';
@@ -18,7 +21,10 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../helper/language.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../navHomeScreen.dart';
+import 'csrDonatedView.dart';
 
 
 class CSRDashboard extends StatefulWidget {
@@ -30,12 +36,26 @@ class CSRDashboard extends StatefulWidget {
 
 class _CSRDashboardState extends State<CSRDashboard> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
   List<Widget> widgets=[];
+  List<int> list = [1, 2, 3, 4, 5];
   ScrollController? silverController;
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
   TextEditingController textController = TextEditingController();
-
+  late HE_ListViewBody he_CSRDashboardViewBody;
   @override
   void initState(){
     silverController= ScrollController();
+
+    he_CSRDashboardViewBody=HE_ListViewBody(
+      data: [],
+      getWidget: (e){
+        return HE_NewsFeedContent(
+          data: e,
+          cardWidth: SizeConfig.screenWidth!-(20+20+25),
+          globalKey: GlobalKey(),
+        );
+      },
+    );
     assignWidgets();
     super.initState();
   }
@@ -77,7 +97,7 @@ class _CSRDashboardState extends State<CSRDashboard> with HappyExtensionHelper  
   @override
   Widget build(BuildContext context) {
     node=FocusScope.of(context);
-    cardWidth=SizeConfig.screenWidth!-(20+15+25);
+   // cardWidth=SizeConfig.screenWidth!-(20+15+25);
     return SafeArea(
         bottom: MyConstants.bottomSafeArea,
         child: Scaffold(
@@ -228,165 +248,239 @@ class _CSRDashboardState extends State<CSRDashboard> with HappyExtensionHelper  
                       ),
                       const SizedBox(height: 15,),
                       Container(
-                        margin: const EdgeInsets.only(left: 5, right: 5,),
-                        child: Row(
+                        width: SizeConfig.screenWidth,
+                        height: 650,
+                        child: Stack(
                           children: [
-                            Container(
-                              width: SizeConfig.screenWidth!*0.45,
-                              height: 150,
-                              clipBehavior: Clip.antiAlias,
-                              //padding: EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                color: Color(0xffF9CBA5),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width:50,
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              decoration: const BoxDecoration(
-                                                  color: Color(0XFFF2F2F2),
-                                                  shape:BoxShape.circle
-                                              ),
-                                              child: Image.asset('assets/trees/Nursery.png',height: 30,),
-                                            ),
-                                            const SizedBox(width:5 ,),
-                                            RichText(
-                                              text: TextSpan(
-                                                children: <TextSpan>[
-                                                  TextSpan(text: '${Language.target} ',  style: TextStyle(fontFamily: Language.regularFF,fontSize: 14,color: Color(0xff000000)),),
-                                                  const TextSpan(text: '300 ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                                ],
-                                              ),
-                                              // textScaleFactor: 0.5,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5,),
-                                        Text(Language.nursery,style: TextStyle(fontFamily: Language.mediumFF,fontSize: 14,color: ColorUtil.themeBlack),),
-                                        const SizedBox(height: 4,),
-                                        Text.rich(
-                                          TextSpan(
-                                            text: '${dashBoardDetail["TotalNursery"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                            children: [
-                                              TextSpan(text: ' ${Language.nursery} ', style: ts14(ColorUtil.themeBlack),)
-                                            ],
-                                          ),
-                                        ),
-                                        FittedText(
-                                          height: 22,
-                                          text: '${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
-                                          textStyle: ts18(ColorUtil.themeBlack,fontsize: 13),
-                                          alignment: Alignment.centerLeft,
-                                        ),
-                                        /*Text('${dashBoardDetail["TotalNurseryPlants"]} ${Language.nursery} ${Language.plant} ',
-                                          style: ts18(ColorUtil.themeBlack,fontsize: 13),),*/
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Transform(
-                                      transform: Matrix4.skewY(2.3),
-                                      origin:const Offset(50 ,-50),
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xffCFEDD8),
-                                        ),
+                             Container(
+                               color: ColorUtil.primary,
+                               width: SizeConfig.screenWidth,
+                               alignment: Alignment.topCenter,
+                               height: 350,
+                               padding: const EdgeInsets.only(top:20.0),
+                                 child:Text("Upcomming Events",style: TextStyle(color: ColorUtil.themeWhite,fontFamily: "RR",fontSize: 16),),
+                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top:50.0),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Column(
+                                  children: [
+                                    CarouselSlider(
+                                      options: CarouselOptions(
+                                          height: 510,
+                                          viewportFraction: 1.0,
+                                          enlargeCenterPage: false,
+                                          scrollDirection: Axis.horizontal,
+                                          reverse: false,
+                                          autoPlay: true,
+                                          enableInfiniteScroll: true,
+                                          onPageChanged: (index, reason) {
+                                            setState(() {
+                                              _current = index;
+                                            });
+                                          }
                                       ),
+                                      carouselController: _controller,
+                                      items: list
+                                          .map((item) => Column(
+                                        children: [
+                                          const SizedBox(height: 10,),
+                                          Container(
+                                            width: SizeConfig.screenWidth!*0.8,
+                                            color: ColorUtil.themeWhite,
+                                            padding: EdgeInsets.all(15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('5 Laks Maram Nadum Vizha',style: TextStyle(color: ColorUtil.themeBlack,fontFamily: "RB",fontSize: 20), ),
+                                                const SizedBox(height: 5,),
+                                                Text('28 Feb 2023 / 09:30AM',style: TextStyle(color: Colors.black26,fontFamily: "RR",fontSize: 14), ),
+                                                const SizedBox(height: 5,),
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.location_on_rounded,color: ColorUtil.primary,),
+                                                    const SizedBox(height: 5,),
+                                                    Text('Chennai-600077',style: TextStyle(color: ColorUtil.primary,fontFamily: "RR",fontSize: 14), ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10,),
+                                                Text('It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here.',style: TextStyle(color: Colors.black54,fontFamily: "RR",fontSize: 14), ),
+                                                const SizedBox(height: 10,),
+                                                Image.asset('assets/invitation.PNG',width: SizeConfig.screenWidth,height: 250,fit:BoxFit.fill)
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      )
+                                          .toList(),
                                     ),
-                                  )
-                                ],
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: list
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        return GestureDetector(
+                                          onTap: () =>
+                                              _controller.animateToPage(entry.key),
+                                          child: Container(
+                                            width: 12.0,
+                                            height: 12.0,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme
+                                                    .of(context)
+                                                    .brightness == Brightness.dark
+                                                    ? Colors.white
+                                                    : ColorUtil.primary)
+                                                    .withOpacity(
+                                                    _current == entry.key ? 0.9 : 0.4)),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              width: SizeConfig.screenWidth!*0.46,
-                              height: 150,
-                              //padding: EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                color: Color(0xffCFEDD8),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width:50,
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              decoration: const BoxDecoration(
-                                                  color: Color(0XFFF2F2F2),
-                                                  shape:BoxShape.circle
-                                              ),
-                                              child: Image.asset('assets/trees/plant.png',height: 30,),
-                                            ),
-                                            const SizedBox(width:5 ,),
-                                            RichText(
-                                              text:  TextSpan(
-                                                children: <TextSpan>[
-                                                  TextSpan(text: '${Language.target} ',  style: ts14(ColorUtil.themeBlack,),),
-                                                  TextSpan(text: '2 ${Language.crore} ' ,style: TextStyle(fontFamily: 'RM',fontSize: 14,color: Color(0xff000000)),),
-                                                ],
-                                              ),
-                                              // textScaleFactor: 0.5,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5,),
-                                        Text(Language.plantation,style: TextStyle(fontFamily:Language.mediumFF,fontSize: 14,color: Color(0xff000000)),),
-                                        const SizedBox(height: 5,),
-                                        Text.rich(
-                                          TextSpan(
-                                            text: '${dashBoardDetail["TotalPlantations"]}', style: TextStyle(color: ColorUtil.themeBlack, fontSize: 20,fontFamily: 'RB'),
-                                            children: [
-                                              TextSpan(text: ' ${Language.plant} ', style: TextStyle(fontFamily: 'RR',fontSize: 14,color: Color(0xff000000)),)
-                                            ],
-                                          ),
-                                        ),
-                                        Text('${dashBoardDetail["TotalPlanting"]} ${Language.plantation} ',  style: const TextStyle(fontFamily: 'RR',fontSize: 13,color: Color(0xff000000)),),
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Transform(
-                                      transform: Matrix4.skewY(2.3),
-                                      origin:const Offset(50 ,-50),
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xffF3F3F3),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                            Align(
+                              alignment:Alignment.bottomCenter,
+                              child: Container(
+                                width: SizeConfig.screenWidth!*0.7,
+                                height: 50,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: ColorUtil.primary,
+                                    borderRadius: BorderRadius.circular(5.0)
+                                ),
+                                child: GestureDetector(
+                                    onTap: (){
+                                      setPageNumber(2);
+                                    },
+                                    child: Text('Donate Now',style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.themeWhite),)),
                               ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 15,),
+                      Container(
+                        width: SizeConfig.screenWidth,
+                        height: 332,
+                        clipBehavior: Clip.antiAlias,
+                        margin: EdgeInsets.only(left: 5,right: 5),
+                        padding: EdgeInsets.only(left: 110,top: 20,right: 25),
+                        decoration:  BoxDecoration(
+                         // color: Colors.red,
+                         image: DecorationImage(fit: BoxFit.fill,image:AssetImage("assets/dashboard-co2.png") )
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width:50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                  color: Color(0XFFF2F2F2),
+                                  shape:BoxShape.circle
+                              ),
+                              child: Image.asset('assets/trees/Nursery.png',height: 30,),
+                            ),
+                            const SizedBox(height: 25,),
+                            Text('Carbon illustration',style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.themeWhite.withOpacity(0.7)),),
+                            const SizedBox(height: 15,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                               mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset('assets/trees/plant.png',width: 25,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5.0),
+                                      child: Text.rich(
+                                        TextSpan(
+                                          text:"12 ", style: TextStyle(color: ColorUtil.themeWhite, fontSize: 20,fontFamily: 'RB'),
+                                          children: [
+                                            TextSpan(text: 'Lakhs', style: ts12(const Color(0xffffffff).withOpacity(0.5),fontfamily: 'RR'),)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 1,
+                                  height: 40,
+                                  color: Color(0xff2E7C7F),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset('assets/trees/plant.png',width: 25,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5.0),
+                                      child: Text('30.2 %',style: TextStyle(fontFamily: Language.boldFF,fontSize: 20,color: ColorUtil.themeWhite),),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 30,),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: 150,
+                                height: 40,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff297573)
+                                ),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setPageNumber(2);
+                                  },
+                                    child: Text('Donate Now',style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.themeWhite),)),
+                              ),
+                            ),
+                            const SizedBox(height: 30,),
+                            Align(
+                                alignment: Alignment.center,
+                                child: Text('View Full Report',style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.themeWhite),)),
+                            const SizedBox(height: 15,),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0,right: 5),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Your Donation History',style: TextStyle(fontFamily: 'RM',fontSize: 16,color: Color(0xff000000)),),
+                            Container(
+                              width: 40,
+                              height: 40,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                //color: ColorUtil.primary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Image.asset('assets/trees/filter.png',height: 25,),
+                            ),
+                          ],
+                        ),
+                      ),
+                      he_CSRDashboardViewBody,
                     ],
                   ),
                 ),
@@ -400,9 +494,10 @@ class _CSRDashboardState extends State<CSRDashboard> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
-   // await parseJson(widgets, General.NurseryGridIdentifier);
+    await parseJson(widgets, General.CSRDashboardIdentifier);
     try{
-
+      List<dynamic> CSRDashboardList=valueArray.where((element) => element['key']=="CSRDashboardList").toList()[0]['value'];
+      he_CSRDashboardViewBody.assignWidget(CSRDashboardList);
     }catch(e){}
   }
 
@@ -473,4 +568,121 @@ class _CSRDashboardState extends State<CSRDashboard> with HappyExtensionHelper  
     );
   }
 
+}
+
+
+
+class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentExtension{
+  double cardWidth;
+  Map data;
+  Function(Map)? onEdit;
+  Function(String)? onDelete;
+  GlobalKey globalKey;
+  HE_NewsFeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+    dataListener.value=data;
+  }
+  var dataListener={}.obs;
+  var separatorHeight = 50.0.obs;
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(globalKey.currentContext!=null){
+        separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+      }
+    });
+    return Obx(
+            ()=> Container(
+          key: globalKey,
+          margin: const EdgeInsets.only(bottom: 10,left: 5,right: 5),
+          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+          width: cardWidth,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: ColorUtil.themeWhite,
+          ),
+          clipBehavior:Clip.antiAlias,
+          child: Row(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: cardWidth*0.6,
+                alignment: Alignment.topLeft  ,
+                padding: const EdgeInsets.only(top: 10,bottom: 10),
+                child: Column(
+                  crossAxisAlignment:CrossAxisAlignment.start ,
+                  children: [
+                    gridCardText(Language.date ,dataListener['Date']??"",isBold: true),
+                    gridCardText(Language.plant, dataListener['Plant'],),
+                    gridCardText('Consumption', dataListener['Consumption']??"",textOverflow: TextOverflow.ellipsis),
+                  ],
+                ),
+              ),
+              Container(
+                width: 15,
+                alignment:Alignment.topRight,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 15,
+                      height:10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft:Radius.circular(50) ),
+                        color: Color(0xFFF2F3F7),
+                      ),
+                    ),
+                    Obx(() => Container(width: 1,height:separatorHeight.value,color: const Color(0xFFF2F3F7),)),
+                    Container(
+                      width: 15,
+                      height:10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(50),topLeft:Radius.circular(50) ),
+                        color: Color(0xFFF2F3F7),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: cardWidth*0.4,
+                padding: const EdgeInsets.only(top: 10,bottom: 10,),
+                alignment: Alignment.center,
+                child:  Column(
+                  crossAxisAlignment:CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Cash',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                    Text("${dataListener['Cash']??0}",style: ColorUtil.textStyle18),
+                    const SizedBox(height: 10,),
+                    Container(
+                      width: 80,
+                      height: 30,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: ColorUtil.primary.withOpacity(0.3)
+                      ),
+                      child: GestureDetector(
+                          onTap: (){
+                            fadeRoute(CSRDonatedArea());
+                          },
+                          child: Text('View',style: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: ColorUtil.primary),)),
+                    ),
+                    const SizedBox(height: 10,),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+    );
+  }
+
+  @override
+  updateDataListener(Map data) {
+    data.forEach((key, value) {
+      if(dataListener.containsKey(key)){
+        dataListener[key]=value;
+      }
+    });
+  }
 }

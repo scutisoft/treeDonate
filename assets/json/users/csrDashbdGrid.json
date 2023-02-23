@@ -1,0 +1,20 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "CSRDashboardList",
+      "value": [
+        {
+          "SNO": 1,
+          "Date": "22-02-2023",
+          "Plant": "Neem,Pungai",
+          "Consumption": "10 %",
+          "Cash": 25000,
+          "DataJson": {
+            "CSRDashboardId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}
