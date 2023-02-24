@@ -9,6 +9,7 @@ import 'package:treedonate/pages/navHomeScreen.dart';
 import 'package:treedonate/widgets/customAppBar.dart';
 import 'package:treedonate/widgets/loader.dart';
 import '../../HappyExtension/extensionUtils.dart';
+import '../../model/parameterMode.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -271,6 +272,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       itemCount: filterNewsFeed.length,
                       itemBuilder: (ctx,i){
                         return getNewsFeed(
+                          i,
                           name: filterNewsFeed[i]['NFNAME']??"",
                           nfDescription: filterNewsFeed[i]['NFDescription']??"",
                           nfLoc: filterNewsFeed[i]['NFLocation']??"",
@@ -279,6 +281,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           date: filterNewsFeed[i]['NFDATE']??"",
                           time: filterNewsFeed[i]['NFTime']??"",
                           img:  filterNewsFeed[i]['NFImageFile']??"",
+                          isInterested: filterNewsFeed[i]['IsInterested'].toString()
                         );
                       },
                     ),
@@ -477,8 +480,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   }
 
 
-  Widget getNewsFeed({String name="",String nfType="",String nfDescription="",String profileImg="",String nfLoc="",String date="",String time="",
-    String img=""
+  Widget getNewsFeed(int index,{String name="",String nfType="",String nfDescription="",String profileImg="",String nfLoc="",
+    String date="",String time="", String img="",String isInterested="0"
   }){
     List<dynamic> imgList=[];
     List<String> imgListUrl=[];
@@ -603,7 +606,14 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Flexible(child: Text("$name",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
-                        Text("$nfType",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
+                        Container(
+                            decoration: BoxDecoration(
+                              color: ColorUtil.primary,
+                              borderRadius: BorderRadius.circular(3)
+                            ),
+                            padding: const EdgeInsets.only(left: 5,right: 5,top: 3,bottom: 3),
+                            child: Text("$nfType",style:  TextStyle(fontFamily: 'RM',fontSize: 13,color: ColorUtil.themeWhite),))
+                        ,
                       ],
                     ),
                     const Spacer(),
@@ -644,28 +654,44 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
                       children: [
                         Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
                         const SizedBox(width: 8,),
-                        Text("258",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
                     Row(
                       children: [
                         Icon(Icons.comment,color: ColorUtil.primary,),
                         const SizedBox(width: 8,),
-                        Text("28",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
                     Row(
                       children: [
                         Icon(Icons.thumb_up,color: ColorUtil.primary,),
                         const SizedBox(width: 8,),
-                        Text("5",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
+                    ),
+
+                    Visibility(
+                      visible: nfType=='Event',
+                      child: GestureDetector(
+                        onTap: (){
+                          updateEventInterest(index);
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          alignment: Alignment.center,
+                          color: Colors.transparent,
+                          child: isInterested=="1"?Icon(Icons.favorite,color: Colors.red,):Icon(Icons.favorite_border),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -732,6 +758,19 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       },
       fit: BoxFit.contain
     ).show();
+  }
+
+  void updateEventInterest(int index) async{
+    List<ParameterModel> params=await getParameterEssential();
+    params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USP_Events_InsertInterestedDetails"));
+    params.add(ParameterModel(Key: "NFId", Type: "String", Value: filterNewsFeed[index]['NFID']));
+    ApiManager().GetInvoke(params).then((value){
+      if(value[0]){
+        //var parsed=json.decode(value[1]);
+        filterNewsFeed[index]['IsInterested']=filterNewsFeed[index]['IsInterested'].toString()=="1"?0:1;
+        setState(() {});
+      }
+    });
   }
 
 }

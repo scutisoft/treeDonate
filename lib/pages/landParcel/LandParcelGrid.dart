@@ -16,6 +16,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../utils/utils.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/treeDonateWidgets.dart';
 
 
 class LandParcelGrid extends StatefulWidget {
@@ -282,6 +283,10 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                 child:  Column(
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
+                    EGFEmblem(
+                      companyId: dataListener['UserRoleTypeId'],
+                      margin: const EdgeInsets.only(bottom: 15),
+                    ),
                     Text('${Language.landInHec} ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                     Text(dataListener['LandInHectares'],style: ColorUtil.textStyle18),
                     const SizedBox(height: 10,),

@@ -61,6 +61,7 @@ dependencies:
   wakelock:
   video_player:
   cached_network_image: ^3.2.3
+  flutter_datetime_picker: ^1.5.1
   syncfusion_flutter_charts:
     path: ./syncfusion_flutter_charts
 dev_dependencies:

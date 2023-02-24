@@ -15,6 +15,7 @@ import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 
 
 class NurseryGrid extends StatefulWidget {
@@ -226,7 +227,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   // mainAxisSize: MainAxisSize.min,
                   children: [
                     gridCardText(Language.date, dataListener['Date'],isBold: true),
-                    gridCardText(Language.nursery, dataListener['NurseryName']),
+                    gridCardText2(Language.nursery, dataListener['NurseryName']),
                     gridCardText(Language.inCharge, dataListener['NurseryIncharge']),
                     gridCardText(Language.location, dataListener['NurseryLocation']),
                     gridCardText(Language.totalTarget, dataListener['NoOfTargets']),
@@ -243,7 +244,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
 
 
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('${Language.status}      : ',style: ts14(ColorUtil.text4),),
                         //  Spacer(),
@@ -294,6 +295,10 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.end,
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
+                    EGFEmblem(
+                      companyId: dataListener['UserRoleTypeId'],
+                      margin: const EdgeInsets.only(bottom: 15),
+                    ),
                     Text(Language.totalStock,style: ts18(ColorUtil.themeBlack,fontsize: 13),),
                     Text("${dataListener['NoOfStocks']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
                     const SizedBox(height: 10,),
@@ -317,7 +322,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         ),
                         //const SizedBox(width: 10,),
                         GridEditIcon(
-                          hasAccess: isHasAccess(accessId["NurseryEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                           margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(NurseryForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
@@ -330,7 +335,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         ),
                        // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["NewsFeedDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                           margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){

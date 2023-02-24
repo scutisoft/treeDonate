@@ -183,7 +183,7 @@ class _SeedingViewState extends State<SeedingView> with HappyExtensionHelper  im
                               ]
                           ),
                           for(int i=0;i<SeedsView.length;i++)
-                            tableView2(SeedsView[i]['TreeName']??"",SeedsView[i]['Quantity']??"",ColorUtil.themeBlack),
+                            tableView2(SeedsView[i]['TreeName']??"","${SeedsView[i]['Quantity']??""}",ColorUtil.themeBlack),
                           // tableView2('Palm Seed','40',ColorUtil.themeBlack),
                         ],
                       ),

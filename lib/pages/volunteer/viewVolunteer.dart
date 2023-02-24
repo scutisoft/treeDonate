@@ -214,7 +214,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                       )),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['VolunteerApproval']) && false,
+                      hasAccess: isHasAccess(accessId['VolunteerApproval']),
                       needToHide: true,
                       widget: Obx(() => Container(
                         margin: EdgeInsets.only(left: 10, right: 10,top: 10),
@@ -260,7 +260,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                           needCustomValidation: true,
                           onCustomValidation: (){
                             foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
-                            //foundWidgetByKey(widgets,"VolunteerRoleTypeId",needSetValue: true,value: isEGFZone.value);
+                            foundWidgetByKey(widgets,"VolunteerRoleTypeId",needSetValue: true,value: isEGFZone.value);
                             return true;
                           },
                           successCallback: (e){
@@ -361,7 +361,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
     try{
       landParcelView=valueArray.where((element) => element['key']=="VolunteerDetail").toList()[0]['value'];
       isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
-      //isEGFZone.value=valueArray.where((element) => element['key']=="VolunteerRoleTypeId").toList()[0]['value'];
+      isEGFZone.value=valueArray.where((element) => element['key']=="VolunteerRoleTypeId").toList()[0]['value'];
       setState(() {});
     }catch(e) {
       console(e);

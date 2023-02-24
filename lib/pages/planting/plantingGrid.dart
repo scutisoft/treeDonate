@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../helper/language.dart';
+import '../../widgets/treeDonateWidgets.dart';
 import 'plantingForm.dart';
 import 'plantingViewPage.dart';
 
@@ -272,6 +273,10 @@ class HE_PlantationViewContent extends StatelessWidget {
                 child:  Column(
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
+                    EGFEmblem(
+                      companyId: dataListener['UserRoleTypeId'],
+                      margin: const EdgeInsets.only(bottom: 5),
+                    ),
                     Text(Language.noPlant,style: ts14(ColorUtil.themeBlack),textAlign: TextAlign.right,),
                     Text("${dataListener['NumberOfPlants']}",style: ts18(ColorUtil.themeBlack,fontfamily: 'USB')),
                     const SizedBox(height: 10,),

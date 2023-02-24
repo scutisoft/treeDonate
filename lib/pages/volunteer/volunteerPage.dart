@@ -19,6 +19,7 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 import '../Filter/FilterItems.dart';
 import '../landParcel/LandParcelViewPage.dart';
 import 'addvolunteer.dart';
@@ -252,7 +253,15 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                            EGFEmblem(
+                              companyId: dataListener['VolunteerRoleTypeId'],
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 3,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -365,5 +374,6 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
         dataListener[key]=value;
       }
     });
+    dataListener.refresh();
   }
 }

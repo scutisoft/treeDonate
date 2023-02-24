@@ -31,7 +31,7 @@ class EventViewPage extends StatefulWidget {
 class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper  implements HappyExtensionHelperCallback {
 
   List<dynamic> imgList = [];
-  List<Widget> widgets = [];
+  List<dynamic> widgets = [];
   ScrollController? silverController;
   int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -49,6 +49,11 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
 
   var node;
   var isNewsFeed=false.obs;
+
+  TraditionalParam traditionalParam=TraditionalParam(
+    getByIdSp: "USP_Event_View",
+    updateSp: "USP_Event_ApproveEvent"
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +107,7 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
                                 carouselController: _controller,
                                 items: imgList
                                     .map((item) => Image.network(
-                                  GetImageBaseUrl()+item["ImagePath"], fit: BoxFit.contain,
+                                  GetImageBaseUrl()+item["ImageFile"], fit: BoxFit.contain,
                                   width: SizeConfig.screenWidth,
                                 )
                                 )
@@ -175,7 +180,7 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
                           ),
                         ),
                         AccessWidget(
-                          hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
+                          hasAccess: /*isHasAccess(accessId['LandParcelApproval'])*/true,
                           needToHide: true,
                           onTap: (){
                             isNewsFeed.value=!isNewsFeed.value;
@@ -213,32 +218,37 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
                     ),
                     Positioned(
                       bottom: 0,
-                      child: AccessWidget(
-                        hasAccess: isHasAccess(accessId['LandParcelApproval']) && isNeedApproval.value,
-                        needToHide: true,
-                        widget: Container(
-                          height: 70,
-                          width: SizeConfig.screenWidth,
-                          color: Colors.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              GestureDetector(
-                                onTap:(){
-                                  approveRejHandler(false);
-                                },
-                                child: Container(
-                                  width: SizeConfig.screenWidth!*0.4,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(color: ColorUtil.red),
-                                    color: ColorUtil.red.withOpacity(0.3),
+                      child: Container(
+                        height: 70,
+                        width: SizeConfig.screenWidth,
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AccessWidget(
+                                hasAccess: isNeedApproval.value && isHasAccess(accessId['EventsApproved']),
+                                needToHide: true,
+                                widget:GestureDetector(
+                                  onTap:(){
+                                    approveRejHandler(false);
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.screenWidth!*0.4,
+                                    height: 50,
+                                    margin: const EdgeInsets.only(right: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      border: Border.all(color: ColorUtil.red),
+                                      color: ColorUtil.red.withOpacity(0.3),
+                                    ),
+                                    child:Center(child: Text(Language.reject,style: ts16(ColorUtil.red,), )) ,
                                   ),
-                                  child:Center(child: Text(Language.reject,style: ts16(ColorUtil.red,), )) ,
                                 ),
-                              ),
-                              GestureDetector(
+                            ),
+
+                            AccessWidget(
+                              hasAccess: isHasAccess(accessId['EventsApproved']),
+                              widget: GestureDetector(
                                 onTap:(){
                                   approveRejHandler(true);
                                 },
@@ -249,11 +259,13 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
                                     borderRadius: BorderRadius.circular(3),
                                     color: ColorUtil.primary,
                                   ),
-                                  child:Center(child: Text(Language.accept,style: ts16(ColorUtil.themeWhite,), )) ,
+                                  child:Center(child: Text(isNeedApproval.value?Language.accept:Language.approved,style: ts16(ColorUtil.themeWhite,), )) ,
                                 ),
                               ),
-                            ],
-                          ),
+                              needToHide: true,
+
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -285,41 +297,59 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
   @override
   void assignWidgets() async {
 
-    widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),),);
+    widgets.add(HE_Text(dataname: "PageTitle",  contentTextStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.themeBlack,fontFamily:'RB'),content: "Event",),);
     widgets.add(HE_Text(dataname: "LandDistrictVillage", contentTextStyle: TextStyle(fontSize: 13,color: ColorUtil.themeBlack,fontFamily:'RR'),textAlign: TextAlign.center,),);
 
     widgets.add(HiddenController(dataname: "LandParcelId"));
     widgets.add(HiddenController(dataname: "IsNewsFeed"));
-    widgets.add(HiddenController(dataname: "IsAccept"));
-    await parseJson(widgets, General.EventsViewIdentifier,dataJson: widget.dataJson);
-    try{
-
-      EventViewPage=valueArray.where((element) => element['key']=="EventViewPage").toList()[0]['value'];
-      isNewsFeed.value=valueArray.where((element) => element['key']=="IsNewsFeed").toList()[0]['value'];
-      imgList=valueArray.where((element) => element['key']=="EventImagesList").toList()[0]['value'];
-      var x=valueArray.where((element) => element['key']=="IsNeedApproval").toList();
-      isNeedApproval.value=x.isNotEmpty?x[0]['value']:MyConstants.defaultActionEnable;
-      setState((){});
-
-    }catch(e,t){
-      assignWidgetErrorToast(e, t);
-    }
+    widgets.add(HiddenController(dataname: "IsApproved"));
+    widgets.add(HiddenController(dataname: "EventId"));
+    await parseJson(widgets, General.EventsViewIdentifier,dataJson: widget.dataJson,
+      traditionalParam:traditionalParam,developmentMode: DevelopmentMode.traditional,resCb: (e){
+      console("parseJson $e");
+      try{
+        EventViewPage=[
+          {"Title":"Event Name","Value":e['Table'][0]['EventName']},
+          {"Title":"Event Date","Value":e['Table'][0]['EventDate']},
+          {"Title":"Event Time","Value":e['Table'][0]['EventTime']},
+          {"Title":"Village","Value":e['Table'][0]['VillageName']},
+          {"Title":"Taluk","Value":e['Table'][0]['TalukName']},
+          {"Title":"District","Value":e['Table'][0]['DistrictName']},
+          {"Title":"Type Of Land","Value":e['Table'][0]['LandType']},
+          {"Title":"No Of Plants","Value":e['Table'][0]['NoOfPlants']},
+          {"Title":"Event Place","Value":e['Table'][0]['Place']},
+          {"Title":"Description","Value":e['Table'][0]['EventParagraph']},
+          {"Title":"User Name","Value":e['Table'][0]['FirstName']},
+          {"Title":"Role","Value":e['Table'][0]['UserGroupName']}
+        ];
+        isNewsFeed.value=e['Table'][0]['IsNewsFeed'];
+        isNeedApproval.value=e['Table'][0]['IsApproved']==0;
+        imgList=e['Table1'];
+        setState((){});
+        widgets[1].setValue("${e['Table'][0]['DistrictName']} / ${e['Table'][0]['VillageName']}");
+      }catch(e,t){
+        assignWidgetErrorToast(e, t);
+      }
+    });
   }
 
 
   void approveRejHandler(isAccept){
-    sysSubmit(widgets,isEdit: true,
+    sysSubmit(widgets,
+        isEdit: true,
         needCustomValidation: true,
         onCustomValidation: (){
           foundWidgetByKey(widgets,"IsNewsFeed",needSetValue: true,value: isNewsFeed.value);
-          foundWidgetByKey(widgets,"IsAccept",needSetValue: true,value: isAccept);
+          foundWidgetByKey(widgets,"IsApproved",needSetValue: true,value: isAccept);
           return true;
         },
         successCallback: (e){
           if(widget.closeCb!=null){
             widget.closeCb!(e);
           }
-        }
+        },
+      traditionalParam: traditionalParam,
+      developmentMode: DevelopmentMode.traditional
     );
   }
 

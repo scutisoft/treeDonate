@@ -83,6 +83,9 @@ bool HE_IsMap(value){
 bool HE_IsList(value){
   return value.runtimeType.toString()=="List<dynamic>" || value.runtimeType.toString()=="List<Widget>";
 }
+bool HE_IsInt(value){
+  return value.runtimeType.toString()=="int";
+}
 
 Future<Position> determinePosition() async {
   bool serviceEnabled;

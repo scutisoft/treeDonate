@@ -159,6 +159,9 @@ class Language{
   static String description="";
   static String addNFTitle="";
   static String addNFTitle2="";
+  static String eventName="";
+  static String eventPlace="";
+  static String interestedPeople="";
 
   static Future parseJson(languageId) async{
     if(languageId==1){
@@ -329,6 +332,9 @@ class Language{
     description=languageSource['LB_141'][languageId.toString()];
     addNFTitle=languageSource['LB_142'][languageId.toString()];
     addNFTitle2=languageSource['LB_143'][languageId.toString()];
+    eventName=languageSource['LB_144'][languageId.toString()];
+    eventPlace=languageSource['LB_145'][languageId.toString()];
+    interestedPeople=languageSource['LB_146'][languageId.toString()];
 
 
     //DateTime dataAssignedTime=DateTime.now();

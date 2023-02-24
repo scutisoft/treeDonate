@@ -105,6 +105,9 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
     else if(HE_IsList(value)){
       search2.setDataArray(value);
     }
+    else if(HE_IsInt(value)){
+      search2.setValues({map['propertyId']??"Id":value});
+    }
   }
 
   @override

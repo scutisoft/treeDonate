@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/widgets/accessWidget.dart';
 import '../../HappyExtension/extensionUtils.dart';
 import '../../helper/language.dart';
 import '../../utils/utils.dart';
@@ -66,7 +67,8 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "EventId",dataJson: dataJson);
+            sysDeleteHE_ListView(he_listViewBody, "EventId",dataJson: dataJson,developmentMode: DevelopmentMode.traditional,
+            traditionalParam: TraditionalParam(executableSp: "USP_Events_DeleteEventDetails"));
           },
           onEdit: (updatedMap){
             he_listViewBody.updateArrById("EventId", updatedMap);
@@ -153,13 +155,19 @@ class _EventsGridState extends State<EventsGrid> with HappyExtensionHelper  impl
                             },
                           ),
                           const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(EventsForm(closeCb: (e){
-                                he_listViewBody.addData(e['Table'][0]);
-                              },));
-                            },
+                          AccessWidget(
+                              hasAccess: isHasAccess(accessId["EventsAdd"]),
+                              needToHide: true,
+                              widget: GridAddIcon(
+                                onTap: (){
+                                  fadeRoute(EventsForm(closeCb: (e){
+                                    he_listViewBody.addData(e['Table'][0]);
+                                  },));
+                                },
+                              ),
                           ),
+
+
                         ],
                       ),
                       Flexible(child: he_listViewBody),
@@ -207,6 +215,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
   GlobalKey globalKey;
   HE_EventContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
+    dataListener['DataJson']={"EventId":data['EventId']};
   }
   var dataListener={}.obs;
   var separatorHeight = 50.0.obs;
@@ -233,15 +242,15 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: cardWidth*0.6,
+                    width: cardWidth*0.7,
                     alignment: Alignment.topLeft  ,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
                         gridCardText(Language.date, dataListener['EventDate'],isBold: true),
-                        gridCardText("Event Name", dataListener['EventName']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText(Language.place, dataListener['Place']??""),
+                        gridCardText2(Language.eventName, dataListener['EventName']??"",),
+                        gridCardText2(Language.eventPlace, dataListener['Place']??""),
                         gridCardText(Language.location ,dataListener['EventLocation']??""),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,7 +289,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                     ),
                   ),
                   Container(
-                    width: cardWidth*0.4,
+                    width: cardWidth*0.3,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     // color:Colors.red,
                     child:  Column(
@@ -305,7 +314,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                             ),
                            // const SizedBox(width: 10,),
                             GridEditIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                              hasAccess: isHasAccess(accessId["EventsEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
                                 fadeRoute(EventsForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
@@ -318,7 +327,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                             ),
                           //  const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                              hasAccess: isHasAccess(accessId["EventsDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
                                 if(onDelete!=null){
@@ -330,12 +339,15 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                           ],
                         ),
                         const SizedBox(height: 10,),
-                        GestureDetector(
+                        AccessWidget(
+                          needToHide: true,
+                            hasAccess: isHasAccess(accessId["EventsInterestedView"]) ,
+                            widget: Image.asset('assets/like.png',width: 30,),
                           onTap: (){
-                              fadeRoute(EventInterestedView());
+                            fadeRoute(EventInterestedView(dataJson: getDataJsonForGrid(dataListener['DataJson']),));
                           },
-                            child: Image.asset('assets/like.png',width: 30,)
                         ),
+
                       ],
                     ),
                   ),

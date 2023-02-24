@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/colorUtil.dart';
+import '../utils/utils.dart';
 
 class StackIcon extends StatelessWidget {
 
@@ -38,3 +39,25 @@ class StackIcon extends StatelessWidget {
     );
   }
 }
+
+class EGFEmblem extends StatelessWidget {
+  dynamic companyId;
+  EdgeInsets margin;
+  double imgHeight;
+  EGFEmblem({Key? key,required this.companyId,this.margin=const EdgeInsets.only(left: 5),this.imgHeight=30}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: companyId.toString()==egfCompanyId,
+      child: Container(
+        height: imgHeight,
+        width: imgHeight,
+        margin: margin,
+        alignment: Alignment.center,
+        child: Image.asset("assets/eco-green-logo.png"),
+      ),
+    );
+  }
+}
+

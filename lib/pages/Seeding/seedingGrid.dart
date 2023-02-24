@@ -15,6 +15,7 @@ import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 import '../Filter/FilterItems.dart';
 import 'seedingForm.dart';
 import 'seedingViewPage.dart';
@@ -279,6 +280,10 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                       crossAxisAlignment:CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        EGFEmblem(
+                          companyId: dataListener['UserRoleTypeId'],
+                          margin: const EdgeInsets.only(bottom: 15),
+                        ),
                         Text('${Language.seedQty} ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
                         Text("${dataListener['SeedQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),

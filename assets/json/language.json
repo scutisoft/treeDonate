@@ -915,6 +915,24 @@
       "1": "Add News Feed Details",
       "2": "செய்தி ஊட்ட விவரங்களைச் சேர்க்கவும்",
       "Description": "News Feed Add Form Title2"
+    },
+    "LB_144": {
+      "Id": "LB_144",
+      "1": "Event Name",
+      "2": "நிகழ்வின் பெயர்",
+      "Description": "Grid Card Column Name."
+    },
+    "LB_145": {
+      "Id": "LB_145",
+      "1": "Event Place",
+      "2": "நிகழ்வு இடம்",
+      "Description": "Grid Card Column Name."
+    },
+    "LB_146": {
+      "Id": "LB_146",
+      "1": "Interested People",
+      "2": "ஆர்வமுள்ள மக்கள்",
+      "Description": "Event Interested Grid Page title"
     }
   }
 }

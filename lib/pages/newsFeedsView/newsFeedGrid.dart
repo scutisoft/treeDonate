@@ -12,6 +12,7 @@ import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
+import '../../widgets/accessWidget.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
@@ -157,12 +158,16 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
                             },
                           ),
                           const SizedBox(width: 5,),
-                          GridAddIcon(
-                            onTap: (){
-                              fadeRoute(NewsFeedForm(closeCb: (e){
-                                he_listViewBody.addData(e['Table'][0]);
-                              },));
-                            },
+                          AccessWidget(
+                            hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
+                            needToHide: true,
+                            widget: GridAddIcon(
+                              onTap: (){
+                                fadeRoute(NewsFeedForm(closeCb: (e){
+                                  he_listViewBody.addData(e['Table'][0]);
+                                },));
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -297,7 +302,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                            //  ),
                            // const SizedBox(width: 10,),
                             GridEditIcon(
-                              hasAccess: true /*isHasAccess(accessId["SeedCollectionEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable)*/,
+                              hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
 
@@ -311,7 +316,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                             ),
                           //  const SizedBox(width: 10,),
                             GridDeleteIcon(
-                              hasAccess: true/*isHasAccess(accessId["SeedCollectionDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable)*/,
+                              hasAccess: isHasAccess(accessId["NewsFeedDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
                                 if(onDelete!=null){

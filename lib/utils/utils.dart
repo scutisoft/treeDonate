@@ -49,6 +49,16 @@ Map<String,dynamic> accessId={
   "PlantationDelete":35,
   "PlantationApproved":37,
   "CSRDashboardView":38,
+  "EventsView":39,
+  "EventsAdd":40,
+  "EventsEdit":41,
+  "EventsDelete":42,
+  "EventsApproved":43,
+  "EventsInterestedView":44,
+  "NewsFeedView":45,
+  "NewsFeedAdd":46,
+  "NewsFeedEdit":47,
+  "NewsFeedDelete":48,
 };
 List<dynamic> accessData=[];
 bool isHasAccess(int uniqueId){
@@ -168,8 +178,24 @@ Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? text
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),),
-        // Spacer(),
         Flexible(
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
+        ),
+      ],
+    ),
+  );
+}
+Widget gridCardText2(String title,var value,{bool isBold=false,TextOverflow? textOverflow}){
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 2),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(child: Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),)),
+        const SizedBox(width: 5,),
+        Flexible(
+          flex: 2,
             child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
         ),
       ],
@@ -188,3 +214,5 @@ Map tamilText={
 String getTamilWord(String text){
   return tamilText[text]??text;
 }
+
+const String egfCompanyId="1";
