@@ -31,6 +31,7 @@ class MyConstants{
   static String alphaSpaceRegEx='[A-Za-z ]';
   static String alphaSpaceRegEx2="/[அ-ஔ]+|[க-னௌ]+|[ァ-ヴー]+|[a-zA-Z ]+|[々〆〤ヶ]+/u";
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
+  static String dbDateTimeFormat='yyyy-MM-dd HH:mm:ss';
 }
 
 var formatCurrency = NumberFormat.currency(locale: 'HI',name: "");

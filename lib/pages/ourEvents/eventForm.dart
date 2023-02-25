@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/searchDropdown/search2.dart';
 import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/loader.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../HappyExtension/utilWidgets.dart';
@@ -151,70 +152,74 @@ class _EventsFormState extends State<EventsForm> with HappyExtensionHelper  impl
                     ],
                   ),
                 ),
-                AccessWidget(
+                Positioned(
+                  bottom: 0,
+                  child:AccessWidget(
                     hasAccess: true,
                     needToHide: true,
-                    widget: Positioned(
-                      bottom: 0,
-                      child: Obx(() => Container(
-                        margin: const EdgeInsets.only(top: 0,bottom: 0),
-                        height: isKeyboardVisible.value?0:70,
-                        width: SizeConfig.screenWidth,
-                        color: Colors.white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              onTap: (){
-                                Get.back();
-                              },
-                              child: Container(
-                                width: SizeConfig.screenWidth!*0.4,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  border: Border.all(color: ColorUtil.primary),
-                                  color: ColorUtil.primary.withOpacity(0.3),
-                                ),
-                                child:Center(child: Text(Language.cancel,style: ts16(ColorUtil.primary,), )) ,
+                    widget: Obx(() => Container(
+                      margin: const EdgeInsets.only(top: 0,bottom: 0),
+                      height: isKeyboardVisible.value?0:70,
+                      width: SizeConfig.screenWidth,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              Get.back();
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(color: ColorUtil.primary),
+                                color: ColorUtil.primary.withOpacity(0.3),
                               ),
+                              child:Center(child: Text(Language.cancel,style: ts16(ColorUtil.primary,), )) ,
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                sysSubmit(widgets,
-                                    isEdit: widget.isEdit,
-                                    successCallback: (e){
-                                      console("sysSubmit $e");
-                                      if(widget.closeCb!=null){
-                                        widget.closeCb!(e);
-                                      }
-                                    },
-                                    needCustomValidation: true,
-                                    onCustomValidation: (){
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              sysSubmit(widgets,
+                                  isEdit: widget.isEdit,
+                                  successCallback: (e){
+                                    console("sysSubmit $e");
+                                    if(widget.closeCb!=null){
+                                      widget.closeCb!(e);
+                                    }
+                                  },
+                                  needCustomValidation: true,
+                                  onCustomValidation: (){
+                                    if(dateTime.value==null){
+                                      CustomAlert().cupertinoAlert("Select Date & Time");
+                                      return false;
+                                    }
+                                    foundWidgetByKey(widgets, "EventDate",value: dateTime.value==null?null:DateFormat(MyConstants.dbDateTimeFormat).format(dateTime.value!),needSetValue: true);
+                                    return true;
 
-                                      foundWidgetByKey(widgets, "EventDate",value: dateTime.value==null?null:DateFormat("dd-MM-yyyy  HH:mm:ss").format(dateTime.value!),needSetValue: true);
-                                      return true;
-
-                                    },
-                                    developmentMode: DevelopmentMode.traditional,
-                                    traditionalParam: traditionalParam
-                                );
-                              },
-                              child: Container(
-                                width: SizeConfig.screenWidth!*0.4,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: ColorUtil.primary,
-                                ),
-                                child:Center(child: Text(Language.save,style: ts16(ColorUtil.themeWhite,), )) ,
+                                  },
+                                  developmentMode: DevelopmentMode.traditional,
+                                  traditionalParam: traditionalParam
+                              );
+                            },
+                            child: Container(
+                              width: SizeConfig.screenWidth!*0.4,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: ColorUtil.primary,
                               ),
+                              child:Center(child: Text(Language.save,style: ts16(ColorUtil.themeWhite,), )) ,
                             ),
-                          ],
-                        ),
-                      )),
-                    ),
+                          ),
+                        ],
+                      ),
+                    )),
+                  ),
                 ),
+
                 ShimmerLoader(),
               ],
             ),

@@ -338,6 +338,7 @@ class DrawerContent extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FittedText(
+                  width: width*0.45,
                   text: title,
                   textStyle: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: Colors.white,letterSpacing: 0.1),
                   alignment: Alignment.centerLeft,

@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/utils/utils.dart';
 
 
-var selectedLanguage=2.obs;
+
+var selectedLanguage=1.obs;
 
 class Language{
   Language._();

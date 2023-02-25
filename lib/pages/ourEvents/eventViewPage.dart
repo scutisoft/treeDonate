@@ -203,6 +203,8 @@ class _EventViewPageState extends State<EventViewPage> with HappyExtensionHelper
                                 ),
                                 const SizedBox(width: 5,),
                                 FittedText(
+                                  height: 25,
+                                  width: SizeConfig.screenWidth!-70,
                                   alignment: Alignment.centerLeft,
                                   text: Language.newsFeedChkBox,
                                   textStyle: ts14(isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack,),
