@@ -1,15 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:treedonate/helper/language.dart';
-import 'package:treedonate/pages/volunteer/addvolunteer.dart';
-import 'package:treedonate/widgets/fittedText.dart';
-
+import '../../helper/language.dart';
+import '../../pages/volunteer/addvolunteer.dart';
+import '../../widgets/fittedText.dart';
 import '../../helper/appVersionController.dart';
 import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
+import '../donateTree/donateTree.dart';
 import 'login.dart';
 
 class SlideSwipe extends StatefulWidget {
@@ -148,7 +145,36 @@ class _SlideSwipeState extends State<SlideSwipe> {
                   ),
                 ),
               ),
-            )
+            ),
+            Positioned(
+              left: 10,
+              bottom: 160,
+              child: GestureDetector(
+                onTap: (){
+                  fadeRoute(DonateTreePage(
+                    voidCallback: (){},
+                    isDirectDonate: true,
+                  ));
+                },
+                child: Container(
+                  height: 50,
+                 width: 120,
+                 alignment: Alignment.center,
+                  padding: const EdgeInsets.only(left: 5,right: 5 ),
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  //child: FittedBox(child: Text("+ ${Language.volunteer}",style: ts18(ColorUtil.themeBlack,fontsize: 16),)),
+                  child: FittedText(
+                    textStyle: ts18(ColorUtil.themeBlack,fontsize: 20,fontfamily: 'Reg'),
+                    text: Language.donate,
+                    height: 25,
+                    alignment: Alignment.center,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

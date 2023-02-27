@@ -1,10 +1,9 @@
-
-
-
 import 'package:decimal/decimal.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class Calculation {
-
+  Parser p = Parser();
+  ContextModel cm = ContextModel();
   add(dynamic n1,dynamic n2){
     return double.parse((Decimal.parse(n1==null?"0.0":n1.toString())+Decimal.parse(n2==null?"0.0":n2.toString())).toString());
   }
@@ -29,6 +28,8 @@ class Calculation {
     return double.parse((Decimal.parse(n1==null?"0.0":n1.toString())*Decimal.parse(n2==null?"0.0":n2.toString())).toString());
   }
   div(dynamic n1,dynamic n2){
+    double x=double.parse(p.parse("$n1/$n2").evaluate(EvaluationType.REAL, cm).toString());
+    return x;
     return double.parse((Decimal.parse(n1==null?"0.0":n1.toString())/Decimal.parse(n2==null?"0.0":n2.toString())).toString());
   }
 

@@ -78,6 +78,14 @@ parseDouble(var value){
   return 0.0;
 }
 
+parseInt(var value){
+  try{
+    return int.parse(value.toString());
+  }catch(e){}
+  return 0;
+}
+
+
 void console(var content){
   log(content.toString());
 }

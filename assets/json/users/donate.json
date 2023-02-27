@@ -18,6 +18,10 @@
           {"Id": 3,"Text": "Medical"}
         ]
       }
+    },
+    {
+      "key": "TreePrice",
+      "value": 30.0
     }
   ]
 }

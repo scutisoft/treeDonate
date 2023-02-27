@@ -22,6 +22,8 @@ class MyConstants{
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;
 
+  static String mapApiKey="AIzaSyB9wKg5QXWHAoOd1i-mUKYhhaq6bBQuHeg";
+
   static String dbDateFormat="yyyy-MM-dd";
   static String decimalReg=r'^\d+\.?\d{0,3}';
   static int phoneNoLength=10;

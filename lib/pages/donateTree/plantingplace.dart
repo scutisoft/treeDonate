@@ -1,12 +1,13 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:treedonate/utils/sizeLocal.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:treedonate/utils/utils.dart';
+import '../../utils/sizeLocal.dart';
 
 import '../../utils/colorUtil.dart';
 import '../../widgets/searchDropdown/search2.dart';
-import '../navHomeScreen.dart';
 
 
 class PlantingVillagePlace extends StatefulWidget {
@@ -31,9 +32,7 @@ class _PlantingVillagePlaceState extends State<PlantingVillagePlace> {
     ],
     showSearch: false,
     onitemTap: (i){},
-    selectedValueFunc: (e){
-
-    },
+    selectedValueFunc: (e){},
     scrollTap: (){},
     isToJson: true,
     margin: EdgeInsets.only(left: 15,right: 15,top:25,bottom: 0),
@@ -43,28 +42,128 @@ class _PlantingVillagePlaceState extends State<PlantingVillagePlace> {
             color: ColorUtil.themeWhite
     ),
   );
-  late  double width,height,width2,height2;
-  List<dynamic> CateringTimeSlot=[
-    {"Reason":"Call not pickup",},
-    {"Reason":"Customer not available",},
-    {"Reason":"Customer mistake for order raised",},
-  ];
-  @override
+//  late  double width,height,width2,height2;
 
+
+  Search2V3 districtDrp=Search2V3(
+    width: 100,
+    dialogWidth: SizeConfig.screenWidth,
+    dialogMargin: EdgeInsets.zero,
+    dataName: "DistrictId",
+    hinttext: "Select District",
+    showSearch: true,
+    onitemTap: (i){},
+    selectedValueFunc: (e){
+
+    },
+    scrollTap: (){},
+    isToJson: true,
+    data: [],
+  );
+  Search2V3 talukDrp=Search2V3(
+    width: 100,
+    dialogWidth: SizeConfig.screenWidth,
+    dialogMargin: EdgeInsets.zero,
+    dataName: "TalukId",
+    hinttext: "Select Taluk",
+    showSearch: true,
+    onitemTap: (i){},
+    selectedValueFunc: (e){
+
+    },
+    scrollTap: (){},
+    isToJson: true,
+    data: [],
+  );
+  Search2V3 villageDrp=Search2V3(
+    width: 100,
+    dialogWidth: SizeConfig.screenWidth,
+    dialogMargin: EdgeInsets.zero,
+    dataName: "VillageId",
+    hinttext: "Select Village",
+    showSearch: true,
+    onitemTap: (i){},
+    selectedValueFunc: (e){
+
+    },
+    scrollTap: (){},
+    isToJson: true,
+    data: [],
+  );
+
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(13.074737, 80.267689),
+    zoom: 12.5,
+  );
+
+  Future<void> navigateMap(lat, lng,{double zoom=12.5}) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(parseDouble(lat), parseDouble(lng)),
+      zoom: zoom,
+    )));
+  }
+
+/*  List locations = [];
+  String googleMapsApi = 'AIzaSyCzxj6UFfx8uvDaaE9OSSPkjJXdou3jD9I';
+  TextEditingController _latController = new TextEditingController();
+  TextEditingController _lngController = new TextEditingController();
+  int zoom = 4;
+
+
+  var _controller = StaticMapController(
+    googleApiKey: MyConstants.mapApiKey,
+    width: 400,
+    height: 400,
+    zoom: 10,
+    center: Location(-3.1178833, -60.0029284),
+  );
+  late ImageProvider image;*/
+  @override
+  void initState(){
+    districtDrp.setDataArray([{"Id":1,"Text":"CHENNAI","latitude":"13.074737","longitude":"80.267689"},{"Id":2,"Text":"THIRUVALLUR","latitude":"13.153773","longitude":"79.915219"},{"Id":3,"Text":"RANIPET"},{"Id":4,"Text":"VELLORE","latitude":"12.909641","longitude":"79.139241"},{"Id":5,"Text":"THIRUPATTUR"},{"Id":6,"Text":"TIRUVANNAMALAI"},{"Id":7,"Text":"KANCHIPURAM"},{"Id":8,"Text":"CHENGALPATTU"},{"Id":9,"Text":"CUDDALORE"},{"Id":10,"Text":"KALLAKURUCHI"},{"Id":11,"Text":"VILLUPURAM"},{"Id":12,"Text":"TRICHY"},{"Id":13,"Text":"PERAMBALUR"},{"Id":14,"Text":"ARIYALUR"},{"Id":15,"Text":"MAYILADUDURAI"},{"Id":16,"Text":"NAGAPATTINAM"},{"Id":17,"Text":"THIRUVARUR"},{"Id":18,"Text":"THANJAVUR"},{"Id":19,"Text":"PUDUKKOTTAI"},{"Id":20,"Text":"THENI"},{"Id":21,"Text":"MADURAI"},{"Id":22,"Text":"SIVAGANGAI"},{"Id":23,"Text":"RAMANATHAPURAM"},{"Id":24,"Text":"VIRUDHUNAGAR"},{"Id":25,"Text":"THENKASI"},{"Id":26,"Text":"THOOTHUKUDI"},{"Id":27,"Text":"TIRUNELVELI"},{"Id":28,"Text":"KANYAKUMARI"},{"Id":29,"Text":"COIMBATORE","latitude":"10.994743","longitude":"76.96688"},{"Id":30,"Text":"NILGIRIS"},{"Id":31,"Text":"TIRUPUR"},{"Id":32,"Text":"DINDUGAL"},{"Id":33,"Text":"KARUR"},{"Id":34,"Text":"ERODE"},{"Id":35,"Text":"NAMMAKAL"},{"Id":36,"Text":"SALEM"},{"Id":37,"Text":"DHARMAPURI"},{"Id":38,"Text":"KRISHNAGIRI"}]);
+    talukDrp.setDataArray([{"Id":1,"Text":"Avadi","latitude":"13.10559996101265","longitude":"80.09788287501283"},{"Id":2,"Text":"Guindy","latitude":"13.006810698877896","longitude":"80.22108857891945"}]);
+    villageDrp.setDataArray([{"Id":1,"Text":"Ekkatuthangal","latitude":"13.022356153260509","longitude":"80.20275605373816"},{"Id":2,"Text":"Guindy","latitude":"13.006810698877896","longitude":"80.22108857891945"}]);
+    districtDrp.selectedValueFunc=(e){
+      console(e);
+      if(e['latitude']!=null){
+        navigateMap(e['latitude'], e['longitude']);
+      }
+    };
+    talukDrp.selectedValueFunc=(e){
+      console(e);
+      if(e['latitude']!=null){
+        navigateMap(e['latitude'], e['longitude'],zoom: 15);
+      }
+    };
+    villageDrp.selectedValueFunc=(e){
+      console(e);
+      if(e['latitude']!=null){
+        navigateMap(e['latitude'], e['longitude'],zoom: 16);
+      }
+    };
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    width=MediaQuery.of(context).size.width;
-    height=MediaQuery.of(context).size.height;
-    width2=width-16;
-    height2=height-16;
     return SafeArea(
         child: Scaffold(
-          body: Container(
+          body: SizedBox(
             height: SizeConfig.screenHeight,
             child: Stack(
               children: [
-                Container(
-                    child: Image.asset('assets/login/maps.png',fit:BoxFit.contain,)
+                GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: _kGooglePlex,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
                 ),
+                //Image.asset('assets/login/maps.png',fit:BoxFit.fill,width:SizeConfig.screenWidth,),
+                //Image(image: image),
+                //StaticMap(MyConstants.mapApiKey, locations: locations, zoom: zoom,),
                 bHFloorDrp,
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -73,72 +172,10 @@ class _PlantingVillagePlaceState extends State<PlantingVillagePlace> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        GestureDetector(
-                          onTap: (){
+                        districtDrp,
+                        talukDrp,
+                        villageDrp
 
-                          },
-                          child: Container(
-                            height: 120,
-                            width: 100,
-                            decoration:BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color:ColorUtil.primary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset('assets/Slice/hand-leaf.png',fit:BoxFit.contain,width: 50,),
-                                Text('₹10000',style: TextStyle(fontSize: 13,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                                Text('trees Donate',style: TextStyle(fontSize: 10,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                              ],
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            _showMyDialog();
-                          },
-                          child: Container(
-                            height: 120,
-                            width: 100,
-                            decoration:BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color:ColorUtil.primary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset('assets/Slice/hand-leaf.png',fit:BoxFit.contain,width: 50,),
-                                Text('Select',style: TextStyle(fontSize: 13,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                                Text('Village',style: TextStyle(fontSize: 10,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                              ],
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-
-                          },
-                          child: Container(
-                            height: 120,
-                            width: 100,
-                            decoration:BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color:ColorUtil.primary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset('assets/Slice/hand-leaf.png',fit:BoxFit.contain,width: 50,),
-                                Text('Select',style: TextStyle(fontSize: 13,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                                Text('Taluk',style: TextStyle(fontSize: 10,color: ColorUtil.themeWhite,fontFamily: 'RB'),),
-                              ],
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -149,6 +186,8 @@ class _PlantingVillagePlaceState extends State<PlantingVillagePlace> {
         ),
     );
   }
+
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
