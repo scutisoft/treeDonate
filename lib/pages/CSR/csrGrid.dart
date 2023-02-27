@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,19 +17,20 @@ import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
-import 'newsFeedForm.dart';
+import 'CSRForm.dart';
+import 'viewCSRDetails.dart';
 
 
 
 
-class NewsFeedGrid extends StatefulWidget {
+class CSRGrid extends StatefulWidget {
   VoidCallback voidCallback;
-  NewsFeedGrid({required this.voidCallback});
+  CSRGrid({required this.voidCallback});
   @override
-  _NewsFeedGridState createState() => _NewsFeedGridState();
+  _CSRGridState createState() => _CSRGridState();
 }
 
-class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
+class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
   List<Widget> widgets=[];
@@ -64,7 +63,7 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_NewsFeedContent(
+        return HE_ViewCSRGridContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
@@ -98,88 +97,116 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
         child: Scaffold(
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
-          body: NestedScrollView(
-            controller: silverController,
-            //floatHeaderSlivers: true,
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  backgroundColor: Color(0XFFf3f3f3),
-                  expandedHeight: 160.0,
-                  pinned: true,
-                  leading: NavBarIcon(
-                      onTap: (){
-                        widget.voidCallback();
-                      },
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    expandedTitleScale: 1.8,
-                    title: Text(Language.newsFeedTitle,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
-                    background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
-                  ),
-                ),
-              ];
-            },
-            body:Stack(
-              children: [
-                Container(
-                  // height: SizeConfig.screenHeight,
-                  padding: const EdgeInsets.only(right: 5.0,),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+          body:ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: [
+              Container(
+                height: 180,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: SizeConfig.screenWidth!-170,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          AnimSearchBar(
-                            width: SizeConfig.screenWidth!-80,
-                            color: ColorUtil.asbColor,
-                            boxShadow: ColorUtil.asbBoxShadow,
-                            textController: textController,
-                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                            searchIconColor: ColorUtil.asbSearchIconColor,
-                            suffixIcon: ColorUtil.getASBSuffix(),
-                            onSubmitted: (a){
-                            },
-                            onChange: (a){
-                              he_listViewBody.searchHandler(a);
-                            },
-                            onSuffixTap: (clear) {
-                              if(clear){
-                                he_listViewBody.searchHandler("");
-                              }
+                          NavBarIcon(
+                            onTap:  (){
+                              widget.voidCallback();
                             },
                           ),
-                          const SizedBox(width: 5,),
-                          FilterIcon(
-                            onTap: (){
-                              fadeRoute(FilterItems());
-                            },
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text('Total CSR',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
-                          const SizedBox(width: 5,),
-                          AccessWidget(
-                            hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
-                            needToHide: true,
-                            widget: GridAddIcon(
-                              onTap: (){
-                                fadeRoute(NewsFeedForm(closeCb: (e){
-                                  he_listViewBody.addData(e['Table'][0]);
-                                },));
-                              },
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text('2,500',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                          ),
+                          const SizedBox(height: 2,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text('Donation Amount',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text('25,00,000.00',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                          ),
+                          const SizedBox(height: 2,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
                           ),
                         ],
                       ),
-                      Flexible(child: he_listViewBody),
-                      Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,topPadding: 20,)),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      width: 170,
+                      child: Image.asset('assets/Slice/volunteers.png',fit:BoxFit.cover),
+                    ),
+                  ],
                 ),
+              ),
+              const SizedBox(height: 5,),
+              Container(
+                // height: SizeConfig.screenHeight,
+                padding: const EdgeInsets.only(right: 5.0,),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        AnimSearchBar(
+                          width: SizeConfig.screenWidth!-80,
+                          color: ColorUtil.asbColor,
+                          boxShadow: ColorUtil.asbBoxShadow,
+                          textController: textController,
+                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                          searchIconColor: ColorUtil.asbSearchIconColor,
+                          suffixIcon: ColorUtil.getASBSuffix(),
+                          onSubmitted: (a){
+                          },
+                          onChange: (a){
+                            he_listViewBody.searchHandler(a);
+                          },
+                          onSuffixTap: (clear) {
+                            if(clear){
+                              he_listViewBody.searchHandler("");
+                            }
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        FilterIcon(
+                          onTap: (){
+                            fadeRoute(FilterItems());
+                          },
+                        ),
+                        const SizedBox(width: 5,),
+                        AccessWidget(
+                          hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
+                          needToHide: true,
+                          widget: GridAddIcon(
+                            onTap: (){
+                              fadeRoute(CSRForm(closeCb: (e){
+                                he_listViewBody.addData(e['Table'][0]);
+                              },));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Flexible(child: he_listViewBody),
+                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,topPadding: 20,)),
+                  ],
+                ),
+              ),
 
-                ShimmerLoader()
-              ],
-            ),
+              ShimmerLoader()
+            ],
           ),
         )
     );
@@ -187,32 +214,31 @@ class _NewsFeedGridState extends State<NewsFeedGrid> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.traditional,
-        traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
+    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.json,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
    // console("valueArr $valueArray");
     try{
-      he_listViewBody.assignWidget(valueArray);
-      /*List<dynamic> NewsFeedList=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
-      he_listViewBody.assignWidget(NewsFeedList);*/
+      //he_listViewBody.assignWidget(valueArray);
+      List<dynamic> CSRList=valueArray.where((element) => element['key']=="CSRList").toList()[0]['value'];
+      he_listViewBody.assignWidget(CSRList);
 
     }catch(e){}
   }
 
   @override
   String getPageIdentifier(){
-    return General.NewsFeedGridViewIdentifier;
+    return General.CSRGridIdentifier;
   }
 }
 
-class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentExtension{
+class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewContentExtension{
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_NewsFeedContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_ViewCSRGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
-    dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
+   // dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
   }
   var dataListener={}.obs;
   var separatorHeight = 50.0.obs;
@@ -239,16 +265,18 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: cardWidth-70,
+                    width: cardWidth-120,
                     alignment: Alignment.topLeft  ,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date ,dataListener['NewsFeedDate']??"",isBold: true),
-                        gridCardText(Language.name, dataListener['FirstName'],),
+                        gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
+                        gridCardText(Language.name, dataListener['ContactPerson'],),
+                        gridCardText(Language.email, dataListener['Email'],),
+                        gridCardText(Language.phoneNo, dataListener['ContactNo'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText(Language.description, dataListener['NewsFeedDescription']??""),
+                        gridCardText(Language.address, dataListener['Address']??""),
                       ],
                     ),
                   ),
@@ -278,7 +306,7 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                     ),
                   ),
                   Container(
-                    width: 70,
+                    width: 120,
                     padding: const EdgeInsets.only(top: 10,bottom: 10),
                     // color:Colors.red,
                     child:  Column(
@@ -291,23 +319,18 @@ class HE_NewsFeedContent extends StatelessWidget implements HE_ListViewContentEx
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           //  EyeIcon(
-                           //    onTap: (){
-                           //      fadeRoute(EventViewPage(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
-                           //        updateDataListener(e['Table'][0]);
-                           //        if(onEdit!=null){
-                           //          onEdit!(e['Table'][0]);
-                           //        }
-                           //      },));
-                           //    },
-                           //  ),
-                           // const SizedBox(width: 10,),
+                            EyeIcon(
+                              onTap: (){
+                                fadeRoute(ViewCSRGrid());
+                              },
+                            ),
+                           const SizedBox(width: 10,),
                             GridEditIcon(
                               hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                               margin: actionIconMargin,
                               onTap: (){
 
-                                fadeRoute(NewsFeedForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                fadeRoute(CSRForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
                                     onEdit!(e['Table'][0]);

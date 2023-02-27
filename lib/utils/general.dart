@@ -40,6 +40,11 @@ class General{
   static String EventsViewIdentifier=!MyConstants.fromUrl?"assets/json/users/eventsView.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String EventsInterestedIdentifier=!MyConstants.fromUrl?"assets/json/users/eventInterestedGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String CSRDashboardIdentifier=!MyConstants.fromUrl?"assets/json/users/csrDashbdGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String CSRGridIdentifier=!MyConstants.fromUrl?"assets/json/users/csrGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String CSRFormIdentifier=!MyConstants.fromUrl?"assets/json/users/csrForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String ViewCSRGridIdentifier=!MyConstants.fromUrl?"assets/json/users/ViewCSRGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String CSRAddAmountIdentifier=!MyConstants.fromUrl?"assets/json/users/csrAddAmountForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String PlantingAmtGridIdentifier=!MyConstants.fromUrl?"assets/json/users/plantingAmtGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 
   static String eventName="eventName";

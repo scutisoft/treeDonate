@@ -1,0 +1,23 @@
+{
+  "Guid": "DACF7963-7A17-42A8-82B3-8DC83C072BCE",
+  "valueArray": [
+    {
+      "key": "Date",
+      "value": "",
+      "orderBy": 1
+    },
+    {
+      "key": "Amount",
+      "value": "",
+      "orderBy": 2
+    },
+    {
+      "key": "PaymentId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 3
+    }
+  ]
+}

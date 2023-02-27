@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:treedonate/pages/planting/plantingAmountDetails.dart';
 import '../../helper/language.dart';
 import '../../widgets/treeDonateWidgets.dart';
 import 'plantingForm.dart';
@@ -334,6 +335,22 @@ class HE_PlantationViewContent extends StatelessWidget {
                         )
                       ],
                     ),
+                    const SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: (){
+                        fadeRoute(PlantingAmountDetails());
+                      },
+                        child: Container(
+                            width: 30,
+                            height: 30,
+                            alignment:Alignment.center,
+                            margin: EdgeInsets.all(0.0),
+                            decoration: BoxDecoration(
+                                color: ColorUtil.primary.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: Icon(Icons.person_outline_outlined,color: ColorUtil.primary,))
+                    )
                   ],
                 ),
               ),
