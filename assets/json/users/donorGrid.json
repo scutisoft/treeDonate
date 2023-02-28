@@ -1,0 +1,21 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "DonorList",
+      "value": [
+        {
+          "SNO": 1,
+          "CompanyName": "ScutiSoft",
+          "ContactPerson": "BalaSubramaniyan",
+          "Email": "bala@gmail.com",
+          "ContactNo": "9092322264",
+          "Address": "Chennai",
+          "DataJson": {
+            "NewsFeedId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}

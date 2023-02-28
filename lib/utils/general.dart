@@ -43,7 +43,11 @@ class General{
   static String CSRGridIdentifier=!MyConstants.fromUrl?"assets/json/users/csrGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String CSRFormIdentifier=!MyConstants.fromUrl?"assets/json/users/csrForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String ViewCSRGridIdentifier=!MyConstants.fromUrl?"assets/json/users/ViewCSRGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String ViewDonorGridIdentifier=!MyConstants.fromUrl?"assets/json/users/donorGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String ViewDonorFormIdentifier=!MyConstants.fromUrl?"assets/json/users/donorForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String DonorViewDetailsIdentifier=!MyConstants.fromUrl?"assets/json/users/donorViewGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String CSRAddAmountIdentifier=!MyConstants.fromUrl?"assets/json/users/csrAddAmountForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
+  static String DonorAddAmountIdentifier=!MyConstants.fromUrl?"assets/json/users/DonorAddAmountForm.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
   static String PlantingAmtGridIdentifier=!MyConstants.fromUrl?"assets/json/users/plantingAmtGrid.json":"105E7E2B-D49C-4540-B05E-5D8F67FDEF4F";
 
 

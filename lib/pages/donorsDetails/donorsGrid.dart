@@ -17,20 +17,20 @@ import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
-import 'CSRForm.dart';
-import 'viewCSRDetails.dart';
+import 'donorForm.dart';
+import 'viewDonorDetails.dart';
 
 
 
 
-class CSRGrid extends StatefulWidget {
+class DonorsGrid extends StatefulWidget {
   VoidCallback voidCallback;
-  CSRGrid({required this.voidCallback});
+  DonorsGrid({required this.voidCallback});
   @override
-  _CSRGridState createState() => _CSRGridState();
+  _DonorsGridState createState() => _DonorsGridState();
 }
 
-class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
+class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
   List<Widget> widgets=[];
@@ -63,7 +63,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_ViewCSRGridContent(
+        return HE_ViewDonorGridContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
@@ -119,7 +119,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Total CSR',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('Total Donars',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
@@ -191,7 +191,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           needToHide: true,
                           widget: GridAddIcon(
                             onTap: (){
-                              fadeRoute(CSRForm(closeCb: (e){
+                              fadeRoute(DonorForm(closeCb: (e){
                                 he_listViewBody.addData(e['Table'][0]);
                               },));
                             },
@@ -218,25 +218,25 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
    // console("valueArr $valueArray");
     try{
       //he_listViewBody.assignWidget(valueArray);
-      List<dynamic> CSRList=valueArray.where((element) => element['key']=="CSRList").toList()[0]['value'];
-      he_listViewBody.assignWidget(CSRList);
+      List<dynamic> DonorList=valueArray.where((element) => element['key']=="DonorList").toList()[0]['value'];
+      he_listViewBody.assignWidget(DonorList);
 
     }catch(e){}
   }
 
   @override
   String getPageIdentifier(){
-    return General.CSRGridIdentifier;
+    return General.ViewDonorGridIdentifier;
   }
 }
 
-class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewContentExtension{
+class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewContentExtension{
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_ViewCSRGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_ViewDonorGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
    // dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
   }
@@ -271,7 +271,7 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
+                        // gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
                         gridCardText(Language.name, dataListener['ContactPerson'],),
                         gridCardText(Language.email, dataListener['Email'],),
                         gridCardText(Language.phoneNo, dataListener['ContactNo'],),
@@ -321,7 +321,7 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                           children: [
                             EyeIcon(
                               onTap: (){
-                                fadeRoute(ViewCSRGrid());
+                                fadeRoute(ViewDonorGrid());
                               },
                             ),
                           // const SizedBox(width: 10,),
@@ -330,7 +330,7 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                               margin: actionIconMargin,
                               onTap: (){
 
-                                fadeRoute(CSRForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                fadeRoute(DonorForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
                                     onEdit!(e['Table'][0]);

@@ -23,6 +23,7 @@ import 'dashboard/csrDashboard.dart';
 import 'dashboard/dashboard.dart';
 import 'donateTree/donate.dart';
 import 'donateTree/donateTree.dart';
+import 'donorsDetails/donorsGrid.dart';
 import 'history/historyPage.dart';
 import 'history/historyView.dart';
 import 'landParcel/LandParcelGrid.dart';
@@ -79,6 +80,7 @@ class MenuScreen extends GetView<MyDrawerController> {
     {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
     {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
     {"Title":'CSR',"PageNumber":18,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
+    {"Title":'Donor Details',"PageNumber":19,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
     {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
     {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":null},
@@ -300,6 +302,10 @@ class _MasterpageState extends State<Masterpage>{
                 controller.toggleDrawer();
               },
             ) :menuSel.value==18?CSRGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==19?DonorsGrid (
               voidCallback:(){
                 controller.toggleDrawer();
               },

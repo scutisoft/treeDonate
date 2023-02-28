@@ -17,20 +17,17 @@ import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
-import 'CSRForm.dart';
-import 'viewCSRDetails.dart';
+import 'donorAddAmount.dart';
 
 
 
 
-class CSRGrid extends StatefulWidget {
-  VoidCallback voidCallback;
-  CSRGrid({required this.voidCallback});
+class ViewDonorGrid extends StatefulWidget {
   @override
-  _CSRGridState createState() => _CSRGridState();
+  _ViewDonorGridState createState() => _ViewDonorGridState();
 }
 
-class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
+class _ViewDonorGridState extends State<ViewDonorGrid> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
   List<Widget> widgets=[];
@@ -63,7 +60,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
     he_listViewBody=HE_ListViewBody(
       data: [],
       getWidget: (e){
-        return HE_ViewCSRGridContent(
+        return HE_ViewdonorGridContent(
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
@@ -112,23 +109,24 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          NavBarIcon(
-                            onTap:  (){
-                              widget.voidCallback();
+                          ArrowBack(
+                            iconColor: ColorUtil.themeBlack,
+                            onTap: (){
+                              Get.back();
                             },
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Total CSR',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('Total Donate',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('2,500',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('5',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Donation Amount',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                            child: Text('Total Amount',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
@@ -191,7 +189,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           needToHide: true,
                           widget: GridAddIcon(
                             onTap: (){
-                              fadeRoute(CSRForm(closeCb: (e){
+                              fadeRoute(DonorAddAmount(closeCb: (e){
                                 he_listViewBody.addData(e['Table'][0]);
                               },));
                             },
@@ -218,25 +216,25 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
    // console("valueArr $valueArray");
     try{
       //he_listViewBody.assignWidget(valueArray);
-      List<dynamic> CSRList=valueArray.where((element) => element['key']=="CSRList").toList()[0]['value'];
-      he_listViewBody.assignWidget(CSRList);
+      List<dynamic> DonorViewList=valueArray.where((element) => element['key']=="DonorViewList").toList()[0]['value'];
+      he_listViewBody.assignWidget(DonorViewList);
 
     }catch(e){}
   }
 
   @override
   String getPageIdentifier(){
-    return General.CSRGridIdentifier;
+    return General.DonorViewDetailsIdentifier;
   }
 }
 
-class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewContentExtension{
+class HE_ViewdonorGridContent extends StatelessWidget implements HE_ListViewContentExtension{
   double cardWidth;
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_ViewCSRGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+  HE_ViewdonorGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
    // dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
   }
@@ -271,12 +269,14 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
-                        gridCardText(Language.name, dataListener['ContactPerson'],),
-                        gridCardText(Language.email, dataListener['Email'],),
-                        gridCardText(Language.phoneNo, dataListener['ContactNo'],),
+                        gridCardText(Language.date ,dataListener['Date']??"",isBold: true),
+                        gridCardText(Language.noTrees, dataListener['NoofTree'],),
+                        gridCardText('Age', dataListener['Age'],),
+                        gridCardText(Language.location, dataListener['Location'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText(Language.address, dataListener['Address']??""),
+                        gridCardText('Payment Type', dataListener['PaymentType']??""),
+                        gridCardText('Consumption', dataListener['Consumption']??""),
+                        gridCardText('Carban Sequestration', dataListener['Carban Sequestration']??""),
                       ],
                     ),
                   ),
@@ -313,44 +313,49 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                       crossAxisAlignment:CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
-                        const SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            EyeIcon(
-                              onTap: (){
-                                fadeRoute(ViewCSRGrid());
-                              },
-                            ),
-                          // const SizedBox(width: 10,),
-                            GridEditIcon(
-                              hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
-                              margin: actionIconMargin,
-                              onTap: (){
-
-                                fadeRoute(CSRForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
-                                  updateDataListener(e['Table'][0]);
-                                  if(onEdit!=null){
-                                    onEdit!(e['Table'][0]);
-                                  }
-                                },));
-                              },
-                            ),
-                          //  const SizedBox(width: 10,),
-                            GridDeleteIcon(
-                              hasAccess: isHasAccess(accessId["NewsFeedDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
-                              margin: actionIconMargin,
-                              onTap: (){
-                                if(onDelete!=null){
-                                  onDelete!(getDataJsonForGrid(dataListener['DataJson']));
-                                }
-                              },
-                            ),
-
-                          ],
-                        ),
+                        Text('Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        Text("${dataListener['Amount']??0}",style: ColorUtil.textStyle18),
+                        // const SizedBox(height: 10,),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     EyeIcon(
+                        //       onTap: (){
+                        //         // fadeRoute(EventViewPage(dataJson: getDataJsonForGrid(dataListener['DataJson']),closeCb: (e){
+                        //         //   updateDataListener(e['Table'][0]);
+                        //         //   if(onEdit!=null){
+                        //         //     onEdit!(e['Table'][0]);
+                        //         //   }
+                        //         // },));
+                        //       },
+                        //     ),
+                        //    const SizedBox(width: 10,),
+                        //     GridEditIcon(
+                        //       hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                        //       margin: actionIconMargin,
+                        //       onTap: (){
+                        //
+                        //         fadeRoute(CSRForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                        //           updateDataListener(e['Table'][0]);
+                        //           if(onEdit!=null){
+                        //             onEdit!(e['Table'][0]);
+                        //           }
+                        //         },));
+                        //       },
+                        //     ),
+                        //   //  const SizedBox(width: 10,),
+                        //     GridDeleteIcon(
+                        //       hasAccess: isHasAccess(accessId["NewsFeedDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                        //       margin: actionIconMargin,
+                        //       onTap: (){
+                        //         if(onDelete!=null){
+                        //           onDelete!(getDataJsonForGrid(dataListener['DataJson']));
+                        //         }
+                        //       },
+                        //     ),
+                        //
+                        //   ],
+                        // ),
                         const SizedBox(height: 10,),
                       ],
                     ),
