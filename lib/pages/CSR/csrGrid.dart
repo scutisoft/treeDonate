@@ -313,6 +313,8 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                       crossAxisAlignment:CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text('Total Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        Text("1,00,000",style: ColorUtil.textStyle18),
                         // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
                         // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),

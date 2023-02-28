@@ -313,8 +313,9 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
                       crossAxisAlignment:CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
+                        Text('Total Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        Text("1,00,000",style: ColorUtil.textStyle18),
+                        //Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
