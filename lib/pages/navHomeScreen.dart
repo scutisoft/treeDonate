@@ -4,20 +4,26 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:treedonate/api/ApiManager.dart';
 import 'package:treedonate/notifier/configuration.dart';
+import 'package:treedonate/pages/CSR/csrGrid.dart';
 import 'package:treedonate/pages/Seeding/seedingGrid.dart';
+import 'package:treedonate/pages/newsFeedsView/newsFeedGrid.dart';
 import 'package:treedonate/utils/constants.dart';
 import 'package:treedonate/utils/utils.dart';
 import 'package:treedonate/widgets/accessWidget.dart';
 import 'package:treedonate/widgets/loader.dart';
 import '../helper/appVersionController.dart';
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
+import '../widgets/fittedText.dart';
 import '../widgets/zoomDrawer/config.dart';
 import '../widgets/zoomDrawer/flutter_zoom_drawer.dart';
 import 'Nursery/nurseryGrid.dart';
+import 'dashboard/csrDashboard.dart';
 import 'dashboard/dashboard.dart';
 import 'donateTree/donate.dart';
 import 'donateTree/donateTree.dart';
+import 'donorsDetails/donorsGrid.dart';
 import 'history/historyPage.dart';
 import 'history/historyView.dart';
 import 'landParcel/LandParcelGrid.dart';
@@ -26,8 +32,10 @@ import 'landParcel/polymaker.dart';
 import 'loginpage/login.dart';
 import 'myCertificate/certificatePage.dart';
 import 'myTrees/trees.dart';
+import 'newsFeedsView/newsFeedsViewPage.dart';
 import 'notification/notification.dart';
 import 'ourEvents/events.dart';
+import 'ourEvents/eventsGrid.dart';
 import 'planting/plantingGrid.dart';
 import 'profile/myprofile.dart';
 import 'volunteer/volunteerPage.dart';
@@ -69,20 +77,24 @@ class MenuScreen extends GetView<MyDrawerController> {
   MenuScreen({Key? key}) : super(key: key);
 
   List<dynamic> menuList=[
-    {"Title":"DashBoard","PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
-    {"Title":"Home Page","PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
-    {"Title":"My Profile","PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":"Donate","PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My History","PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My Certificate","PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Our Events","PageNumber":5,"iconNav":Icon(Icons.event,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"My trees","PageNumber":6,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"+ Volunteer ","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
-    {"Title":"Notification","PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
-    {"Title":"Land Parcel","PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
-    {"Title":"Seeding","PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
-    {"Title":"Nursery","PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
-    {"Title":"Planting","PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
+    {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
+    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": 100},
+    {"Title":'CSR',"PageNumber":18,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": 100},
+    {"Title":'Donor Details',"PageNumber":19,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
+    {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
+    {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.ourEvents,"PageNumber":5,"iconNav":SvgPicture.asset("assets/Slice/calendar-check.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId['EventsView']},
+    {"Title":Language.newsFeedTitle,"PageNumber":16,"iconNav":SvgPicture.asset("assets/Slice/newspaper.svg",height: 22,color: ColorUtil.themeWhite,),"accessId":accessId['NewsFeedView']},
+    {"Title":Language.myTrees,"PageNumber":6,"iconNav":SvgPicture.asset("assets/Slice/palm-tree.svg",height: 26,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":"+ ${Language.volunteer['Value']}","PageNumber":7,"iconNav":Icon(Icons.energy_savings_leaf_outlined,color: ColorUtil.themeWhite,),"accessId":accessId["VolunteerView"]},
+    {"Title":Language.notification,"PageNumber":8,"iconNav":Icon(Icons.notifications_none,color: ColorUtil.themeWhite,),"accessId":100},
+    {"Title":Language.landParcel,"PageNumber":9,"iconNav":SvgPicture.asset("assets/Slice/land-parcel.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["LandParcelView"]},
+    {"Title":Language.seeding,"PageNumber":11,"iconNav":SvgPicture.asset("assets/Slice/seed-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["SeedCollectionView"]},
+    {"Title":Language.nursery,"PageNumber":12,"iconNav":SvgPicture.asset("assets/Slice/nursery.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["NurseryView"]},
+    {"Title":Language.plantation,"PageNumber":10,"iconNav":SvgPicture.asset("assets/Slice/leaf.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["PlantationView"]},
     {"Title":"PolyMaker","PageNumber":15,"iconNav":const Icon(Icons.map_outlined,color: Colors.white,),"accessId":100},
   ];
 
@@ -125,7 +137,7 @@ class MenuScreen extends GetView<MyDrawerController> {
             color: ColorUtil.primary.withOpacity(0.5),
           ),*/
           Container(
-            height: SizeConfig.screenHeight!-(82+135),
+            height: SizeConfig.screenHeight!-(82+135+26),
             margin: const EdgeInsets.only(top: 135),
             child: ListView(
               shrinkWrap: true,
@@ -161,18 +173,19 @@ class MenuScreen extends GetView<MyDrawerController> {
             ),
           ),
           DrawerContent(
-              title: 'LogOut',
+              title: Language.logOut,
               ontap: (){
                 clearUserSessionDetail();
               },
               iconNav: Icon(Icons.lock,color: ColorUtil.themeWhite,)
           ),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. All Rights Reserved.',
-                  style: TextStyle(fontSize: 12,color:Color(0xffffffff), fontFamily:'RR'),textAlign: TextAlign.center, )
+                child: Text('(c) ${DateFormat("yyyy").format(DateTime.now())}. ${Language.rights}',
+                  style: TextStyle(fontSize: 12,color:const Color(0xffffffff), fontFamily:Language.regularFF),textAlign: TextAlign.center, )
             ),
           ),
         ],
@@ -240,7 +253,7 @@ class _MasterpageState extends State<Masterpage>{
               voidCallback:(){
                 controller.toggleDrawer();
               },
-            ) :menuSel.value==5?OurEventsPage (
+            ) :menuSel.value==5?EventsGrid (
               voidCallback:(){
                 controller.toggleDrawer();
               },
@@ -280,6 +293,22 @@ class _MasterpageState extends State<Masterpage>{
               voidCallback:(){
                 controller.toggleDrawer();
               },
+            ):menuSel.value==16?NewsFeedGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==17?CSRDashboard (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==18?CSRGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
+            ) :menuSel.value==19?DonorsGrid (
+              voidCallback:(){
+                controller.toggleDrawer();
+              },
             ) :Container(),
           )),
           /*Obx(() => Loader(value: showLoader.value,))*/
@@ -308,19 +337,24 @@ class DrawerContent extends StatelessWidget {
         margin: EdgeInsets.only(top: 5,bottom: 5),
         child: Row(
           children: [
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             Container(
               height: 40,
               width: 40,
               alignment: Alignment.center,
               child: iconNav,
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 10,),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text("$title",
-                  style: TextStyle(fontFamily: 'RR',fontSize: 16,color: Colors.white,letterSpacing: 0.1),
+                FittedText(
+                  width: width*0.45,
+                  text: title,
+                  textStyle: TextStyle(fontFamily: Language.regularFF,fontSize: 16,color: Colors.white,letterSpacing: 0.1),
+                  alignment: Alignment.centerLeft,
+                  height: 28,
                 ),
               ],
             )

@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/widgets/loader.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
+import '../../helper/language.dart';
 import '../../widgets/animatedSearchBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/navigationBarIcon.dart';
@@ -15,6 +16,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../utils/utils.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/treeDonateWidgets.dart';
 
 
 class LandParcelGrid extends StatefulWidget {
@@ -102,7 +104,7 @@ class _LandParcelGridState extends State<LandParcelGrid> with HappyExtensionHelp
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('Land Parcel',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.landParcel,style: TextStyle(color:ColorUtil.themeBlack,fontFamily: Language.boldFF,fontSize: 18,),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit: BoxFit.cover,),
                   ),
                 ),
@@ -229,16 +231,16 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                 child: Column(
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   children: [
-                    gridCardText("Date",dataListener['Date'],isBold: true),
-                    gridCardText("User",dataListener['UserName']),
-                    gridCardText("Land Owner",dataListener['LandOwner']),
-                    gridCardText("Land Type",dataListener['LandType']??""),
-                    gridCardText("Role",dataListener['Role']??""),
+                    gridCardText(Language.date,dataListener['Date'],isBold: true),
+                    gridCardText(Language.user,dataListener['UserName']),
+                    gridCardText(Language.landOwner,dataListener['LandOwner']),
+                    gridCardText(Language.landType,dataListener['LandType']??""),
+                    gridCardText(Language.role,dataListener['Role']??""),
 
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Status  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('${Language.status}  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
                         //  Spacer(),
                         Flexible(child: Text("${dataListener['Status']}",
                           style: TextStyle(color: getStatusClr( dataListener['Status']),fontSize: 14,fontFamily: 'RM'),)),
@@ -281,7 +283,11 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                 child:  Column(
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
-                    Text('Land In Hectares ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
+                    EGFEmblem(
+                      companyId: dataListener['UserRoleTypeId'],
+                      margin: const EdgeInsets.only(bottom: 15),
+                    ),
+                    Text('${Language.landInHec} ',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RR'),),
                     Text(dataListener['LandInHectares'],style: ColorUtil.textStyle18),
                     const SizedBox(height: 10,),
                     Row(

@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/api/apiUtils.dart';
-import 'package:treedonate/utils/utils.dart';
+import '../../api/apiUtils.dart';
+import '../../helper/language.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
 import '../../HappyExtension/utilWidgets.dart';
@@ -165,107 +165,10 @@ class _MyProfileState extends State<MyProfile> with HappyExtensionHelper  implem
                           borderRadius: BorderRadius.circular(3),
                           color: ColorUtil.primary,
                         ),
-                        child:Center(child: Text('Edit Profile',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                        child:Center(child: Text(Language.editProfile,style: TextStyle(fontSize: 16,color: ColorUtil.themeWhite,fontFamily:Language.regularFF), )) ,
                       ),
                     ),
                   ),
-                  // Container(
-                  //   width: SizeConfig.screenWidth,
-                  //   padding: EdgeInsets.all(20),
-                  //   margin: EdgeInsets.only(left:15,right: 15),
-                  //   decoration: BoxDecoration(
-                  //       color: ColorUtil.primary.withOpacity(0.2),
-                  //       borderRadius: BorderRadius.circular(5.0)
-                  //   ),
-                  //   alignment: Alignment.center,
-                  //   child: Text('14 NP Developed Plots,100 Feet Rd, Thiru Vi Ka Industrial Estate, Chennai, TamilNadu 600032',style: TextStyle(fontFamily: 'RM',color: ColorUtil.primary,fontSize: 16),),
-                  // ),
-                  // SizedBox(height: 10,),
-                  // Container(
-                  //   width: SizeConfig.screenWidth,
-                  //   height: SizeConfig.screenHeight!*0.38,
-                  //   margin: EdgeInsets.only(left: 15.0 ,right: 15.0),
-                  //   child: CarouselSlider(
-                  //     options: CarouselOptions(
-                  //       viewportFraction: 1.0,
-                  //       enlargeCenterPage: false,
-                  //       scrollDirection: Axis.horizontal,
-                  //       autoPlay: true,
-                  //         onPageChanged: (index, reason) {
-                  //           setState(() {
-                  //             _current = index;
-                  //           });
-                  //         }
-                  //     ),
-                  //     carouselController: _controller,
-                  //     items: imgList
-                  //         .map((item) => Container(
-                  //       child: Row(
-                  //         children: [
-                  //           Container(
-                  //             width: SizeConfig.screenWidth!-160,
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Text('12-Dec-2022',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RM',fontSize: 16),),
-                  //                 Text('Kanchipuram (10,000)',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 12),),
-                  //                 Row(
-                  //                   children: [
-                  //                     Image.asset("assets/Slice/badgeLeaf.PNG",width: 50,),
-                  //                     Container(
-                  //                         width: SizeConfig.screenWidth!-210,
-                  //                         child: Text('Groeth 95%',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),)),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Image.asset("assets/Slice/heartrate.png",width: 50,),
-                  //                     Container(
-                  //                         width: SizeConfig.screenWidth!-210,
-                  //                         child: Text('Health 100%',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),)),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Image.asset("assets/Slice/apple.png",width: 50,),
-                  //                     Container(
-                  //                         width: SizeConfig.screenWidth!-210,
-                  //                         child: Text('This Sapling has grown hjgjhgjhgjh',style: TextStyle(color:ColorUtil.primary,fontFamily: 'RR',fontSize: 16),)),
-                  //                   ],
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //
-                  //           Container(
-                  //             width: 130,
-                  //             child: Image.asset(item,fit: BoxFit.cover,),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ))
-                  //         .toList(),
-                  //   )
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: imgList.asMap().entries.map((entry) {
-                  //     return GestureDetector(
-                  //       onTap: () => _controller.animateToPage(entry.key),
-                  //       child: Container(
-                  //         width: 12.0,
-                  //         height: 12.0,
-                  //         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                  //         decoration: BoxDecoration(
-                  //             shape: BoxShape.circle,
-                  //             color: (Theme.of(context).brightness == Brightness.dark
-                  //                 ? Colors.white
-                  //                 : ColorUtil.primary)
-                  //                 .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                  //       ),
-                  //     );
-                  //   }).toList(),
-                  // ),
                 ],
               ),
             ),

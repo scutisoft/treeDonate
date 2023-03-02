@@ -1,0 +1,68 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "Select",
+      "value": 2025,
+      "orderBy": 1
+    },
+    {
+      "key": "SelectCSR",
+      "value": {
+        "DropDownOptionList": [
+
+        ],
+        "SelectedId": 0
+      },
+      "orderBy": 2
+    },
+    {
+      "key": "DonationId",
+      "value": {
+        "DropDownOptionList": [
+          {
+            "Id": "15",
+            "Text": "15"
+          }
+        ],
+        "SelectedId": 15
+      },
+      "orderBy": 3
+    },
+    {
+      "key": "TreeCount",
+      "value": "",
+      "orderBy": 4
+    },
+    {
+      "key": "Amount",
+      "value": "",
+      "orderBy": 5
+    },
+    {
+      "key": "C02",
+      "value": "",
+      "orderBy": 6
+    },
+    {
+      "key": "PlantingAmtList",
+      "value": [
+        {
+          "SNO": 1,
+          "Date": "23-02-2023",
+          "Type": "CSR",
+          "Name": "Manali Corporation",
+          "TreeCount": "10,000",
+          "TotalAmount": "₹ 50,000",
+          "TakenAmount": "₹ 30,000",
+          "BalanceAmount": "₹ 20,000",
+          "CarbonSeq": "63 %",
+          "DataJson": {
+            "NewsFeedId": 1059
+          }
+        }
+
+      ]
+    }
+  ]
+}

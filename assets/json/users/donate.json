@@ -2,22 +2,8 @@
   "Guid": "87D1FE77-FBEE-4FA3-BB7E-BAC935DE984A",
   "valueArray": [
     {
-      "key": "PageTitle",
-      "value": "HELP US PLANT A TREE"
-    },
-    {
-      "key": "PageSubTitle",
-      "value": "Please select the number of saplings you would like to supply below"
-    },
-    {
-      "key": "Occasion",
-      "value": {
-        "DropDownOptionList": [
-          {"Id": 1,"Text": "Environment"},
-          {"Id": 2,"Text": "Education"},
-          {"Id": 3,"Text": "Medical"}
-        ]
-      }
+      "key": "TreePrice",
+      "value": 30.0
     }
   ]
 }

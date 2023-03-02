@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../helper/language.dart';
+
 class ColorUtil{
   static Color  theme=const Color(0xffF8F8F8);
   static Color themeWhite=const Color(0xffffffff);
@@ -21,6 +23,7 @@ class ColorUtil{
   static Color text2=const Color(0xff452800);
   static Color text3=const Color(0xff828282);
   static Color text4=const Color(0xffA6A6A6);
+  static Color lightgrey=const Color(0xffF2F2F2);
   static Color text5=const Color(0xff6E6E6E);
   static Color lightBlue=const Color(0xffF4F7FC);
   static Color red=const Color(0xffE1433A);
@@ -46,8 +49,8 @@ class ColorUtil{
   static const TextStyle fseAccRejGridTS=TextStyle(fontFamily: 'USB',fontSize: 18,color:ColorUtil.primaryTextColor2);
   static const TextStyle fseAccRejGridBosyTS=TextStyle(fontFamily: 'RR',fontSize: 15,color:Color(0xff6E6E6E));
 
-  static const TextStyle search2ActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xffffffff));
-  static const TextStyle search2InActiveTS=TextStyle(fontFamily: 'RR',fontSize: 15,color: Color(0xff979797));
+  static  TextStyle search2ActiveTS=TextStyle(fontFamily: Language.regularFF,fontSize: 15,color: Color(0xffffffff));
+  static  TextStyle search2InActiveTS=TextStyle(fontFamily: Language.regularFF,fontSize: 15,color: Color(0xff979797));
 
   static Color search2ActBg= primary;
   static Color search2InActBg= Color(0xffffffff);
@@ -74,7 +77,7 @@ class ColorUtil{
   static EdgeInsets formMargin=const EdgeInsets.only(left:15,right:15,top:10,);
   static Color formTableBorder=primary.withOpacity(0.15);
   static TextStyle formTableBodyTS=TextStyle(fontSize: 13,fontFamily: 'RR',color: themeBlack );
-  static TextStyle formTableBodyTSB=TextStyle(fontSize: 13,fontFamily: 'RB',color: themeBlack );
-  static TextStyle formTableHeaderTS=TextStyle(fontSize: 12,fontFamily: 'RM',color:ColorUtil.themeBlack );
+  static TextStyle formTableBodyTSB=TextStyle(fontSize: 13,fontFamily: 'Bold',color: themeBlack );
+  static TextStyle formTableHeaderTS=TextStyle(fontSize: 12,fontFamily: 'Med',color:ColorUtil.themeBlack );
 
 }

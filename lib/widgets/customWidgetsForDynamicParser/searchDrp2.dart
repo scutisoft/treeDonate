@@ -4,7 +4,8 @@ import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../../HappyExtension/extensionHelper.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
+import '../../helper/language.dart';
 import '../../utils/sizeLocal.dart';
 import '../searchDropdown/dropdown_search.dart';
 import '../searchDropdown/search2.dart';
@@ -48,7 +49,7 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
   late Search2 search2;
   var isValid=true.obs;
   var orderBy=1.obs;
-  var errorText="* Required".obs;
+  var errorText="* ${Language.required}".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +104,9 @@ class SearchDrp2 extends StatelessWidget  implements ExtensionCallback{
     }
     else if(HE_IsList(value)){
       search2.setDataArray(value);
+    }
+    else if(HE_IsInt(value)){
+      search2.setValues({map['propertyId']??"Id":value});
     }
   }
 
@@ -159,7 +163,7 @@ class SearchDrpMulti2 extends StatelessWidget  implements ExtensionCallback{
   late Search2MultiSelect search2;
   var isValid=true.obs;
   var orderBy=1.obs;
-  var errorText="* Required".obs;
+  var errorText="* ${Language.required}".obs;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
+import '../../helper/language.dart';
 import '../../pages/Nursery/nurseryForm.dart';
 import '../../pages/Nursery/nurseryViewPage.dart';
 import '../../../HappyExtension/extensionHelper.dart';
@@ -14,6 +15,7 @@ import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 
 
 class NurseryGrid extends StatefulWidget {
@@ -99,7 +101,7 @@ class _NurseryGridState extends State<NurseryGrid> with HappyExtensionHelper  im
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1.8,
-                    title: Text('Nursery',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
+                    title: Text(Language.nursery,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
                     background: Image.asset('assets/Slice/left-align.png',fit:BoxFit.fill),
                   ),
                 ),
@@ -224,15 +226,15 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.start ,
                   // mainAxisSize: MainAxisSize.min,
                   children: [
-                    gridCardText("Date", dataListener['Date'],isBold: true),
-                    gridCardText("Nursery", dataListener['NurseryName']),
-                    gridCardText("Incharge", dataListener['NurseryIncharge']),
-                    gridCardText("Location", dataListener['NurseryLocation']),
-                    gridCardText("Total Target", dataListener['NoOfTargets']),
+                    gridCardText(Language.date, dataListener['Date'],isBold: true),
+                    gridCardText2(Language.nursery, dataListener['NurseryName']),
+                    gridCardText(Language.inCharge, dataListener['NurseryIncharge']),
+                    gridCardText(Language.location, dataListener['NurseryLocation']),
+                    gridCardText(Language.totalTarget, dataListener['NoOfTargets']),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Total Taken : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('${Language.totalTaken} : ',style: ts14(ColorUtil.text4),),
                         // Spacer(),
                         Flexible(child: Text("${dataListener['TotalTaken']}",style: TextStyle(color: ColorUtil.red,fontSize: 14,fontFamily: 'RM'),)),
                       ],
@@ -244,7 +246,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Status      : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                        Text('${Language.status}      : ',style: ts14(ColorUtil.text4),),
                         //  Spacer(),
                         Flexible(child: Text("${dataListener['ApproveStatus']}",style: TextStyle(color: getStatusClr(dataListener['ApproveStatus']??""),fontSize: 14,fontFamily: 'RM'),)),
                       ],
@@ -293,11 +295,15 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   crossAxisAlignment:CrossAxisAlignment.end,
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Total Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    EGFEmblem(
+                      companyId: dataListener['UserRoleTypeId'],
+                      margin: const EdgeInsets.only(bottom: 15),
+                    ),
+                    Text(Language.totalStock,style: ts18(ColorUtil.themeBlack,fontsize: 13),),
                     Text("${dataListener['NoOfStocks']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
                     const SizedBox(height: 10,),
 
-                    Text('Balance Stock',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 13,fontFamily: 'RR'),),
+                    Text(Language.balanceStock,style: ts18(ColorUtil.themeBlack,fontsize: 13),),
                     Text("${dataListener['BalanceStock']}",style: ts18(ColorUtil.themeBlack,fontsize: 18)),
                     const SizedBox(height: 10,),
 
@@ -316,7 +322,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         ),
                         //const SizedBox(width: 10,),
                         GridEditIcon(
-                          hasAccess: isHasAccess(accessId["NurseryEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["NewsFeedEdit"]) && (dataListener['IsEdit']??MyConstants.defaultActionEnable),
                           margin: actionIconMargin,
                           onTap: (){
                             fadeRoute(NurseryForm(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
@@ -329,7 +335,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                         ),
                        // const SizedBox(width: 10,),
                         GridDeleteIcon(
-                          hasAccess: isHasAccess(accessId["NurseryDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
+                          hasAccess: isHasAccess(accessId["NewsFeedDelete"]) && (dataListener['IsDelete']??MyConstants.defaultActionEnable),
                           margin: actionIconMargin,
                           onTap: (){
                             if(onDelete!=null){

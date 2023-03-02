@@ -5,12 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 /*import 'package:image_cropper/image_cropper.dart';*/
 import 'package:image_picker/image_picker.dart';
-import 'package:treedonate/HappyExtension/utils.dart';
+import 'package:treedonate/HappyExtension/extensionUtils.dart';
 import 'package:treedonate/api/apiUtils.dart';
+import 'package:treedonate/utils/constants.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../HappyExtension/extensionHelper.dart';
 import '../helper/helper.dart';
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
 import 'validationErrorText.dart';
@@ -182,7 +184,7 @@ class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
   String description;
   String btnTitle;
   SingleImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder,this.enabled=true,
-    this.description="Upload Your Logo", this.btnTitle="Choose File"});
+    this.description="", this.btnTitle=""});
 
   Rxn<File> imageFile=Rxn<File>();
   Rxn<String> imageName=Rxn<String>();
@@ -199,8 +201,8 @@ class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
         const SizedBox(height: 20,),
         Align(
           alignment: Alignment.center,
-          child: Text(description,
-            style: TextStyle(fontFamily: 'RR',fontSize: 14,color: ColorUtil.text1),
+          child: Text(description.isEmpty?Language.uploadImage:description,
+            style: ts14(ColorUtil.text1),
           ),
         ),
         Obx(
@@ -233,7 +235,8 @@ class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
                   ],
                 ),
                 child: Center(
-                    child: Text(btnTitle,style: TextStyle(color:Colors.white,fontSize:16,fontFamily: 'RM'),
+                    child: Text(btnTitle.isEmpty?Language.chooseFile:btnTitle,
+                      style: ts14(Colors.white,),textAlign: TextAlign.center,
                     )
                 ),
               ),
@@ -297,8 +300,11 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
   bool required;
   String dataname;
   String folder;
-
-  MultiImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder});
+  DevelopmentMode developmentMode;
+  String imageFileNameKey;
+  String imagePathKey;
+  MultiImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder,
+  this.developmentMode=MyConstants.developmentMode,this.imageFileNameKey="ImageFileName",this.imagePathKey="ImagePath"});
 
   /*MultiImagePicker({});*/
   RxList<XFile> imageFileList=RxList<XFile>();
@@ -332,8 +338,8 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
               border: Border.all(color: ColorUtil.primary),
               color: ColorUtil.primary.withOpacity(0.3),
             ),
-            child:Center(child: Text('Upload Image',
-              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )
+            child:Center(child: Text(Language.uploadImage,
+              style: ts16(ColorUtil.primary), )
             ) ,
           ),
         ),
@@ -353,7 +359,7 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
                   child: Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
-                      LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList[i]["ImagePath"], imageFile: null,height: 100,radius: (imgWidth*0.33)-20),
+                      LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList[i][imagePathKey], imageFile: null,height: 100,radius: (imgWidth*0.33)-20),
                       Positioned(
                           top: 0,
                           right: 0,
@@ -441,13 +447,13 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
     if(imageFileList.isNotEmpty){
       String files=await MyHelper.uploadMultiFile(folder, imageFileList.value);
       files.split(",").forEach((element) {
-        images.add({"FolderName":folder,"ImageFileName":element,"ImagePath":"$folder/$element"});
+        images.add({"FolderName":folder,imageFileNameKey:element,imagePathKey:"$folder/$element"});
       });
     }
     if(imagesList.isNotEmpty){
       images.addAll(imagesList);
     }
-    return images;
+    return developmentMode==DevelopmentMode.json?images:jsonEncode(images);
   }
 
   @override

@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:treedonate/utils/utils.dart';
-import 'package:treedonate/widgets/alertDialog.dart';
-import 'package:treedonate/widgets/customAppBar.dart';
-import 'package:treedonate/widgets/customCheckBox.dart';
-import 'package:treedonate/widgets/searchDropdown/dropdown_search.dart';
-import 'package:video_player/video_player.dart';
+import '../../helper/language.dart';
+import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
+import '../../widgets/customAppBar.dart';
+import '../../widgets/customCheckBox.dart';
+import '../../widgets/searchDropdown/dropdown_search.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
@@ -22,8 +19,6 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
-import '../../widgets/videoPlayer/src/flick_video_player.dart';
-import '../../widgets/videoPlayer/src/manager/flick_manager.dart';
 
 class AddVolunteer extends StatefulWidget {
   String? editId;
@@ -120,7 +115,9 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                                 borderRadius: BorderRadius.circular(5.0)
                             ),
                             alignment: Alignment.center,
-                            child: Text('Watch Video',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 10),),
+                            child: Text(Language.watchVideo,
+                              style: ts18(ColorUtil.themeWhite,fontsize: 10),textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ],
@@ -133,145 +130,143 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
                 ),
               ];
             },
-            body:Container(
-              // height: SizeConfig.screenHeight,
-              child:Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:[
-                  SizedBox(height: 5,),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10),
-                    child: Text('Volunteer Information',style: TextStyle(fontSize: 14,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
-                  ),
-                  SizedBox(height: 5,),
-                  Flexible(
-                   child:  ListView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      children: [
-                        widgets[0],
-                        widgets[1],
-                        widgets[2],
-                        widgets[3],
-                        widgets[4],
-                        widgets[5],
-                        widgets[6],
-                        widgets[7],
+            body:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:[
+                const SizedBox(height: 5,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10),
+                  child: Text(Language.volInfo,
+                    style: ts14(ColorUtil.themeBlack,fontfamily: 'Med'),),
+                ),
+                const SizedBox(height: 5,),
+                Flexible(
+                 child:  ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      widgets[0],
+                      widgets[1],
+                      widgets[2],
+                      widgets[3],
+                      widgets[4],
+                      widgets[5],
+                      widgets[6],
+                      widgets[7],
 
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10,bottom: 10),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap:(){
-                                  volunteerType.value=2;
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                            border:Border.all(color: ColorUtil.primary,width: 1.0),
-                                            borderRadius: BorderRadius.circular(50)
-                                        ),
-                                        child: Obx(() => AnimatedContainer(
-                                          duration: MyConstants.animeDuration,
-                                          padding: const EdgeInsets.all(10),
-                                          width: 10,
-                                          height: 10,
-                                          decoration: volunteerType.value==2?activeDec:inActiveDec,
-                                        )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10,bottom: 10),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap:(){
+                                volunteerType.value=2;
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                          border:Border.all(color: ColorUtil.primary,width: 1.0),
+                                          borderRadius: BorderRadius.circular(50)
                                       ),
-                                      const SizedBox(width: 10,),
-                                      Text('NGO',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
-                                    ],
-                                  ),
+                                      child: Obx(() => AnimatedContainer(
+                                        duration: MyConstants.animeDuration,
+                                        padding: const EdgeInsets.all(10),
+                                        width: 10,
+                                        height: 10,
+                                        decoration: volunteerType.value==2?activeDec:inActiveDec,
+                                      )),
+                                    ),
+                                    const SizedBox(width: 10,),
+                                    Text(Language.ngo,style: ts15(ColorUtil.themeBlack,fontfamily: 'Med'),),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 30,),
-                              GestureDetector(
-                                onTap:(){
-                                  volunteerType.value=1;
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                            border:Border.all(color: ColorUtil.primary.withOpacity(0.5),width: 1.0),
-                                            borderRadius: BorderRadius.circular(50)
-                                        ),
-                                        child: Obx(() => AnimatedContainer(
-                                          duration: MyConstants.animeDuration,
-                                          padding: const EdgeInsets.all(10),
-                                          width: 10,
-                                          height: 10,
-                                          decoration: volunteerType.value==1?activeDec:inActiveDec,
-                                        )),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Text('Individual',style: TextStyle(fontSize: 15,color: ColorUtil.themeBlack,fontFamily: 'RM'),),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15,right: 15,top: 5),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              HE_Text(
-                                  dataname: "",
-                                  content: "Our Policy",
-                                  contentTextStyle: ts18(ColorUtil.text2,fontfamily: "RM")
-                              ),
-                              const SizedBox(height: 10,),
-                              widgets[9],
-                              const SizedBox(height: 10,),
-                              widgets[10],
-                              const SizedBox(height: 10,),
-                              widgets[11],
-                              const SizedBox(height: 10,),
-                              Obx(() => CustomCheckBox(isSelect: isAccept.value,content: "Accept",ontap: (){isAccept.value=!isAccept.value;},)),
-                              const SizedBox(height: 20,)
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        GestureDetector(
-                          onTap: (){
-                            onSubmit();
-                          },
-                          child: Container(
-                            width: SizeConfig.screenWidth,
-                            height: 50,
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(left:15,right: 15),
-                            decoration: BoxDecoration(
-                                color: ColorUtil.secondary,
-                                borderRadius: BorderRadius.circular(5.0)
                             ),
-                            alignment: Alignment.center,
-                            child: Text('Submit',style: TextStyle(fontFamily: 'RR',color: ColorUtil.themeWhite,fontSize: 14),),
-                          ),
+                            const SizedBox(width: 30,),
+                            GestureDetector(
+                              onTap:(){
+                                volunteerType.value=1;
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                          border:Border.all(color: ColorUtil.primary.withOpacity(0.5),width: 1.0),
+                                          borderRadius: BorderRadius.circular(50)
+                                      ),
+                                      child: Obx(() => AnimatedContainer(
+                                        duration: MyConstants.animeDuration,
+                                        padding: const EdgeInsets.all(10),
+                                        width: 10,
+                                        height: 10,
+                                        decoration: volunteerType.value==1?activeDec:inActiveDec,
+                                      )),
+                                    ),
+                                    const SizedBox(width: 10,),
+                                    Text(Language.individual,style: ts15(ColorUtil.themeBlack,fontfamily: 'Med'),),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(height:15,),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15,right: 15,top: 5),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HE_Text(
+                                dataname: "",
+                                content: Language.ourPolicy,
+                                contentTextStyle: ts18(ColorUtil.text2,fontfamily: "RM")
+                            ),
+                            const SizedBox(height: 10,),
+                            widgets[9],
+                            const SizedBox(height: 10,),
+                            widgets[10],
+                            const SizedBox(height: 10,),
+                            widgets[11],
+                            const SizedBox(height: 10,),
+                            Obx(() => CustomCheckBox(isSelect: isAccept.value,content: Language.accept,ontap: (){isAccept.value=!isAccept.value;},)),
+                            const SizedBox(height: 20,)
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      GestureDetector(
+                        onTap: (){
+                          onSubmit();
+                        },
+                        child: Container(
+                          width: SizeConfig.screenWidth,
+                          height: 50,
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.only(left:15,right: 15),
+                          decoration: BoxDecoration(
+                              color: ColorUtil.secondary,
+                              borderRadius: BorderRadius.circular(5.0)
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(Language.submit,style: ts18(ColorUtil.themeWhite,fontfamily: 'Med'),),
+                        ),
+                      ),
+                      SizedBox(height:15,),
+                    ],
                   ),
+                ),
 
-                ],
-              ),
+              ],
             ),
           ),
         ),
@@ -285,7 +280,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       dataname: 'Name',
       hasInput: true,
       required: true,
-      labelText: "Name",
+      labelText: Language.name,
       regExp: null,
       onChange: (v){},
       onEditComplete: (){
@@ -296,7 +291,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       dataname: 'PhoneNumber',
       hasInput: true,
       required: true,
-      labelText: "Mobile Number",
+      labelText: Language.mobileNo,
       textInputType: TextInputType.number,
       textLength: 10,
       regExp: MyConstants.digitRegEx,
@@ -340,7 +335,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
       dataname: 'Email',
       hasInput: true,
       required: true,
-      labelText: "Email",
+      labelText: Language.email,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -357,15 +352,15 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
         node.unfocus();
       },
     ));*/
-    widgets.add(SearchDrp2(map: const {
-      "dataName":"District","hintText":"Select District","showSearch":true,"mode":Mode.DIALOG,
-      "dialogMargin":EdgeInsets.all(0.0),"labelText":"District"
+    widgets.add(SearchDrp2(map:  {
+      "dataName":"District","hintText":Language.selDistrict,"showSearch":true,"mode":Mode.DIALOG,
+      "dialogMargin":const EdgeInsets.all(0.0),"labelText":Language.district
     },required: true,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Zipcode',
       hasInput: true,
       required: true,
-      labelText: "Zipcode",
+      labelText: Language.pincode,
       textInputType: TextInputType.number,
       textLength: 6,
       regExp: MyConstants.digitRegEx,
@@ -374,22 +369,22 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
         node.unfocus();
       },
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"Interest","hintText":"Select Interest","labelText":"Interest"},required: false,));
+    widgets.add(SearchDrp2(map:  {"dataName":"Interest","hintText":Language.selInterest,"labelText":Language.interest},required: false,));
 
     widgets.add(HiddenController(dataname: "VolunteerType"));
     widgets.add( HE_Text(
-        dataname: "PolicyContent1",
-        content: "",
+        dataname: "PolicyContent11",
+        content: Language.policyContent1,
         contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
     ));
     widgets.add( HE_Text(
-        dataname: "PolicyContent2",
-        content: "",
+        dataname: "PolicyContent12",
+        content: Language.policyContent2,
         contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
     ));
     widgets.add( HE_Text(
-        dataname: "PolicyContent3",
-        content: "",
+        dataname: "PolicyContent13",
+        content: Language.policyContent3,
         contentTextStyle: ts15(ColorUtil.text2,fontfamily: "RR")
     ));
     setState(() {});
@@ -401,7 +396,7 @@ class _AddVolunteerState extends State<AddVolunteer> with HappyExtensionHelper  
     widgets[8].setValue(volunteerType.value);
     sysSubmit(widgets,needCustomValidation: true,onCustomValidation: (){
       if(!isAccept.value){
-        CustomAlert().cupertinoAlert("Please Accept Our Policy...");
+        CustomAlert().cupertinoAlert(Language.acceptPolicy);
       }
       return isAccept.value;
     },successCallback: (e){

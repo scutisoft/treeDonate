@@ -1,0 +1,29 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "InterestedPeople",
+      "value": [
+        {"Title": "Interested People","Count": 50},
+        {"Title": "Same District","Count": 20},
+        {"Title": "Other District","Count": 30}
+      ]
+    },
+    {
+      "key": "EventInterestedList",
+      "value": [
+        {
+          "SNO": 1,
+          "Name": "BalaSubramaniyan",
+          "Role": "Volunteer",
+          "Pnumber": "7550286133",
+          "Email": "Bala@gmail.com",
+          "Glocation": "RANIPET / Nemili / Anverthikanpettai",
+          "DataJson": {
+            "EventId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "Guid": "DACF7963-7A17-42A8-82B3-8DC83C072BCE",
+  "valueArray": [
+    {
+      "key": "CompanyName",
+      "value": "",
+      "orderBy": 1
+    },
+    {
+      "key": "ContactPerson",
+      "value": "",
+      "orderBy": 2
+    },
+    {
+      "key": "PhoneNo",
+      "value": "",
+      "orderBy": 3
+    },
+    {
+      "key": "Email",
+      "value": "",
+      "orderBy": 4
+    },
+    {
+      "key": "GST",
+      "value": "",
+      "orderBy": 5
+    },
+    {
+      "key": "Address",
+      "value": "",
+      "orderBy": 6
+    },
+    {
+      "key": "City",
+      "value": "",
+      "orderBy": 7
+    },
+    {
+      "key": "StateId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 8
+    },
+    {
+      "key": "Pincode",
+      "value": "",
+      "orderBy": 9
+    }
+  ]
+}

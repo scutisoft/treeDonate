@@ -1,0 +1,78 @@
+{
+  "Guid": "DACF7963-7A17-42A8-82B3-8DC83C072BCE",
+  "valueArray": [
+    {
+      "key": "EventName",
+      "value": "",
+      "orderBy": 1
+    },
+    {
+      "key": "Date",
+      "value": "",
+      "orderBy": 2
+    },
+    {
+      "key": "DistrictId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 3
+    },
+    {
+      "key": "TalukId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 4
+    },
+    {
+      "key": "VillageId",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 5
+    },
+    {
+      "key": "Land",
+      "value": {
+        "DropDownOptionList": [],
+        "SelectedId": 1
+      },
+      "orderBy": 6
+    },
+    {
+      "key": "NoofPlants",
+      "value": "",
+      "orderBy": 7
+    },{
+
+      "key": "EventPlace",
+      "value": "",
+      "orderBy": 8
+    },
+    {
+      "key": "LandImagesList",
+      "value": [
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker2524397327741615226.jpg",
+          "ImagePath": "Land/image_picker2524397327741615226.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker8495652553617100604.jpg",
+          "ImagePath": "Land/image_picker8495652553617100604.jpg"
+        },
+        {
+          "FolderName": "Land",
+          "ImageFileName": "image_picker7361779411310517655.jpg",
+          "ImagePath": "Land/image_picker7361779411310517655.jpg"
+        }
+      ],
+      "orderBy": 9
+    }
+  ]
+}

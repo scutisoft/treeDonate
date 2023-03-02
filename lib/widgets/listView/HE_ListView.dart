@@ -3,30 +3,65 @@ import 'package:get/get.dart';
 import 'package:treedonate/utils/colorUtil.dart';
 import 'package:treedonate/utils/utils.dart';
 
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
 
 class HE_ListViewBody extends StatelessWidget {
   List<dynamic> data;
   Function(Map) getWidget;
   ScrollController? scrollController;
-  HE_ListViewBody({Key? key,required this.data,required this.getWidget,this.scrollController}) : super(key: key){
+  bool needLocalInfiniteScroll;
+  HE_ListViewBody({Key? key,required this.data,required this.getWidget,this.scrollController,
+  this.needLocalInfiniteScroll=false}) : super(key: key){
     //assignWidget(data);
+   // scrollListener();
+  }
+
+
+  int startIndex=0;
+  int maxLength=5;
+  int endIndex=5;
+
+
+
+  void  scrollListener(ScrollController controller){
+    if(scrollController==null){
+      scrollController=controller;
+      scrollController!.addListener(() {
+        if(scrollController!.position.pixels==scrollController!.position.maxScrollExtent){
+          if(endIndex<data.length){
+            startIndex=endIndex;
+            endIndex=endIndex+maxLength;
+            assignWidget([],updatePrimaryList: false,clearWidgets: false);
+           // console("Scroll End $startIndex $endIndex ${data.length}");
+          }
+        }
+      });
+    }
   }
 
   RxList<dynamic> widgetList=RxList<dynamic>();
 
-  void assignWidget(dataParam,{bool updatePrimaryList=true,bool clearWidgets=true}){
+  void assignWidget(dataParam,{bool updatePrimaryList=true,bool clearWidgets=true,bool initialLoad=false}){
     if(updatePrimaryList){
       data=dataParam;
     }
     if(clearWidgets) {
       widgetList.clear();
     }
-   // int i=0;
+
     for (var element in dataParam) {
       widgetList.add(getWidget(element));
-     // i++;
     }
+/*    if(needLocalInfiniteScroll){
+      data.getRange(startIndex, endIndex).forEach((element) {
+        widgetList.add(getWidget(element));
+      });
+    }
+    else{
+      for (var element in dataParam) {
+        widgetList.add(getWidget(element));
+      }
+    }*/
   }
 
   void updateArrById(primaryKey,updatedMap,{ActionType action=ActionType.update}){
@@ -79,23 +114,24 @@ class HE_ListViewBody extends StatelessWidget {
         trackVisibility: true,
         interactive: true,
         child: Obx(() =>
-    /*SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for(int i=0;i<widgetList.length;i++)
-                widgetList[i]
-            ],
-          ),
-        )*/
-    ListView.builder(
-      itemCount: widgetList.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (ctx,i){
-        return widgetList[i];
-      },
-    )
+          /*SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for(int i=0;i<widgetList.length;i++)
+                      widgetList[i]
+                  ],
+                ),
+              )*/
+        ListView.builder(
+          itemCount: widgetList.length,
+          shrinkWrap: true,
+          //controller: lv_controller,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (ctx,i){
+            return widgetList[i];
+          },
+        )
     ));
   }
 }

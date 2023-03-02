@@ -70,7 +70,7 @@ class GetUiNotifier {
     var body={
       "Fields": parameters.map((e) => e.toJson()).toList()
     };
-    log("postCall ${jsonEncode(body)}");
+    //log("postCall ${jsonEncode(body)}");
     var val=[];
     try{
       await ApiManager().ApiCallGetInvoke(body).then((value) {

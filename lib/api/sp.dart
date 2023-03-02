@@ -30,5 +30,12 @@ class Sp{
   static String deleteProductDetail="USP_DeleteProductDetail";
 
   static String updateNotificationId="USP_InsertUserDeviceNotificationTokenDetail";
+
+
+  static String getNewsFeedDetail="USP_NewsFeed_GetNewsFeedDetails";
+  static String getByIdNewsFeedDetail="USP_NewsFeed_GetNewsFeedDetailsById";
+  static String insertNewsFeedDetail="USP_NewsFeed_InsertNewsFeedDetails";
+  static String updateNewsFeedDetail="USP_NewsFeed_UpdateNewsFeedDetails";
+  static String deleteNewsFeedDetail="USP_NewsFeed_DeleteNewsFeedDetails";
 }
 

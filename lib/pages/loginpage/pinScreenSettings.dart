@@ -18,7 +18,7 @@ import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/pinWidget.dart';
-import 'login.dart';
+import '../../helper/language.dart';
 
 
 class PinScreenSettings extends StatefulWidget {
@@ -42,7 +42,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
     confirmPinWidget.onComplete=(){
       if(pinWidget.validate() && confirmPinWidget.validate()){
         if(pinWidget.getValue()!=confirmPinWidget.getValue()){
-          CustomAlert().cupertinoAlert("Pin doesnot match...", );
+          CustomAlert().cupertinoAlert(Language.pinDoesntMatch, );
         }
         else{
           fingerPrintAllowDialog(pinWidget.getValue());
@@ -105,14 +105,16 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
               child: Column(
                 children: [
                   CustomAppBar(
-                    title: hasPin?"Reset Pin":"Create Pin",
+                    title: hasPin?Language.resetPin:Language.createPin,
                     suffix: Visibility(
                         visible: widget.fromLogin,
                         child: TextButton(onPressed: (){
-                      insertDeviceInfo("");
-                      navigateByUserType();
-                     // checkHasCall();
-                        }, child: Text("Skip        ",style: ts18(ColorUtil.red,fontfamily: 'RM',),))),
+                              insertDeviceInfo("");
+                              navigateByUserType();
+                             // checkHasCall();
+                            },
+                            child: Text("${Language.skip}   ",style: ts18(ColorUtil.red,fontfamily: 'Bold',),))
+                    ),
                     prefix: GestureDetector(
                       onTap:(){
                         clearUserSessionDetail();
@@ -130,19 +132,19 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                       child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(height: 20,),
-                        LeftAlignHeader(title: "Enter New Pin"),
+                        const SizedBox(height: 20,),
+                        LeftAlignHeader(title: Language.newPin),
                         pinWidget,
-                        SizedBox(height: 20,),
-                        LeftAlignHeader(title: "Confirm New Pin"),
+                        const SizedBox(height: 20,),
+                        LeftAlignHeader(title: Language.confirmPin),
                         confirmPinWidget,
-                        SizedBox(height: 30,),
+                        const SizedBox(height: 30,),
                         DoneBtn(
-                          title: "Set Pin",
+                          title: Language.setPin,
                           onDone: (){
                             if(pinWidget.validate() && confirmPinWidget.validate()){
                               if(pinWidget.getValue()!=confirmPinWidget.getValue()){
-                                CustomAlert().commonErrorAlert("Pin doesnot match...", "");
+                                CustomAlert().commonErrorAlert(Language.pinDoesntMatch, "");
                               }
                               else{
                                 fingerPrintAllowDialog(pinWidget.getValue());
@@ -208,8 +210,8 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                       SizedBox(height:30),
                       Container(
                         //width: textWidth,
-                        child: Text("Do you want to enable Fingerprint Authentication ?",
-                          style:TextStyle(fontFamily:'RR',fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
+                        child: Text(Language.fingerPrintContent,
+                          style:TextStyle(fontFamily:Language.regularFF,fontSize:23,color:Color(0xFF787878),letterSpacing: 0.5,
                               height: 1.5),textAlign: TextAlign.center,
                         ),
                       ),
@@ -243,7 +245,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                                 // ]
                               ),
                               child: Center(
-                                child: Text("No",
+                                child: Text(Language.no,
                                   style: TextStyle(fontFamily:'RR',color: Color(0xFF808080),fontSize: 16),
                                 ),
                               ),
@@ -274,7 +276,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
                                 // ]
                               ),
                               child: Center(
-                                child: Text("Yes",
+                                child: Text(Language.yes,
                                   style: TextStyle(fontFamily:'RR',color: Colors.white,fontSize: 16),
                                 ),
                               ),
@@ -301,8 +303,7 @@ class _PinScreenSettingsState extends State<PinScreenSettings> {
     try {
       setState(() {});
       authenticated = await auth.authenticate(
-        localizedReason:
-        'Scan your fingerprint to authenticate',
+        localizedReason: 'Scan your fingerprint to authenticate',
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,

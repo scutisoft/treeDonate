@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:treedonate/helper/language.dart';
 import 'package:treedonate/utils/utils.dart';
 
 import '../api/ApiManager.dart';
@@ -68,6 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   void checkUserData() async{
+    await languageInit();
     //await getFirebaseToken();
     String userId=await getSharedPrefString(SP_USER_ID);
     if(userId.isEmpty){
@@ -111,6 +113,11 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
     });
+  }
+
+  Future languageInit() async{
+    await Language.parseJson(selectedLanguage.value);
+    //setState(() {});
   }
 
   @override

@@ -1,0 +1,24 @@
+{
+  "Guid": "24FEEB47-777D-4277-B2A4-D3066360FFC6",
+  "valueArray": [
+    {
+      "key": "DonorViewList",
+      "value": [
+        {
+          "SNO": 1,
+          "Date": "22-02-2023",
+          "NoofTree": 50,
+          "Age": "10 Year ago",
+          "Location": "Chennai",
+          "PaymentType": "Cash",
+          "Consumption": "70%",
+          "Carban Sequestration": "80%",
+          "Amount": 80000,
+          "DataJson": {
+            "NewsFeedId": 1059
+          }
+        }
+      ]
+    }
+  ]
+}

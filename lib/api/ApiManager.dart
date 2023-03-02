@@ -122,6 +122,43 @@ class ApiManager{
      }
    }
 
+
+   Future<List> PostCall(String url,List<ParameterModel> parameterList) async {
+     try{
+       showLoader.value=true;
+       var itemsUrl=GetBaseUrl()+url;
+       var body={
+         "Fields": parameterList.map((e) => e.toJson()).toList()
+       };
+       final response = await http.post(Uri.parse(itemsUrl),
+           headers: {"Content-Type": "application/json"},
+           body: json.encode(body)
+       ).timeout(Duration(seconds: timeOut),onTimeout: ()=>onTme()).onError((error, stackTrace){
+         showLoader.value=false;
+         return http.Response('{"Message":"$error"}',500);
+       });
+       showLoader.value=false;
+       if(response.statusCode==200){
+         return [true,response.body];
+       }
+       else{
+         var msg;
+         // print(msg);
+         //  print("response ${response.body}");
+         msg=json.decode(response.body);
+         print("MSG $msg");
+         CustomAlert().cupertinoAlert("${msg["Message"]}",);
+         return [false,response];
+         // return response.statusCode.toString();
+       }
+     }
+     catch(e){
+       showLoader.value=false;
+       return [false,"Network Issue"];
+       print("NETWORK ISSUE--$e");
+       // CustomAlert().commonErrorAlert(context, "Network Issue", "Your Internet Connectivity or Server is Slow..");
+     }
+   }
 }
 /*
 http.post(url,

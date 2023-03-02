@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:treedonate/HappyExtension/utilWidgets.dart';
 
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 
 
@@ -13,14 +14,14 @@ class ValidationErrorText extends StatelessWidget {
  double leftPadding;
  double rightPadding;
  Alignment alignment;
- ValidationErrorText({this.title="* Required",this.leftPadding=15.0,this.rightPadding=0.0,this.alignment=Alignment.centerLeft});
+ ValidationErrorText({this.title="",this.leftPadding=15.0,this.rightPadding=0.0,this.alignment=Alignment.centerLeft});
 
   @override
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.only(left: leftPadding,right: rightPadding,top:0,bottom: 5),
       child: Align(
         alignment: alignment,
-          child: Text("$title",style: errorTS,textAlign: TextAlign.left,)),
+          child: Text(title.isEmpty?"* ${Language.required}":title,style: errorTS,textAlign: TextAlign.left,)),
     );
   }
 }

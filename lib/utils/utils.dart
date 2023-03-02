@@ -1,4 +1,5 @@
 import 'dart:developer';
+import '../helper/language.dart';
 import '../widgets/alertDialog.dart';
 import '../widgets/recase.dart';
 
@@ -48,6 +49,16 @@ Map<String,dynamic> accessId={
   "PlantationDelete":35,
   "PlantationApproved":37,
   "CSRDashboardView":38,
+  "EventsView":39,
+  "EventsAdd":40,
+  "EventsEdit":41,
+  "EventsDelete":42,
+  "EventsApproved":43,
+  "EventsInterestedView":44,
+  "NewsFeedView":45,
+  "NewsFeedAdd":46,
+  "NewsFeedEdit":47,
+  "NewsFeedDelete":48,
 };
 List<dynamic> accessData=[];
 bool isHasAccess(int uniqueId){
@@ -67,8 +78,16 @@ parseDouble(var value){
   return 0.0;
 }
 
+parseInt(var value){
+  try{
+    return int.parse(value.toString());
+  }catch(e){}
+  return 0;
+}
+
+
 void console(var content){
-  log(content.toString());
+  //log(content.toString());
 }
 enum PayStatus{
   payStatus,
@@ -81,32 +100,17 @@ enum PayStatus{
   partialApproved,
   pending
 }
-Color getPaymentStsClr(int id){
-  if(id==PayStatus.pay.index){
-    return ColorUtil.payClr;
-  }
-  else if(id==PayStatus.paid.index){
+Color getPaymentStsClr(String? id){
+  if(id.toString().toLowerCase()=="paid"){
     return ColorUtil.paidClr;
   }
-  else if(id==PayStatus.partiallyPaid.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  else if(id==PayStatus.approved.index){
-    return ColorUtil.approvedClr;
-  }
-  else if(id==PayStatus.rejected.index){
+  else if(id.toString().toLowerCase()=="cancelled"){
     return ColorUtil.rejectClr;
   }
-  else if(id==PayStatus.completed.index){
-    return ColorUtil.paidClr;
+  else if(id.toString().toLowerCase()=="cancel"){
+    return ColorUtil.rejectClr;
   }
-  else if(id==PayStatus.partialApproved.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  else if(id==PayStatus.pending.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  return ColorUtil.payClr;
+  return ColorUtil.rejectClr;
 }
 
 Color getStatusClr(String status){
@@ -150,7 +154,13 @@ Widget formGridContainer(List<Widget> children){
 Widget formTableHeader(String title,{bool needFittedBox=false}){
   return Padding(
     padding: const EdgeInsets.all(8.0),
-    child:needFittedBox? Container(height: 15,child: FittedBox(alignment: Alignment.centerLeft,child: Text(title,style: ColorUtil.formTableHeaderTS,))):Text(title,style: ColorUtil.formTableHeaderTS,),
+    child:needFittedBox? Container(
+        height: 15,
+        child: FittedBox(
+            alignment: Alignment.centerLeft,
+            child: Text(title,style: ColorUtil.formTableHeaderTS,)
+        )
+    ):Text(title,style: ColorUtil.formTableHeaderTS,),
   );
 }
 
@@ -160,12 +170,57 @@ Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? text
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-        // Spacer(),
+        Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),),
         Flexible(
-            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?'RB':'RR'),overflow: textOverflow,)
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
         ),
       ],
     ),
   );
+}
+Widget gridCardText2(String title,var value,{bool isBold=false,TextOverflow? textOverflow}){
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 2),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(child: Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),)),
+        const SizedBox(width: 5,),
+        Flexible(
+          flex: 2,
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
+        ),
+      ],
+    ),
+  );
+}
+
+Map tamilText={
+  "Thavaraviyal Peyar":"தாவரவியல் பெயர்",
+  "Thavara Kudumbam":"தாவர குடும்பம்",
+  "Thavaraviyal Peyar":"தாவரவியல் பெயர்",
+  "Man Vagai":"மண் வகை",
+  "Matra Peyaragal":"மற்ற பெயர்கள்"
+};
+
+String getTamilWord(String text){
+  return tamilText[text]??text;
+}
+
+const String egfCompanyId="1";
+
+enum PaymentGateway{
+  razorpay,
+  cashFree
+}
+
+Map getParamsFromUrl(url) {
+  var params = {};
+  try{
+    url.split('?')[1].split('&').forEach((i) {
+      params[i.split('=')[0]] = i.split('=')[1];
+    });
+  }catch(e){}
+  return params;
 }

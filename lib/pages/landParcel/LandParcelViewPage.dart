@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/api/apiUtils.dart';
-import 'package:treedonate/widgets/accessWidget.dart';
+import '../../api/apiUtils.dart';
+import '../../helper/language.dart';
+import '../../widgets/accessWidget.dart';
 import '../../utils/utils.dart';
 import '../../widgets/customCheckBox.dart';
 
@@ -15,6 +16,7 @@ import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
 import '../../widgets/customAppBar.dart';
+import '../../widgets/fittedText.dart';
 import '../../widgets/loader.dart';
 
 
@@ -160,7 +162,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                         widgets[1],
                         const  SizedBox(height: 5,),
                         Container(
-                          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                          margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                           child: Table(
                             // defaultColumnWidth: FixedColumnWidth(160.0),
                             border: TableBorder.all(
@@ -179,8 +181,8 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                             isNewsFeed.value=!isNewsFeed.value;
                           },
                           widget: Obx(() => Container(
-                            margin: EdgeInsets.only(left: 10, right: 10,top: 10),
-                            padding: EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10, right: 10,top: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10,top: 10,bottom: 10),
                             decoration: BoxDecoration(
                                 color: isNewsFeed.value? ColorUtil.primary:ColorUtil.text4,
                                 borderRadius: BorderRadius.circular(10)
@@ -195,7 +197,11 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                                   onlyCheckbox: true,
                                 ),
                                 const SizedBox(width: 5,),
-                                Text('Do You Want To Show This News Feed',style: TextStyle(color: isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack),)
+                                FittedText(
+                                  alignment: Alignment.centerLeft,
+                                  text: Language.newsFeedChkBox,
+                                  textStyle: ts14(isNewsFeed.value?ColorUtil.themeWhite:ColorUtil.themeBlack,),
+                                ),
                               ],
                             ),
 
@@ -229,7 +235,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                                     border: Border.all(color: ColorUtil.red),
                                     color: ColorUtil.red.withOpacity(0.3),
                                   ),
-                                  child:Center(child: Text('Reject',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.red,fontFamily:'RR'), )) ,
+                                  child:Center(child: Text(Language.reject,style: ts16(ColorUtil.red,), )) ,
                                 ),
                               ),
                               GestureDetector(
@@ -243,7 +249,7 @@ class _LandParcelViewState extends State<LandParcelView> with HappyExtensionHelp
                                     borderRadius: BorderRadius.circular(3),
                                     color: ColorUtil.primary,
                                   ),
-                                  child:Center(child: Text('Accept',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                                  child:Center(child: Text(Language.accept,style: ts16(ColorUtil.themeWhite,), )) ,
                                 ),
                               ),
                             ],

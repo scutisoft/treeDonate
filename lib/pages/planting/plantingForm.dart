@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../HappyExtension/extensionHelper.dart';
@@ -12,6 +11,7 @@ import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
 import '../../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
 import '../../widgets/customAppBar.dart';
@@ -70,16 +70,13 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     //expandedTitleScale: 1.8,
-                    title: Container(
-                      height: 35,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Plantation',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'RB',fontSize: 18,),textAlign: TextAlign.left,),
-                          Text('Form',style: TextStyle(color:ColorUtil.themeBlack,fontFamily: 'R',fontSize: 12,),textAlign: TextAlign.left,)
-                        ],
-                      ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(Language.plantation,style: ts18(ColorUtil.themeBlack,fontfamily: 'Bold'),textAlign: TextAlign.left,),
+                        Text(Language.form,style: ts12(ColorUtil.themeBlack,fontfamily: 'Med'),textAlign: TextAlign.left,)
+                      ],
                     ),
                     background: Image.asset('assets/trees/green-pasture-with-mountain.jpg',fit: BoxFit.cover,),
                   ),
@@ -119,7 +116,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                                     border: Border.all(color: ColorUtil.primary),
                                     color: ColorUtil.primary.withOpacity(0.3),
                                   ),
-                                  child:Center(child: Text('+ Add',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                                  child:Center(child: Text('+ ${Language.add}',style: TextStyle(fontSize: 16,color: ColorUtil.primary,fontFamily:'RR'), )) ,
                                 ),
                               ),
                             ],
@@ -133,10 +130,10 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                               children: [
                                 TableRow(
                                     children: [
-                                      formTableHeader('Nursery Name'),
-                                      formTableHeader('Tree Name'),
-                                      formTableHeader('No of Trees'),
-                                      formTableHeader('Action',needFittedBox: true)
+                                      formTableHeader('${Language.nursery} ${Language.name}'),
+                                      formTableHeader('${Language.tree} ${Language.name}'),
+                                      formTableHeader(Language.noTrees),
+                                      formTableHeader(Language.action,needFittedBox: true)
                                     ]
                                 ),
                                 for(int i=0;i<SeedTreeMasterList.length;i++)
@@ -180,34 +177,8 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                       widgets[9],
                       const SizedBox(height: 10,),
                       widgets[10],
+                      const SizedBox(height: 100,),
 
-                      Container(
-                        margin: EdgeInsets.only(top: 20,bottom: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: SizeConfig.screenWidth!*0.4,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(color: ColorUtil.primary),
-                                color: ColorUtil.primary.withOpacity(0.3),
-                              ),
-                              child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
-                            ),
-                            Container(
-                              width: SizeConfig.screenWidth!*0.4,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: ColorUtil.primary,
-                              ),
-                              child:Center(child: Text('Done',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -233,7 +204,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                               border: Border.all(color: ColorUtil.primary),
                               color: ColorUtil.primary.withOpacity(0.3),
                             ),
-                            child:Center(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.cancel,style: ts16( ColorUtil.primary), )) ,
                           ),
                         ),
                         GestureDetector(
@@ -266,7 +237,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
                               borderRadius: BorderRadius.circular(3),
                               color: ColorUtil.primary,
                             ),
-                            child:Center(child: Text('Save',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                            child:Center(child: Text(Language.save,style: ts16( ColorUtil.themeWhite), )) ,
                           ),
                         ),
                       ],
@@ -283,13 +254,13 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map: const {"dataName":"SourceId","hintText":"Select Source","labelText":"Source","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"SourceId","hintText":Language.selNursery,"labelText": Language.nursery,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "SeedTreeMasterId",page: page,refId: e['Id']);
         },
       hasInput: false,required: false,
     ));
-    widgets.add(SearchDrp2(map: const {"dataName":"SeedTreeMasterId","hintText":"Select Plant","labelText":"Plant","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
+    widgets.add(SearchDrp2(map:  {"dataName":"SeedTreeMasterId","hintText":Language.selPlant,"labelText":Language.plant,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
       onchange: (e){
       console("$e");
       },));
@@ -299,7 +270,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       dataname: 'No of trees',
       hasInput: false,
       required: false,
-      labelText: "No of Plants",
+      labelText: Language.noPlant,
       textInputType: TextInputType.number,
       regExp: MyConstants.digitRegEx,
       textLength: 10,
@@ -309,22 +280,22 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
       },
     ));
 
-    widgets.add(SearchDrp2(map: const {"dataName":"DistrictId","hintText":"Select District","labelText":"District","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"DistrictId","hintText":Language.selDistrict,"labelText":Language.district,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "TalukId",page: page,refId: e['Id']);
         }
     ));//8
-    widgets.add(SearchDrp2(map: const {"dataName":"TalukId","hintText":"Select Taluk","labelText":"Taluk","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"TalukId","hintText":Language.selTaluk,"labelText":Language.taluk,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
         onchange: (e){
           fillTreeDrp(widgets, "VillageId",page: page,refId: e['Id'],toggleRequired: true);
         })); //9
-    widgets.add(SearchDrp2(map: const {"dataName":"VillageId","hintText":"Select Village","labelText":"Village","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
-    widgets.add(SearchDrp2(map: const {"dataName":"LandOwnershipId","hintText":"Land Ownership","labelText":"Land Ownership",},required: false,));
+    widgets.add(SearchDrp2(map:  {"dataName":"VillageId","hintText":Language.selVillage,"labelText":Language.village,"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//10
+    widgets.add(SearchDrp2(map:  {"dataName":"LandOwnershipId","hintText":Language.selLandOwnership,"labelText":Language.landOwnership,},required: false,));
     widgets.add(AddNewLabelTextField(
       dataname: 'Place',
       hasInput: true,
       required: false,
-      labelText: "Place",
+      labelText: Language.place,
       regExp: MyConstants.alphaSpaceRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -334,6 +305,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     widgets.add(
         HE_LocationPicker(
           dataname: "AddressDetail",
+          content: Language.address,
           contentTextStyle: ts15(addNewTextFieldText),
           hasInput: true,
           required: false,
@@ -342,7 +314,7 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
           },
         )
     );
-    widgets.add(SearchDrp2(map: const {"dataName":"BagMaterialSize","hintText":"Bag Material & Size","labelText":"Bag Material & Size",},required: false,));
+    widgets.add(SearchDrp2(map: {"dataName":"BagMaterialSize","hintText":Language.selBagMatSize,"labelText":Language.bagMatSize,},required: false,));
 
 
     widgets.add( MultiImagePicker(
@@ -414,6 +386,6 @@ class _PlantingFormState extends State<PlantingForm> with HappyExtensionHelper  
     widgets[1].clearValues();
     widgets[2].clearValues();
     node.unfocus();
-    console(jsonEncode(SeedTreeMasterList));
+    //console(jsonEncode(SeedTreeMasterList));
   }
 }

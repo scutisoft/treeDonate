@@ -1,20 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../HappyExtension/utils.dart';
-import '../../pages/Nursery/nurseryForm.dart';
-import '../../pages/Nursery/nurseryViewPage.dart';
+import 'package:treedonate/HappyExtension/extensionUtils.dart';
+import 'package:treedonate/api/apiUtils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/general.dart';
 import '../../../utils/sizeLocal.dart';
+import '../../helper/language.dart';
 import '../../utils/utils.dart';
 import '../../widgets/animatedSearchBar.dart';
-import '../../widgets/customAppBar.dart';
 import '../../widgets/listView/HE_ListView.dart';
 import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
-import 'treeView.dart';
+import 'treeView_2.dart';
 
 
 class MyTreesPage extends StatefulWidget {
@@ -33,6 +33,7 @@ class _MyTreesPageState extends State<MyTreesPage> with HappyExtensionHelper  im
 
   late HE_ListViewBody he_listViewBody;
   RxDouble silverBodyTopMargin=RxDouble(0.0);
+
 
   @override
   void initState(){
@@ -75,6 +76,7 @@ class _MyTreesPageState extends State<MyTreesPage> with HappyExtensionHelper  im
   var node;
 
   double cardWidth=SizeConfig.screenWidth!-(30+15+25);
+  var treeCount=0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class _MyTreesPageState extends State<MyTreesPage> with HappyExtensionHelper  im
                   flexibleSpace: FlexibleSpaceBar(
                     titlePadding: const EdgeInsets.only(left: 50,bottom: 10),
                     expandedTitleScale: 1.8,
-                    title: Text('Our Tree\n65 Varieties',style: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,),textAlign: TextAlign.left,),
+                    title: Obx(() => Text('${treeCount.value} ${Language.myTrees}',style: TextStyle(color:ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,),textAlign: TextAlign.left,)),
                     background: Image.asset('assets/trees/banner_5.jpg',fit:BoxFit.fill),
                   ),
                 ),
@@ -172,10 +174,11 @@ class _MyTreesPageState extends State<MyTreesPage> with HappyExtensionHelper  im
   @override
   void assignWidgets() async{
     await parseJson(widgets, getPageIdentifier());
-    try{
 
-      List<dynamic >OurTreeGird=valueArray.where((element) => element['key']=="OurTreeList").toList()[0]['value'];
-      he_listViewBody.assignWidget(OurTreeGird);
+    try{
+      List<dynamic >ourTreeGird=valueArray.where((element) => element['key']=="OurTreeList").toList()[0]['value'];
+      treeCount.value=ourTreeGird.length;
+      he_listViewBody.assignWidget(ourTreeGird);
     }catch(e){}
   }
 
@@ -223,8 +226,7 @@ class HE_OurTreeViewContent extends StatelessWidget implements HE_ListViewConten
               children: [
                 GestureDetector(
                   onTap: (){
-                    fadeRoute(OurTreeView());
-
+                    fadeRoute(OurTreeView(dataJson: getDataJsonForGrid(dataListener['DataJson']),));
                   },
                   child: Container(
                     width: cardWidth*0.6,
@@ -318,10 +320,24 @@ class HE_OurTreeViewContent extends StatelessWidget implements HE_ListViewConten
                 ),
                 Container(
                     width: cardWidth*0.4,
-                    padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
+                    padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                     alignment:Alignment.center,
-                    // color:Colors.red,
-                    child: Image.asset("${dataListener['ImagePath']}",fit: BoxFit.contain,height: 100,)
+                    child: CachedNetworkImage(
+                      imageUrl: "${GetImageBaseUrl()}${dataListener['ImagePath']}",
+                      fit: BoxFit.contain,
+                      height: 100,
+                      placeholder: (a,b){
+                        return Container(height:30,width:30,alignment:Alignment.center,
+                            child: CircularProgressIndicator(color: ColorUtil.primary,));
+                        return Image.asset("assets/splash.jpg",fit:BoxFit.contain,height: 80,);
+                      },
+                      errorWidget: (a,b,c){
+                        return Image.asset("assets/splash.jpg",fit:BoxFit.contain,height: 80,);
+                      },
+                    ),
+                    /*child: Image.asset("${dataListener['ImagePath']}",fit: BoxFit.contain,height: 100,errorBuilder: (a,b,c){
+                      return Image.asset("assets/splash.jpg",fit:BoxFit.contain,height: 80,);
+                    },)*/
                 ),
               ],
             )

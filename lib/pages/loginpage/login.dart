@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../helper/language.dart';
+import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
@@ -81,6 +83,7 @@ class _loginPageState extends State<loginPage> {
                           Container(
                               child: Image.asset('assets/login/login.png')
                           ),
+
                           Container(
                             margin: EdgeInsets.all(20.0),
                             padding: EdgeInsets.only(top: 50.0,bottom: 150,left: 20,right: 20),
@@ -91,14 +94,10 @@ class _loginPageState extends State<loginPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                    child: Text('Login',style: TextStyle(fontSize: 16,fontFamily: 'RB',color: Color(0XFF000000)),)
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                    child: Text('Your Account',style: TextStyle(fontSize: 14,fontFamily: 'RR',color: ColorUtil.text4),)
-                                ),
-                                SizedBox(height: 20,),
+                                Text(Language.loginTitle['Value'],style: TextStyle(fontSize: Language.loginTitle['FontSize'],fontFamily: Language.loginTitle['FontFamily'],color: Color(0XFF000000)),),
+                                const SizedBox(height: 5,),
+                                Text(Language.yourAccount['Value'],style: TextStyle(fontSize: Language.yourAccount['FontSize'],fontFamily: Language.yourAccount['FontFamily'],color: ColorUtil.text4),),
+                                const SizedBox(height: 20,),
                                 TextField(
                                   controller: _text,
                                   textAlignVertical: TextAlignVertical.center,
@@ -124,9 +123,9 @@ class _loginPageState extends State<loginPage> {
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
                                     prefixIcon: Icon(Icons.person_outline_outlined,size: 20,color: ColorUtil.text4),
-                                    hintText: 'Enter Email',
-                                    errorStyle: TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
-                                    hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
+                                    hintText: Language.enterEmail,
+                                    errorStyle: TextStyle(fontSize: 14,fontFamily:Language.regularFF,color:Color(0XFFBCBBCD),),
+                                    hintStyle:TextStyle(fontSize: 14,fontFamily:Language.regularFF,color:Color(0XFFBCBBCD),),
                                   ),
                                 ),
                                 Padding(
@@ -157,9 +156,9 @@ class _loginPageState extends State<loginPage> {
                                         borderRadius: BorderRadius.circular(30.0),
                                       ),
                                       prefixIcon: Icon(Icons.lock,size: 20,color: ColorUtil.text4),
-                                      hintText: 'Enter Password',
-                                      errorStyle: TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
-                                      hintStyle:TextStyle(fontSize: 14,fontFamily:'RR',color:Color(0XFFBCBBCD),),
+                                      hintText: Language.enterPassword,
+                                      errorStyle: TextStyle(fontSize: 14,fontFamily:Language.regularFF,color:Color(0XFFBCBBCD),),
+                                      hintStyle:TextStyle(fontSize: 14,fontFamily:Language.regularFF,color:Color(0XFFBCBBCD),),
                                       suffixIcon: GestureDetector(
                                         onTap: (){
                                           setState(() {
@@ -181,7 +180,7 @@ class _loginPageState extends State<loginPage> {
                                     },
                                   ),
                                 ),
-                                SizedBox(height: 40,),
+                                const SizedBox(height: 40,),
                                 GestureDetector(
                                   onTap: (){
                                     // Get.to(Masterpage());
@@ -208,10 +207,10 @@ class _loginPageState extends State<loginPage> {
                                       ],
                                       color: ColorUtil.primary,
                                     ),
-                                    child:Center(child: Text('Login',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xffffffff),fontFamily:'RR'), )) ,
+                                    child:Center(child: Text(Language.login['Value'],style: TextStyle(fontSize: Language.login['FontSize'],color: Color(0xffffffff),fontFamily:Language.login['FontFamily']), )) ,
                                   ),
                                 ),
-                                SizedBox(height: 20,),
+                                const SizedBox(height: 20,),
                               ],
                             ),
                           ),
@@ -220,6 +219,15 @@ class _loginPageState extends State<loginPage> {
                       ),
                     ],
                   ),
+                ),
+              ),
+              Positioned(
+                top: 20,
+                right: 20,
+                child: LanguageSwitch(
+                  onChange: (){
+                    setState(() {});
+                  },
                 ),
               ),
               Obx(() => Visibility(
@@ -238,11 +246,11 @@ class _loginPageState extends State<loginPage> {
    /* Get.to(MyHomePage());
     return;*/
     if(_text.text.isEmpty){
-      CustomAlert().cupertinoAlert("Enter Email....");
+      CustomAlert().cupertinoAlert("${Language.enterEmail}....");
       return;
     }
     if(_text1.text.isEmpty){
-      CustomAlert().cupertinoAlert("Enter Password....");
+      CustomAlert().cupertinoAlert("${Language.enterPassword}....");
       return;
     }
     List<ParameterModel> params=[];

@@ -11,6 +11,7 @@ import 'package:treedonate/widgets/alertDialog.dart';
 
 import '../../api/ApiManager.dart';
 import '../../api/sp.dart';
+import '../../helper/language.dart';
 import '../../model/parameterMode.dart';
 import '../../notifier/configuration.dart';
 import '../../utils/constants.dart';
@@ -118,10 +119,10 @@ class _PinScreenLoginState extends State<PinScreenLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Welcome Back...',style: ts18(Color(0XFF000000),fontfamily: 'USB',fontsize: 30),),
+                Text(Language.welcomeBack,style: ts18(Color(0XFF000000),fontfamily: 'USB',fontsize: 30),),
                 //Text("Welcome Back...",style: ts18(ColorUtil.primaryTextColor2),),
                 const SizedBox(height: 20,),
-                Text("Enter Pin",style: ts18(Color(0XFF000000),fontfamily: 'USB'),),
+                Text(Language.enterPin,style: ts18(Color(0XFF000000),fontfamily: 'USB'),),
                 const SizedBox(height: 20,),
                 pinWidget,
                 const SizedBox(height: 50,),
@@ -139,7 +140,7 @@ class _PinScreenLoginState extends State<PinScreenLogin> {
                     onDone: (){
                       clearUserSessionDetail();
                     },
-                    title: "Login with Email"
+                    title: Language.logWithEmail
                 ),
               ],
             ),

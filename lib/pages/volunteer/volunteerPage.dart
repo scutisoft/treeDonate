@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../HappyExtension/utils.dart';
+import '../../HappyExtension/extensionUtils.dart';
 import '../../api/ApiManager.dart';
+import '../../helper/language.dart';
 import '../../pages/volunteer/viewVolunteer.dart';
 import '../../utils/utils.dart';
 import '../../widgets/alertDialog.dart';
@@ -18,6 +19,7 @@ import '../../utils/colorUtil.dart';
 import '../../utils/constants.dart';
 import '../../utils/sizeLocal.dart';
 import '../../widgets/navigationBarIcon.dart';
+import '../../widgets/treeDonateWidgets.dart';
 import '../Filter/FilterItems.dart';
 import '../landParcel/LandParcelViewPage.dart';
 import 'addvolunteer.dart';
@@ -43,8 +45,26 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
 
   @override
   void initState(){
+    silverController=ScrollController();
+    he_listViewBody=HE_ListViewBody(
+      data: [],
+      getWidget: (e){
+        return HE_VListViewContent(
+          data: e,
+          globalKey: GlobalKey(),
+          cardWith: SizeConfig.screenWidth!-(55+30),
+          onDelete: (dataJson){
+            sysDeleteHE_ListView(he_listViewBody, "VolunteerId",dataJson: dataJson);
+          },
+          onEdit: (updatedMap){
+            he_listViewBody.updateArrById("VolunteerId", updatedMap);
+          },
+        );
+      },
+      //scrollController: globalKey.currentState!.innerController,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_){
-      silverController=ScrollController();
+
       silverBodyTopMargin.value=0.0;
       silverController!.addListener(() {
         if(silverController!.offset>triggerOffset){
@@ -57,31 +77,18 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
             silverBodyTopMargin.value=0;
         }
       });
+     // he_listViewBody.scrollListener(globalKey.currentState!.innerController);
+
     });
-
-    he_listViewBody=HE_ListViewBody(
-      data: [],
-      getWidget: (e){
-        return HE_VListViewContent(
-            data: e,
-            cardWith: SizeConfig.screenWidth!-(55+30),
-            onDelete: (dataJson){
-                sysDeleteHE_ListView(he_listViewBody, "VolunteerId",dataJson: dataJson);
-            },
-          onEdit: (updatedMap){
-              he_listViewBody.updateArrById("VolunteerId", updatedMap);
-          },
-        );
-      },
-      scrollController: silverController,
-    );
-
     assignWidgets();
     super.initState();
   }
 
+
+
   var node;
   double cardWith=0.0;
+  final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +100,8 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
           backgroundColor: const Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
           body: NestedScrollView(
+            key: globalKey,
+            //physics: const NeverScrollableScrollPhysics(),
             controller: silverController,
             // floatHeaderSlivers: true,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -117,7 +126,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                     expandedTitleScale: 1.5,
                     centerTitle: false,
                     titlePadding: EdgeInsets.only(left: 50,bottom: 16),
-                    title: Text('Volunteer Details',style: TextStyle(fontSize: 18,color: ColorUtil.themeBlack,fontFamily: 'RM')),
+                    title: Text(Language.volunteerDetails,style: TextStyle(fontSize: 18,color: ColorUtil.themeBlack,fontFamily: Language.mediumFF)),
                     background: Container(
                         alignment: Alignment.centerRight,
                         child: Image.asset('assets/Slice/volunteer.png',fit: BoxFit.contain,)
@@ -126,11 +135,14 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 ),
               ];
             },
-            body:Stack(
+            body: Stack(
               children: [
                 Container(
                   padding: const EdgeInsets.only(right: 5.0,),
                   child: Column(
+                    // controller: silverController,
+                    //  physics: const NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       //SizedBox(height: 50,),
@@ -170,7 +182,6 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                           ],
                         ),
                       ),),
-
                       Flexible(child:he_listViewBody),
                       Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,)),
                     ],
@@ -178,7 +189,7 @@ class _VolunteerPageState extends State<VolunteerPage> with HappyExtensionHelper
                 ),
                 ShimmerLoader(),
               ],
-            ),
+            )
           ),
         ),
     );
@@ -207,17 +218,23 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
   Map data;
   Function(Map)? onEdit;
   Function(String)? onDelete;
-  HE_VListViewContent({Key? key,required this.data,this.onEdit,required this.cardWith,this.onDelete}) : super(key: key){
+  GlobalKey globalKey;
+  HE_VListViewContent({Key? key,required this.data,this.onEdit,required this.cardWith,this.onDelete, required this.globalKey}) : super(key: key){
     dataListener.value=data;
   }
 
   var dataListener={}.obs;
+  var separatorHeight = 50.0.obs;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      separatorHeight.value=parseDouble(globalKey.currentContext!.size!.height)-30;
+    });
     return Obx(
             ()=> Container(
-              margin: EdgeInsets.only(bottom: /*i==filterVolunteerList.length-1? 30:*/3,left: 15,right: 10),
+              key: globalKey,
+              margin: const EdgeInsets.only(bottom: 10,left: 15,right: 10),
               padding: const EdgeInsets.only(left: 10.0,right: 10.0),
               width: SizeConfig.screenWidth!*1,
               decoration: BoxDecoration(
@@ -229,40 +246,51 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+                    padding: const EdgeInsets.only(top: 10,bottom: 10),
                     width: cardWith*0.65,
                     alignment: Alignment.topLeft,
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
+                            EGFEmblem(
+                              companyId: dataListener['VolunteerRoleTypeId'],
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 3,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Date :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            Text('${dataListener['JoinedDate']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),),
+                            Text('${Language.date} :',style: ts14(ColorUtil.text4,),),
+                            Text('${dataListener['JoinedDate']}',style: ts14(ColorUtil.themeBlack,fontfamily: 'Med'),),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(child: Text('${Language.phoneNo} :',style: ts14(ColorUtil.text4,),),),
+                            Text('${dataListener['VolunteerContactNo']}',style: ts14(ColorUtil.primary,fontfamily: 'Med'),),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Phone No :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            Text('${dataListener['VolunteerContactNo']}',style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                            Text('${Language.location} :',style: ts14(ColorUtil.text4,),),
+                            Text(getTitleCase(dataListener['DistrictName']),style: ts14(ColorUtil.primary,fontfamily: 'Med'),),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Location :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            Text(dataListener['DistrictName'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Role :',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
-                            Text(dataListener['VolunteerRole'].toString().titleCase,style: TextStyle(color: ColorUtil.primary,fontSize: 14,fontFamily: 'RM'),),
+                            Text('${Language.role} :  ',style: ts14(ColorUtil.text4,),),
+                            Flexible(child: Text(getTitleCase(dataListener['VolunteerRole']),style: ts14(ColorUtil.primary,fontfamily: 'Med'),),)
                           ],
                         ),
                       ],
@@ -282,7 +310,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                             color: Color(0xFFF2F3F7),
                           ),
                         ),
-                        Container(width: 1,height:90,color: Color(0xFFF2F3F7),),
+                        Container(width: 1,height:separatorHeight.value,color: Color(0xFFF2F3F7),),
                         Container(
                           width: 15,
                           height:10,
@@ -294,41 +322,44 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                       ],
                     ),
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                          width: cardWith*0.35,
-                          height: 50,
-                          alignment:Alignment.center,
-                          // color:Colors.red,
-                          child: Image.asset('assets/Slice/DefaultVolunteer.png',)
-                      ),
-                      const SizedBox(height: 5,),
-                      Row(
-                        children: [
-                          EyeIcon(
-                            onTap: (){
-                              fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
-                                updateDataListener(e['Table'][0]);
-                                if(onEdit!=null){
-                                  onEdit!(e['Table'][0]);
+                  Container(
+                    padding: const EdgeInsets.only(top: 10,bottom: 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                            width: cardWith*0.35,
+                            height: 50,
+                            alignment:Alignment.center,
+                            // color:Colors.red,
+                            child: Image.asset('assets/Slice/DefaultVolunteer.png',)
+                        ),
+                        const SizedBox(height: 5,),
+                        Row(
+                          children: [
+                            EyeIcon(
+                              onTap: (){
+                                fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                  updateDataListener(e['Table'][0]);
+                                  if(onEdit!=null){
+                                    onEdit!(e['Table'][0]);
+                                  }
+                                },));
+                              },
+                            ),
+                            const SizedBox(width: 10,),
+                            GridDeleteIcon(
+                              hasAccess: isHasAccess(accessId["VolunteerDelete"]),
+                              onTap: (){
+                                if(onDelete!=null){
+                                  onDelete!(getDataJsonForGrid(dataListener['DataJson']));
                                 }
-                              },));
-                            },
-                          ),
-                          const SizedBox(width: 10,),
-                          GridDeleteIcon(
-                            hasAccess: isHasAccess(accessId["VolunteerDelete"]),
-                            onTap: (){
-                              if(onDelete!=null){
-                                onDelete!(getDataJsonForGrid(dataListener['DataJson']));
-                              }
-                            },
-                          )
-                        ],
-                      ),
-                    ],
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -343,5 +374,6 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
         dataListener[key]=value;
       }
     });
+    dataListener.refresh();
   }
 }

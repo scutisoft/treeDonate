@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:treedonate/utils/sizeLocal.dart';
+import 'package:treedonate/utils/utils.dart';
+import 'package:treedonate/widgets/fittedText.dart';
+import '../helper/language.dart';
 import '../utils/colorUtil.dart';
 import '../utils/constants.dart';
 import 'accessWidget.dart';
@@ -27,8 +31,14 @@ class CustomAppBar extends StatelessWidget {
                 child: Icon(Icons.arrow_back_ios_new_outlined,color: ColorUtil.themeBlack,size: 20,)
             ),
           ):prefix!,
-          Text(title,style:  ts18(ColorUtil.primaryTextColor2),),
-          Spacer(),
+          FittedText(
+            height: 40,
+            width: SizeConfig.screenWidth!-200,
+            text: title,
+            textStyle: ts18(ColorUtil.primaryTextColor2,fontfamily: 'Med'),
+          ),
+          //Text(title,style:  ts18(ColorUtil.primaryTextColor2,fontfamily: Language.regularFF),),
+          const Spacer(),
           suffix??Container()
         ],
       ),
@@ -178,3 +188,39 @@ class GridEditIcon extends StatelessWidget {
     );
   }
 }
+
+
+class LanguageSwitch extends StatelessWidget {
+  VoidCallback onChange;
+  LanguageSwitch({required this.onChange});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        if(selectedLanguage.value==1){
+          selectedLanguage.value=2;
+        }
+        else if(selectedLanguage.value==2){
+          selectedLanguage.value=1;
+        }
+        Language.parseJson(selectedLanguage.value).then((value){
+          onChange();
+        });
+
+      },
+      child: Container(
+        height: 50,
+        width: 50,
+        margin: const EdgeInsets.only(right: 10),
+        alignment: Alignment.center,
+        color: Colors.transparent,
+        child: Image.asset(selectedLanguage.value==1?"assets/icons/English.png":"assets/icons/Tamil.png",height: 30,),
+      ),
+    );
+  }
+}
+
+
+
+
