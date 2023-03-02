@@ -87,7 +87,7 @@ parseInt(var value){
 
 
 void console(var content){
-  log(content.toString());
+  //log(content.toString());
 }
 enum PayStatus{
   payStatus,
@@ -100,32 +100,17 @@ enum PayStatus{
   partialApproved,
   pending
 }
-Color getPaymentStsClr(int id){
-  if(id==PayStatus.pay.index){
-    return ColorUtil.payClr;
-  }
-  else if(id==PayStatus.paid.index){
+Color getPaymentStsClr(String? id){
+  if(id.toString().toLowerCase()=="paid"){
     return ColorUtil.paidClr;
   }
-  else if(id==PayStatus.partiallyPaid.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  else if(id==PayStatus.approved.index){
-    return ColorUtil.approvedClr;
-  }
-  else if(id==PayStatus.rejected.index){
+  else if(id.toString().toLowerCase()=="cancelled"){
     return ColorUtil.rejectClr;
   }
-  else if(id==PayStatus.completed.index){
-    return ColorUtil.paidClr;
+  else if(id.toString().toLowerCase()=="cancel"){
+    return ColorUtil.rejectClr;
   }
-  else if(id==PayStatus.partialApproved.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  else if(id==PayStatus.pending.index){
-    return ColorUtil.partiallyPaidClr;
-  }
-  return ColorUtil.payClr;
+  return ColorUtil.rejectClr;
 }
 
 Color getStatusClr(String status){
@@ -224,3 +209,18 @@ String getTamilWord(String text){
 }
 
 const String egfCompanyId="1";
+
+enum PaymentGateway{
+  razorpay,
+  cashFree
+}
+
+Map getParamsFromUrl(url) {
+  var params = {};
+  try{
+    url.split('?')[1].split('&').forEach((i) {
+      params[i.split('=')[0]] = i.split('=')[1];
+    });
+  }catch(e){}
+  return params;
+}

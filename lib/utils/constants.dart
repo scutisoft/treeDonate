@@ -12,17 +12,20 @@ class MyConstants{
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.5";
   static String appId="com.scutisoft.nammaramnamkadamai";
-  static bool isLive=false;
-  static bool fromUrl=false;
-  static bool hasAppVersionController=false;
+  static bool isLive=true;
+  static bool fromUrl=true;
+  static bool hasAppVersionController=true;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
   static const DevelopmentMode developmentMode=DevelopmentMode.json;
+  static const PaymentGateway paymentGateway=PaymentGateway.razorpay;
 
   static Duration animeDuration = const Duration(milliseconds: 300);
   static Cubic animeCurve=Curves.easeIn;
 
   static String mapApiKey="AIzaSyB9wKg5QXWHAoOd1i-mUKYhhaq6bBQuHeg";
+
+  static int minimumDonationAmount=1;
 
   static String dbDateFormat="yyyy-MM-dd";
   static String decimalReg=r'^\d+\.?\d{0,3}';
@@ -34,6 +37,7 @@ class MyConstants{
   static String alphaSpaceRegEx2="/[அ-ஔ]+|[க-னௌ]+|[ァ-ヴー]+|[a-zA-Z ]+|[々〆〤ヶ]+/u";
   static String addressRegEx='[A-Za-z0-9-,_/*+()@. ]';
   static String dbDateTimeFormat='yyyy-MM-dd HH:mm:ss';
+  static String rupeeString='₹';
 }
 
 var formatCurrency = NumberFormat.currency(locale: 'HI',name: "");

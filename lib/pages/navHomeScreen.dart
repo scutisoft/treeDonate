@@ -78,12 +78,12 @@ class MenuScreen extends GetView<MyDrawerController> {
 
   List<dynamic> menuList=[
     {"Title":Language.dashboard,"PageNumber":14,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["DashBoardView"]},
-    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
-    {"Title":'CSR',"PageNumber":18,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
+    {"Title":'CSR Dashboard',"PageNumber":17,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": 100},
+    {"Title":'CSR',"PageNumber":18,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": 100},
     {"Title":'Donor Details',"PageNumber":19,"iconNav":SvgPicture.asset("assets/Slice/dashboard.svg",height: 25,color: ColorUtil.themeWhite,),"accessId": null},
     {"Title":Language.homePage,"PageNumber":13,"iconNav":SvgPicture.asset("assets/Slice/home-outline.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId["HomeView"]},
     {"Title":Language.myProfile,"PageNumber":1,"iconNav":Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),"accessId":null},
-    {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":null},
+    {"Title":Language.donate,"PageNumber":2,"iconNav":Icon(Icons.hive_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myHistory,"PageNumber":3,"iconNav":Icon(Icons.history,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.myCertificate,"PageNumber":4,"iconNav":Icon(Icons.file_copy_outlined,color: ColorUtil.themeWhite,),"accessId":100},
     {"Title":Language.ourEvents,"PageNumber":5,"iconNav":SvgPicture.asset("assets/Slice/calendar-check.svg",height: 25,color: ColorUtil.themeWhite,),"accessId":accessId['EventsView']},

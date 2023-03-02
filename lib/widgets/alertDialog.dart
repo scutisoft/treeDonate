@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../helper/language.dart';
 import '../utils/colorUtil.dart';
@@ -724,6 +725,90 @@ class CustomAlert{
       content: Text(title,
         style: TextStyle(fontSize: 18,fontFamily: Language.regularFF),),
     ));
+  }
+
+
+  void paymentAlert(bool isSuccess,String orderId,String amount,String date){
+
+    Color textColor=isSuccess?Color(0xFF558E67):Color(0xFFD65D59);
+    Color btnBgColor=isSuccess?Color(0xFFDFF6EA):Color(0xFFF8EBEE);
+
+    showDialog(
+        context: Get.context!,
+        builder: (ctx) => Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+              decoration:BoxDecoration(
+                color:Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+              child:Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children:[
+                    Image.asset(isSuccess?"assets/payment/paySuccess.png":"assets/payment/payFailure.png"),
+                    SizedBox(height:20),
+                    Text(isSuccess?"Transaction Successful.":"Transaction Failed", style:TextStyle(fontFamily:'USB',fontSize:20,color:textColor)),
+                    SizedBox(height:20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Transaction Id: ",style: ts15(Color(0xFF1f1f1f)),),
+                        Flexible(child: Text("$orderId",style: ts15(Color(0xFF787878)),softWrap: true,)),
+                      ],
+                    ),
+                    SizedBox(height:10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Amount: ₹ ",style: ts15(Color(0xFF1f1f1f)),),
+                        Text(amount,style: ts18(Color(0xFF787878),fontfamily: 'USB'),softWrap: true,),
+                      ],
+                    ),
+
+                    SizedBox(height:10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Date: ",style: ts15(Color(0xFF1f1f1f)),),
+                        Text(DateFormat("dd-MM-yyyy h:mm:ss a").format(DateTime.parse(date)),style: ts15(Color(0xFF787878)),softWrap: true,),
+                      ],
+                    ),
+
+                    SizedBox(height:10),
+                    GestureDetector(
+                      onTap: callback,
+                      child: Container(
+                        height: 50.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: btnBgColor,
+                            boxShadow: [
+                              /*BoxShadow(
+                                color:Colors.red.withOpacity(0.6),
+                                offset: const Offset(0, 8.0),
+                                blurRadius: 15.0,
+                                // spreadRadius: 2.0,
+                              ),*/
+                            ]
+                        ),
+                        child: Center(
+                          child: Text("Done",
+                            style: TextStyle(fontFamily:'USB',color: textColor,fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]
+              )
+          ),
+        )
+
+    );
   }
 
 

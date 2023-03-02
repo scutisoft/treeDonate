@@ -10,11 +10,11 @@ int outletId=0;
 String outletName="";
 
 String GetBaseUrl(){
-  //return MyConstants.isLive?"http://45.126.252.78/NMNK": "http://45.126.252.78/EGF_UAT";
-  return MyConstants.isLive?"http://45.126.252.78/NMNK": "http://192.168.1.140:5009";
+  return MyConstants.isLive?"http://45.126.252.78/NMNK": "http://45.126.252.78/EGF_UAT";
+  return MyConstants.isLive?"http://45.126.252.78/NMNK": "http://192.168.1.110:5000";
 }
 String GetImageBaseUrl(){
-  //return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://45.126.252.78/EGF_UAT/AppAttachments/";
+  return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://45.126.252.78/EGF_UAT/AppAttachments/";
   return MyConstants.isLive?"http://45.126.252.78/NMNK/AppAttachments/": "http://192.168.1.140:5009/AppAttachments/";
 }
 
@@ -33,7 +33,8 @@ getParameterEssential({bool needOutletId=false}) async{
 getLoginId() async{
   //SharedPreferences sp=await SharedPreferences.getInstance();
   // return sp.getInt("LoginUserId");
-  return await getSharedPrefString(SP_USER_ID);
+  String userId=await getSharedPrefString(SP_USER_ID);
+  return userId.isEmpty?"0":userId;
 }
 
 getDatabase(){

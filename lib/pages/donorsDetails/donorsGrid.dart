@@ -87,6 +87,8 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
   var node;
 
 
+  var header={"NoOfDonor": 0, "TotalDonateAmount": 0.0}.obs;
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +121,11 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Total Donars',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('Total Donor',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('2,500',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Obx(() => Text('${header['NoOfDonor']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),)),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
@@ -132,13 +134,13 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('25,00,000.00',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                            child: Obx(() => Text('${MyConstants.rupeeString} ${header['TotalDonateAmount']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 15),),)
                           ),
                           const SizedBox(height: 2,),
-                          Padding(
+                          /*Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
-                          ),
+                          ),*/
                         ],
                       ),
                     ),
@@ -186,7 +188,7 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
                           },
                         ),
                         const SizedBox(width: 5,),
-                        AccessWidget(
+                        /*AccessWidget(
                           hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
                           needToHide: true,
                           widget: GridAddIcon(
@@ -196,7 +198,7 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
                               },));
                             },
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                     Flexible(child: he_listViewBody),
@@ -214,14 +216,23 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.json,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
-   // console("valueArr $valueArray");
-    try{
-      //he_listViewBody.assignWidget(valueArray);
+    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.traditional,
+        traditionalParam: TraditionalParam(executableSp: "USP_Donor_GetDonorDetails"),resCb: (res){
+      console("USP_Donor_GetDonorDetails $res");
+      he_listViewBody.assignWidget(res['Table']);
+      if(res['Table1']!=null)
+        {
+          header.forEach((key, value) {
+            header[key]=res['Table1'][0][key]??0;
+          });
+        }
+        });
+/*    try{
+
       List<dynamic> DonorList=valueArray.where((element) => element['key']=="DonorList").toList()[0]['value'];
       he_listViewBody.assignWidget(DonorList);
 
-    }catch(e){}
+    }catch(e){}*/
   }
 
   @override
@@ -271,12 +282,21 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        // gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
-                        gridCardText(Language.name, dataListener['ContactPerson'],),
-                        gridCardText(Language.email, dataListener['Email'],),
-                        gridCardText(Language.phoneNo, dataListener['ContactNo'],),
+                        gridCardText(Language.date ,dataListener['CreatedDate']??"",isBold: true),
+                        gridCardText(Language.name, dataListener['DonorName'],),
+                        gridCardText(Language.email, dataListener['DonorEmailId'],),
+                        gridCardText(Language.phoneNo, dataListener['DonorContactNumber'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText(Language.address, dataListener['Address']??""),
+                       // gridCardText(Language.address, dataListener['Address']??""),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('${Language.status}  : ',style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: 'RR'),),
+                            //  Spacer(),
+                            Flexible(child: Text("${dataListener['PaymentStatus']}",
+                              style: TextStyle(color: getPaymentStsClr( dataListener['PaymentStatus']),fontSize: 14,fontFamily: 'RM'),)),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -314,10 +334,10 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Total Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("1,00,000",style: ColorUtil.textStyle18),
+                        Text("${MyConstants.rupeeString} ${dataListener['TotalAmount']}",style: ColorUtil.textStyle18),
                         //Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
-                        Row(
+                      /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             EyeIcon(
@@ -352,7 +372,7 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
 
                           ],
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(height: 10,),*/
                       ],
                     ),
                   ),

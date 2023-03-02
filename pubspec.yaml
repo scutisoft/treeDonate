@@ -63,6 +63,8 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_datetime_picker: ^1.5.1
   math_expressions:
+  webview_flutter:
+  cool_alert:
   syncfusion_flutter_charts:
     path: ./syncfusion_flutter_charts
 dev_dependencies:
@@ -99,6 +101,7 @@ flutter:
     - assets/json/users/landParcelJSON/
     - assets/json/users/
     - assets/icons/
+    - assets/payment/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
