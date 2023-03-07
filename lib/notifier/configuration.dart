@@ -23,6 +23,10 @@ Future<void> initPlatformState() async {
       'Error:': 'Failed to get platform version.'
     };
   }
+
+/*  Directory? directory=await getApplicationPath();
+  final dir = Directory(directory!.path);
+  dir.deleteSync(recursive: true);*/
 }
 
 Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {

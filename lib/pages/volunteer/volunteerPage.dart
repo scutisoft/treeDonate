@@ -339,12 +339,20 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           children: [
                             EyeIcon(
                               onTap: (){
-                                fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+
+                                Get.to(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
                                     onEdit!(e['Table'][0]);
                                   }
                                 },));
+
+                                /*fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                  updateDataListener(e['Table'][0]);
+                                  if(onEdit!=null){
+                                    onEdit!(e['Table'][0]);
+                                  }
+                                },));*/
                               },
                             ),
                             const SizedBox(width: 10,),

@@ -40,6 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.bottom,SystemUiOverlay.top]);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+
+
       /*navigate();
       return;*/
       initPlatformState().then((value){

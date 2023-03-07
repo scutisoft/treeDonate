@@ -10,11 +10,11 @@ class MyConstants{
   MyConstants._();
   static String appName="TreeDonate";
   //static String appName="RadiantECS_Dev";
-  static String appVersion="1.0.5";
+  static String appVersion="1.0.6";
   static String appId="com.scutisoft.nammaramnamkadamai";
   static bool isLive=true;
   static bool fromUrl=true;
-  static bool hasAppVersionController=true;
+  static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
   static const DevelopmentMode developmentMode=DevelopmentMode.json;

@@ -1,14 +1,19 @@
 
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:treedonate/api/ApiManager.dart';
-import 'package:treedonate/api/apiUtils.dart';
-import 'package:treedonate/helper/language.dart';
-import 'package:treedonate/pages/navHomeScreen.dart';
-import 'package:treedonate/widgets/customAppBar.dart';
-import 'package:treedonate/widgets/loader.dart';
+import 'package:share_plus/share_plus.dart';
+import '../../api/ApiManager.dart';
+import '../../api/apiUtils.dart';
+import '../../helper/language.dart';
+import '../../pages/navHomeScreen.dart';
+import '../../widgets/customAppBar.dart';
+import '../../widgets/loader.dart';
 import '../../HappyExtension/extensionUtils.dart';
+import '../../helper/appVersionController.dart';
 import '../../model/parameterMode.dart';
 import '../../utils/general.dart';
 import '../../HappyExtension/extensionHelper.dart';
@@ -22,9 +27,6 @@ import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/popupBanner/popup.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
-import '../Filter/FilterItems.dart';
-import '../newsFeedsView/newsFeedsViewPage.dart';
-import '../profile/myprofile.dart';
 
 class LandingPage extends StatefulWidget {
   VoidCallback voidCallback;
@@ -43,7 +45,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   ];
 
   List<Widget> widgets=[];
-  int _current = 0;
+  var _current = 0.obs;
   final CarouselController _controller = CarouselController();
 
   List<dynamic> filterNewsFeed=[];
@@ -162,9 +164,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                   scrollDirection: Axis.horizontal,
                                   autoPlay: true,
                                   onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _current = index;
-                                    });
+                                    _current.value = index;
                                   }
                               ),
                               carouselController: _controller,
@@ -184,7 +184,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                               return GestureDetector(
                                 onTap: () =>
                                     _controller.animateToPage(entry.key),
-                                child: Container(
+                                child: Obx(() => Container(
                                   width: 12.0,
                                   height: 12.0,
                                   margin: const EdgeInsets.symmetric(
@@ -197,8 +197,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                                           ? Colors.white
                                           : ColorUtil.primary)
                                           .withOpacity(
-                                          _current == entry.key ? 0.9 : 0.4)),
-                                ),
+                                          _current.value == entry.key ? 0.9 : 0.4)),
+                                )),
                               );
                             }).toList(),
                           ),
@@ -492,15 +492,34 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     });
 
     Widget getImgContainer(path){
-      return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
+      //console("path $path");
+      var reload=false.obs;
+      Directory? imgPath;
+      getApplicationPath().then((value){
+        imgPath=value;
+        String imgFolder=getFolderNameFromFolderPath(path);
+        String fileName=getFileNameFromFolderPath(path);
+        download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
+          reload.value=true;
+          //return Obx(() => Image.asset(imgPath==null?'assets/logo.png':'${imgPath!.path}/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
+        });
+      });
+
+      return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover):
+      Image.asset('assets/logo.png',fit: BoxFit.cover));
+
+      return Image.file(File('/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path'),fit: BoxFit.cover);
+      return Obx(() => Image.asset(/*imgPath==null?'assets/logo.png':*/'/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
+      //return CachedNetworkImage(imageUrl: GetImageBaseUrl()+path,fit: BoxFit.cover);
+    //  return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
     }
 
-    Widget getImgByCount(cunt){
+    Widget getImgByCount(cunt) {
       if(cunt==1){
         return  SizedBox(
           width:SizeConfig.screenWidth,
           height: 200,
-            child:getImgContainer(imgList[0])
+            child: getImgContainer(imgList[0])
         );
       }
       else if(cunt==2){
@@ -605,15 +624,18 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(child: Text("$name",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)),
+                        Flexible(
+                            flex:2,
+                            child: Text("$name",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)
+                        ),
                         Container(
                             decoration: BoxDecoration(
                               color: ColorUtil.primary,
                               borderRadius: BorderRadius.circular(3)
                             ),
                             padding: const EdgeInsets.only(left: 5,right: 5,top: 3,bottom: 3),
-                            child: Text("$nfType",style:  TextStyle(fontFamily: 'RM',fontSize: 13,color: ColorUtil.themeWhite),))
-                        ,
+                            child: Text("$nfType",style:  TextStyle(fontFamily: 'RM',fontSize: 13,color: ColorUtil.themeWhite),)
+                        ),
                       ],
                     ),
                     const Spacer(),
@@ -663,13 +685,13 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                         Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
-                    Row(
+                    /*Row(
                       children: [
                         Icon(Icons.comment,color: ColorUtil.primary,),
                         const SizedBox(width: 8,),
                         Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
-                    ),
+                    ),*/
                     Row(
                       children: [
                         Icon(Icons.thumb_up,color: ColorUtil.primary,),
@@ -677,7 +699,42 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                         Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
                       ],
                     ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async{
 
+                            showLoader.value=true;
+                            Directory? imgPath=await getApplicationPath();
+
+                            List<XFile> localPath=[];
+                            for (var element in imgList) {
+                              String imgFolder=getFolderNameFromFolderPath(element);
+                              String fileName=getFileNameFromFolderPath(element);
+                              await download(GetImageBaseUrl()+element,imgPath!.path,imgFolder,fileName);
+                            //  localPath.add('${imgPath!.path}/$imgFolder/$fileName');
+                              localPath.add(XFile('${imgPath!.path}/$imgFolder/$fileName'));
+                            }
+
+                            showLoader.value=false;
+                            Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
+                          //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
+                           /* await FlutterShare.shareFile(
+                              title: nfType,
+                              text: nfDescription,
+                              filePath: docs[0] as String,
+                            );*/
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                              height: 30,
+                              width: 30,
+                              alignment: Alignment.center,
+                              child: Icon(Icons.share,color: ColorUtil.primary,)
+                          ),
+                        ),
+                      ],
+                    ),
                     Visibility(
                       visible: nfType=='Event',
                       child: GestureDetector(
@@ -745,6 +802,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       ),
     );
   }
+
 
 
   void showHideDotsPopup(images) {

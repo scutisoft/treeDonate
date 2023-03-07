@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 import '../helper/language.dart';
 import '../widgets/alertDialog.dart';
 import '../widgets/recase.dart';
@@ -87,7 +90,7 @@ parseInt(var value){
 
 
 void console(var content){
-  //log(content.toString());
+  log(content.toString());
 }
 enum PayStatus{
   payStatus,
@@ -164,7 +167,7 @@ Widget formTableHeader(String title,{bool needFittedBox=false}){
   );
 }
 
-Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? textOverflow}){
+Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? textOverflow,int? maxLines}){
   return Padding(
     padding: const EdgeInsets.only(bottom: 2),
     child: Row(
@@ -172,7 +175,8 @@ Widget gridCardText(String title,var value,{bool isBold=false,TextOverflow? text
       children: [
         Text("$title : ",style: TextStyle(color: ColorUtil.text4,fontSize: 14,fontFamily: Language.regularFF),),
         Flexible(
-            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,)
+            child: Text("$value",style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: isBold?Language.boldFF:Language.regularFF),overflow: textOverflow,
+            maxLines: maxLines,)
         ),
       ],
     ),
@@ -223,4 +227,26 @@ Map getParamsFromUrl(url) {
     });
   }catch(e){}
   return params;
+}
+
+Future<Directory?> getApplicationPath() async{
+  if(Platform.isAndroid){
+    return await getExternalStorageDirectory();
+  }
+  return await getApplicationDocumentsDirectory();
+}
+
+String getFileNameFromFolderPath(String dbPath){
+  try{
+    return dbPath.split("/")[1];
+  }catch(e){}
+  return '';
+}
+
+
+String getFolderNameFromFolderPath(String dbPath){
+  try{
+    return dbPath.split("/")[0];
+  }catch(e){}
+  return '';
 }
