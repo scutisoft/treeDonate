@@ -198,6 +198,7 @@ class HE_OurTreeViewContent extends StatelessWidget implements HE_ListViewConten
   GlobalKey globalKey;
   HE_OurTreeViewContent({Key? key,required this.data,this.onEdit,required this.cardWidth,this.onDelete,required this.globalKey}) : super(key: key){
     dataListener.value=data;
+
   }
 
   var dataListener={}.obs;

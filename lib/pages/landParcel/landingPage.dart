@@ -1,16 +1,14 @@
-
+import 'dart:async';
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../api/ApiManager.dart';
 import '../../api/apiUtils.dart';
 import '../../helper/language.dart';
 import '../../pages/navHomeScreen.dart';
-import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
 import '../../HappyExtension/extensionUtils.dart';
 import '../../helper/appVersionController.dart';
@@ -27,18 +25,6 @@ import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/popupBanner/popup.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
-
-/*
-class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-*/
-
 
 class LandingPage extends StatefulWidget {
   VoidCallback voidCallback;
@@ -63,9 +49,35 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   List<dynamic> filterNewsFeed=[];
   List<dynamic> newsFeed=[];
 
+  static const platform = MethodChannel('flutter.native/helper');
+
+  late Widget a;
+
   @override
   void initState(){
+    a=   ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: filterNewsFeed.length,
+      itemBuilder: (ctx,i){
+        return getNewsFeed(
+            i,
+            name: filterNewsFeed[i]['NFNAME']??"",
+            nfDescription: filterNewsFeed[i]['NFDescription']??"",
+            nfLoc: filterNewsFeed[i]['NFLocation']??"",
+            nfType: filterNewsFeed[i]['NFType']??"",
+            profileImg: filterNewsFeed[i]['NFProfileImage']??"",
+            date: filterNewsFeed[i]['NFDATE']??"",
+            time: filterNewsFeed[i]['NFTime']??"",
+            img:  filterNewsFeed[i]['NFImageFile']??"",
+            isInterested: filterNewsFeed[i]['IsInterested'].toString()
+        );
+      },
+    );
     assignWidgets();
+    platform.invokeMethod("helloFromNativeCode").then((value){
+      console("platform $value");
+    });
     super.initState();
   }
 
@@ -278,8 +290,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                       ),
                     ],
                   ),
-
-                  ListView.builder(
+                  a,
+               /*   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: filterNewsFeed.length,
@@ -297,7 +309,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           isInterested: filterNewsFeed[i]['IsInterested'].toString()
                       );
                     },
-                  ),
+                  ),*/
                   ShimmerLoader(),
                   NoData(show: filterNewsFeed.isEmpty),
                   //Obx(() => NoData(show: filterNewsFeed.isEmpty && !showLoader.value,)),
@@ -490,53 +502,119 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
 
     try{
       newsFeed=valueArray.where((element) => element['key']=="NewsFeedList").toList()[0]['value'];
+      showLoader.value=true;
+      await downloadNewsFeedImages(newsFeed);
+      showLoader.value=false;
       filterNewsFeed= newsFeed;
+      assignListView();
     }
     catch(e){}
-    setState(() {});
+
 
   }
 
+  void assignListView(){
+    a =   ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: filterNewsFeed.length,
+      itemBuilder: (ctx,i){
+        return getNewsFeed(
+            i,
+            name: filterNewsFeed[i]['NFNAME']??"",
+            nfDescription: filterNewsFeed[i]['NFDescription']??"",
+            nfLoc: filterNewsFeed[i]['NFLocation']??"",
+            nfType: filterNewsFeed[i]['NFType']??"",
+            profileImg: filterNewsFeed[i]['NFProfileImage']??"",
+            date: filterNewsFeed[i]['NFDATE']??"",
+            time: filterNewsFeed[i]['NFTime']??"",
+            img:  filterNewsFeed[i]['NFImageFile']??"",
+            isInterested: filterNewsFeed[i]['IsInterested'].toString()
+        );
+      },
+    );
+    setState(() {});
+  }
+
+  Future<void> downloadNewsFeedImages(arr) async {
+    //int z=0;
+    for(var a in arr){
+      String img=a['NFImageFile']??"";
+      List<dynamic> imgList=[];
+      imgList=img.split(",");
+      imgList.add(a['NFProfileImage']??"");
+      for(int i=0;i<imgList.length;i++){
+        String imgFolder=getFolderNameFromFolderPath(imgList[i]);
+        String fileName=getFileNameFromFolderPath(imgList[i]);
+        //console("file $z $imgFolder $fileName");
+        await download(GetImageBaseUrl()+imgList[i],imgPath!.path,imgFolder,fileName);
+      //  z++;
+      }
+    }
+  }
 
   Widget getNewsFeed(int index,{String name="",String nfType="",String nfDescription="",String profileImg="",String nfLoc="",
     String date="",String time="", String img="",String isInterested="0"
   }){
+    console("getNewsFeed $index");
     List<dynamic> imgList=[];
     List<String> imgListUrl=[];
     imgList=img.split(",");
-
-    imgList.forEach((element) {
-      //imgListUrl.add(GetImageBaseUrl()+element);
+    for(int i=0;i<imgList.length;i++){
+      imgListUrl.add('${imgPath!.path}/${imgList[i]}');
+    }
+    /*var reload=false.obs;
+    if(imgList.isEmpty){
+      reload.value=true;
+    }
+    for(int i=0;i<imgList.length;i++){
+      imgListUrl.add('${imgPath!.path}/${imgList[i]}');
+      String imgFolder=getFolderNameFromFolderPath(imgList[i]);
+      String fileName=getFileNameFromFolderPath(imgList[i]);
+      download(GetImageBaseUrl()+imgList[i],imgPath!.path,imgFolder,fileName).then((value){
+        if(i==imgList.length-1){
+          reload.value=true;
+        }
+      });
+    }*/
+    /*for (var element in imgList) {
       imgListUrl.add('${imgPath!.path}/$element');
-    });
+    }*/
 
     Widget getImgContainer(path){
-      //console("path $path");
-      var reload=false.obs;
+      /*var reload=false.obs;
       String imgFolder=getFolderNameFromFolderPath(path);
       String fileName=getFileNameFromFolderPath(path);
       download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
         reload.value=true;
-        //return Obx(() => Image.asset(imgPath==null?'assets/logo.png':'${imgPath!.path}/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
-      });
-      return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover):
-      Image.asset('assets/logo.png',fit: BoxFit.cover));
+      });*/
+      /*return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover):
+      Image.asset('assets/logo.png',fit: BoxFit.cover));*/
 
-      return Image.file(File('/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path'),fit: BoxFit.cover);
-      return Obx(() => Image.asset(/*imgPath==null?'assets/logo.png':*/'/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
+      return Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover,errorBuilder: (a,b,c){
+        return Image.asset('assets/logo.png',fit: BoxFit.cover);
+      });
+
+     // return Image.file(File('/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path'),fit: BoxFit.cover);
+     // return Obx(() => Image.asset(/*imgPath==null?'assets/logo.png':*/'/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
       //return CachedNetworkImage(imageUrl: GetImageBaseUrl()+path,fit: BoxFit.cover);
       //  return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
     }
 
     Widget getProfile(path){
-      var reload=false.obs;
-      String imgFolder=getFolderNameFromFolderPath(path);
+     // var reload=false.obs;
+   /*   String imgFolder=getFolderNameFromFolderPath(path);
       String fileName=getFileNameFromFolderPath(path);
       download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
         reload.value=true;
-      });
-      return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.contain):
-      Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,));
+      });*/
+
+      return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
+      return Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover,errorBuilder: (a,b,c){
+        return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
+      },);
+     /* return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.contain):
+      Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,));*/
 
     }
 
@@ -699,7 +777,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                 color: ColorUtil.text4,
               ),
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(8,0,8,0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -730,17 +808,19 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           onTap: () async{
 
                             showLoader.value=true;
-                            Directory? imgPath=await getApplicationPath();
-
-                            List<XFile> localPath=[];
+                            List<String> localPath=[];
+                           // List<XFile> localPath=[];
                             for (var element in imgList) {
                               /*String imgFolder=getFolderNameFromFolderPath(element);
                               String fileName=getFileNameFromFolderPath(element);*/
-                              localPath.add(XFile('${imgPath!.path}/$element'));
+                              localPath.add('${imgPath!.path}/$element');
+                            //  localPath.add(XFile('${imgPath!.path}/$element'));
                             }
-
+                            console(localPath);
+                            console(nfDescription);
                             showLoader.value=false;
-                            Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
+                            Share.shareFiles(localPath,text: nfDescription,subject:nfType);
+                           // Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
                             //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
                             /* await FlutterShare.shareFile(
                               title: nfType,
@@ -749,9 +829,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                             );*/
                           },
                           child: Container(
-                              color: Colors.transparent,
-                              height: 30,
-                              width: 30,
+                              color: Colors.white,
+                              height: 40,
+                              width: 40,
                               alignment: Alignment.center,
                               child: Icon(Icons.share,color: ColorUtil.primary,)
                           ),
@@ -837,9 +917,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       images: images,
       useDots: true,
       autoSlide: false,
-      onClick: (index) {
-
-      },
+      onClick: (index) {},
       fit: BoxFit.contain,
       isLocal: true
     ).show();
@@ -860,3 +938,243 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
 
 }
 
+class SA extends StatelessWidget {
+  String name = "";
+  String nfType = "";
+  String nfDescription = "";
+    String profileImg = "";  String nfLoc = "";   String date = "";   String time = "";   String img = "";   String isInterested = "0";
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: SizeConfig.screenWidth,
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.only(left: 15,right: 15,bottom: 30),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: ColorUtil.themeWhite
+      ),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+             // getImgByCount(imgList.length),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: 40,
+                        height: 40,
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          color: ColorUtil.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      //  child: getProfile(profileImg)
+                      /*child: Image.network(GetImageBaseUrl()+profileImg,fit: BoxFit.contain,errorBuilder: (a,b,c){
+                       return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
+                     },),*/
+                      // child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
+                    ),
+                    const SizedBox(width: 5,),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                            flex:2,
+                            child: Text("$name",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),)
+                        ),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: ColorUtil.primary,
+                                borderRadius: BorderRadius.circular(3)
+                            ),
+                            padding: const EdgeInsets.only(left: 5,right: 5,top: 3,bottom: 3),
+                            child: Text("$nfType",style:  TextStyle(fontFamily: 'RM',fontSize: 13,color: ColorUtil.themeWhite),)
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("$time",style:  TextStyle(fontFamily: 'RB',fontSize: 13,color: ColorUtil.themeBlack),),
+                        Text("$date",style:  TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10 ,),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0,right: 8.0),
+                child: Text("$nfDescription",style:  TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),),
+              ),
+              const SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_on,color: ColorUtil.text4,),
+                    const SizedBox(width: 5,),
+                    Text("$nfLoc",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),)
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5,),
+              Divider(
+                thickness: 1,
+                color: ColorUtil.text4,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.people_alt_sharp,color: ColorUtil.text4,),
+                        const SizedBox(width: 8,),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    ),
+                    /*Row(
+                      children: [
+                        Icon(Icons.comment,color: ColorUtil.primary,),
+                        const SizedBox(width: 8,),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    ),*/
+                    Row(
+                      children: [
+                        Icon(Icons.thumb_up,color: ColorUtil.primary,),
+                        const SizedBox(width: 8,),
+                        Text("0",style:  TextStyle(fontFamily: 'RB',fontSize: 14,color: ColorUtil.text4),),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async{
+
+                            /*showLoader.value=true;
+                            List<String> localPath=[];
+                            // List<XFile> localPath=[];
+                            for (var element in imgList) {
+                              *//*String imgFolder=getFolderNameFromFolderPath(element);
+                              String fileName=getFileNameFromFolderPath(element);*//*
+                              localPath.add('${imgPath!.path}/$element');
+                              //  localPath.add(XFile('${imgPath!.path}/$element'));
+                            }
+                            console(localPath);
+                            console(nfDescription);
+                            showLoader.value=false;
+                            Share.shareFiles(localPath,text: nfDescription,subject:nfType);*/
+                            // Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
+                            //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
+                            /* await FlutterShare.shareFile(
+                              title: nfType,
+                              text: nfDescription,
+                              filePath: docs[0] as String,
+                            );*/
+                          },
+                          child: Container(
+                              color: Colors.white,
+                              height: 40,
+                              width: 40,
+                              alignment: Alignment.center,
+                              child: Icon(Icons.share,color: ColorUtil.primary,)
+                          ),
+                        ),
+                      ],
+                    ),
+                    Visibility(
+                      visible: nfType=='Event',
+                      child: GestureDetector(
+                        onTap: (){
+                          //updateEventInterest(index);
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          alignment: Alignment.center,
+                          color: Colors.transparent,
+                          child: isInterested=="1"?Icon(Icons.favorite,color: Colors.red,):Icon(Icons.favorite_border),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          /*Positioned(
+            top: 15,
+            left: 15,
+            child: Container(
+              padding: EdgeInsets.only(left: 5,right: 5,top: 2,bottom: 2),
+              decoration: BoxDecoration(
+                  color:Colors.orange,
+                  borderRadius: BorderRadius.circular(3.0)
+              ),
+              child: Text("Admin",style: TextStyle(fontSize: 12,color: ColorUtil.themeWhite,fontFamily:'RM'), ),
+            ),
+          ),*/
+          Positioned(
+            top: 165,
+            right: 20,
+            child: GestureDetector(
+              onTap: (){
+            //    showHideDotsPopup(imgListUrl);
+                //fadeRoute(NewsFeedsView());
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorUtil.themeBlack,
+                      blurRadius: 15.0, // soften the shadow
+                      spreadRadius: 0.0, //extend the shadow
+                      offset: const Offset(
+                        0.0, // Move to right 10  horizontally
+                        0.0, // Move to bottom 10 Vertically
+                      ),
+                    )
+                  ],
+                  color: ColorUtil.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.remove_red_eye_outlined,color: ColorUtil.themeWhite,),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  SA({
+      required this.name,
+    required this.nfType,
+    required this.nfDescription,
+    required  this.profileImg,
+    required this.nfLoc,
+    required this.date,
+    required this.time,
+    required this.img,
+    required this.isInterested}); //SA({Key? key,required this.name}) : super(key: key);
+}

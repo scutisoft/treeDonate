@@ -14,7 +14,7 @@ class MyConstants{
   static String appId="com.scutisoft.nammaramnamkadamai";
   static bool isLive=true;
   static bool fromUrl=true;
-  static bool hasAppVersionController=true;
+  static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;
   static bool defaultActionEnable=true;
   static const DevelopmentMode developmentMode=DevelopmentMode.json;

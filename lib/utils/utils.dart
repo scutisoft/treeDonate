@@ -93,7 +93,7 @@ parseInt(var value){
 
 
 void console(var content){
-  //log(content.toString());
+  log(content.toString());
 }
 enum PayStatus{
   payStatus,

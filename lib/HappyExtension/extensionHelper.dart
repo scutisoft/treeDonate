@@ -10,7 +10,7 @@ import 'dart:convert';
 import '../model/parameterMode.dart';
 import '../widgets/listView/HE_ListView.dart';
 import 'extensionUtils.dart';
-
+bool needLog=false;
 enum WidgetType{
   list,
   map
@@ -283,7 +283,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   Future<void> getUIFromDb(List<dynamic> widgets,String pageIdentifier,String? dataJson) async{
     await GetUiNotifier().getUiJson(pageIdentifier,await getLoginId(),true,dataJson: dataJson).then((value){
       print("----getUIFromDb-----");
-      console(value);
+      if(needLog)console(value);
       if(value!="null" && value.toString().isNotEmpty){
         var parsed=jsonDecode(value);
         parsedJson=jsonDecode(parsed['Table'][0]['PageJson']);
