@@ -25,6 +25,7 @@ getParameterEssential({bool needOutletId=false}) async{
     ParameterModel(Key: "IsMobile", Type: "int", Value: 1),
     ParameterModel(Key: "database", Type: "String", Value: getDatabase()),
     ParameterModel(Key: "DeviceId", Type: "String", Value: getDeviceId()),
+    ParameterModel(Key: "TransactionDeviceId", Type: "String", Value: 2),
     if(needOutletId)
       ParameterModel(Key: "OutletId", Type: "String", Value: await getOutletId()),
   ];

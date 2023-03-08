@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:treedonate/utils/constants.dart';
+import 'package:treedonate/widgets/searchDropdown/search2.dart';
 
 import '../api/ApiManager.dart';
 import '../api/apiUtils.dart';
@@ -51,15 +52,7 @@ void checkPaymentStatusFromRedirectUrl(String url,{String plinkId="",VoidCallbac
     voidCallback();
   }
   if(isProceed){
-    List<ParameterModel> params= await getParameterEssential();
-    params.add(ParameterModel(Key: "OutputJson", Type: "String", Value: outputJson));
-    params.add(ParameterModel(Key: "PaymentJson", Type: "String", Value: paymentJson));
-    params.add(ParameterModel(Key: "PaymentStatus", Type: "String", Value: status));
-    params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USP_DonorPayment_UpdateDonationDetails"));
-
-    await ApiManager().GetInvoke(params).then((response){
-      console("USP_DonorPayment_UpdateDonationDetails $response");
-    });
+   updateOutputPaymentJson(outputJson, paymentJson, status);
   }
 }
 
@@ -100,4 +93,33 @@ statusAlert(String status,String orderId,String amount,String date){
   ).paymentAlert(status.toLowerCase()=='paid', orderId, amount, date);
   //2022-06-07T13:01:29+05:30
   //order_1659042AEuVS3IMiB1cRA10rGON2CZMqX
+}
+
+void getPaymentStatusByPLinkId(plinkId,Function(Map updatedData) cb) async{
+  if(checkNullEmpty(plinkId)){
+    return;
+  }
+  List<ParameterModel> params= [];
+  params.add(ParameterModel(Key: "plinkid", Type: "String", Value: plinkId));
+  await ApiManager().PostCall('/api/PaymentApi/GetPaymentLinkByPLinkId', params).then((response){
+   // console("getPaymentStatusByPLinkId $response");
+    if(response[0]){
+      var parsed=jsonDecode(response[1]);
+      String status=parsed['status'];
+      cb({"PaymentStatus":status});
+      updateOutputPaymentJson('',response[1],status);
+    }
+  });
+}
+
+void updateOutputPaymentJson(outputJson1,paymentJson1,status1) async{
+  List<ParameterModel> params= await getParameterEssential();
+  params.add(ParameterModel(Key: "OutputJson", Type: "String", Value: outputJson1));
+  params.add(ParameterModel(Key: "PaymentJson", Type: "String", Value: paymentJson1));
+  params.add(ParameterModel(Key: "PaymentStatus", Type: "String", Value: status1));
+  params.add(ParameterModel(Key: "SpName", Type: "String", Value: "USP_DonorPayment_UpdateDonationDetails"));
+
+  await ApiManager().GetInvoke(params).then((response){
+    console("USP_DonorPayment_UpdateDonationDetails $response");
+  });
 }

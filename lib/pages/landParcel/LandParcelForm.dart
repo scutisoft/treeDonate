@@ -204,7 +204,9 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       labelText: Language.phoneNo,
       scrollPadding: scrollPadding,
       textInputType: TextInputType.number,
-      textLength: 10,
+      textLength: MyConstants.phoneNoLength,
+      needMinLengthCheck: true,
+      minLength: MyConstants.phoneNoLength,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -217,6 +219,7 @@ class _LandParcelFormState extends State<LandParcelForm> with HappyExtensionHelp
       required: false,
       labelText: Language.email,
       scrollPadding: scrollPadding,
+      needEmailCheck: true,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

@@ -42,14 +42,15 @@ class StackIcon extends StatelessWidget {
 
 class EGFEmblem extends StatelessWidget {
   dynamic companyId;
+  bool isGov;
   EdgeInsets margin;
   double imgHeight;
-  EGFEmblem({Key? key,required this.companyId,this.margin=const EdgeInsets.only(left: 5),this.imgHeight=30}) : super(key: key);
+  EGFEmblem({Key? key,required this.companyId,this.margin=const EdgeInsets.only(left: 5),this.imgHeight=30,required this.isGov}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: companyId.toString()==egfCompanyId,
+      visible: companyId.toString()==egfCompanyId && !isGov,
       child: Container(
         height: imgHeight,
         width: imgHeight,

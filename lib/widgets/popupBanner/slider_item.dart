@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SliderItem extends StatefulWidget {
   final List<String> imageList;
@@ -14,6 +16,7 @@ class SliderItem extends StatefulWidget {
   final bool useDots;
   final bool autoSlide;
   final Duration slideChangeDuration;
+  final bool isLocal;
   const SliderItem({
     Key? key,
     required this.imageList,
@@ -27,6 +30,7 @@ class SliderItem extends StatefulWidget {
     this.dotsMarginBottom = 10,
     this.useDots = true,
     this.autoSlide = true,
+    this.isLocal = false,
     this.slideChangeDuration = const Duration(seconds: 6),
   }) : super(key: key);
 
@@ -36,17 +40,15 @@ class SliderItem extends StatefulWidget {
 
 class _SliderItemState extends State<SliderItem> {
   PageController? controller;
-  int currentIndex = 0;
+  var currentIndex = 0.obs;
   Timer? timer;
 
   void incrementCurrent(int position) {
-    setState(() {
-      if (currentIndex <= widget.imageList.length - 1) {
-        currentIndex = position;
-      } else {
-        currentIndex = 0;
-      }
-    });
+    if (currentIndex.value <= widget.imageList.length - 1) {
+      currentIndex.value = position;
+    } else {
+      currentIndex.value = 0;
+    }
   }
 
   void onChange(int? position) {
@@ -57,7 +59,7 @@ class _SliderItemState extends State<SliderItem> {
 
   void initializeTimer() async {
     timer = Timer.periodic(widget.slideChangeDuration, (timer) {
-      if (currentIndex <= widget.imageList.length - 2) {
+      if (currentIndex.value <= widget.imageList.length - 2) {
         controller?.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
@@ -143,26 +145,26 @@ class _SliderItemState extends State<SliderItem> {
   }
 
   Widget _dotItem(int index) {
-    return Container(
+    return Obx(()=>Container(
       height: 12,
       width: 20,
       margin: const EdgeInsets.symmetric(horizontal: 3),
-      decoration: currentIndex == index
+      decoration: currentIndex.value == index
           ? BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: widget.dotsColorActive,
-            )
+        borderRadius: BorderRadius.circular(5),
+        color: widget.dotsColorActive,
+      )
           : BoxDecoration(
-              shape: BoxShape.circle,
-              color: widget.dotsColorInactive,
-            ),
-    );
+        shape: BoxShape.circle,
+        color: widget.dotsColorInactive,
+      ),
+    ));
   }
 
   Widget _imageItem(int index, String item) {
     return GestureDetector(
       onTap: () => widget.onClick(index),
-      child: widget.fromNetwork
+      child:widget.isLocal?Image.file(File(item),fit: widget.fit): widget.fromNetwork
           ? Image.network(
               item,
               fit: widget.fit,

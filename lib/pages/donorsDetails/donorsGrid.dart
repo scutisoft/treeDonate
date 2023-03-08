@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../HappyExtension/extensionUtils.dart';
 import '../../api/sp.dart';
 import '../../helper/language.dart';
+import '../../notifier/donatePaymentNotifier.dart';
 import '../../utils/utils.dart';
 import '../../../HappyExtension/extensionHelper.dart';
 import '../../../utils/colorUtil.dart';
@@ -76,6 +77,7 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
             he_listViewBody.updateArrById("NewsFeedId", updatedMap);
           },
           globalKey: GlobalKey(),
+          refresh: assignWidgets,
         );
       },
     );
@@ -99,114 +101,117 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
         child: Scaffold(
           backgroundColor: Color(0XFFF3F3F3),
           resizeToAvoidBottomInset: true,
-          body:ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
+          body:Stack(
             children: [
-              Container(
-                height: 180,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: SizeConfig.screenWidth!-170,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          NavBarIcon(
-                            onTap:  (){
-                              widget.voidCallback();
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Total Donor',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Obx(() => Text('${header['NoOfDonor']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),)),
-                          ),
-                          const SizedBox(height: 2,),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('Donation Amount',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Obx(() => Text('${MyConstants.rupeeString} ${header['TotalDonateAmount']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 15),),)
-                          ),
-                          const SizedBox(height: 2,),
-                          /*Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
-                          ),*/
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 170,
-                      child: Image.asset('assets/Slice/volunteers.png',fit:BoxFit.cover),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5,),
-              Container(
-                // height: SizeConfig.screenHeight,
-                padding: const EdgeInsets.only(right: 5.0,),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+              ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: [
+                  Container(
+                    height: 180,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AnimSearchBar(
-                          width: SizeConfig.screenWidth!-80,
-                          color: ColorUtil.asbColor,
-                          boxShadow: ColorUtil.asbBoxShadow,
-                          textController: textController,
-                          closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                          searchIconColor: ColorUtil.asbSearchIconColor,
-                          suffixIcon: ColorUtil.getASBSuffix(),
-                          onSubmitted: (a){
-                          },
-                          onChange: (a){
-                            he_listViewBody.searchHandler(a);
-                          },
-                          onSuffixTap: (clear) {
-                            if(clear){
-                              he_listViewBody.searchHandler("");
-                            }
-                          },
-                        ),
-                        const SizedBox(width: 5,),
-                        FilterIcon(
-                          onTap: (){
-                            fadeRoute(FilterItems());
-                          },
-                        ),
-                        const SizedBox(width: 5,),
-                        /*AccessWidget(
-                          hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
-                          needToHide: true,
-                          widget: GridAddIcon(
-                            onTap: (){
-                              fadeRoute(DonorForm(closeCb: (e){
-                                he_listViewBody.addData(e['Table'][0]);
-                              },));
-                            },
+                        Container(
+                          width: SizeConfig.screenWidth!-170,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              NavBarIcon(
+                                onTap:  (){
+                                  widget.voidCallback();
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text('Total Donor',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Obx(() => Text('${header['NoOfDonor']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),)),
+                              ),
+                              const SizedBox(height: 2,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text('Donation Amount',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Obx(() => Text('${MyConstants.rupeeString} ${header['TotalDonateAmount']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 15),),)
+                              ),
+                              const SizedBox(height: 2,),
+                              /*Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
+                              ),*/
+                            ],
                           ),
-                        ),*/
+                        ),
+                        Container(
+                          width: 170,
+                          child: Image.asset('assets/Slice/volunteers.png',fit:BoxFit.cover),
+                        ),
                       ],
                     ),
-                    Flexible(child: he_listViewBody),
-                    Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,topPadding: 20,)),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 5,),
+                  Container(
+                    // height: SizeConfig.screenHeight,
+                    padding: const EdgeInsets.only(right: 5.0,),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Obx(() => SizedBox(height: silverBodyTopMargin.value,)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            AnimSearchBar(
+                              width: SizeConfig.screenWidth!-80,
+                              color: ColorUtil.asbColor,
+                              boxShadow: ColorUtil.asbBoxShadow,
+                              textController: textController,
+                              closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                              searchIconColor: ColorUtil.asbSearchIconColor,
+                              suffixIcon: ColorUtil.getASBSuffix(),
+                              onSubmitted: (a){
+                              },
+                              onChange: (a){
+                                he_listViewBody.searchHandler(a);
+                              },
+                              onSuffixTap: (clear) {
+                                if(clear){
+                                  he_listViewBody.searchHandler("");
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 5,),
+                            FilterIcon(
+                              onTap: (){
+                                fadeRoute(FilterItems());
+                              },
+                            ),
+                            const SizedBox(width: 5,),
+                            /*AccessWidget(
+                              hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
+                              needToHide: true,
+                              widget: GridAddIcon(
+                                onTap: (){
+                                  fadeRoute(DonorForm(closeCb: (e){
+                                    he_listViewBody.addData(e['Table'][0]);
+                                  },));
+                                },
+                              ),
+                            ),*/
+                          ],
+                        ),
+                        Flexible(child: he_listViewBody),
+                        Obx(() => NoData(show: he_listViewBody.widgetList.isEmpty,topPadding: 20,)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-
               ShimmerLoader()
             ],
           ),
@@ -247,7 +252,8 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
   Function(Map)? onEdit;
   Function(String)? onDelete;
   GlobalKey globalKey;
-  HE_ViewDonorGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey}) : super(key: key){
+  VoidCallback refresh;
+  HE_ViewDonorGridContent({Key? key,required this.data,required this.cardWidth,this.onEdit,this.onDelete,required this.globalKey,required this.refresh}) : super(key: key){
     dataListener.value=data;
    // dataListener['DataJson']={"NewsFeedId":data['NewsFeedId']};
   }
@@ -334,9 +340,21 @@ class HE_ViewDonorGridContent extends StatelessWidget implements HE_ListViewCont
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Total Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
+                        const SizedBox(height: 3,),
                         Text("${MyConstants.rupeeString} ${dataListener['TotalAmount']}",style: ColorUtil.textStyle18),
                         //Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
-                        const SizedBox(height: 10,),
+                        //const SizedBox(height: 10,),
+                        RefreshIcon(
+                          visible: dataListener['PaymentStatus'].toString().toLowerCase()=='initiated',
+                          onTap: (){
+                            getPaymentStatusByPLinkId(dataListener['PaymentLinkId'],(data){
+                              updateDataListener(data);
+                              if(data['PaymentStatus'].toString().toLowerCase()=='paid'){
+                                refresh();
+                              }
+                            });
+                          },
+                        ),
                       /*  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

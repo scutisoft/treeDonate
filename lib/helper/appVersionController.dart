@@ -102,7 +102,7 @@ Future<void> download(String url,String imgPath,String imgFolder,String imgName)
       final imageFile = await File(localPath).create(recursive: true);
       await imageFile.writeAsBytes(response.bodyBytes);
     }
-    console("downloaded");
+   // console("downloaded");
   }catch(e){
     console("_download catch $e");
   }

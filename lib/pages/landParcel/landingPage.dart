@@ -28,6 +28,18 @@ import '../../widgets/popupBanner/popup.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid.dart';
 import '../../widgets/staggeredGridView/src/widgets/staggered_grid_tile.dart';
 
+/*
+class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+*/
+
+
 class LandingPage extends StatefulWidget {
   VoidCallback voidCallback;
   LandingPage({required this.voidCallback});
@@ -66,186 +78,187 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     node=FocusScope.of(context);
     return SafeArea(
       bottom: MyConstants.bottomSafeArea,
-        child: Scaffold(
-          backgroundColor: const Color(0xFFe8e8e8),
-          resizeToAvoidBottomInset: true,
-          body: Stack(
-            children: [
-              NestedScrollView(
-                controller: silverController,
-                // floatHeaderSlivers: true,
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      elevation: 0,
-                      toolbarHeight: 60,
-                      backgroundColor: ColorUtil.theme,
-                      leading: Container(),
-                      actions: [
-                        Container(
-                          width: SizeConfig.screenWidth,
-                          height: 80,
-                          child: Container(
-                            child:  Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                NavBarIcon(
-                                  onTap:  (){
-                                    widget.voidCallback();
-                                  },
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    LanguageSwitch(onChange: (){
-                                      setState(() {});
-                                    },),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        widgets[0],
-                                        widgets[1],
-                                      ],
-                                    ),
-                                    const SizedBox(width: 5,),
-                                    GestureDetector(
-                                      onTap: (){
-                                        setPageNumber(1);
-                                      },
-                                      child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: ColorUtil.primary,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFe8e8e8),
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: [
+            NestedScrollView(
+              controller: silverController,
+              // floatHeaderSlivers: true,
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    elevation: 0,
+                    toolbarHeight: 60,
+                    backgroundColor: ColorUtil.theme,
+                    leading: Container(),
+                    actions: [
+                      Container(
+                        width: SizeConfig.screenWidth,
+                        height: 80,
+                        child: Container(
+                          child:  Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              NavBarIcon(
+                                onTap:  (){
+                                   widget.voidCallback();
+
+                                },
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                 /* LanguageSwitch(onChange: (){
+                                    setState(() {});
+                                  },),*/
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      widgets[0],
+                                      widgets[1],
+                                    ],
+                                  ),
+                                  const SizedBox(width: 5,),
+                                  GestureDetector(
+                                    onTap: (){
+                                      setPageNumber(1);
+                                    },
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: ColorUtil.primary,
+                                        shape: BoxShape.circle,
                                       ),
+                                      child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                                     ),
-                                    const SizedBox(width: 15,),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                  const SizedBox(width: 15,),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                      floating: true,
-                      snap: true,
-                      pinned: true,
-                    ),
-                  ];
-                },
-                body: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    const SizedBox(height: 10,),
-                    Container(
-                      height: 190,
-                      width: SizeConfig.screenWidth!,
-                      margin: const EdgeInsets.only(left: 15,right: 15),
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 160,
-                            clipBehavior: Clip.antiAlias,
-                            decoration:BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0)
-                            ),
-                            child: CarouselSlider(
-                              options: CarouselOptions(
-                                  height: 160,
-                                  enlargeCenterPage: false,
-                                  viewportFraction: 1,
-                                  scrollDirection: Axis.horizontal,
-                                  autoPlay: true,
-                                  onPageChanged: (index, reason) {
-                                    _current.value = index;
-                                  }
-                              ),
-                              carouselController: _controller,
-                              items: imgList
-                                  .map((item) => Image.asset(
-                                item, fit: BoxFit.cover,
-                                width: SizeConfig.screenWidth,height: 160,))
-                                  .toList(),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: imgList
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              return GestureDetector(
-                                onTap: () =>
-                                    _controller.animateToPage(entry.key),
-                                child: Obx(() => Container(
-                                  width: 12.0,
-                                  height: 12.0,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 4.0),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (Theme
-                                          .of(context)
-                                          .brightness == Brightness.dark
-                                          ? Colors.white
-                                          : ColorUtil.primary)
-                                          .withOpacity(
-                                          _current.value == entry.key ? 0.9 : 0.4)),
-                                )),
-                              );
-                            }).toList(),
-                          ),
-                        ],
                       ),
-
-                    ),
-                    const SizedBox(height: 10,),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15,right: 15),
-                      child: buildGrid(),
-                    ),
-                    const SizedBox(height: 10,),
-
-                    // News&Feeds
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ],
+                    floating: true,
+                    snap: true,
+                    pinned: true,
+                  ),
+                ];
+              },
+              body: ListView(
+                shrinkWrap: true,
+                children: [
+                  const SizedBox(height: 10,),
+                  Container(
+                    height: 190,
+                    width: SizeConfig.screenWidth!,
+                    margin: const EdgeInsets.only(left: 15,right: 15),
+                    alignment: Alignment.center,
+                    child: Column(
                       children: [
                         Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(Language.newsFeedTitle,style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:Language.mediumFF), )
-
+                          height: 160,
+                          clipBehavior: Clip.antiAlias,
+                          decoration:BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                                height: 160,
+                                enlargeCenterPage: false,
+                                viewportFraction: 1,
+                                scrollDirection: Axis.horizontal,
+                                autoPlay: true,
+                                onPageChanged: (index, reason) {
+                                  _current.value = index;
+                                }
+                            ),
+                            carouselController: _controller,
+                            items: imgList
+                                .map((item) => Image.asset(
+                              item, fit: BoxFit.cover,
+                              width: SizeConfig.screenWidth,height: 160,))
+                                .toList(),
+                          ),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            AnimSearchBar(
-                              width: SizeConfig.screenWidth!-182,
-                              color: ColorUtil.asbColor,
-                              boxShadow: ColorUtil.asbBoxShadow,
-                              textController: textController,
-                              closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
-                              searchIconColor: ColorUtil.asbSearchIconColor,
-                              suffixIcon: ColorUtil.getASBSuffix(),
-                              onSubmitted: (a){},
-                              onChange: (a){
-                                filterNewsFeed=searchGrid(a,newsFeed,filterNewsFeed);
-                                setState(() {});
-                              },
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: imgList
+                              .asMap()
+                              .entries
+                              .map((entry) {
+                            return GestureDetector(
+                              onTap: () =>
+                                  _controller.animateToPage(entry.key),
+                              child: Obx(() => Container(
+                                width: 12.0,
+                                height: 12.0,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 4.0),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: (Theme
+                                        .of(context)
+                                        .brightness == Brightness.dark
+                                        ? Colors.white
+                                        : ColorUtil.primary)
+                                        .withOpacity(
+                                        _current.value == entry.key ? 0.9 : 0.4)),
+                              )),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
 
-                              onSuffixTap: (clear) {
-                                filterNewsFeed=searchGrid("",newsFeed,filterNewsFeed);
-                                setState(() {});
-                              },
-                            ),
-                            /*const SizedBox(width: 5,),
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15,right: 15),
+                    child: buildGrid(),
+                  ),
+                  const SizedBox(height: 10,),
+
+                  // News&Feeds
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(Language.newsFeedTitle,style: TextStyle(fontSize: 16,color: ColorUtil.themeBlack,fontFamily:Language.mediumFF), )
+
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          AnimSearchBar(
+                            width: SizeConfig.screenWidth!-182,
+                            color: ColorUtil.asbColor,
+                            boxShadow: ColorUtil.asbBoxShadow,
+                            textController: textController,
+                            closeSearchOnSuffixTap: ColorUtil.asbCloseSearchOnSuffixTap,
+                            searchIconColor: ColorUtil.asbSearchIconColor,
+                            suffixIcon: ColorUtil.getASBSuffix(),
+                            onSubmitted: (a){},
+                            onChange: (a){
+                              filterNewsFeed=searchGrid(a,newsFeed,filterNewsFeed);
+                              setState(() {});
+                            },
+
+                            onSuffixTap: (clear) {
+                              filterNewsFeed=searchGrid("",newsFeed,filterNewsFeed);
+                              setState(() {});
+                            },
+                          ),
+                          /*const SizedBox(width: 5,),
                         GestureDetector(
                           onTap: (){
                             fadeRoute(FilterItems());
@@ -260,18 +273,18 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                             child: Icon(Icons.filter_alt_outlined,color:ColorUtil.themeBlack,),
                           ),
                         ),*/
-                            const SizedBox(width: 15,),
-                          ],
-                        ),
-                      ],
-                    ),
+                          const SizedBox(width: 15,),
+                        ],
+                      ),
+                    ],
+                  ),
 
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: filterNewsFeed.length,
-                      itemBuilder: (ctx,i){
-                        return getNewsFeed(
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: filterNewsFeed.length,
+                    itemBuilder: (ctx,i){
+                      return getNewsFeed(
                           i,
                           name: filterNewsFeed[i]['NFNAME']??"",
                           nfDescription: filterNewsFeed[i]['NFDescription']??"",
@@ -282,21 +295,21 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           time: filterNewsFeed[i]['NFTime']??"",
                           img:  filterNewsFeed[i]['NFImageFile']??"",
                           isInterested: filterNewsFeed[i]['IsInterested'].toString()
-                        );
-                      },
-                    ),
-                    ShimmerLoader(),
-                    NoData(show: filterNewsFeed.isEmpty),
-                    //Obx(() => NoData(show: filterNewsFeed.isEmpty && !showLoader.value,)),
-                    const SizedBox(height: 15,),
+                      );
+                    },
+                  ),
+                  ShimmerLoader(),
+                  NoData(show: filterNewsFeed.isEmpty),
+                  //Obx(() => NoData(show: filterNewsFeed.isEmpty && !showLoader.value,)),
+                  const SizedBox(height: 15,),
 
-                  ],
-                ),
+                ],
               ),
-              Obx(() => Loader(value: showLoader.value,))
-            ],
-          ),
+            ),
+            Obx(() => Loader(value: showLoader.value,))
+          ],
         ),
+      ),
     );
   }
 
@@ -335,7 +348,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(Language.landParcel,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
-                           // Text("500 Hectare",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                            // Text("500 Hectare",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -373,7 +386,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(Language.seeding,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
-                          //  Text("500 Kg",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                            //  Text("500 Kg",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -410,7 +423,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(Language.nursery,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
-                           // Text("250 Numbers",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                            // Text("250 Numbers",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -447,7 +460,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(Language.plantation,style:TextStyle(color: ColorUtil.themeWhite,fontFamily: Language.mediumFF,fontSize: 14,letterSpacing: 1.0),),
-                           // Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
+                            // Text("50,00,000",style:TextStyle(color: ColorUtil.themeWhite,fontFamily: 'RB',fontSize: 16,letterSpacing: 1.0),),
                           ],
                         ),
                       ))
@@ -460,6 +473,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     );
   }
 
+  Directory? imgPath;
+
   @override
   void assignWidgets() async{
     widgets.clear();
@@ -467,6 +482,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     filterNewsFeed.clear();
     widgets.add(HE_Text(dataname: "UserName", contentTextStyle: TextStyle(fontFamily: 'RB',fontSize: 15,color: ColorUtil.themeBlack),));
     widgets.add(HE_Text(dataname: "Role", contentTextStyle: TextStyle(fontFamily: 'RR',fontSize: 12,color: ColorUtil.themeBlack),));
+
+    imgPath=await getApplicationPath();
+
     await parseJson(widgets, General.HomePageViewIdentifier);
 
 
@@ -488,37 +506,45 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
     imgList=img.split(",");
 
     imgList.forEach((element) {
-      imgListUrl.add(GetImageBaseUrl()+element);
+      //imgListUrl.add(GetImageBaseUrl()+element);
+      imgListUrl.add('${imgPath!.path}/$element');
     });
 
     Widget getImgContainer(path){
       //console("path $path");
       var reload=false.obs;
-      Directory? imgPath;
-      getApplicationPath().then((value){
-        imgPath=value;
-        String imgFolder=getFolderNameFromFolderPath(path);
-        String fileName=getFileNameFromFolderPath(path);
-        download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
-          reload.value=true;
-          //return Obx(() => Image.asset(imgPath==null?'assets/logo.png':'${imgPath!.path}/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
-        });
+      String imgFolder=getFolderNameFromFolderPath(path);
+      String fileName=getFileNameFromFolderPath(path);
+      download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
+        reload.value=true;
+        //return Obx(() => Image.asset(imgPath==null?'assets/logo.png':'${imgPath!.path}/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
       });
-
       return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover):
       Image.asset('assets/logo.png',fit: BoxFit.cover));
 
       return Image.file(File('/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path'),fit: BoxFit.cover);
       return Obx(() => Image.asset(/*imgPath==null?'assets/logo.png':*/'/storage/emulated/0/Android/data/com.scutisoft.nammaramnamkadamai_dev/files/$path',fit: reload.value?BoxFit.cover:BoxFit.cover));
       //return CachedNetworkImage(imageUrl: GetImageBaseUrl()+path,fit: BoxFit.cover);
-    //  return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
+      //  return Image.network(GetImageBaseUrl()+path,fit: BoxFit.cover,);
+    }
+
+    Widget getProfile(path){
+      var reload=false.obs;
+      String imgFolder=getFolderNameFromFolderPath(path);
+      String fileName=getFileNameFromFolderPath(path);
+      download(GetImageBaseUrl()+path,imgPath!.path,imgFolder,fileName).then((value){
+        reload.value=true;
+      });
+      return Obx(() => reload.value?Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.contain):
+      Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,));
+
     }
 
     Widget getImgByCount(cunt) {
       if(cunt==1){
         return  SizedBox(
-          width:SizeConfig.screenWidth,
-          height: 200,
+            width:SizeConfig.screenWidth,
+            height: 200,
             child: getImgContainer(imgList[0])
         );
       }
@@ -529,15 +555,15 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width:SizeConfig.screenWidth!*0.50,
-                height: 200,
+                  width:SizeConfig.screenWidth!*0.50,
+                  height: 200,
                   child:getImgContainer(imgList[0])
               ),
               const SizedBox(width: 1,),
               SizedBox(
-                width:(SizeConfig.screenWidth!*0.5)-31,
-                height: 200,
-                child:getImgContainer(imgList[1])
+                  width:(SizeConfig.screenWidth!*0.5)-31,
+                  height: 200,
+                  child:getImgContainer(imgList[1])
               )
             ],
           ),
@@ -550,9 +576,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width:SizeConfig.screenWidth!*0.5,
-                height: 200,
-                child:getImgContainer(imgList[0])
+                  width:SizeConfig.screenWidth!*0.5,
+                  height: 200,
+                  child:getImgContainer(imgList[0])
               ),
               const SizedBox(width: 1,),
               SizedBox(
@@ -561,14 +587,14 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                 child: Column(
                   children: [
                     SizedBox(
-                      width:SizeConfig.screenWidth,
-                      height: 99.5,
+                        width:SizeConfig.screenWidth,
+                        height: 99.5,
                         child:getImgContainer(imgList[1])
                     ),
                     const SizedBox(height: 1,),
                     SizedBox(
-                      width:SizeConfig.screenWidth,
-                      height: 99.5,
+                        width:SizeConfig.screenWidth,
+                        height: 99.5,
                         child:getImgContainer(imgList[2])
                     ),
                   ],
@@ -580,8 +606,6 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       }
       return Container(height: 200,);
     }
-
-
 
     return Container(
       width: SizeConfig.screenWidth,
@@ -605,18 +629,19 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 40,
-                      height: 40,
-                      alignment: Alignment.center,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: ColorUtil.primary,
-                        shape: BoxShape.circle,
-                      ),
-                     child: Image.network(GetImageBaseUrl()+profileImg,fit: BoxFit.contain,errorBuilder: (a,b,c){
+                        width: 40,
+                        height: 40,
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          color: ColorUtil.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: getProfile(profileImg)
+                      /*child: Image.network(GetImageBaseUrl()+profileImg,fit: BoxFit.contain,errorBuilder: (a,b,c){
                        return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
-                     },),
-                     // child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
+                     },),*/
+                      // child: Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,),
                     ),
                     const SizedBox(width: 5,),
                     Column(
@@ -630,8 +655,8 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                         ),
                         Container(
                             decoration: BoxDecoration(
-                              color: ColorUtil.primary,
-                              borderRadius: BorderRadius.circular(3)
+                                color: ColorUtil.primary,
+                                borderRadius: BorderRadius.circular(3)
                             ),
                             padding: const EdgeInsets.only(left: 5,right: 5,top: 3,bottom: 3),
                             child: Text("$nfType",style:  TextStyle(fontFamily: 'RM',fontSize: 13,color: ColorUtil.themeWhite),)
@@ -709,24 +734,22 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
 
                             List<XFile> localPath=[];
                             for (var element in imgList) {
-                              String imgFolder=getFolderNameFromFolderPath(element);
-                              String fileName=getFileNameFromFolderPath(element);
-                              await download(GetImageBaseUrl()+element,imgPath!.path,imgFolder,fileName);
-                            //  localPath.add('${imgPath!.path}/$imgFolder/$fileName');
-                              localPath.add(XFile('${imgPath!.path}/$imgFolder/$fileName'));
+                              /*String imgFolder=getFolderNameFromFolderPath(element);
+                              String fileName=getFileNameFromFolderPath(element);*/
+                              localPath.add(XFile('${imgPath!.path}/$element'));
                             }
 
                             showLoader.value=false;
                             Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
-                          //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
-                           /* await FlutterShare.shareFile(
+                            //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
+                            /* await FlutterShare.shareFile(
                               title: nfType,
                               text: nfDescription,
                               filePath: docs[0] as String,
                             );*/
                           },
                           child: Container(
-                            color: Colors.transparent,
+                              color: Colors.transparent,
                               height: 30,
                               width: 30,
                               alignment: Alignment.center,
@@ -806,15 +829,19 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
 
 
   void showHideDotsPopup(images) {
+   /* Get.defaultDialog(
+        title: "Hii"
+    );*/
     PopupBanner(
       context: context,
       images: images,
       useDots: true,
       autoSlide: false,
       onClick: (index) {
-        debugPrint("CLICKED $index");
+
       },
-      fit: BoxFit.contain
+      fit: BoxFit.contain,
+      isLocal: true
     ).show();
   }
 
@@ -832,3 +859,4 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   }
 
 }
+

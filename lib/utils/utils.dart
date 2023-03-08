@@ -62,6 +62,9 @@ Map<String,dynamic> accessId={
   "NewsFeedAdd":46,
   "NewsFeedEdit":47,
   "NewsFeedDelete":48,
+  "DonorView":49,
+  "DonorAdd":50,
+  "EGFZoneApproval":51
 };
 List<dynamic> accessData=[];
 bool isHasAccess(int uniqueId){
@@ -90,7 +93,7 @@ parseInt(var value){
 
 
 void console(var content){
-  log(content.toString());
+  //log(content.toString());
 }
 enum PayStatus{
   payStatus,

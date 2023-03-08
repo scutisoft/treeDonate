@@ -214,7 +214,7 @@ class _VolunteerViewState extends State<VolunteerView> with HappyExtensionHelper
                       )),
                     ),
                     AccessWidget(
-                      hasAccess: isHasAccess(accessId['VolunteerApproval']),
+                      hasAccess: isHasAccess(accessId['EGFZoneApproval']),
                       needToHide: true,
                       widget: Obx(() => Container(
                         margin: EdgeInsets.only(left: 10, right: 10,top: 10),

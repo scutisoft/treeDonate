@@ -296,6 +296,7 @@ class HE_NurseryViewContent extends StatelessWidget implements HE_ListViewConten
                   //    mainAxisSize: MainAxisSize.min,
                   children: [
                     EGFEmblem(
+                      isGov: dataListener['IsGov'],
                       companyId: dataListener['UserRoleTypeId'],
                       margin: const EdgeInsets.only(bottom: 15),
                     ),

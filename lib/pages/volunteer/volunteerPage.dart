@@ -258,6 +258,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           children: [
                             Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                             EGFEmblem(
+                              isGov: dataListener['IsGov'],
                               companyId: dataListener['VolunteerRoleTypeId'],
                             ),
                           ],
