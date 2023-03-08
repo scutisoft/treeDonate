@@ -94,11 +94,15 @@ class AddNewLabelTextField extends StatelessWidget {
   bool hasInput;
   bool required;
   String dataname;
+  int minLength;
+  bool needMinLengthCheck;
+  bool needEmailCheck;
   late TextEditingController textEditingController;
 
   AddNewLabelTextField({this.labelText,this.scrollPadding=270.0,this.textInputType:TextInputType.text,
     this.prefixIcon,this.ontap,this.onChange,this.textInputFormatter,this.isEnabled=true,this.suffixIcon,this.onEditComplete,
-    this.isObscure=false,this.maxlines=1,this.textLength=null,this.regExp='[A-Za-z0-9@.,]',this.hasInput=true,this.required=false,required this.dataname}){
+    this.isObscure=false,this.maxlines=1,this.textLength=null,this.regExp='[A-Za-z0-9@.,]',this.hasInput=true,this.required=false,required this.dataname,
+  this.minLength=1,this.needMinLengthCheck=false,this.needEmailCheck=false}){
     textEditingController= new TextEditingController();
   }
   var isValid=true.obs;
@@ -264,66 +268,68 @@ class AddNewLabelTextField extends StatelessWidget {
 
   validate(){
     requiredCheck();
+    if(needMinLengthCheck){
+      minLengthCheck(minLength);
+    }
+    if(needEmailCheck){
+      emailValidation();
+    }
     return isValid.value;
   }
   requiredCheck(){
-  if(textEditingController.text.isEmpty){
-    isValid.value=false;
-    errorText.value="* ${Language.required}";
+    if(textEditingController.text.isEmpty){
+      isValid.value=false;
+      errorText.value="* ${Language.required}";
+    }
+    else{
+      isValid.value=true;
+    }
+    // return isValid.value;
   }
-  else{
-    isValid.value=true;
-  }
-  // return isValid.value;
-}
   minLengthCheck(dynamic min){
-  if(textEditingController.text.isEmpty){
-    isValid.value=false;
-    errorText.value="* Minimum Length is $min";
-  }
-  else if(textEditingController.text.length<int.parse(min.toString())){
-    isValid.value=false;
-    errorText.value="* Minimum Length is $min";
+    if(textEditingController.text.isEmpty){
+      isValid.value=false;
+      errorText.value="* Minimum Length is $min";
+    }
+    else if(textEditingController.text.length<int.parse(min.toString())){
+      isValid.value=false;
+      errorText.value="* Minimum Length is $min";
 
+    }
+    else{
+      isValid.value=true;
+    }
+    //  return isValid.value;
   }
-  else{
-    isValid.value=true;
-  }
-  //  return isValid.value;
-}
   maxLengthCheck(dynamic max){
-  if(textEditingController.text.isEmpty){
-    isValid.value=false;
-    errorText.value="* Maximum Length is $max";
-  }
-  else if(textEditingController.text.length>int.parse(max.toString())){
-    isValid.value=false;
-    errorText.value="* Maximum Length is $max";
+    if(textEditingController.text.isEmpty){
+      isValid.value=false;
+      errorText.value="* Maximum Length is $max";
+    }
+    else if(textEditingController.text.length>int.parse(max.toString())){
+      isValid.value=false;
+      errorText.value="* Maximum Length is $max";
 
+    }
+    else{
+      isValid.value=true;
+    }
+    // return isValid.value;
   }
-  else{
-    isValid.value=true;
-  }
-  // return isValid.value;
-}
   emailValidation(){
 
-  Pattern pattern =
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regex = new RegExp(pattern as String);
-  if(textEditingController.text.isEmpty){
-    isValid.value=true;
-    return;
+    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex =  RegExp(pattern as String);
+
+    if (!regex.hasMatch(textEditingController.text)) {
+      isValid.value=false;
+      errorText.value='* Email format is invalid';
+    }
+    else {
+      isValid.value=true;
+    }
+    // return isValid.value;
   }
-  if (!regex.hasMatch(textEditingController.text)) {
-    isValid.value=false;
-    errorText.value='* Email format is invalid';
-  }
-  else {
-    isValid.value=true;
-  }
-  // return isValid.value;
-}
 
   int getOrderBy() {
     return orderBy.value;

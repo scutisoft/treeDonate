@@ -275,6 +275,7 @@ class HE_PlantationViewContent extends StatelessWidget {
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
                     EGFEmblem(
+                      isGov: dataListener['IsGov'],
                       companyId: dataListener['UserRoleTypeId'],
                       margin: const EdgeInsets.only(bottom: 5),
                     ),

@@ -23,6 +23,10 @@ Future<void> initPlatformState() async {
       'Error:': 'Failed to get platform version.'
     };
   }
+
+/*  Directory? directory=await getApplicationPath();
+  final dir = Directory(directory!.path);
+  dir.deleteSync(recursive: true);*/
 }
 
 Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
@@ -153,16 +157,20 @@ void clearUserSessionDetail(){
 
 navigateByUserType() async{
   String ut=await getSharedPrefString(SP_USERTYPEID);
-  if(ut=="1" || ut=="3"){
-    menuSel.value=14;
+  if(ut=="1" || ut=="2" || ut=="11"){
+    setPageNumber(14);
+    //menuSel.value=14;
     if(!isHasAccess(accessId["DashBoardView"])){
-      menuSel.value=1;
+      //menuSel.value=1;
+      setPageNumber(1);
     }
   }
   else {
-    menuSel.value=13;
+    setPageNumber(13);
+    //menuSel.value=13;
     if(!isHasAccess(accessId["HomeView"])){
-      menuSel.value=1;
+      //menuSel.value=1;
+      setPageNumber(1);
     }
   }
   Get.off(()=>MyHomePage());

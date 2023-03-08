@@ -341,7 +341,7 @@ class HE_EventContent extends StatelessWidget implements HE_ListViewContentExten
                         const SizedBox(height: 10,),
                         AccessWidget(
                           needToHide: true,
-                            hasAccess: isHasAccess(accessId["EventsInterestedView"]) ,
+                            hasAccess: isHasAccess(accessId["EventsInterestedView"]) && dataListener['ApproveStatus'].toString().toLowerCase()=='approved',
                             widget: Image.asset('assets/like.png',width: 30,),
                           onTap: (){
                             fadeRoute(EventInterestedView(dataJson: getDataJsonForGrid(dataListener['DataJson']),));

@@ -284,6 +284,7 @@ class HE_LandViewContent extends StatelessWidget implements HE_ListViewContentEx
                   crossAxisAlignment:CrossAxisAlignment.end,
                   children: [
                     EGFEmblem(
+                      isGov: dataListener['IsGov'],
                       companyId: dataListener['UserRoleTypeId'],
                       margin: const EdgeInsets.only(bottom: 15),
                     ),

@@ -71,6 +71,8 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
   void onDonate(params){
     Get.back();
     params.add(ParameterModel(Key: "TotalAmount", Type: "string", Value: totalCost.value));
+    params.add(ParameterModel(Key: "TreePrice", Type: "string", Value: treePrice.value));
+    params.add(ParameterModel(Key: "TreeCount", Type: "string", Value: totalTrees.value));
     donationAmt=totalCost.value.toString();
     generatePaymentLink(params,onPageClose: (){
       clearFrm();
@@ -341,7 +343,6 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
                                   GestureDetector(
                                     onTap:(){
                                       // setPageNumber(5);
-
                                     },
                                     child: Container(
                                       width: 60,
@@ -363,8 +364,8 @@ class _DonateTreePageState extends State<DonateTreePage> with HappyExtensionHelp
                                         CustomAlert().cupertinoAlert("Enter Amount or Select No of Trees to donate");
                                         return;
                                       }
-                                      if(totalCost.value<MyConstants.minimumDonationAmount){
-                                        CustomAlert().cupertinoAlert("Minimum Amount to donate is ${MyConstants.rupeeString} ${MyConstants.minimumDonationAmount}");
+                                      if(totalCost.value<treePrice.value){
+                                        CustomAlert().cupertinoAlert("Minimum Amount to donate is ${MyConstants.rupeeString} ${treePrice.value}");
                                         return;
                                       }
                                       Get.to(donaterInfo);
@@ -480,6 +481,7 @@ class DonarInfo extends StatelessWidget with HappyExtensionHelper{
     dataname: "DonorEmailId",
     labelText: "Email",
     required: true,
+    needEmailCheck: true,
     onChange: (v){},
     onEditComplete: (){
       FocusScope.of(Get.context!).unfocus();
@@ -492,6 +494,8 @@ class DonarInfo extends StatelessWidget with HappyExtensionHelper{
     regExp: MyConstants.digitRegEx,
     textInputType: TextInputType.number,
     textLength: MyConstants.phoneNoLength,
+    needMinLengthCheck: true,
+    minLength: MyConstants.phoneNoLength,
     onChange: (v){},
     onEditComplete: (){
       FocusScope.of(Get.context!).unfocus();

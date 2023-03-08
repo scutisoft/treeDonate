@@ -17,6 +17,7 @@ import '../utils/colorUtil.dart';
 import '../utils/sizeLocal.dart';
 import 'validationErrorText.dart';
 
+int imageQuality=50;
 
 
 class LogoPicker extends StatelessWidget {
@@ -119,7 +120,7 @@ class LogoAvatar extends StatelessWidget {
 
 Future getImage( Function(File) onCropped) async
 {
-  XFile? temp=await (ImagePicker().pickImage(source: ImageSource.gallery));
+  XFile? temp=await (ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: imageQuality));
   if(temp==null)return;
   File tempImage = File(temp.path);
   onCropped(tempImage);
@@ -323,11 +324,11 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
       children: [
         GestureDetector(
           onTap: ()async{
-            var _image = await ImagePicker().pickMultiImage();
+            var _image = await ImagePicker().pickMultiImage(imageQuality: imageQuality);
             if(_image!=null && _image.isNotEmpty){
               imageFileList.addAll(_image);
             }
-            console("imageFileList ${imageFileList.value}");
+           // console("imageFileList ${imageFileList.value}");
           },
           child: Container(
             margin: EdgeInsets.only(right: 15,left: 15,top: 10),
@@ -475,121 +476,3 @@ class MultiImagePicker extends StatelessWidget implements ExtensionCallback{
     return isValid.value;
   }
 }
-
-/*class SingleImagePicker extends StatelessWidget implements ExtensionCallback{
-  bool hasInput;
-  bool required;
-  String dataname;
-  String folder;
-
-  SingleImagePicker({required this.dataname,this.hasInput=false,this.required=false,required this.folder});
-
-  *//*MultiImagePicker({});*//*
-  Rxn<XFile> imageFileList=  Rxn<XFile>();
-  Rxn<dynamic> imagesList=Rxn<dynamic>();
-  double imgWidth=0.0;
-
-  var orderBy=1.obs;
-  var isValid=true.obs;
-  var errorText="* Required".obs;
-
-  @override
-  Widget build(BuildContext context) {
-    imgWidth=SizeConfig.screenWidth!-60;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GestureDetector(
-          onTap: ()async{
-            var _image = await ImagePicker().pickImage(source: ImageSource.gallery);
-            if(_image!=null){
-              imageFileList.value=_image;
-            }
-          },
-          child: Container(
-            margin: EdgeInsets.only(right: 15,left: 15,top: 10),
-            width: SizeConfig.screenWidth,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              border: Border.all(color: ColorUtil.primary),
-              color: ColorUtil.primary.withOpacity(0.3),
-            ),
-            child:Center(child: Text('Upload Image',
-              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorUtil.primary,fontFamily:'RR'), )
-            ) ,
-          ),
-        ),
-        Obx(
-                ()=>isValid.value?Container():ValidationErrorText(title: errorText.value,)
-        ),
-        Obx(() => Container(
-          margin: EdgeInsets.only(top: 10),
-          child: Wrap(
-            runSpacing: 0,
-            spacing: 10,
-            children: [
-              LogoAvatar(imageUrl: GetImageBaseUrl()+imagesList.value, imageFile:imageFileList.value==null?null: File(imageFileList.value!.path),height: 100,radius: (imgWidth*0.33)-20),
-
-            ],
-          ),
-        ))
-      ],
-    );
-  }
-
-  @override
-  void clearValues() {
-    imageFileList.value=null;
-    //imageFileList.clear();
-  }
-
-  @override
-  String getDataName() {
-    return dataname;
-  }
-
-  @override
-  int getOrderBy() {
-    return orderBy.value;
-  }
-
-  @override
-  String getType() {
-    return "multiImage";
-  }
-
-  @override
-  getValue() async{
-    List<dynamic> images=[];
-    if(imageFileList.isNotEmpty){
-      String files=await MyHelper.uploadMultiFile(folder, imageFileList.value);
-      files.split(",").forEach((element) {
-        images.add({"FolderName":folder,"ImageFileName":element,"ImagePath":"$folder/$element"});
-      });
-    }
-    if(imagesList.isNotEmpty){
-      images.addAll(imagesList);
-    }
-    return images;
-  }
-
-  @override
-  setOrderBy(int oBy) {
-    orderBy.value=oBy;
-  }
-
-  @override
-  setValue(value) {
-    //console("mutiImageSset $value ${HE_IsList(value)}");
-    if(HE_IsList(value)){
-      imagesList.value=value;
-    }
-  }
-
-  @override
-  bool validate() {
-    isValid.value=imageFileList.isNotEmpty || imagesList.isNotEmpty;
-    return isValid.value;
-  }
-}*/

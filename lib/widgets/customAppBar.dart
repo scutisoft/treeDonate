@@ -111,6 +111,28 @@ class FilterIcon extends StatelessWidget {
     );
   }
 }
+class RefreshIcon extends StatelessWidget {
+  VoidCallback? onTap;
+  bool visible;
+  RefreshIcon({Key? key,this.onTap,this.visible=true}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: visible,
+      child: GestureDetector(
+        onTap:onTap,
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: ColorUtil.themeWhite,
+          ),
+          child: Icon(Icons.refresh,color:ColorUtil.primary,),
+        ),
+      ),
+    );
+  }
+}
 
 class GridAddIcon extends StatelessWidget {
   VoidCallback? onTap;

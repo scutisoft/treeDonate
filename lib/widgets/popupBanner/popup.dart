@@ -16,6 +16,7 @@ class PopupBanner {
   final Widget? customCloseButton;
   final Duration slideChangeDuration;
   final Function(int) onClick;
+  bool isLocal;
   PopupBanner({
     required this.context,
     required this.images,
@@ -31,6 +32,7 @@ class PopupBanner {
     this.slideChangeDuration = const Duration(seconds: 6),
     this.customCloseButton,
     required this.onClick,
+    this.isLocal=false
   });
 
   Future<void> show() {
@@ -50,6 +52,7 @@ class PopupBanner {
         autoSlide: autoSlide,
         customCloseButton: customCloseButton,
         onClick: (index) => onClick(index),
+        isLocal: isLocal,
       ),
     );
   }

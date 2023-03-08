@@ -308,7 +308,9 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       required: true,
       labelText: Language.mobileNo,
       textInputType: TextInputType.number,
-      textLength: 10,
+      textLength: MyConstants.phoneNoLength,
+      needMinLengthCheck: true,
+      minLength: MyConstants.phoneNoLength,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -320,6 +322,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       hasInput: true,
       required: false,
       labelText: Language.email,
+      needEmailCheck: true,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -370,7 +373,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       isEnabled: false,
       labelText: Language.noStocks,
       textInputType: TextInputType.number,
-      textLength: 6,
+      textLength: 8,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){
@@ -383,7 +386,7 @@ class _NurseryFormState extends State<NurseryForm> with HappyExtensionHelper  im
       required: false,
       labelText: Language.noTargets,
       textInputType: TextInputType.number,
-      textLength: 6,
+      textLength: 8,
       regExp: MyConstants.digitRegEx,
       onChange: (v){},
       onEditComplete: (){

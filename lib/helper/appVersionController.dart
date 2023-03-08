@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:treedonate/utils/utils.dart';
 
 import '../utils/colorUtil.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,8 @@ import '../api/apiUtils.dart';
 import '../model/parameterMode.dart';
 import '../utils/constants.dart';
 import 'package:get/get.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'versionChecker.dart';
 
@@ -88,3 +93,18 @@ class AppVersionController{
     });
   }
 }
+Future<void> download(String url,String imgPath,String imgFolder,String imgName) async {
+  try{
+    final localPath = '$imgPath/$imgFolder/$imgName';
+    // console(localPath);
+    if(!File(localPath).existsSync()){
+      final response = await http.get(Uri.parse(url));
+      final imageFile = await File(localPath).create(recursive: true);
+      await imageFile.writeAsBytes(response.bodyBytes);
+    }
+   // console("downloaded");
+  }catch(e){
+    console("_download catch $e");
+  }
+}
+

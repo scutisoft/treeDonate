@@ -145,6 +145,7 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       required: true,
       labelText: Language.email,
       regExp: MyConstants.addressRegEx,
+      needEmailCheck: true,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();
@@ -157,6 +158,8 @@ class _EditProfileState extends State<EditProfile>with HappyExtensionHelper  imp
       labelText: Language.mobileNo,
       regExp: MyConstants.digitRegEx,
       textLength: MyConstants.phoneNoLength,
+      needMinLengthCheck: true,
+      minLength: MyConstants.phoneNoLength,
       onChange: (v){},
       onEditComplete: (){
         node.unfocus();

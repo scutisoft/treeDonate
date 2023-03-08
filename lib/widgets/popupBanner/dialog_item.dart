@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'slider_item.dart';
 
@@ -17,6 +18,7 @@ class DialogItem extends StatelessWidget {
   final bool autoSlide;
   final Widget? customCloseButton;
   final Duration slideChangeDuration;
+  final bool isLocal;
   const DialogItem({
     Key? key,
     required this.context,
@@ -32,6 +34,7 @@ class DialogItem extends StatelessWidget {
     this.useDots = true,
     this.slideChangeDuration = const Duration(seconds: 6),
     this.autoSlide = false,
+    this.isLocal = false,
     this.customCloseButton,
   }) : super(key: key);
 
@@ -86,13 +89,16 @@ class DialogItem extends StatelessWidget {
                   dotsColorInactive: dotsColorInactive,
                   dotsMarginBottom: dotsMarginBottom,
                   autoSlide: autoSlide,
+                  isLocal: isLocal,
                 ),
               )
             ],
           ),
         ),
         GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
+          onTap: () {
+            Get.back();
+          },
           child: Align(
             alignment: Alignment.topRight,
             child: customCloseButton ??

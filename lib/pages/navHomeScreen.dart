@@ -197,8 +197,15 @@ class MenuScreen extends GetView<MyDrawerController> {
 RxInt menuSel=RxInt(13);
 void setPageNumber(int page){
   menuSel.value=page;
+/*  if(page==13){
+    landingPage.assignWidgets();
+  }*/
 }
-
+/*LandingPage landingPage=LandingPage (
+  voidCallback:(){
+    // controller.toggleDrawer();
+  },
+);*/
 class Masterpage extends StatefulWidget {
   const Masterpage({Key? key}) : super(key: key);
 
@@ -215,10 +222,15 @@ class _MasterpageState extends State<Masterpage>{
   var controller=Get.put(MyDrawerController());
 
 
+
+
   @override
   void initState(){
     // AppVersionController().getAppVersionDetail();
     AppVersionController().checkVersion();
+/*    landingPage.voidCallback=(){
+       controller.toggleDrawer();
+    };*/
     super.initState();
   }
 

@@ -281,6 +281,7 @@ class HE_SeedContent extends StatelessWidget implements HE_ListViewContentExtens
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         EGFEmblem(
+                          isGov: dataListener['IsGov'],
                           companyId: dataListener['UserRoleTypeId'],
                           margin: const EdgeInsets.only(bottom: 15),
                         ),

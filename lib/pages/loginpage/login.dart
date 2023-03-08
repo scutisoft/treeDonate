@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../helper/language.dart';
 import '../../widgets/customAppBar.dart';
 import '../../widgets/loader.dart';
@@ -32,6 +33,7 @@ class _loginPageState extends State<loginPage> {
   void initState(){
     menuSel.value=13;
     loadCredentials();
+    allowAccess();
     super.initState();
   }
 
@@ -40,6 +42,15 @@ class _loginPageState extends State<loginPage> {
     _text.dispose();
     _text1.dispose();
     super.dispose();
+  }
+
+  allowAccess() async{
+    //  final PermissionHandler _permissionHandler = PermissionHandler();
+    var result = await Permission.storage.request();
+    console("result ${result.isGranted}");
+    if(result == PermissionStatus.granted) {
+
+    }
   }
 
   void loadCredentials() async{

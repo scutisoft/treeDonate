@@ -258,6 +258,7 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           children: [
                             Flexible(child: Text('${dataListener['VolunteerName']}',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: 'RM'),)),
                             EGFEmblem(
+                              isGov: dataListener['IsGov'],
                               companyId: dataListener['VolunteerRoleTypeId'],
                             ),
                           ],
@@ -339,12 +340,20 @@ class HE_VListViewContent extends StatelessWidget implements HE_ListViewContentE
                           children: [
                             EyeIcon(
                               onTap: (){
-                                fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+
+                                Get.to(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
                                   updateDataListener(e['Table'][0]);
                                   if(onEdit!=null){
                                     onEdit!(e['Table'][0]);
                                   }
                                 },));
+
+                                /*fadeRoute(VolunteerView(dataJson: getDataJsonForGrid(dataListener['DataJson']),isEdit: true,closeCb: (e){
+                                  updateDataListener(e['Table'][0]);
+                                  if(onEdit!=null){
+                                    onEdit!(e['Table'][0]);
+                                  }
+                                },));*/
                               },
                             ),
                             const SizedBox(width: 10,),
