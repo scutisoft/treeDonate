@@ -54,7 +54,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
         elementType=widget.getType();
       }catch(e){}
 
-      if(elementType=='inputTextField'){
+      if(elementType=='inputTextField' || elementType=='HE_Text'){
         if(widget.hasInput??false){
           if(widget.required??false){
             validate=widget.validate();
@@ -124,9 +124,9 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
       }
     }
     else if(widgetType==WidgetType.map){
-      widgets.forEach((key, widget) async {
-        await widgetValidation(widget);
-      });
+      for (var widget in widgets.entries){
+        await widgetValidation(widget.value);
+      }
     }
 
 
@@ -215,7 +215,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   List<dynamic> valueArray=[];
 
 
-  parseJson(List<dynamic> widgets,String pageIdentifier,{String? dataJson,bool needToSetValue=true,
+
+  parseJson(var widgets,String pageIdentifier,{String? dataJson,bool needToSetValue=true,
     DevelopmentMode developmentMode= MyConstants.developmentMode,TraditionalParam? traditionalParam,Function(dynamic)? resCb}) async{
 
     if(developmentMode==DevelopmentMode.json){
@@ -280,7 +281,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
 
   }
 
-  Future<void> getUIFromDb(List<dynamic> widgets,String pageIdentifier,String? dataJson) async{
+  Future<void> getUIFromDb(var widgets,String pageIdentifier,String? dataJson) async{
     await GetUiNotifier().getUiJson(pageIdentifier,await getLoginId(),true,dataJson: dataJson).then((value){
       print("----getUIFromDb-----");
       if(needLog)console(value);
@@ -336,7 +337,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
             });
           }
         }
-        console("finalParams ${jsonEncode(finalParams)}");
+
         await ApiManager().GetInvoke(finalParams,isNeedErrorAlert: false).then((value){
           if(value[0]){
             // console(value);
@@ -370,7 +371,8 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     bool clearFrm=true,
     bool closeFrmOnSubmit=true,
     DevelopmentMode developmentMode= MyConstants.developmentMode,
-    TraditionalParam? traditionalParam
+    TraditionalParam? traditionalParam,
+    bool needSuccessCb=false
   }) async{
 
     void successCbHandler(e){
@@ -385,6 +387,9 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
       }
       if(successCallback!=null && e['Table']!=null && e['Table'].length>0){
         successCallback(e);
+      }
+      else if(needSuccessCb){
+        successCallback!(e);
       }
     }
 
