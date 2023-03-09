@@ -114,7 +114,11 @@ class FilterIcon extends StatelessWidget {
 class RefreshIcon extends StatelessWidget {
   VoidCallback? onTap;
   bool visible;
-  RefreshIcon({Key? key,this.onTap,this.visible=true}) : super(key: key);
+  Color bg;
+  Color iconColor;
+  BoxShape boxShape;
+  RefreshIcon({Key? key,this.onTap,this.visible=true,this.bg= Colors.white,this.iconColor=const Color(0xff5A8418),
+  this.boxShape= BoxShape.rectangle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -125,9 +129,10 @@ class RefreshIcon extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: ColorUtil.themeWhite,
+            color: bg,
+            shape: boxShape
           ),
-          child: Icon(Icons.refresh,color:ColorUtil.primary,),
+          child: Icon(Icons.refresh,color:iconColor,),
         ),
       ),
     );

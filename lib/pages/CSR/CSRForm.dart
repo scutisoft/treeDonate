@@ -32,6 +32,11 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
 
   List<dynamic> widgets=[];
   ScrollController? silverController;
+  TraditionalParam traditionalParam=TraditionalParam(
+      getByIdSp: "USP_CSR_GetCSRDetailsById",
+      insertSp: "USP_CSR_InsertCSRDetails",
+      updateSp: "USP_CSR_UpdateCSRDetails"
+  );
 
   @override
   void initState(){
@@ -44,7 +49,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
   }
   var node;
 
-  String page="Events";
+  String page="CSRDetails";
   var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
@@ -145,11 +150,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
                                   }
                                 },
                                 developmentMode: DevelopmentMode.traditional,
-                              traditionalParam: TraditionalParam(
-                                getByIdSp: Sp.getByIdNewsFeedDetail,
-                                insertSp: Sp.insertNewsFeedDetail,
-                                updateSp: Sp.updateNewsFeedDetail
-                              )
+                              traditionalParam:traditionalParam
                             );
                           },
                           child: Container(
@@ -202,7 +203,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
       },
     ));//1
     widgets.add(AddNewLabelTextField(
-      dataname: 'PhoneNo',
+      dataname: 'ContactNumber',
       hasInput: true,
       required: true,
       maxlines: 1,
@@ -216,7 +217,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
       },
     ));//2
     widgets.add(AddNewLabelTextField(
-      dataname: 'Email',
+      dataname: 'EmailId',
       hasInput: true,
       required: true,
       maxlines: 1,
@@ -228,10 +229,11 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
       },
     ));//3
     widgets.add(AddNewLabelTextField(
-      dataname: 'GST',
+      dataname: 'GSTNumber',
       hasInput: true,
       required: true,
       maxlines: 1,
+      textLength: 15,
       labelText: 'GST',
       regExp: null,
       onChange: (v){},
@@ -240,7 +242,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
       },
     ));//4
     widgets.add(AddNewLabelTextField(
-      dataname: 'Address',
+      dataname: 'CSRAddress',
       hasInput: true,
       required: true,
       maxlines: null,
@@ -252,7 +254,7 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
       },
     ));//5
     widgets.add(AddNewLabelTextField(
-      dataname: 'City',
+      dataname: 'CSRCity',
       hasInput: true,
       required: true,
       maxlines: null,
@@ -263,12 +265,14 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
         node.unfocus();
       },
     ));//6
-    widgets.add(SearchDrp2(map:  {"dataName":"StateId","hintText":Language.selVillage,"labelText":"state","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//7
+    widgets.add(SearchDrp2(map:  {"dataName":"CSRStateId","hintText":"Select State","labelText":"state","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//7
     widgets.add(AddNewLabelTextField(
-      dataname: 'Pincode',
+      dataname: 'CSRPincode',
       hasInput: true,
       required: true,
       maxlines: null,
+      textInputType: TextInputType.number,
+      textLength: 6,
       labelText: 'Pincode',
       regExp: null,
       onChange: (v){},
@@ -278,16 +282,16 @@ class _CSRFormState extends State<CSRForm> with HappyExtensionHelper  implements
     ));//8
 
 
-    widgets.add(SingleImagePicker(dataname: "UserImage", folder: "Image",hasInput: true,required: true,));
-    widgets.add(HiddenController(dataname: 'NewsFeedId'));
+    widgets.add(SingleImagePicker(dataname: "CSRImageFileName", folder: "Image",hasInput: true,required: false,));
+    widgets.add(HiddenController(dataname: 'CSRId'));
 
-    await parseJson(widgets, General.CSRFormIdentifier,dataJson: widget.dataJson,developmentMode: DevelopmentMode.json,
-    traditionalParam: TraditionalParam(getByIdSp: Sp.getByIdNewsFeedDetail),resCb: (res){
-      console("res $res");
-      if(res['Table1']!=null && res['Table1'].isNotEmpty){
-        widgets[1].setValue(res['Table1']);
-      }
+    await parseJson(widgets, General.CSRFormIdentifier,dataJson: widget.dataJson,
+        developmentMode: DevelopmentMode.traditional,
+    traditionalParam:traditionalParam,resCb: (res){
+      console("2222 $res");
+
         });
+    fillTreeDrp(widgets, "CSRStateId",page: page,clearValues: false);
   }
 
 

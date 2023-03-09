@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../api/sp.dart';
 import '../../utils/utils.dart';
 import '../../widgets/customWidgetsForDynamicParser/searchDrp2.dart';
@@ -18,10 +19,10 @@ import '../../widgets/searchDropdown/dropdown_search.dart';
 
 
   class CSRAddAmount extends StatefulWidget {
-  bool isEdit;
   String dataJson;
   Function? closeCb;
-  CSRAddAmount({this.closeCb,this.dataJson="",this.isEdit=false});
+  dynamic csrId;
+  CSRAddAmount({this.closeCb,this.dataJson="",required this.csrId});
 
   @override
   _CSRAddAmountState createState() => _CSRAddAmountState();
@@ -32,6 +33,9 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
 
   List<dynamic> widgets=[];
   ScrollController? silverController;
+  TraditionalParam traditionalParam=TraditionalParam(
+      insertSp: "USP_CSR_InsertCSRDonationDetails",
+  );
 
   @override
   void initState(){
@@ -42,9 +46,11 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
     });
     super.initState();
   }
-  var node;
 
-  String page="Events";
+  var transactionId=false.obs;
+  var node;
+  final _controller = TextEditingController();
+  String page="CSRAmountDetails";
   var isKeyboardVisible=false.obs;
   @override
   Widget build(BuildContext context) {
@@ -99,6 +105,9 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
                       widgets[0],
                       widgets[1],
                       widgets[2],
+                      Obx(() => Visibility(
+                        visible: transactionId.value,
+                        child: widgets[3],),),
                       const SizedBox(height: 100,),
                     ],
                   ),
@@ -131,18 +140,13 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
                         GestureDetector(
                           onTap: (){
                             sysSubmit(widgets,
-                                isEdit: widget.isEdit,
                                 successCallback: (e){
                                   if(widget.closeCb!=null){
                                     widget.closeCb!(e);
                                   }
                                 },
                                 developmentMode: DevelopmentMode.traditional,
-                              traditionalParam: TraditionalParam(
-                                getByIdSp: Sp.getByIdNewsFeedDetail,
-                                insertSp: Sp.insertNewsFeedDetail,
-                                updateSp: Sp.updateNewsFeedDetail
-                              )
+                              traditionalParam: traditionalParam
                             );
                           },
                           child: Container(
@@ -171,7 +175,7 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
   void assignWidgets() async{
 
     widgets.add(AddNewLabelTextField(
-      dataname: 'Date',
+      dataname: 'DonationDate',
       hasInput: true,
       required: true,
       maxlines: 1,
@@ -184,7 +188,7 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
       },
     ));//0
     widgets.add(AddNewLabelTextField(
-      dataname: 'Amount',
+      dataname: 'DonationAmount',
       hasInput: true,
       required: true,
       maxlines: 1,
@@ -196,15 +200,37 @@ class _CSRAddAmountState extends State<CSRAddAmount> with HappyExtensionHelper  
         node.unfocus();
       },
     ));//1
-    widgets.add(SearchDrp2(map:  {"dataName":"PaymentId","hintText":"Payment Type","labelText":"Payment Type","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},));//7
-
-    await parseJson(widgets, General.CSRFormIdentifier,dataJson: widget.dataJson,developmentMode: DevelopmentMode.json,
-    traditionalParam: TraditionalParam(getByIdSp: Sp.getByIdNewsFeedDetail),resCb: (res){
-      console("res $res");
-      if(res['Table1']!=null && res['Table1'].isNotEmpty){
-        widgets[1].setValue(res['Table1']);
+    widgets.add(SearchDrp2(map:  {"dataName":"PaymentTypeId","hintText":"Payment Type","labelText":"Payment Type","showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    onchange: (e){
+      console(e);
+      if(e['Id']==3044){
+        transactionId.value=false;
       }
+      else{
+        transactionId.value=true;
+      }
+    },
+    ));//7
+    widgets.add(AddNewLabelTextField(
+      dataname: 'PaymentReferenceNumber',
+      hasInput: true,
+      required: false,
+      maxlines: 1,
+      labelText: 'Transaction Number',
+      textInputType: TextInputType.number,
+      regExp: null,
+      onChange: (v){},
+      onEditComplete: (){
+        node.unfocus();
+      },
+    ));//3
+    widgets.add(HiddenController(dataname: "CSRId",));
+    await parseJson(widgets, General.CSRFormIdentifier,dataJson: widget.dataJson,
+        developmentMode: DevelopmentMode.traditional, traditionalParam: traditionalParam,resCb: (res){
+      console("res $res");
         });
+    fillTreeDrp(widgets, "PaymentTypeId",page: page,clearValues: false);
+    foundWidgetByKey(widgets, "CSRId",needSetValue: true,value: widget.csrId);
   }
 
 

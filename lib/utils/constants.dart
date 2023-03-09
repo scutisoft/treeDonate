@@ -12,7 +12,7 @@ class MyConstants{
   //static String appName="RadiantECS_Dev";
   static String appVersion="1.0.6";
   static String appId="com.scutisoft.nammaramnamkadamai";
-  static bool isLive=true;
+  static bool isLive=false;
   static bool fromUrl=true;
   static bool hasAppVersionController=false;
   static bool bottomSafeArea=true;

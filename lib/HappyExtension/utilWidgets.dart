@@ -348,10 +348,11 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
   TextStyle contentTextStyle;
   TextOverflow? textOverFlow;
   TextAlign textAlign;
+  bool needRupeeFormat;
   HE_Text({this.hasInput=false,this.required=false,required this.dataname,this.content="Hello",required this.contentTextStyle,this.textOverFlow,
-    this.textAlign=TextAlign.start
+    this.textAlign=TextAlign.start,this.needRupeeFormat=false
   }){
-    text.value=content;
+    setValue(content);
     textStyle.value=contentTextStyle;
   }
   Rxn text=Rxn();
@@ -388,7 +389,12 @@ class HE_Text extends StatelessWidget implements ExtensionCallback{
 
   @override
   setValue(value) {
-    text.value=value.toString();
+    if(needRupeeFormat){
+      text.value="${MyConstants.rupeeString} ${formatCurrency.format(parseDouble(value))}";
+    }
+    else{
+      text.value=value.toString();
+    }
   }
 
   @override

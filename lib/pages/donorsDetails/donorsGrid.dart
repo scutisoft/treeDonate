@@ -19,6 +19,7 @@ import '../../widgets/loader.dart';
 import '../../widgets/navigationBarIcon.dart';
 import '../Filter/FilterItems.dart';
 import 'donorForm.dart';
+import 'donorQRView.dart';
 import 'viewDonorDetails.dart';
 
 
@@ -192,6 +193,20 @@ class _DonorsGridState extends State<DonorsGrid> with HappyExtensionHelper  impl
                               },
                             ),
                             const SizedBox(width: 5,),
+                            GestureDetector(
+                              onTap: (){
+                                fadeRoute(DonorQRView());
+                              },
+                              child: Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorUtil.primary,
+                                ),
+                                child: Icon(Icons.qr_code_scanner_outlined,color:ColorUtil.theme,),
+                              ),
+                            ),
                             /*AccessWidget(
                               hasAccess: isHasAccess(accessId["NewsFeedAdd"]),
                               needToHide: true,

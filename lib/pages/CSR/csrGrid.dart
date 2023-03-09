@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../HappyExtension/extensionUtils.dart';
+import '../../HappyExtension/utilWidgets.dart';
 import '../../api/sp.dart';
 import '../../helper/language.dart';
 import '../../utils/utils.dart';
@@ -67,13 +68,13 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "NewsFeedId",dataJson: dataJson,
-              traditionalParam: TraditionalParam(executableSp: Sp.deleteNewsFeedDetail),
+            sysDeleteHE_ListView(he_listViewBody, "CSRId",dataJson: dataJson,
+              traditionalParam: TraditionalParam(executableSp: "USP_CSR_DeleteCSRDetails"),
               developmentMode: DevelopmentMode.traditional
             );
           },
           onEdit: (updatedMap){
-            he_listViewBody.updateArrById("NewsFeedId", updatedMap);
+            he_listViewBody.updateArrById("CSRId", updatedMap);
           },
           globalKey: GlobalKey(),
         );
@@ -86,6 +87,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
 
   var node;
 
+  var counter={"TotalCSR": 0, "TotalDonation": 0.0, "TotalDonationWords": "", "TotalConsumption": 0.0, "TotalConsumptionWords": "", "AverageCarbonSequestration": 0.0}.obs;
 
 
   @override
@@ -108,7 +110,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                   children: [
                     Container(
                       width: SizeConfig.screenWidth!-170,
-                      child: Column(
+                      child: Obx(() => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -123,7 +125,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('2,500',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('${counter['TotalCSR']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
@@ -132,15 +134,15 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('25,00,000.00',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                            child: Text('${MyConstants.rupeeString} ${formatCurrency.format(parseDouble(counter['TotalDonation']))}',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('C02 ${counter['AverageCarbonSequestration']} %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
                           ),
                         ],
-                      ),
+                      )),
                     ),
                     Container(
                       width: 170,
@@ -161,7 +163,7 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         AnimSearchBar(
-                          width: SizeConfig.screenWidth!-80,
+                          width: SizeConfig.screenWidth!-130,
                           color: ColorUtil.asbColor,
                           boxShadow: ColorUtil.asbBoxShadow,
                           textController: textController,
@@ -180,6 +182,12 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
                           },
                         ),
                         const SizedBox(width: 5,),
+                        RefreshIcon(
+                          onTap: assignWidgets,
+                          bg: ColorUtil.primary,
+                          iconColor: Colors.white,
+                          boxShape: BoxShape.circle,
+                        ),
                         FilterIcon(
                           onTap: (){
                             fadeRoute(FilterItems());
@@ -214,7 +222,21 @@ class _CSRGridState extends State<CSRGrid> with HappyExtensionHelper  implements
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.json,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
+    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.traditional,
+        traditionalParam: TraditionalParam(executableSp: "USP_CSR_GetCSRDetails"),
+    resCb: (res){
+      console(res);
+      List<dynamic> CSRList=res['Table'];
+      he_listViewBody.assignWidget(CSRList);
+      if(res['Table1']!=null)
+      {
+        counter.forEach((key, value) {
+          counter[key]=res['Table1'][0][key]??"";
+        });
+      }
+    });
+
+    return;
    // console("valueArr $valueArray");
     try{
       //he_listViewBody.assignWidget(valueArray);
@@ -273,10 +295,10 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                       children: [
                         gridCardText('Company' ,dataListener['CompanyName']??"",isBold: true),
                         gridCardText(Language.name, dataListener['ContactPerson'],),
-                        gridCardText(Language.email, dataListener['Email'],),
-                        gridCardText(Language.phoneNo, dataListener['ContactNo'],),
+                        gridCardText(Language.email, dataListener['EmailId'],),
+                        gridCardText(Language.phoneNo, dataListener['ContactNumber'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
-                        gridCardText(Language.address, dataListener['Address']??""),
+                        gridCardText(Language.address, dataListener['CSRAddress']??""),
                       ],
                     ),
                   ),
@@ -314,7 +336,9 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Total Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("1,00,000",style: ColorUtil.textStyle18),
+                        Text("${MyConstants.rupeeString} ${formatCurrency.format(parseDouble(dataListener['TotalAmount']??0))}",style: ColorUtil.textStyle18),
+                        // HE_Text(dataname: "DepositDetail", contentTextStyle: ts18(ColorUtil.themeBlack,fontfamily: 'RM'),
+                        //   content: "50000.0",needRupeeFormat: true,),
                         // Text('No of Plants',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
                         // Text("${dataListener['PlantsQty']??0}",style: ColorUtil.textStyle18),
                         const SizedBox(height: 10,),
@@ -323,7 +347,7 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                           children: [
                             EyeIcon(
                               onTap: (){
-                                fadeRoute(ViewCSRGrid());
+                                fadeRoute(ViewCSRGrid(dataJson: getDataJsonForGrid(dataListener['DataJson']),));
                               },
                             ),
                           // const SizedBox(width: 10,),

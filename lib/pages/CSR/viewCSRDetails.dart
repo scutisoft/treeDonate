@@ -24,6 +24,8 @@ import 'csrAddAmount.dart';
 
 
 class ViewCSRGrid extends StatefulWidget {
+  String dataJson;
+  ViewCSRGrid({this.dataJson=""});
   @override
   _ViewCSRGridState createState() => _ViewCSRGridState();
 }
@@ -65,13 +67,13 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "NewsFeedId",dataJson: dataJson,
+            sysDeleteHE_ListView(he_listViewBody, "CSRId",dataJson: dataJson,
               traditionalParam: TraditionalParam(executableSp: Sp.deleteNewsFeedDetail),
               developmentMode: DevelopmentMode.traditional
             );
           },
           onEdit: (updatedMap){
-            he_listViewBody.updateArrById("NewsFeedId", updatedMap);
+            he_listViewBody.updateArrById("CSRId", updatedMap);
           },
           globalKey: GlobalKey(),
         );
@@ -83,7 +85,7 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
   }
 
   var node;
-
+  var counter={"TotalDonation": 0, "TotalAmount": 0.0, "AmountWords": "",  "TotalConsumption": "", "CSRId": ""}.obs;
 
 
   @override
@@ -106,7 +108,7 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
                   children: [
                     Container(
                       width: SizeConfig.screenWidth!-170,
-                      child: Column(
+                      child: Obx(() => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -122,7 +124,7 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('5',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('${counter['TotalDonation']}',style: ts18(ColorUtil.themeBlack,fontfamily: 'RB',fontsize: 24),),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
@@ -131,15 +133,15 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('25,00,000.00',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
+                            child: Text('${MyConstants.rupeeString} ${formatCurrency.format(parseDouble(counter['TotalAmount']))}',style: ts18(ColorUtil.text4,fontfamily: 'RB',fontsize: 15),),
                           ),
                           const SizedBox(height: 2,),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text('C02 80.5 %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
+                            child: Text('C02 ${counter['TotalConsumption']} %',style: ts18(ColorUtil.primary,fontfamily: 'RB',fontsize: 24),),
                           ),
                         ],
-                      ),
+                      )),
                     ),
                     Container(
                       width: 170,
@@ -190,7 +192,9 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
                           needToHide: true,
                           widget: GridAddIcon(
                             onTap: (){
-                              fadeRoute(CSRAddAmount(closeCb: (e){
+                              fadeRoute(CSRAddAmount(
+                                csrId:counter['CSRId'] ,
+                                closeCb: (e){
                                 he_listViewBody.addData(e['Table'][0]);
                               },));
                             },
@@ -213,7 +217,24 @@ class _ViewCSRGridState extends State<ViewCSRGrid> with HappyExtensionHelper  im
 
   @override
   void assignWidgets() async{
-    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.json,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
+    await parseJson(widgets, getPageIdentifier(),
+        developmentMode: DevelopmentMode.traditional,
+        dataJson: widget.dataJson,
+        needToSetValue: false,
+        traditionalParam: TraditionalParam(getByIdSp: "USP_CSR_GetCSRDonationView"),
+        resCb: (res){
+          console(res);
+          List<dynamic> ViewCSRList=res['Table'];
+          he_listViewBody.assignWidget(ViewCSRList);
+          if(res['Table1']!=null)
+          {
+            counter.forEach((key, value) {
+              counter[key]=res['Table1'][0][key]??"";
+            });
+          }
+        });
+
+    return;
    // console("valueArr $valueArray");
     try{
       //he_listViewBody.assignWidget(valueArray);
@@ -270,14 +291,14 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                     child: Column(
                       crossAxisAlignment:CrossAxisAlignment.start ,
                       children: [
-                        gridCardText(Language.date ,dataListener['Date']??"",isBold: true),
-                        gridCardText(Language.noTrees, dataListener['NoofTree'],),
+                        gridCardText(Language.date ,dataListener['DonationDate']??"",isBold: true),
+                        gridCardText(Language.noTrees, dataListener['NoOfTree'],),
                         gridCardText('Age', dataListener['Age'],),
                         gridCardText(Language.location, dataListener['Location'],),
                         //gridCardText(Language.role, dataListener['Role']??"",textOverflow: TextOverflow.ellipsis),
                         gridCardText('Payment Type', dataListener['PaymentType']??""),
                         gridCardText('Consumption', dataListener['Consumption']??""),
-                        gridCardText('Carban Sequestration', dataListener['Carban Sequestration']??""),
+                        gridCardText('Carban Sequestration', dataListener['CarbonSequestration']??""),
                       ],
                     ),
                   ),
@@ -315,7 +336,7 @@ class HE_ViewCSRGridContent extends StatelessWidget implements HE_ListViewConten
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Amount',style: TextStyle(color: ColorUtil.themeBlack,fontSize: 14,fontFamily: Language.regularFF),),
-                        Text("${dataListener['Amount']??0}",style: ColorUtil.textStyle18),
+                        Text("${MyConstants.rupeeString} ${formatCurrency.format(parseDouble(dataListener['DonationTotalAmount']??0))}",style: ColorUtil.textStyle18),
                         // const SizedBox(height: 10,),
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,

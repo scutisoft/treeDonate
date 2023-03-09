@@ -215,7 +215,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
   List<dynamic> valueArray=[];
 
 
-  parseJson(List<dynamic> widgets,String pageIdentifier,{String? dataJson,
+  parseJson(List<dynamic> widgets,String pageIdentifier,{String? dataJson,bool needToSetValue=true,
     DevelopmentMode developmentMode= MyConstants.developmentMode,TraditionalParam? traditionalParam,Function(dynamic)? resCb}) async{
 
     if(developmentMode==DevelopmentMode.json){
@@ -256,7 +256,7 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
           if(value[0]){
             var parsed=jsonDecode(value[1]);
             if(parsed['Table']!=null){
-              if(isGetById){
+              if(isGetById && needToSetValue){
                 setFrmValuesV2(widgets, parsed['Table']);
               }
             }
