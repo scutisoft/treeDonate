@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -75,9 +76,9 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
       },
     );
     assignWidgets();
-    platform.invokeMethod("helloFromNativeCode").then((value){
+  /*  platform.invokeMethod("helloFromNativeCode").then((value){
       console("platform $value");
-    });
+    });*/
     super.initState();
   }
 
@@ -556,7 +557,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
   Widget getNewsFeed(int index,{String name="",String nfType="",String nfDescription="",String profileImg="",String nfLoc="",
     String date="",String time="", String img="",String isInterested="0"
   }){
-    console("getNewsFeed $index");
+   // console("getNewsFeed $index");
     List<dynamic> imgList=[];
     List<String> imgListUrl=[];
     imgList=img.split(",");
@@ -609,7 +610,7 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
         reload.value=true;
       });*/
 
-      return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
+      //return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
       return Image.file(File('${imgPath!.path}/$path'),fit: BoxFit.cover,errorBuilder: (a,b,c){
         return Icon(Icons.person_outline_outlined,color: ColorUtil.themeWhite,);
       },);
@@ -816,11 +817,20 @@ class _LandingPageState extends State<LandingPage> with HappyExtensionHelper  im
                               localPath.add('${imgPath!.path}/$element');
                             //  localPath.add(XFile('${imgPath!.path}/$element'));
                             }
-                            console(localPath);
-                            console(nfDescription);
                             showLoader.value=false;
-                            Share.shareFiles(localPath,text: nfDescription,subject:nfType);
-                           // Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
+                            console(localPath);
+                            //Share.shareFiles(localPath,text: nfDescription,subject:nfType);
+
+                            platform.invokeMethod("openShare",jsonEncode(localPath)).then((value){
+                              console("platform $value");
+                            });
+
+                            /*console(nfDescription);
+                            showLoader.value=false;
+                            Share.shareFiles(localPath,text: nfDescription,subject:nfType);*/
+
+
+                          //  Share.shareXFiles(localPath,text: nfDescription,subject:nfType );
                             //  ShareExtend.shareMultiple(localPath, "file",subject: nfType,extraTexts: [nfDescription]);
                             /* await FlutterShare.shareFile(
                               title: nfType,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../helper/language.dart';
 import '../../pages/volunteer/addvolunteer.dart';
+import '../../utils/utils.dart';
+import '../../widgets/alertDialog.dart';
 import '../../widgets/fittedText.dart';
 import '../../helper/appVersionController.dart';
 import '../../utils/colorUtil.dart';
@@ -165,10 +168,12 @@ class _SlideSwipeState extends State<SlideSwipe> {
                       child: GestureDetector(
                         onTap: (){
                           //sw();
-                          fadeRoute(DonateTreePage(
+                         // fadeRoute(AA());
+                          CustomAlert().testWebview();
+                         /* fadeRoute(DonateTreePage(
                             voidCallback: (){},
                             isDirectDonate: true,
-                          ));
+                          ));*/
                         },
                         child: Container(
                           height: 50,
@@ -306,4 +311,45 @@ class _SlideSwipeState extends State<SlideSwipe> {
 }
 
 
+class AA extends StatefulWidget {
+  const AA({Key? key}) : super(key: key);
+
+  @override
+  State<AA> createState() => _AAState();
+}
+
+class _AAState extends State<AA> {
+  late WebViewController controller;
+  @override
+  void initState(){
+    String url='http://45.126.252.78/egf_uat/MainPage/Certificate?cn=Gokul&fn=mycerti&qr=0000000000000100&date=March%2027%202023';
+
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) { },
+          onPageStarted: (String url) { },
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {
+            console("errror $error");
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url.replaceAll('"', '')));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Flexible(child: WebViewWidget(controller: controller)),
+        ],
+      ),
+    );
+  }
+}
 

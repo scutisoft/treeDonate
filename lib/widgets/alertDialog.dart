@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:treedonate/utils/utils.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../helper/language.dart';
 import '../utils/colorUtil.dart';
@@ -811,6 +813,48 @@ class CustomAlert{
     );
   }
 
+  void testWebview(){
+    String url='http://45.126.252.78/egf_uat/MainPage/Certificate?cn=Muthu Gokul&fn=DC001&qr=0000000000000100&date=March%2027%202023';
+    //String url='http://192.168.1.140:5009/MainPage/Certificate?cn=Gokul&fn=mycertii&qr=0000000000000100&date=March%2027%202023';
+    late WebViewController controller;
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) { },
+          onPageStarted: (String url) { },
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {
+            console("errror ${error.description}");
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url.replaceAll('"', '')));
+
+    //          Flexible(child: WebViewWidget(controller: controller)),
+
+    showDialog(
+        context: Get.context!,
+        builder: (ctx) => Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+              decoration:BoxDecoration(
+                color:Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+              child:Column(
+                  mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(height: 0, child: WebViewWidget(controller: controller)),
+                ],
+              )
+          ),
+        )
+
+    );
+  }
 
 /*  void successAlert(String title){
     Get.dialog(  CupertinoAlertDialog(

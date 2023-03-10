@@ -14,6 +14,10 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.os.Bundle;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends FlutterFragmentActivity  {
@@ -36,6 +40,16 @@ public class MainActivity extends FlutterFragmentActivity  {
                                 String greetings = helloFromNativeCode();
                                 result.success(greetings);
                             }
+                            else if (call.method.equals("openShare")){
+                              //  call.arguments();
+                                openShare(String.valueOf(call.arguments));
+                               /* ArrayList<String> imageUris = new ArrayList<String>();
+                                imageUris= (ArrayList<String>) call.arguments;
+                                for(int i=0;i<imageUris.size();i++){
+                                    Log.d("openShare",imageUris.get(i));
+                                }*/
+                               // Log.d("openShare", String.valueOf(call.arguments));
+                            }
                         }
                 );
     }
@@ -44,17 +58,20 @@ public class MainActivity extends FlutterFragmentActivity  {
         return "Hello from Native Android Code";
     }
 
-    private void openShare(){
+    private void openShare(String pathJson){
        try{
            ArrayList<Uri> imageUris = new ArrayList<Uri>();
-           imageUris.add(Uri.parse("")); // Add your image URIs here
-           // imageUris.add(imageUri2);
+           JSONArray data = new JSONArray(pathJson);
+           for (int i = 0; i < data.length(); i++) {
+               Log.d("openShare"+ i, String.valueOf(data.get(i)));
+               imageUris.add(Uri.parse(String.valueOf(data.get(i))));
+           }
 
            Intent shareIntent = new Intent();
            shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
            shareIntent.setType("image/*");
-           //this.startActivity(Intent.createChooser(shareIntent, null));
+           this.startActivity(Intent.createChooser(shareIntent, "Hii"));
        }catch (Exception e){
            Log.d(e.toString(),e.toString());
        }
