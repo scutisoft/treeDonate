@@ -6,8 +6,11 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.embedding.engine.FlutterEngine;
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.util.Log;
 import android.view.WindowManager;
@@ -18,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends FlutterFragmentActivity  {
 
@@ -64,13 +69,33 @@ public class MainActivity extends FlutterFragmentActivity  {
            JSONArray data = new JSONArray(pathJson);
            for (int i = 0; i < data.length(); i++) {
                Log.d("openShare"+ i, String.valueOf(data.get(i)));
-               imageUris.add(Uri.parse(String.valueOf(data.get(i))));
+               File file=new File(String.valueOf(data.get(i)));
+
+               Uri apkURI = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+               this.grantUriPermission(this.getApplicationContext().getPackageName(),apkURI,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+               imageUris.add(apkURI);
            }
 
            Intent shareIntent = new Intent();
+          /* List<ResolveInfo> resInfoList = this.getPackageManager().queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY);
+           for(Uri uri:imageUris){
+               for (ResolveInfo resolveInfo : resInfoList) {
+                   String packageName = resolveInfo.activityInfo.packageName;
+                   this.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+               }
+           }*/
+
            shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+           shareIntent.putExtra(Intent.EXTRA_SUBJECT,"EXTRA_SUBJECT");
+           shareIntent.putExtra(Intent.EXTRA_TEXT,"EXTRA_TEXT");
+           //ArrayList<CharSequence> extra_text = new ArrayList<CharSequence>();
+           //extra_text.add("S");
+          // extra_text.add("E");
+           //shareIntent.putCharSequenceArrayListExtra(Intent.EXTRA_TEXT,extra_text);
+          // shareIntent.putStringArrayListExtra(Intent.EXTRA_TEXT, extra_text);
            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
            shareIntent.setType("image/*");
+           shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
            this.startActivity(Intent.createChooser(shareIntent, "Hii"));
        }catch (Exception e){
            Log.d(e.toString(),e.toString());
