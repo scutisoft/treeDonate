@@ -42,6 +42,7 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
 
 
   RxDouble silverBodyTopMargin=RxDouble(0.0);
+  String page="";
 
   @override
   void initState(){
@@ -68,13 +69,13 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
           data: e,
           cardWidth: cardWidth,
           onDelete: (dataJson){
-            sysDeleteHE_ListView(he_listViewBody, "PlantingId",dataJson: dataJson,
+            sysDeleteHE_ListView(he_listViewBody, "PlantationId",dataJson: dataJson,
               traditionalParam: TraditionalParam(executableSp: Sp.deleteNewsFeedDetail),
               developmentMode: DevelopmentMode.traditional
             );
           },
           onEdit: (updatedMap){
-            he_listViewBody.updateArrById("PlantingId", updatedMap);
+            he_listViewBody.updateArrById("PlantationId", updatedMap);
           },
           globalKey: GlobalKey(),
         );
@@ -217,6 +218,7 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
                                 const SizedBox(height: 10,),
                                 GestureDetector(
                                   onTap: (){
+                                    // onPlantingAmountAdd();
                                   },
                                   child: Container(
                                     width:80,
@@ -349,7 +351,7 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map:  {"dataName":"Select","hintText":"Select","labelText": 'Select',"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"DonorTypeId","hintText":"Select","labelText": 'Select',"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
       onchange: (e){
         fillTreeDrp(widgets, "SeedTreeMasterId",);
       },
@@ -405,7 +407,15 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
         node.unfocus();
       },
     ));//1
-    await parseJson(widgets, getPageIdentifier(),developmentMode: DevelopmentMode.json,traditionalParam: TraditionalParam(executableSp: Sp.getNewsFeedDetail));
+  /*  await parseJson(widgets, getPageIdentifier(),
+        developmentMode: DevelopmentMode.traditional,
+        resCb: (res){
+          console(res);
+          List<dynamic> PlantingAmtList=res['Table'];
+          he_listViewBody.assignWidget(PlantingAmtList);
+    });*/
+    fillTreeDrp(widgets, "DonorTypeId",page: page);
+    return;
    // console("valueArr $valueArray");
     try{
       //he_listViewBody.assignWidget(valueArray);
@@ -559,4 +569,43 @@ class HE_PlantingAmountGridContent extends StatelessWidget implements HE_ListVie
       }
     });
   }
+
+  // void onPlantingAmountAdd(){
+  //   var seedDrpDetail=widgets[0].getValueMap();
+  //   var seedOtherName=widgets[1].getValue();
+  //   var seedQty=widgets[2].getValue();
+  //
+  //   bool isOthers=seedDrpDetail['Id']=="Others";
+  //   if(seedDrpDetail.isEmpty){
+  //     CustomAlert().cupertinoAlert("Select Seed");
+  //     return;
+  //   }
+  //   if(isOthers && (seedOtherName==null || seedOtherName=="")){
+  //     CustomAlert().cupertinoAlert("Enter Seed Name");
+  //     return;
+  //   }
+  //   if(isOthers){
+  //     if(seedTreeList.any((element) => element["TreeName"].toString().replaceAll(' ', '') == seedOtherName.toString().replaceAll(' ', ''))){
+  //       CustomAlert().cupertinoAlert("Seed Name Already Exists...");
+  //       return;
+  //     }
+  //   }
+  //   else{
+  //     if(seedTreeList.any((element) => element["SeedTreeMasterId"] == seedDrpDetail['Id'])){
+  //       CustomAlert().cupertinoAlert("Seed Name Already Exists...");
+  //       return;
+  //     }
+  //   }
+  //   seedTreeList.add({
+  //     "SeedTreeMasterId": isOthers ? null:seedDrpDetail['Id'],
+  //     "TreeName": isOthers ? seedOtherName:seedDrpDetail['Text'],
+  //     "Quantity": seedQty
+  //   });
+  //   console("$seedDrpDetail $seedOtherName $seedQty");
+  //   seedTreeList.refresh();
+  //   widgets[0].clearValues();
+  //   widgets[1].clearValues();
+  //   widgets[10].clearValues();
+  //   node.unfocus();
+  // }
 }
