@@ -339,9 +339,12 @@ class HE_PlantationViewContent extends StatelessWidget {
                     const SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        fadeRoute(PlantingAmountDetails());
+                        fadeRoute(PlantingAmountDetails(
+                          plantationId: dataListener['PlantationId'].toString(),
+                          dataJson: getDataJsonForGrid(dataListener['DataJson']),
+                        ));
                       },
-                        child: Container(
+                      child: Container(
                             width: 30,
                             height: 30,
                             alignment:Alignment.center,
@@ -350,7 +353,8 @@ class HE_PlantationViewContent extends StatelessWidget {
                                 color: ColorUtil.primary.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(5)
                             ),
-                            child: Icon(Icons.person_outline_outlined,color: ColorUtil.primary,))
+                            child: Icon(Icons.person_outline_outlined,color: ColorUtil.primary,)
+                        )
                     )
                   ],
                 ),

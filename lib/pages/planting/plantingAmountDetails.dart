@@ -21,28 +21,32 @@ import '../../widgets/navigationBarIcon.dart';
 import '../../widgets/searchDropdown/dropdown_search.dart';
 import '../Filter/FilterItems.dart';
 
-
-
-
-
 class PlantingAmountDetails extends StatefulWidget {
+  String plantationId;
+  String dataJson;
+  PlantingAmountDetails({required this.plantationId,this.dataJson=""});
   @override
-
   _PlantingAmountDetailsState createState() => _PlantingAmountDetailsState();
 }
 
 class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with HappyExtensionHelper  implements HappyExtensionHelperCallback{
 
 
-  List<Widget> widgets=[];
+  List<dynamic> widgets=[];
   ScrollController silverController=ScrollController();
   TextEditingController textController = TextEditingController();
   late HE_ListViewBody he_listViewBody;
   double cardWidth=SizeConfig.screenWidth!-(20+20+25);
 
 
+
+  TraditionalParam traditionalParam=TraditionalParam(
+    getByIdSp: "USP_Plantation_PlantationDonationView",
+    insertSp: "USP_Plantation_InsertPlantationDonationDetails"
+  );
+
   RxDouble silverBodyTopMargin=RxDouble(0.0);
-  String page="";
+  String page="PlantationDonationDetails";
 
   @override
   void initState(){
@@ -351,19 +355,21 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
 
   @override
   void assignWidgets() async{
-    widgets.add(SearchDrp2(map:  {"dataName":"DonorTypeId","hintText":"Select","labelText": 'Select',"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
+    widgets.add(SearchDrp2(map:  {"dataName":"DonorTypeId","hintText":"Select Donor Type","labelText": 'Donor Type',"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},
       onchange: (e){
-        fillTreeDrp(widgets, "SeedTreeMasterId",);
+      //console("DonorTypeId $e");
+        fillTreeDrp(widgets, "CSRId",page: page,refId: e['Id']);
       },
       hasInput: false,required: false,
     ));
-    widgets.add(SearchDrp2(map:  {"dataName":"SelectCSR","hintText":'Select CSR',"labelText":'Select CSR',"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
+    widgets.add(SearchDrp2(map:  {"dataName":"CSRId","hintText":'Select Member',"labelText":'Member',"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
       onchange: (e){
-        console("$e");
+        console("$e ${widgets[0].getValue()}");
+        fillTreeDrp(widgets, "CSRDonationId",page: page,refId: e['Id'],hierarchicalId: widgets[0].getValue());
       },));
 
     // widgets.add(SearchDrp2(map: const {"dataName":"ProjectId","hintText":"Select Plant"},));
-    widgets.add(SearchDrp2(map:  {"dataName":"DonationId","hintText":'Donation',"labelText":'Donation',"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
+    widgets.add(SearchDrp2(map:  {"dataName":"CSRDonationId","hintText":'Donation Amt',"labelText":'Donation Amt',"showSearch":true,"mode":Mode.DIALOG,"dialogMargin":EdgeInsets.all(0.0)},hasInput: false,required: false,
       onchange: (e){
         console("$e");
       },));
@@ -407,22 +413,21 @@ class _PlantingAmountDetailsState extends State<PlantingAmountDetails> with Happ
         node.unfocus();
       },
     ));//1
-  /*  await parseJson(widgets, getPageIdentifier(),
+    await parseJson(widgets, getPageIdentifier(),
         developmentMode: DevelopmentMode.traditional,
+        traditionalParam: traditionalParam,
+        dataJson: widget.dataJson,
+        needToSetValue: false,
         resCb: (res){
-          console(res);
-          List<dynamic> PlantingAmtList=res['Table'];
-          he_listViewBody.assignWidget(PlantingAmtList);
-    });*/
+          console("getbyid $res");
+    });
     fillTreeDrp(widgets, "DonorTypeId",page: page);
-    return;
-   // console("valueArr $valueArray");
-    try{
+/*    try{
       //he_listViewBody.assignWidget(valueArray);
       List<dynamic> PlantingAmtList=valueArray.where((element) => element['key']=="PlantingAmtList").toList()[0]['value'];
       he_listViewBody.assignWidget(PlantingAmtList);
 
-    }catch(e){}
+    }catch(e){}*/
   }
 
   @override

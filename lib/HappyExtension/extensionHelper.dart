@@ -10,7 +10,7 @@ import 'dart:convert';
 import '../model/parameterMode.dart';
 import '../widgets/listView/HE_ListView.dart';
 import 'extensionUtils.dart';
-bool needLog=false;
+bool needLog=true;
 enum WidgetType{
   list,
   map
@@ -480,13 +480,13 @@ mixin HappyExtensionHelper implements HappyExtensionHelperCallback2{
     ).yesOrNoDialog2('assets/Slice/like.png', content, false);
   }
 
-  fillTreeDrp(var widgets,String key,{var refId,var page,bool clearValues=true,var refType,bool toggleRequired=false}) async{
+  fillTreeDrp(var widgets,String key,{var refId,var page,bool clearValues=true,var refType,bool toggleRequired=false,var hierarchicalId}) async{
     var fWid=foundWidgetByKey(widgets, key);
     if(fWid!=null){
       if(clearValues){
         fWid.clearValues();
       }
-      getMasterDrp(page, key, refId, refType,null).then((value){
+      getMasterDrp(page, key, refId, refType,hierarchicalId).then((value){
         //console("$key    ${value.runtimeType}");
         fWid.setValue(value);
         if(toggleRequired){
